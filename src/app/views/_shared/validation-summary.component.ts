@@ -17,15 +17,29 @@ export class ValidationSummaryComponent implements OnInit {
       throw new Error('You must supply the validation summary with an NgForm.');
     }
     this.form.statusChanges.subscribe(status => {
-      this.resetErrorMessages();
+      this.resetErrorMessages(null);
       this.generateErrorMessages(this.form.control);
     });
   }
 
-  resetErrorMessages() {
+  resetErrorMessages(form: NgForm) {
+    if(form!=null) {
+      for (var value in form.controls) {
+        $('[name="'+ value +'"]').removeClass("is-invalid");
+      }
+    }
+
     this.errors.length = 0;
   }
 
+  generateErrorMessagesFromServer(mensajes){
+    for (var value in mensajes) {
+      //reemplazar el texto del campo [pass] por la etiqueta [Contraseña]
+      let texto=mensajes[value].replace("'"+value+"'","'" + $('label[for="'+value+'"]').html() + "'");
+      this.errors.push(texto);
+      $('label[for="' + value + '"]').next().addClass("is-invalid");
+    }
+  }
   generateErrorMessages(formGroup: FormGroup) {
     Object.keys(formGroup.controls).forEach(controlName => {
       let control = formGroup.controls[controlName];
@@ -37,11 +51,11 @@ export class ValidationSummaryComponent implements OnInit {
 
       // Handle the 'required' case
       if (errors.required) {
-        this.errors.push(`${controlName} is required`);
+        this.errors.push(`'${controlName}' es requerido`);
       }
       // Handle 'minlength' case
       if (errors.minlength) {
-        this.errors.push(`${controlName} minimum length is ${errors.minlength.requiredLength}.`);
+        this.errors.push(`La longitud mínima de '${controlName}' debe ser ${errors.minlength.requiredLength}.`);
       }
 
       // Handle custom messages.

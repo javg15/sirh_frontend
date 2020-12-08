@@ -16,14 +16,14 @@ declare var jQuery: any;
 export class PersonalFormComponent implements OnInit, OnDestroy {
   @Input() id: string;
 
-  private element: any;
+  private elementModal: any;
   @ViewChild('basicModal') basicModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
 
   record: Usuarios;
 
   constructor(private personalService: PersonalService, private el: ElementRef) {
-      this.element = el.nativeElement;
+      this.elementModal = el.nativeElement;
   }
 
   ngOnInit(): void {
@@ -48,16 +48,15 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
       this.personalService.remove(this.id);
-      this.element.remove();
+      this.elementModal.remove();
   }
 
-  submitAction(data) {
+  submitAction(form) {
+    this.validSummary.resetErrorMessages(form);
 
     this.personalService.setRecord(this.record).subscribe(resp => {
       if (resp.hasOwnProperty('error')) {
-        console.log(resp.message);
-      } else {
-        console.log("a")
+        this.validSummary.generateErrorMessagesFromServer(resp.message);
       }
     });
   }
