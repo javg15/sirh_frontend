@@ -9,6 +9,7 @@ import { BoardUserComponent } from './board-user/board-user.component';
 import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
 
+
 // Import Containers
 import { DefaultLayoutComponent } from './containers';
 
@@ -102,6 +103,10 @@ const routes: Routes = [
       {
         path: 'widgets',
         loadChildren: () => import('./views/widgets/widgets.module').then(m => m.WidgetsModule)
+      },
+      {
+        path: 'personal',
+        loadChildren: () => import('./views/personal/personal.module').then(m => m.PersonalModule)
       }
     ]
   },

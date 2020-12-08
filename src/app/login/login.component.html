@@ -38,6 +38,9 @@
 
                             <div class="alert alert-success" *ngIf="isLoggedIn">
                                 Logged in as {{ roles }}.
+
+                                <a href class="nav-link" (click)="logout()">LogOut</a>
+
                             </div>
 
                         </div>
