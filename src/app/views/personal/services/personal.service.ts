@@ -31,10 +31,10 @@ export class PersonalService {
   }
 
   /* El siguiente método graba un registro nuevo, o uno editado. */
-  public setRecord(dataPack): Observable<any> {
+  public setRecord(dataPack,actionForm): Observable<any> {
 
     return this.http.post(this.API_URL + '/user/setRecord',
-      { dataPack }
+      { dataPack,actionForm }
       , httpOptions);
   }
 
@@ -56,9 +56,9 @@ export class PersonalService {
         this.modals = this.modals.filter(x => x.id !== id);
     }
 
-  public open(id: string, idItem: string) {
+  public open(id: string, accion: string, idItem: string) {
         let modal: any = this.modals.filter(x => x.id === id)[0];
-        modal.open(idItem);
+        modal.open(idItem, accion);
     }
 
   public close(id: string) {

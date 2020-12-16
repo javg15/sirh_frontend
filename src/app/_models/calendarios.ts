@@ -3,6 +3,9 @@
 export type CalendariosId = number & { __flavor?: 'calendarios' };
 
 export default interface Calendarios {
+  /** Primary key. Index: calendarios_pkey */
+  id: CalendariosId;
+
   ejercicio: number | null;
 
   mes: number | null;
@@ -13,11 +16,22 @@ export default interface Calendarios {
 
   importe: number | null;
 
-  /** Primary key. Index: calendarios_pk */
-  id: CalendariosId;
+  created_at: Date | null;
+
+  updated_at: Date | null;
+
+  state: string;
+
+  id_usuarios_r: number | null;
 }
 
 export interface CalendariosInitializer {
+  /**
+   * Default value: nextval('t_calendarios_id_seq'::regclass)
+   * Primary key. Index: calendarios_pkey
+   */
+  id?: CalendariosId;
+
   ejercicio?: number;
 
   mes?: number;
@@ -28,9 +42,12 @@ export interface CalendariosInitializer {
 
   importe?: number;
 
-  /**
-   * Default value: nextval('calendarios_id_seq'::regclass)
-   * Primary key. Index: calendarios_pk
-   */
-  id?: CalendariosId;
+  created_at?: Date;
+
+  updated_at?: Date;
+
+  /** Default value: 'A'::bpchar */
+  state?: string;
+
+  id_usuarios_r?: number;
 }

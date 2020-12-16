@@ -106,8 +106,8 @@ export class PersonalAdminComponent implements OnInit {
     };
   }
 
-  openModal(id: string, idItem: string) {
-    this.personalService.open(id, idItem);
+  openModal(id: string, accion: string, idItem: string) {
+    this.personalService.open(id, accion, idItem);
   }
 
   closeModal(id: string) {

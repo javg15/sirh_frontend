@@ -10,7 +10,6 @@ import { PersonalService } from './services/personal.service';
 import { PersonalAdminComponent } from './admin/personal-admin.component';
 import { PersonalFormComponent } from './form/personal-form.component';
 import { DataTablesModule } from 'angular-datatables';
-import { ValidationSummaryComponent } from '../_shared/validation-summary.component';
 
 
 @NgModule({
@@ -24,8 +23,7 @@ import { ValidationSummaryComponent } from '../_shared/validation-summary.compon
   ],
   declarations: [
     PersonalAdminComponent,
-    PersonalFormComponent,
-    ValidationSummaryComponent
+    PersonalFormComponent
   ],
   providers: [
     PersonalService

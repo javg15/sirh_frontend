@@ -1,5 +1,7 @@
 // Automatically generated. Don't change this file manually.
 
+export type LogId = number & { __flavor?: 'log' };
+
 export default interface Log {
   operacion: string | null;
 
@@ -7,9 +9,10 @@ export default interface Log {
 
   fechahora: Date;
 
-  idUsuariosR: number | null;
+  id_usuarios_r: number | null;
 
-  id: number;
+  /** Primary key. Index: log_pkey */
+  id: LogId;
 }
 
 export interface LogInitializer {
@@ -22,8 +25,11 @@ export interface LogInitializer {
   fechahora?: Date;
 
   /** Default value: 0 */
-  idUsuariosR?: number;
+  id_usuarios_r?: number;
 
-  /** Default value: nextval('log_id_seq'::regclass) */
-  id?: number;
+  /**
+   * Default value: nextval('log_id_seq'::regclass)
+   * Primary key. Index: log_pkey
+   */
+  id?: LogId;
 }

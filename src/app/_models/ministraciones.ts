@@ -3,6 +3,9 @@
 export type MinistracionesId = number & { __flavor?: 'ministraciones' };
 
 export default interface Ministraciones {
+  /** Primary key. Index: ministraciones_pkey */
+  id: MinistracionesId;
+
   ejercicio: number | null;
 
   mes: number | null;
@@ -13,17 +16,22 @@ export default interface Ministraciones {
 
   importe: number | null;
 
-  createdAt: Date | null;
+  created_at: Date | null;
 
-  updatedAt: Date | null;
+  updated_at: Date | null;
 
-  state: string | null;
+  state: string;
 
-  /** Primary key. Index: ministraciones_pk */
-  id: MinistracionesId;
+  id_usuarios_r: number | null;
 }
 
 export interface MinistracionesInitializer {
+  /**
+   * Default value: nextval('ministraciones_id_seq'::regclass)
+   * Primary key. Index: ministraciones_pkey
+   */
+  id?: MinistracionesId;
+
   ejercicio?: number;
 
   mes?: number;
@@ -34,15 +42,12 @@ export interface MinistracionesInitializer {
 
   importe?: number;
 
-  createdAt?: Date;
+  created_at?: Date;
 
-  updatedAt?: Date;
+  updated_at?: Date;
 
+  /** Default value: 'A'::bpchar */
   state?: string;
 
-  /**
-   * Default value: nextval('ministraciones_id_seq'::regclass)
-   * Primary key. Index: ministraciones_pk
-   */
-  id?: MinistracionesId;
+  id_usuarios_r?: number;
 }

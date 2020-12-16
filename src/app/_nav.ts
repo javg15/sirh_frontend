@@ -2,15 +2,15 @@ import { INavData } from '@coreui/angular';
 
 export const navItems: INavData[] = [
   {
-    name: 'Dashboard',
+    name: 'Inicio',
     url: '/dashboard',
-    icon: 'icon-speedometer',
-    badge: {
+    icon: '',
+    /*badge: {
       variant: 'info',
       text: 'NEW'
-    }
+    }*/
   },
-  {
+  /*{
     title: true,
     name: 'Theme'
   },
@@ -26,77 +26,62 @@ export const navItems: INavData[] = [
   },
   {
     title: true,
-    name: 'Components'
-  },
+    name: 'Catálogos'
+  },*/
   {
-    name: 'Base',
-    url: '/base',
+    name: 'Configuración',
+    url: '/catalogos',
     icon: 'icon-puzzle',
     children: [
       {
-        name: 'Cards',
-        url: '/base/cards',
-        icon: 'icon-puzzle'
+        name: 'Municipios',
+        url: '/catalogos/catmunicipios',
+        //icon: 'icon-puzzle'
       },
       {
-        name: 'Carousels',
-        url: '/base/carousels',
-        icon: 'icon-puzzle'
+        name: 'Localidades',
+        url: '/catalogos/catlocalidades',
+        //icon: 'icon-puzzle'
       },
       {
-        name: 'Collapses',
-        url: '/base/collapses',
-        icon: 'icon-puzzle'
+        name: 'Planteles',
+        url: '/catalogos/catplanteles',
+        //icon: 'icon-puzzle'
       },
       {
-        name: 'Forms',
-        url: '/base/forms',
-        icon: 'icon-puzzle'
+        name: 'Centros de trabajo',
+        url: '/catalogos/catcentrostrabajo',
+        //icon: 'icon-puzzle'
       },
       {
-        name: 'Navbars',
-        url: '/base/navbars',
-        icon: 'icon-puzzle'
+        name: 'Zonas económicas',
+        url: '/catalogos/catzonaeconomica',
+        //icon: 'icon-puzzle'
+      },
+      {
+        name: 'Zonas geográficas',
+        url: '/catalogos/catzonageografica',
+        //icon: 'icon-puzzle'
+      },
+      {
+        name: 'Regiones',
+        url: '/catalogos/catregiones',
+        //icon: 'icon-puzzle'
+      },
+      {
+        name: 'Categorías',
+        url: '/catalogos/categorias',
+        //icon: 'icon-puzzle'
+      },
+      {
+        name: 'Estatus de la plaza',
+        url: '/catalogos/catestatusplaza',
+        //icon: 'icon-puzzle'
+      },
 
-      },
-      {
-        name: 'Pagination',
-        url: '/base/paginations',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Popovers',
-        url: '/base/popovers',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Progress',
-        url: '/base/progress',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Switches',
-        url: '/base/switches',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Tables',
-        url: '/base/tables',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Tabs',
-        url: '/base/tabs',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Tooltips',
-        url: '/base/tooltips',
-        icon: 'icon-puzzle'
-      }
     ]
   },
-  {
+  /*{
     name: 'Buttons',
     url: '/buttons',
     icon: 'icon-cursor',
@@ -247,5 +232,5 @@ export const navItems: INavData[] = [
     icon: 'icon-layers',
     variant: 'danger',
     attributes: { target: '_blank', rel: 'noopener' }
-  }
+  }*/
 ];

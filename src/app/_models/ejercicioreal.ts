@@ -3,6 +3,9 @@
 export type EjerciciorealId = number & { __flavor?: 'ejercicioreal' };
 
 export default interface Ejercicioreal {
+  /** Primary key. Index: ejercicioreal_pkey */
+  id: EjerciciorealId;
+
   ejercicio: number | null;
 
   mes: number | null;
@@ -13,11 +16,22 @@ export default interface Ejercicioreal {
 
   importe: number | null;
 
-  /** Primary key. Index: ejercicioreal_pk */
-  id: EjerciciorealId;
+  state: string;
+
+  created_at: Date | null;
+
+  updated_at: Date | null;
+
+  id_usuarios_r: number | null;
 }
 
 export interface EjerciciorealInitializer {
+  /**
+   * Default value: nextval('ejercicioreal_id_seq'::regclass)
+   * Primary key. Index: ejercicioreal_pkey
+   */
+  id?: EjerciciorealId;
+
   ejercicio?: number;
 
   mes?: number;
@@ -28,9 +42,12 @@ export interface EjerciciorealInitializer {
 
   importe?: number;
 
-  /**
-   * Default value: nextval('ejercicioreal_id_seq'::regclass)
-   * Primary key. Index: ejercicioreal_pk
-   */
-  id?: EjerciciorealId;
+  /** Default value: 'A'::bpchar */
+  state?: string;
+
+  created_at?: Date;
+
+  updated_at?: Date;
+
+  id_usuarios_r?: number;
 }

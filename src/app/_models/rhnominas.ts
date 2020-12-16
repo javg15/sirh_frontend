@@ -3,13 +3,16 @@
 export type RhnominasId = number & { __flavor?: 'rhnominas' };
 
 export default interface Rhnominas {
+  /** Primary key. Index: rhnominas_pkey */
+  id: RhnominasId;
+
   quincenapago: number;
 
   numemp: string;
 
   nombreempleado: string;
 
-  fchingcobaev: string;
+  fechingcobaev: Date;
 
   antiguedad: string;
 
@@ -33,7 +36,7 @@ export default interface Rhnominas {
 
   qnafin: string;
 
-  idEsquemapago: number;
+  id_esquemapago: number;
 
   esquemapago: string;
 
@@ -51,25 +54,25 @@ export default interface Rhnominas {
 
   totquinbruto: number;
 
-  totmenbruto: number;
+  totmnbruto: number;
 
   idSindicato: number;
 
   siglassindicato: string;
 
-  idTipoemp: number;
+  id_tipoemp: number;
 
   tipoempleado: string;
 
-  idEmpfuncion: number;
+  id_empfuncion: number;
 
   empfuncion: string;
 
-  idFuncionpri: number;
+  id_funcionpri: number;
 
   funcionpri: string;
 
-  idFuncionsec: number;
+  id_funcionsec: number;
 
   funcionsec: string;
 
@@ -87,26 +90,31 @@ export default interface Rhnominas {
 
   compensacionpa: number | null;
 
-  rFC: string | null;
+  rfc: string | null;
 
-  state: string | null;
+  id_usuarios_r: number;
 
-  createdAt: Date | null;
+  state: string;
 
-  updatedAt: Date | null;
+  created_at: Date | null;
 
-  /** Primary key. Index: rhnominas_pk */
-  id: RhnominasId;
+  updated_at: Date | null;
 }
 
 export interface RhnominasInitializer {
+  /**
+   * Default value: nextval('rhnominas_id_seq'::regclass)
+   * Primary key. Index: rhnominas_pkey
+   */
+  id?: RhnominasId;
+
   quincenapago: number;
 
   numemp: string;
 
   nombreempleado: string;
 
-  fchingcobaev: string;
+  fechingcobaev: Date;
 
   antiguedad: string;
 
@@ -130,7 +138,7 @@ export interface RhnominasInitializer {
 
   qnafin: string;
 
-  idEsquemapago: number;
+  id_esquemapago: number;
 
   esquemapago: string;
 
@@ -148,25 +156,25 @@ export interface RhnominasInitializer {
 
   totquinbruto: number;
 
-  totmenbruto: number;
+  totmnbruto: number;
 
   idSindicato: number;
 
   siglassindicato: string;
 
-  idTipoemp: number;
+  id_tipoemp: number;
 
   tipoempleado: string;
 
-  idEmpfuncion: number;
+  id_empfuncion: number;
 
   empfuncion: string;
 
-  idFuncionpri: number;
+  id_funcionpri: number;
 
   funcionpri: string;
 
-  idFuncionsec: number;
+  id_funcionsec: number;
 
   funcionsec: string;
 
@@ -184,17 +192,15 @@ export interface RhnominasInitializer {
 
   compensacionpa?: number;
 
-  rFC?: string;
+  rfc?: string;
 
+  /** Default value: 0 */
+  id_usuarios_r?: number;
+
+  /** Default value: 'A'::bpchar */
   state?: string;
 
-  createdAt?: Date;
+  created_at?: Date;
 
-  updatedAt?: Date;
-
-  /**
-   * Default value: nextval('rhnominas_id_seq'::regclass)
-   * Primary key. Index: rhnominas_pk
-   */
-  id?: RhnominasId;
+  updated_at?: Date;
 }

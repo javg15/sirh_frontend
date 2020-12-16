@@ -3,6 +3,9 @@
 export type HorasId = number & { __flavor?: 'horas' };
 
 export default interface Horas {
+  /** Primary key. Index: horas_pkey */
+  id: HorasId;
+
   numemp: string;
 
   claveplantel: string | null;
@@ -37,15 +40,22 @@ export default interface Horas {
 
   observaciones: string | null;
 
-  createdAt: Date | null;
+  created_at: Date | null;
 
-  updatedAt: Date | null;
+  updated_at: Date | null;
 
-  /** Primary key. Index: horas_pk */
-  id: HorasId;
+  state: string;
+
+  id_usuarios_r: number | null;
 }
 
 export interface HorasInitializer {
+  /**
+   * Default value: nextval('horas_id_seq'::regclass)
+   * Primary key. Index: horas_pkey
+   */
+  id?: HorasId;
+
   numemp: string;
 
   claveplantel?: string;
@@ -80,13 +90,12 @@ export interface HorasInitializer {
 
   observaciones?: string;
 
-  createdAt?: Date;
+  created_at?: Date;
 
-  updatedAt?: Date;
+  updated_at?: Date;
 
-  /**
-   * Default value: nextval('horas_id_seq'::regclass)
-   * Primary key. Index: horas_pk
-   */
-  id?: HorasId;
+  /** Default value: 'A'::bpchar */
+  state?: string;
+
+  id_usuarios_r?: number;
 }

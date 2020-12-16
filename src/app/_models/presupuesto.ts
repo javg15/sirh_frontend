@@ -3,6 +3,9 @@
 export type PresupuestoId = number & { __flavor?: 'presupuesto' };
 
 export default interface Presupuesto {
+  /** Primary key. Index: presupuesto_pkey */
+  id: PresupuestoId;
+
   ejercicio: number | null;
 
   mes: number | null;
@@ -13,15 +16,22 @@ export default interface Presupuesto {
 
   importe: number | null;
 
-  createdAt: Date | null;
+  id_usuarios_r: number;
 
-  updatedAt: Date | null;
+  state: string;
 
-  /** Primary key. Index: presupuesto_pk */
-  id: PresupuestoId;
+  created_at: Date | null;
+
+  updated_at: Date | null;
 }
 
 export interface PresupuestoInitializer {
+  /**
+   * Default value: nextval('presupuesto_id_seq'::regclass)
+   * Primary key. Index: presupuesto_pkey
+   */
+  id?: PresupuestoId;
+
   ejercicio?: number;
 
   mes?: number;
@@ -32,13 +42,13 @@ export interface PresupuestoInitializer {
 
   importe?: number;
 
-  createdAt?: Date;
+  /** Default value: 0 */
+  id_usuarios_r?: number;
 
-  updatedAt?: Date;
+  /** Default value: 'A'::bpchar */
+  state?: string;
 
-  /**
-   * Default value: nextval('presupuesto_id_seq'::regclass)
-   * Primary key. Index: presupuesto_pk
-   */
-  id?: PresupuestoId;
+  created_at?: Date;
+
+  updated_at?: Date;
 }

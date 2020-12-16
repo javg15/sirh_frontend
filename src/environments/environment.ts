@@ -8,4 +8,18 @@ export const environment = {
   production: false
 };
 
+export const actionsButtonSave = {
+  ver:"Cerrar",
+  nuevo: "Guardar",
+  editar: "Guardar",
+  cancelar: "Cancelar",
+};
+
+export const titulosModal = {
+  ver:"Consultar",
+  nuevo: "Nuevo",
+  editar: "Editar",
+  cancelar: "Cancelar",
+};
+
 

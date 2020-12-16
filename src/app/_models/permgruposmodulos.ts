@@ -3,29 +3,35 @@
 export type PermgruposmodulosId = number & { __flavor?: 'permgruposmodulos' };
 
 export default interface Permgruposmodulos {
+  /** Primary key. Index: permgruposmodulos_pkey */
+  id: PermgruposmodulosId;
+
   icode: string;
 
   idesc: string;
 
-  idPermgrupos: number;
+  id_permgrupos: number;
 
-  idModulos: number;
+  id_modulos: number;
 
   privilegios: string;
 
+  id_usuarios_r: number;
+
   state: string;
 
-  idUsersR: number;
+  created_at: Date | null;
 
-  createdAt: Date | null;
-
-  updatedAt: Date | null;
-
-  /** Primary key. Index: permgruposmodulos_pk */
-  id: PermgruposmodulosId;
+  updated_at: Date | null;
 }
 
 export interface PermgruposmodulosInitializer {
+  /**
+   * Default value: nextval('permgruposmodulos_id_seq'::regclass)
+   * Primary key. Index: permgruposmodulos_pkey
+   */
+  id?: PermgruposmodulosId;
+
   /** Default value: ''::character varying */
   icode?: string;
 
@@ -33,27 +39,21 @@ export interface PermgruposmodulosInitializer {
   idesc?: string;
 
   /** Default value: 0 */
-  idPermgrupos?: number;
+  id_permgrupos?: number;
 
   /** Default value: 0 */
-  idModulos?: number;
+  id_modulos?: number;
 
   /** Default value: 'nada'::character varying */
   privilegios?: string;
 
+  /** Default value: 0 */
+  id_usuarios_r?: number;
+
   /** Default value: 'A'::bpchar */
   state?: string;
 
-  /** Default value: 0 */
-  idUsersR?: number;
+  created_at?: Date;
 
-  createdAt?: Date;
-
-  updatedAt?: Date;
-
-  /**
-   * Default value: nextval('permgruposmodulos_id_seq'::regclass)
-   * Primary key. Index: permgruposmodulos_pk
-   */
-  id?: PermgruposmodulosId;
+  updated_at?: Date;
 }

@@ -1,0 +1,46 @@
+import { Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+
+declare var $: any;
+declare var jQuery: any;
+
+@Component({
+  selector: 'app-header-admin',
+  templateUrl: './header-admin.component.html',
+  styleUrls: ['./header-admin.component.css']
+})
+
+export class HeaderAdminComponent implements OnInit {
+  @Input() nombreModulo: string;
+  @Output() agregarEvent = new EventEmitter<any>();
+  @Output() buscarEvent = new EventEmitter<any>();
+
+  itemsStates: Array<any> = [{id: 0, idesc: '', orden: 0}];
+  selectedState: string;
+
+  constructor() {
+  }
+
+  ngOnInit(): void {
+
+  }
+
+  ngOnDestroy(): void {
+
+  }
+
+  collapsed(event: any): void {
+    // console.log(event);
+  }
+
+  expanded(event: any): void {
+    // console.log(event);
+  }
+
+  onClickAgregar() {
+    this.agregarEvent.emit();
+  }
+
+  onSelectState(id_campo) {
+
+  }
+}

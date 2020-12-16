@@ -1,11 +1,11 @@
 <div class="animated fadeIn">
-    <div class="card">
+    <div class="search-admin card">
         <div class="card-header">
             Filtros
             <div class="card-header-actions" style="margin: -0.25rem;">
                 <button type="button" class="btn btn-ghost-primary" (click)="isCollapsed = !isCollapsed">
-                  <i [ngClass]="!isCollapsed ? 'fa fa-toggle-up' : 'fa fa-toggle-down'"></i>&nbsp;
-                </button>
+                <i [ngClass]="!isCollapsed ? 'fa fa-toggle-up' : 'fa fa-toggle-down'"></i>&nbsp;
+              </button>
             </div>
         </div>
         <div class="card-body" (collapsed)="collapsed($event)" (expanded)="expanded($event)" [collapse]="isCollapsed">
@@ -13,18 +13,18 @@
                 <div class="form-group col-sm-4">
                     <label for="cmbSearchBuscaren">Buscar en:</label>
                     <select class="form-control" id="cmbSearchBuscaren" [(ngModel)]="selectedItemsCampos.id" (change)="onSelectCampos($event.target.value)">
-                      <ng-container *ngFor="let col of itemsCampos;index as i">
-                        <option value = "{{ col.id }}" [selected]="i===1">{{ col.idesci }}</option>
-                      </ng-container>
-                  </select>
+                    <ng-container *ngFor="let col of itemsCampos;index as i">
+                      <option value = "{{ col.id }}" [selected]="i===1">{{ col.idesc }}</option>
+                    </ng-container>
+                </select>
                 </div>
                 <div class="form-group col-sm-2">
                     <label for="cmbSearchDonde">Donde sea: </label>
                     <select class="form-control" id="cmbSearchDonde" [(ngModel)]="selectedItemsOperadores.id">
-                      <ng-container *ngFor="let col of itemsOperadores ;index as i">
-                        <option value = "{{ col.id }}">{{ col.idesc }}</option>
-                      </ng-container>
-                </select>
+                    <ng-container *ngFor="let col of itemsOperadores ;index as i">
+                      <option value = "{{ col.id }}">{{ col.idesc }}</option>
+                    </ng-container>
+              </select>
                 </div>
                 <div class="col-sm-2">
                     <div class="form-group">

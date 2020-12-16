@@ -29,7 +29,7 @@ const routes: Routes = [
   { path: 'user', component: BoardUserComponent },
   { path: 'mod', component: BoardModeratorComponent },
   { path: 'admin', component: BoardAdminComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 
   {
     path: '',
@@ -107,6 +107,42 @@ const routes: Routes = [
       {
         path: 'personal',
         loadChildren: () => import('./views/personal/personal.module').then(m => m.PersonalModule)
+      },
+      {
+        path: 'catalogos/catplanteles',
+        loadChildren: () => import('./views/catalogos/catplanteles/catplanteles.module').then(m => m.CatplantelesModule)
+      },
+      {
+        path: 'catalogos/catmunicipios',
+        loadChildren: () => import('./views/catalogos/catmunicipios/catmunicipios.module').then(m => m.CatmunicipiosModule)
+      },
+      {
+        path: 'catalogos/catlocalidades',
+        loadChildren: () => import('./views/catalogos/catlocalidades/catlocalidades.module').then(m => m.CatlocalidadesModule)
+      },
+      {
+        path: 'catalogos/catcentrostrabajo',
+        loadChildren: () => import('./views/catalogos/catcentrostrabajo/catcentrostrabajo.module').then(m => m.CatcentrostrabajoModule)
+      },
+      {
+        path: 'catalogos/catzonaeconomica',
+        loadChildren: () => import('./views/catalogos/catzonaeconomica/catzonaeconomica.module').then(m => m.CatzonaeconomicaModule)
+      },
+      {
+        path: 'catalogos/catzonageografica',
+        loadChildren: () => import('./views/catalogos/catzonageografica/catzonageografica.module').then(m => m.CatzonageograficaModule)
+      },
+      {
+        path: 'catalogos/catregiones',
+        loadChildren: () => import('./views/catalogos/catregiones/catregiones.module').then(m => m.CatregionesModule)
+      },
+      {
+        path: 'catalogos/categorias',
+        loadChildren: () => import('./views/catalogos/categorias/categorias.module').then(m => m.CategoriasModule)
+      },
+      {
+        path: 'catalogos/catestatusplaza',
+        loadChildren: () => import('./views/catalogos/catestatusplaza/catestatusplaza.module').then(m => m.CatestatusplazaModule)
       }
     ]
   },

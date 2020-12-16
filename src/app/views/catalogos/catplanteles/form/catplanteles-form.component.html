@@ -1,0 +1,137 @@
+<div bsModal #basicModal="bs-modal" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-full-height modal-right" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">{{ tituloForm }}</h4>
+
+                <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+                  <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #dataForm="ngForm" (ngSubmit)="submitAction(dataForm)">
+                    <input type="hidden" name="action" value="{{ actionForm }}">
+                    <div class="form-group">
+                        <label for="id">ID</label>
+                        <input type="text" [(ngModel)]="record.id" class="form-control" name="ID">
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="clave">Clave</label>
+                                <input type="text" [(ngModel)]="record.clave" class="form-control" name="Clave">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="ubicacion">Nombre del plantel</label>
+                                <input type="text" [(ngModel)]="record.ubicacion" class="form-control" name="Nombre del plantel">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="tipoplantel">Tipo de plantel</label>
+                                <input type="text" [(ngModel)]="record.tipoplantel" class="form-control" name="Tipo de plantel">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="id_catzonaeconomica">Zona económica</label>
+                                <select class="form-control" [(ngModel)]="record.id_catzonaeconomica" name="Zona económica">
+                                  <option *ngFor="let col of catzonaeconomicaCat" [value]="col.id">{{ col.descripcion }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="id_catzonageografica">Zona geográfica</label>
+                                <select class="form-control" [(ngModel)]="record.id_catzonageografica" name="Zona geográfica">
+                                  <option *ngFor="let col of catzonageograficaCat" [value]="col.id">{{ col.descripcion }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="id_qnaini">Quincena inicial</label>
+                                <input type="text" [(ngModel)]="record.id_qnaini" class="form-control" name="Quincena inicio">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="id_qnafin">Quincena final</label>
+                                <input type="text" [(ngModel)]="record.id_qnafin" class="form-control" name="Quincena final">
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="clavectse">Clave CTSE</label>
+                                <input type="text" [(ngModel)]="record.clavectse" class="form-control" name="Clave CTSE">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="id_turno">Turno</label>
+                                <input type="text" [(ngModel)]="record.id_turno" class="form-control" name="Turno">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="id_catregion">Región</label>
+                                <select class="form-control" [(ngModel)]="record.id_catregion" name="Región" (change)="onSelectRegion($event.target.value)">
+                                  <option *ngFor="let col of catregionesCat" [value]="col.id">{{ col.descripcion }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="id_catmunicipios">Municipio</label>
+                                <select class="form-control" [(ngModel)]="record.id_catmunicipios" name="Municipio" (change)="onSelectMunicipio($event.target.value)">
+                                  <option *ngFor="let col of catmunicipiosCat" [value]="col.id">{{ col.descripcion }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="id_catlocalidades">Localidad</label>
+                                <select class="form-control" [(ngModel)]="record.id_catlocalidades" name="Localidad">
+                                  <option *ngFor="let col of catlocalidadesCat" [value]="col.id">{{ col.descripcion }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <app-validation-summary [form]="dataForm"></app-validation-summary>
+                    <!-- [disabled]="!dataForm.form.valid" -->
+                    <button *ngIf="actionForm!=='ver'" type="submit" class="btn btn-primary">{{ botonAccion }}</button>
+                </form>
+            </div>
+            <!-- <h2>Diagnostic Info</h2>
+            <div [innerHtml]="diagnosticValidate"></div>-->
+        </div>
+    </div>
+</div>
+
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-success" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">&nbsp;</h5>
+            </div>
+            <div class="modal-body">
+                <p>Acción realizada satisfactoriamente</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="successModal.hide()">Cerrar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

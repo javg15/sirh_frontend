@@ -11,7 +11,7 @@ export default interface Modulos {
 
   ruta: string;
 
-  rutaMenu: string;
+  rutamenu: string;
 
   controller: string;
 
@@ -41,7 +41,7 @@ export default interface Modulos {
 
   foliadotipo: string;
 
-  /** Primary key. Index: modulos_pk */
+  /** Primary key. Index: modulos_pkey */
   id: ModulosId;
 }
 
@@ -59,7 +59,7 @@ export interface ModulosInitializer {
   ruta?: string;
 
   /** Default value: ''::character varying */
-  rutaMenu?: string;
+  rutamenu?: string;
 
   /** Default value: ''::character varying */
   controller?: string;
@@ -105,7 +105,7 @@ export interface ModulosInitializer {
 
   /**
    * Default value: nextval('modulos_id_seq'::regclass)
-   * Primary key. Index: modulos_pk
+   * Primary key. Index: modulos_pkey
    */
   id?: ModulosId;
 }

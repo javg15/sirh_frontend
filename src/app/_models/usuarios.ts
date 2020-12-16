@@ -18,13 +18,13 @@ export default interface Usuarios {
 
   numemp: string | null;
 
-  createdAt: Date | null;
+  created_at: Date | null;
 
-  updatedAt: Date | null;
+  updated_at: Date | null;
 
-  idPermgrupos: number | null;
+  id_permgrupos: number | null;
 
-  idUsuariosR: number | null;
+  id_usuarios_r: number | null;
 
   state: string | null;
 
@@ -50,13 +50,13 @@ export interface UsuariosInitializer {
 
   numemp?: string;
 
-  createdAt?: Date;
+  created_at?: Date;
 
-  updatedAt?: Date;
+  updated_at?: Date;
 
-  idPermgrupos?: number;
+  id_permgrupos?: number;
 
-  idUsuariosR?: number;
+  id_usuarios_r?: number;
 
   /** Default value: 'A'::bpchar */
   state?: string;

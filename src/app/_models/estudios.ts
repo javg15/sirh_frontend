@@ -3,6 +3,9 @@
 export type EstudiosId = number & { __flavor?: 'estudios' };
 
 export default interface Estudios {
+  /** Primary key. Index: estudios_pkey */
+  id: EstudiosId;
+
   numemp: string | null;
 
   desccarrera: string | null;
@@ -11,15 +14,22 @@ export default interface Estudios {
 
   titulado: string | null;
 
-  createdAt: Date | null;
+  created_at: Date | null;
 
-  updatedAt: Date | null;
+  updated_at: Date | null;
 
-  /** Primary key. Index: estudios_pk */
-  id: EstudiosId;
+  state: string;
+
+  id_usuarios_r: number | null;
 }
 
 export interface EstudiosInitializer {
+  /**
+   * Default value: nextval('estudios_id_seq'::regclass)
+   * Primary key. Index: estudios_pkey
+   */
+  id?: EstudiosId;
+
   numemp?: string;
 
   desccarrera?: string;
@@ -28,13 +38,12 @@ export interface EstudiosInitializer {
 
   titulado?: string;
 
-  createdAt?: Date;
+  created_at?: Date;
 
-  updatedAt?: Date;
+  updated_at?: Date;
 
-  /**
-   * Default value: nextval('estudios_id_seq'::regclass)
-   * Primary key. Index: estudios_pk
-   */
-  id?: EstudiosId;
+  /** Default value: 'A'::bpchar */
+  state?: string;
+
+  id_usuarios_r?: number;
 }

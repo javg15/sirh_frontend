@@ -3,40 +3,45 @@
 export type PermusuariosmodulosId = number & { __flavor?: 'permusuariosmodulos' };
 
 export default interface Permusuariosmodulos {
+  /** Primary key. Index: permusuariosmodulos_pkey */
+  id: PermusuariosmodulosId;
+
   idUsuarios: number;
 
-  idModulos: number;
+  id_modulos: number;
 
   privilegios: string;
 
-  idUsuariosR: number;
+  id_usuarios_r: number;
 
-  createdAt: Date | null;
+  state: string;
 
-  updatedAt: Date | null;
+  created_at: Date | null;
 
-  /** Primary key. Index: permusuariosmodulos_pk */
-  id: PermusuariosmodulosId;
+  updated_at: Date | null;
 }
 
 export interface PermusuariosmodulosInitializer {
+  /**
+   * Default value: nextval('permusuariosmodulos_id_seq'::regclass)
+   * Primary key. Index: permusuariosmodulos_pkey
+   */
+  id?: PermusuariosmodulosId;
+
   idUsuarios: number;
 
-  idModulos: number;
+  id_modulos: number;
 
   /** Default value: 'nada'::character varying */
   privilegios?: string;
 
   /** Default value: 0 */
-  idUsuariosR?: number;
+  id_usuarios_r?: number;
 
-  createdAt?: Date;
+  /** Default value: 'A'::bpchar */
+  state?: string;
 
-  updatedAt?: Date;
+  created_at?: Date;
 
-  /**
-   * Default value: nextval('permusuariosmodulos_id_seq'::regclass)
-   * Primary key. Index: permusuariosmodulos_pk
-   */
-  id?: PermusuariosmodulosId;
+  updated_at?: Date;
 }
