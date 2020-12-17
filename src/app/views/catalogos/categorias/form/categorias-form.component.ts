@@ -5,7 +5,7 @@ import { Categorias } from '../../../../_models';
 import { CattiponominaService } from '../../cattiponomina/services/cattiponomina.service';
 import { Cattiponomina } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation-summary.component';
-import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
+import { actionsButtonSave, titulosModal } from '../../../../environments/environment';
 
 
 declare var $: any;

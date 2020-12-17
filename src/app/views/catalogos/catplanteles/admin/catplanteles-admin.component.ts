@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 
 import { CatplantelesService } from '../services/catplanteles.service';
 
-import { environment } from '../../../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 declare var $: any;
 declare var jQuery: any;

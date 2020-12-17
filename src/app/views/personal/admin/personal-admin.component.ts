@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 
 import { PersonalService } from '../services/personal.service';
 
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { type } from 'jquery';
 
 declare var $: any;

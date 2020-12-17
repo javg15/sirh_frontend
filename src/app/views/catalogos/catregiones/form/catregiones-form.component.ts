@@ -3,7 +3,7 @@ import { CatregionesService } from '../services/catregiones.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Catregiones } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation-summary.component';
-import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
+import { actionsButtonSave, titulosModal } from '../../../../environments/environment';
 
 
 declare var $: any;
