@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { DataTablesResponse } from '../../../../classes/data-tables-response';
 
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../../../src/environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -77,7 +77,7 @@ export class CatzonaeconomicaService {
         this.modals = this.modals.filter(x => x.id !== id);
     }
 
-  public open(id: string, accion: string, idItem: string) {
+  public open(id: string, accion: string, idItem: number) {
         let modal: any = this.modals.filter(x => x.id === id)[0];
         modal.open(idItem, accion);
     }

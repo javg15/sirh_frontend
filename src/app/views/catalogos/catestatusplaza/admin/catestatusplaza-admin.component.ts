@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 
 import { CatestatusplazaService } from '../services/catestatusplaza.service';
 
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../../../src/environments/environment';
 
 declare var $: any;
 declare var jQuery: any;
@@ -107,7 +107,7 @@ export class CatestatusplazaAdminComponent implements OnInit {
       };
 
   }
-  openModal(id: string, accion: string, idItem: string) {
+  openModal(id: string, accion: string, idItem: number) {
     this.catestatusplazaService.open(id, accion, idItem);
   }
 

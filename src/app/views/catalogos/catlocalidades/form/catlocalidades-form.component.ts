@@ -5,7 +5,7 @@ import { Catlocalidades } from '../../../../_models';
 import { CatmunicipiosService } from '../../catmunicipios/services/catmunicipios.service';
 import { Catmunicipios } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation-summary.component';
-import { actionsButtonSave, titulosModal } from '../../../../environments/environment';
+import { actionsButtonSave, titulosModal } from '../../../../../../src/environments/environment';
 
 
 declare var $: any;

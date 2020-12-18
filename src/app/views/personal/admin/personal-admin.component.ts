@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 
 import { PersonalService } from '../services/personal.service';
 
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../../src/environments/environment';
 import { type } from 'jquery';
 
 declare var $: any;
@@ -106,7 +106,7 @@ export class PersonalAdminComponent implements OnInit {
     };
   }
 
-  openModal(id: string, accion: string, idItem: string) {
+  openModal(id: string, accion: string, idItem: any) {
     this.personalService.open(id, accion, idItem);
   }
 

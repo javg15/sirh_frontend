@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 
 import { CategoriasService } from '../services/categorias.service';
 
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../../../src/environments/environment';
 
 declare var $: any;
 declare var jQuery: any;
@@ -107,7 +107,7 @@ export class CategoriasAdminComponent implements OnInit {
       };
 
   }
-  openModal(id: string, accion: string, idItem: string) {
+  openModal(id: string, accion: string, idItem: number) {
     this.categoriasService.open(id, accion, idItem);
   }
 

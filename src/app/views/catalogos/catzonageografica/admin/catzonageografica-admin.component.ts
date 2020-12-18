@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 
 import { CatzonageograficaService } from '../services/catzonageografica.service';
 
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../../../src/environments/environment';
 
 declare var $: any;
 declare var jQuery: any;
@@ -107,7 +107,7 @@ export class CatzonageograficaAdminComponent implements OnInit {
       };
 
   }
-  openModal(id: string, accion: string, idItem: string) {
+  openModal(id: string, accion: string, idItem: number) {
     this.catzonageograficaService.open(id, accion, idItem);
   }
 

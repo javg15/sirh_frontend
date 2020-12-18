@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 
 import { CatplantelesService } from '../services/catplanteles.service';
 
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../../../src/environments/environment';
 
 declare var $: any;
 declare var jQuery: any;
@@ -107,7 +107,7 @@ export class CatplantelesAdminComponent implements OnInit {
       };
 
   }
-  openModal(id: string, accion: string, idItem: string) {
+  openModal(id: string, accion: string, idItem: number) {
     this.catplantelesService.open(id, accion, idItem);
   }
 

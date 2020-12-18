@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 
 import { CatcentrostrabajoService } from '../services/catcentrostrabajo.service';
 
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../../../src/environments/environment';
 
 declare var $: any;
 declare var jQuery: any;
@@ -107,7 +107,7 @@ export class CatcentrostrabajoAdminComponent implements OnInit {
       };
 
   }
-  openModal(id: string, accion: string, idItem: string) {
+  openModal(id: string, accion: string, idItem: number) {
     this.catcentrostrabajoService.open(id, accion, idItem);
   }
 
