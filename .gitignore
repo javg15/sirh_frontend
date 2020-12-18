@@ -5,6 +5,7 @@
 /integration/bazel/bazel-*
 *.log
 node_modules
+/src/environments/environment.ts
 
 # Include when developing application packages.
 pubspec.lock
