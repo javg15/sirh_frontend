@@ -9,7 +9,7 @@ export default interface Catcentrostrabajo {
 
   zona: number | null;
 
-  id_tipoct: number | null;
+  id_cattipoct: number | null;
 
   state: string | null;
 
@@ -27,7 +27,7 @@ export default interface Catcentrostrabajo {
 
   ficticia: number | null;
 
-  id_tipoctpp: number | null;
+  id_cattipoctpp: number | null;
 
   created_at: Date | null;
 
@@ -45,7 +45,7 @@ export interface CatcentrostrabajoInitializer {
 
   zona?: number;
 
-  id_tipoct?: number;
+  id_cattipoct?: number;
 
   state?: string;
 
@@ -63,7 +63,7 @@ export interface CatcentrostrabajoInitializer {
 
   ficticia?: number;
 
-  id_tipoctpp?: number;
+  id_cattipoctpp?: number;
 
   created_at?: Date;
 

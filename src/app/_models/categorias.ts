@@ -8,11 +8,13 @@ export default interface Categorias {
 
   clave: string | null;
 
+  codigo: string | null;
+
   denominacion: string | null;
 
   nivelsalarial: string | null;
 
-  tipo: string | null;
+  id_tipocategoria: number | null;
 
   id_tiponomina: number | null;
 
@@ -34,11 +36,13 @@ export interface CategoriasInitializer {
 
   clave?: string;
 
+  codigo?: string;
+
   denominacion?: string;
 
   nivelsalarial?: string;
 
-  tipo?: string;
+  id_tipocategoria?: number;
 
   id_tiponomina?: number;
 

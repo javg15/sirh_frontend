@@ -1,4 +1,5 @@
 // Automatically generated. Don't change this file manually.
+export type CatlocalidadesId = number & { __flavor?: 'catlocalidades' };
 
 export default interface Catlocalidades {
   id: number | null;

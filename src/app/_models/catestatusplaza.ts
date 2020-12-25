@@ -8,6 +8,8 @@ export default interface Catestatusplaza {
 
   descripcion: string | null;
 
+  clave: string | null;
+
   id_estatussig: string | null;
 
   strid_nombramiento: string | null;
@@ -31,6 +33,8 @@ export interface CatestatusplazaInitializer {
   id?: CatestatusplazaId;
 
   descripcion?: string;
+
+  clave?: string;
 
   id_estatussig?: string;
 

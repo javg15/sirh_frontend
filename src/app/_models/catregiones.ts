@@ -5,6 +5,8 @@ export default interface Catregiones {
 
   descripcion: string | null;
 
+  clave: string | null;
+
   state: string | null;
 
   created_at: Date | null;
@@ -18,6 +20,8 @@ export interface CatregionesInitializer {
   id?: number;
 
   descripcion?: string;
+
+  clave?: string;
 
   state: string | null;
 

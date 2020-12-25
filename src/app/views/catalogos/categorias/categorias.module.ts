@@ -9,6 +9,7 @@ import { CategoriasRoutingModule } from './categorias-routing.module';
 import { CategoriasService } from './services/categorias.service';
 import { CategoriasAdminComponent } from './admin/categorias-admin.component';
 import { CategoriasFormComponent } from './form/categorias-form.component';
+import { CategoriassueldosFormComponent } from './formsub/categoriassueldos-form.component';
 import { DataTablesModule } from 'angular-datatables';
 
 
@@ -23,7 +24,8 @@ import { DataTablesModule } from 'angular-datatables';
   ],
   declarations: [
     CategoriasAdminComponent,
-    CategoriasFormComponent
+    CategoriasFormComponent,
+    CategoriassueldosFormComponent
   ],
   providers: [
     CategoriasService

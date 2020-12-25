@@ -1,4 +1,5 @@
 // Automatically generated. Don't change this file manually.
+export type CatplantelesId = number & { __flavor?: 'catplanteles' };
 
 export default interface Catplanteles {
   id: number | null;
@@ -17,9 +18,7 @@ export default interface Catplanteles {
 
   adscrip: string | null;
 
-  id_qnaini: number | null;
-
-  id_qnafin: number | null;
+  aniocreacion: number | null;
 
   id_catzonaeconomica2: number | null;
 
@@ -33,15 +32,15 @@ export default interface Catplanteles {
 
   id_turno: number | null;
 
-  bachenarte: number | null;
+  telefono: string | null;
 
-  participaenprogramauna: number | null;
+  email: string | null;
 
-  comentarios: string | null;
+  domicilio: string | null;
 
-  fechaultmod: string | null;
+  latitud: string | null;
 
-  permiteplazasrp: number | null;
+  longitud: string | null;
 
   emsad: number | null;
 
@@ -75,9 +74,7 @@ export interface CatplantelesInitializer {
 
   adscrip?: string;
 
-  id_qnaini?: number;
-
-  id_qnafin?: number;
+  aniocreacion?: number;
 
   id_catzonaeconomica2?: number;
 
@@ -91,15 +88,15 @@ export interface CatplantelesInitializer {
 
   id_turno?: number;
 
-  bachenarte?: number;
+  telefono?: string;
 
-  participaenprogramauna?: number;
+  email?: string;
 
-  comentarios?: string;
+  domicilio?: string;
 
-  fechaultmod?: string;
+  latitud?: string;
 
-  permiteplazasrp?: number;
+  longitud?: string;
 
   emsad?: number;
 

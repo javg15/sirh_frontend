@@ -5,6 +5,10 @@ import { CategoriasAdminComponent } from './admin/categorias-admin.component';
 import { CategoriasFormComponent } from './form/categorias-form.component';
 import { CategoriasIniService } from './services/categorias.ini.service';
 
+import { CategoriassueldosFormComponent } from './formsub/categoriassueldos-form.component';
+import { CategoriassueldosIniService } from './services/categoriassueldos.ini.service';
+
+
 const routes: Routes = [
   {
     path: '',
@@ -23,7 +27,8 @@ const routes: Routes = [
           title: 'Categorias'
         },
         resolve: {
-          userdata: CategoriasIniService
+          userdata: CategoriasIniService,
+          userdataSueldos: CategoriassueldosIniService
         }
       },
       {
@@ -31,6 +36,13 @@ const routes: Routes = [
         component: CategoriasFormComponent,
         data: {
           title: 'Categorias'
+        },
+      },
+      {
+        path: 'form',
+        component: CategoriassueldosFormComponent,
+        data: {
+          title: 'Categorias sueldos'
         }
       }
 

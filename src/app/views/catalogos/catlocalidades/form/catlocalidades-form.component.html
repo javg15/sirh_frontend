@@ -12,8 +12,8 @@
                 <form #dataForm="ngForm" (ngSubmit)="submitAction(dataForm)">
                     <input type="hidden" name="action" value="{{ actionForm }}">
                     <div class="form-group">
-                        <label for="id">ID</label>
-                        <input type="text" [(ngModel)]="record.id" class="form-control" name="ID">
+
+                        <input type="hidden" [(ngModel)]="record.id" class="form-control" name="ID">
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-4">
@@ -36,6 +36,9 @@
                               </select>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
+                        &nbsp;
                     </div>
                     <app-validation-summary [form]="dataForm"></app-validation-summary>
                     <!-- [disabled]="!dataForm.form.valid" -->

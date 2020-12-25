@@ -12,28 +12,59 @@
                 <form #dataForm="ngForm" (ngSubmit)="submitAction(dataForm)">
                     <input type="hidden" name="action" value="{{ actionForm }}">
                     <div class="form-group">
-
                         <input type="hidden" [(ngModel)]="record.id" class="form-control" name="ID">
+                        <input type="hidden" [(ngModel)]="record.id_categorias" class="form-control" name="Código">
                     </div>
                     <div class="row">
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-2">
                             <div class="form-group">
                                 <label for="clave">Clave</label>
                                 <input type="text" [(ngModel)]="record.clave" class="form-control" name="Clave">
                             </div>
                         </div>
-                        <div class="form-group col-sm-4">
+
+                        <div class="form-group col-sm-3">
                             <div class="form-group">
-                                <label for="descripcion">Descripción</label>
-                                <input type="text" [(ngModel)]="record.descripcion" class="form-control" name="Descripción">
+                                <label for="id_catquincena_inicio">Quincena inicio</label>
+                                <select class="form-control" [(ngModel)]="record.id_catquincena_inicio" name="Quincena inicio">
+                                  <option *ngFor="let col of catquincenaCat" [value]="col.id">{{ col.fechainicio.toString() + ' - ' + col.fechafin.toString() }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="id_catquincena_fin">Quincena final</label>
+                                <select class="form-control" [(ngModel)]="record.id_catquincena_fin" name="Quincena final">
+                                <option *ngFor="let col of catquincenaCat" [value]="col.id">{{ col.fechainicio.toString() + ' - ' + col.fechafin.toString() }}</option>
+                              </select>
                             </div>
                         </div>
                         <div class="form-group col-sm-4">
                             <div class="form-group">
-                                <label for="id_catestados">Entidad</label>
-                                <select class="form-control" [(ngModel)]="record.id_catestados" name="Entidad">
-                                <option *ngFor="let col of catestadosCat" [value]="col.id">{{ col.descripcion }}</option>
-                              </select>
+                                <label for="id_catzonaeconomica">Zona Económica</label>
+                                <select class="form-control" [(ngModel)]="record.id_catzonaeconomica" name="Zona Económica">
+                              <option *ngFor="let col of catzonaeconomicaCat" [value]="col.id">{{ col.descripcion }}</option>
+                            </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="totalplazaaut">Plazas autorizadas</label>
+                                <input type="text" [(ngModel)]="record.totalplazaaut" class="form-control" name="Plazas autorizadas">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="totalhorasaut">Horas autorizadas</label>
+                                <input type="text" [(ngModel)]="record.totalhorasaut" class="form-control" name="Horas autorizadas">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="importe">Importe</label>
+                                <input type="text" [(ngModel)]="record.importe" class="form-control" name="Importe">
                             </div>
                         </div>
                     </div>

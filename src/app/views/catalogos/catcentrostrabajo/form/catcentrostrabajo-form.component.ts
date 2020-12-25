@@ -1,9 +1,9 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { CatcentrostrabajoService } from '../services/catcentrostrabajo.service';
 import { CatplantelesService } from '../../catplanteles/services/catplanteles.service';
+import { CattipocentrotrabajoService } from '../../cattipocentrotrabajo/services/cattipocentrotrabajo.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Catcentrostrabajo } from '../../../../_models';
-import { Catplanteles } from '../../../../_models';
+import { Catcentrostrabajo, Cattipocentrotrabajo, Catplanteles } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../../src/environments/environment';
 
@@ -31,23 +31,28 @@ export class CatcentrostrabajoFormComponent implements OnInit, OnDestroy {
 
   record: Catcentrostrabajo;
   catplantelesCat:Catplanteles[];
+  cattipocentrotrabajoCat: Cattipocentrotrabajo[];
 
 
   constructor(private catcentrostrabajoService: CatcentrostrabajoService, private el: ElementRef,
       private catplantelesSvc: CatplantelesService,
+      private cattipocentrotrabajoSvc: CattipocentrotrabajoService
       ) {
       this.elementModal = el.nativeElement;
       this.catplantelesSvc.getCatalogo().subscribe(resp => {
         this.catplantelesCat = resp;
       });
+      this.cattipocentrotrabajoSvc.getCatalogo().subscribe(resp => {
+        this.cattipocentrotrabajoCat = resp;
+      });
   }
 
   newRecord(): Catcentrostrabajo {
     return {
-      id: 0,clave: 0,descripcion: '', zona: 0,  id_tipoct: 0,
+      id: 0,clave: 0,descripcion: '', zona: 0,  id_cattipoct: 0,
       state: '', id_catplanteles: 0, id_qnaini: 0, id_qnafin: 0,
       id_ctant: 0, titular: '', id_categoriaasoc: 0, ficticia: 0,
-      id_tipoctpp: 0, created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
+      id_cattipoctpp: 0, created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }
   ngOnInit(): void {
@@ -119,7 +124,6 @@ export class CatcentrostrabajoFormComponent implements OnInit, OnDestroy {
           valor: ''
         });
       }
-
   }
 
   // log contenido de objeto en formulario

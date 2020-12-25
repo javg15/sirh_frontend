@@ -36,7 +36,7 @@ export class CategoriasAdminComponent implements OnInit {
 
   private dtOptionsAdicional = { datosBusqueda: {campo: 0, operador: 0, valor: ''},raw:0};
 
-  nombreModulo = 'Categorias';
+  nombreModulo = 'Catcategorias';
 
   headersAdmin: any;
 
@@ -103,7 +103,8 @@ export class CategoriasAdminComponent implements OnInit {
           );
         },
         columns: this.headersAdmin,
-        columnDefs:[{"width": "5%", "targets": 0}]
+        columnDefs:[{"visible": false, "targets": 0}, //state
+                {"width": "5%", "targets": 1}]
       };
 
   }

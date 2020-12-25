@@ -12,8 +12,8 @@
                 <form #dataForm="ngForm" (ngSubmit)="submitAction(dataForm)">
                     <input type="hidden" name="action" value="{{ actionForm }}">
                     <div class="form-group">
-                        <label for="id">ID</label>
-                        <input type="text" [(ngModel)]="record.id" class="form-control" name="ID">
+
+                        <input type="hidden" [(ngModel)]="record.id" class="form-control" name="ID">
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-4">
@@ -31,7 +31,12 @@
                         <div class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="tipoplantel">Tipo de plantel</label>
-                                <input type="text" [(ngModel)]="record.tipoplantel" class="form-control" name="Tipo de plantel">
+                                <select class="form-control" [(ngModel)]="record.tipoplantel" name="Tipo de plantel">
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="EMSAD">EMSAD</option>
+                                  </select>
                             </div>
                         </div>
                     </div>
@@ -54,19 +59,12 @@
                         </div>
                         <div class="form-group col-sm-4">
                             <div class="form-group">
-                                <label for="id_qnaini">Quincena inicial</label>
-                                <input type="text" [(ngModel)]="record.id_qnaini" class="form-control" name="Quincena inicio">
+                                <label for="aniocreacion">Año de creación</label>
+                                <input type="text" [(ngModel)]="record.aniocreacion" class="form-control" name="Año de creación">
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="id_qnafin">Quincena final</label>
-                                <input type="text" [(ngModel)]="record.id_qnafin" class="form-control" name="Quincena final">
-                            </div>
-                        </div>
-
                         <div class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="clavectse">Clave CTSE</label>
@@ -105,6 +103,43 @@
                                 </select>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="telefono">Teléfono</label>
+                                <input type="text" [(ngModel)]="record.telefono" class="form-control" name="Teléfono">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="email">Correo electrónico</label>
+                                <input type="text" [(ngModel)]="record.email" class="form-control" name="Correo electrónico">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <div class="form-group">
+                                <label for="domicilio">Domicilio</label>
+                                <input type="text" [(ngModel)]="record.domicilio" class="form-control" name="Domicilio">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="latitud">Latitud</label>
+                                <input type="text" [(ngModel)]="record.latitud" class="form-control" name="Latitud">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="longitud">Longitud</label>
+                                <input type="text" [(ngModel)]="record.longitud" class="form-control" name="Longitud">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        &nbsp;
                     </div>
                     <app-validation-summary [form]="dataForm"></app-validation-summary>
                     <!-- [disabled]="!dataForm.form.valid" -->

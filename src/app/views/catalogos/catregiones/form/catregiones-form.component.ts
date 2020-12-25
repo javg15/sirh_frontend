@@ -38,7 +38,7 @@ export class CatregionesFormComponent implements OnInit, OnDestroy {
 
   newRecord(): Catregiones {
     return {
-      id: 0,  descripcion: '', state: '', created_at: new Date(),  updated_at: new Date(),
+      id: 0,  descripcion: '', clave:'', state: '', created_at: new Date(),  updated_at: new Date(),
       id_usuarios_r: 0,
     };
   }

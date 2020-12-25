@@ -1,5 +1,5 @@
 export const environment = {
-  APIS_URL:"https://app.visorplus.mx/sirh_backend/api",
+  APIS_URL:"http://localhost:8080/api",
   production: true
 };
 

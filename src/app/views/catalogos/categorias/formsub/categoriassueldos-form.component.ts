@@ -1,26 +1,40 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter  } from '@angular/core';
-import { CatestatusplazaService } from '../services/catestatusplaza.service';
-import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Catestatusplaza } from '../../../../_models';
-import { CattiponominaService } from '../../cattiponomina/services/cattiponomina.service';
-import { Cattiponomina } from '../../../../_models';
-import { ValidationSummaryComponent } from '../../../_shared/validation-summary.component';
-import { actionsButtonSave, titulosModal } from '../../../../../../src/environments/environment';
+import { DataTablesResponse } from '../../../../classes/data-tables-response';
+import { DataTableDirective } from 'angular-datatables';
+import { Subject } from 'rxjs';
 
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import { Categoriassueldos, Catzonaeconomica, Catquincena } from '../../../../_models';
+import { CatquincenaService } from '../../catquincena/services/catquincena.service';
+import { CatzonaeconomicaService } from '../../catzonaeconomica/services/catzonaeconomica.service';
+
+import { ValidationSummaryComponent } from '../../../_shared/validation-summary.component';
+import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
+
+import { CategoriassueldosService } from '../services/categoriassueldos.service';
 
 declare var $: any;
 declare var jQuery: any;
 
 @Component({
-  selector: 'app-catestatusplaza-form',
-  templateUrl: './catestatusplaza-form.component.html',
-  styleUrls: ['./catestatusplaza-form.component.css']
+  selector: 'app-categoriassueldos-form',
+  templateUrl: './categoriassueldos-form.component.html',
+  styleUrls: ['./categoriassueldos-form.component.css']
 })
 
-export class CatestatusplazaFormComponent implements OnInit, OnDestroy {
+export class CategoriassueldosFormComponent implements OnInit, OnDestroy {
   @Input() id: string;
   @Input() botonAccion: string;
   @Output() redrawEvent = new EventEmitter<any>();
+
+  /* El decorador @ViewChild recibe la clase DataTableDirective, para luego poder
+  crear el dtElement que represente la tabla que estamos creando. */
+  @ViewChild(DataTableDirective)
+  dtElement: DataTableDirective;
+  dtInstance: Promise<DataTables.Api>;
+  dtTrigger: Subject<DataTableDirective> = new Subject();
+
+
   actionForm: string;
   tituloForm: string;
 
@@ -29,29 +43,35 @@ export class CatestatusplazaFormComponent implements OnInit, OnDestroy {
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
 
-  record: Catestatusplaza;
-  cattipoocupacionCat:Cattiponomina[];
-  cattipoCat:any[];
+  record: Categoriassueldos;
+  catquincenaCat:Catquincena[];
+  catzonaeconomicaCat:Catzonaeconomica[];
 
-  constructor(private catestatusplazaService: CatestatusplazaService, private el: ElementRef,
-    private cattiponominaSvc: CattiponominaService,
+  constructor(
+    private el: ElementRef,
+    private catzonaeconomicaSvc: CatzonaeconomicaService,
+    private catquincenaSvc: CatquincenaService,
+    private categoriassueldosService: CategoriassueldosService
       ) {
       this.elementModal = el.nativeElement;
-      this.cattiponominaSvc.getCatalogo().subscribe(resp => {
-        this.cattipoocupacionCat = resp;
+      this.catzonaeconomicaSvc.getCatalogo().subscribe(resp => {
+        this.catzonaeconomicaCat = resp;
       });
-      this.cattipoCat=[{id:'',descripcion:''},{id:'AD',descripcion:'ADMINISTRATIVO'},{id:'DO',descripcion:'DOCENTE'},{id:'DI',descripcion:'DIRECTIVO'}];
+      this.catquincenaSvc.getCatalogo().subscribe(resp => {
+        this.catquincenaCat = resp;
+      });
   }
 
-  newRecord(): Catestatusplaza {
+  newRecord(idParent:number): Categoriassueldos {
     return {
-      id: 0,  descripcion: '', clave:'', id_estatussig:'',strid_nombramiento:'', tipoocupplaza:'',
+      id: 0,  clave: '', id_categorias:idParent, id_catquincena_inicio:0, id_catquincena_fin:0,
+      totalplazaaut:0, totalhorasaut:0, id_catzonaeconomica:0, importe:0,
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }
   ngOnInit(): void {
 
-      this.record =this.newRecord();
+      this.record =this.newRecord(0);
 
       let modal = this;
 
@@ -61,12 +81,12 @@ export class CatestatusplazaFormComponent implements OnInit, OnDestroy {
           return;
       }
       // add self (this modal instance) to the modal service so it's accessible from controllers
-      modal.catestatusplazaService.add(modal);
+      modal.categoriassueldosService.add(modal);
   }
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-      this.catestatusplazaService.remove(this.id);
+      this.categoriassueldosService.remove(this.id);
       this.elementModal.remove();
   }
 
@@ -76,7 +96,7 @@ export class CatestatusplazaFormComponent implements OnInit, OnDestroy {
     if(this.actionForm.toUpperCase()!=="VER"){
       this.validSummary.resetErrorMessages(form);
 
-      this.catestatusplazaService.setRecord(this.record,this.actionForm).subscribe(resp => {
+      this.categoriassueldosService.setRecord(this.record,this.actionForm).subscribe(resp => {
         if (resp.hasOwnProperty('error')) {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
         }
@@ -90,15 +110,15 @@ export class CatestatusplazaFormComponent implements OnInit, OnDestroy {
   }
 
   // open modal
-  open(idItem: string, accion: string):  void {
+  open(idItem: string, accion: string,idParent:number):  void {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
     this.tituloForm=titulosModal[accion] + " registro";
 
     if(idItem=="0"){
-      this.record =this.newRecord();
+      this.record =this.newRecord(idParent);
     } else {
-    this.catestatusplazaService.getRecord(idItem).subscribe(resp => {
+    this.categoriassueldosService.getRecord(idItem).subscribe(resp => {
       this.record = resp;
     });
   }
@@ -121,4 +141,7 @@ export class CatestatusplazaFormComponent implements OnInit, OnDestroy {
 
   // log contenido de objeto en formulario
   get diagnosticValidate() { return JSON.stringify(this.record); }
+
+
+
 }

@@ -68,9 +68,9 @@ export class CatplantelesFormComponent implements OnInit, OnDestroy {
   newRecord(): Catplanteles {
     return {
       id: 0,  id_catcentrostrabajo: 0, clave: 0, descripcion: '', ubicacion: '', id_catzonaeconomica: 0,
-      id_catzonageografica: 0, adscrip: '', id_qnaini: 0, id_qnafin: 0, id_catzonaeconomica2: 0,
+      id_catzonageografica: 0, adscrip: '', aniocreacion: 0, id_catzonaeconomica2: 0,
       id_catregion: 0, id_catplantelesasociado: 0, tipoplantel: '', clavectse: '', id_turno: 0,
-      bachenarte: 0, participaenprogramauna: 0, comentarios: '', fechaultmod: '', permiteplazasrp: 0,
+      telefono: '', email: '', domicilio: '', latitud: '', longitud: '',
       emsad: 0, state: '', id_catlocalidades: 0, id_catmunicipios: 0, created_at: new Date(),  updated_at: new Date(),
       id_usuarios_r: 0,
     };
