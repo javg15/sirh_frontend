@@ -28,13 +28,13 @@ export default interface Plazas {
 
   idPuesto: number | null;
 
-  idUsuariosR: number;
+  id_usuarios_r: number;
 
   state: string;
 
-  createdAt: Date | null;
+  created_at: Date | null;
 
-  updatedAt: Date | null;
+  updated_at: Date | null;
 }
 
 export interface PlazasInitializer {
@@ -67,12 +67,12 @@ export interface PlazasInitializer {
   idPuesto?: number;
 
   /** Default value: 0 */
-  idUsuariosR?: number;
+  id_usuarios_r?: number;
 
   /** Default value: 'A'::bpchar */
   state?: string;
 
-  createdAt?: Date;
+  created_at?: Date;
 
-  updatedAt?: Date;
+  updated_at?: Date;
 }

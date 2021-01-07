@@ -14,6 +14,7 @@ import Catquincena, { CatquincenaInitializer, CatquincenaId } from './catquincen
 import Catregiones, { CatregionesInitializer } from './catregiones';
 import Cattipocategoria, { CattipocategoriaInitializer } from './cattipocategoria';
 import Cattipocentrotrabajo, { CattipocentrotrabajoInitializer } from './cattipocentrotrabajo';
+import Catturnos, { CatturnosInitializer } from './catturnos';
 import Cattiponomina, { CattiponominaInitializer } from './cattiponomina';
 import Catzonaeconomica, { CatzonaeconomicaInitializer, CatzonaeconomicaId } from './catzonaeconomica';
 import Catzonageografica, { CatzonageograficaInitializer } from './catzonageografica';
@@ -48,6 +49,7 @@ type Model =
   | Catregiones
   | Cattipocategoria
   | Cattipocentrotrabajo
+  | Catturnos
   | Cattiponomina
   | Catzonaeconomica
   | Catzonageografica
@@ -82,6 +84,7 @@ interface ModelTypeMap {
   'catregiones': Catregiones;
   'cattipocategoria': Cattipocategoria;
   'cattipocentrotrabajo': Cattipocentrotrabajo;
+  'catturnos': Catturnos;
   'cattiponomina': Cattiponomina;
   'catzonaeconomica': Catzonaeconomica;
   'catzonageografica': Catzonageografica;
@@ -168,6 +171,7 @@ type Initializer =
   | CatregionesInitializer
   | CattipocategoriaInitializer
   | CattipocentrotrabajoInitializer
+  | CatturnosInitializer
   | CattiponominaInitializer
   | CatzonaeconomicaInitializer
   | CatzonageograficaInitializer
@@ -202,6 +206,7 @@ interface InitializerTypeMap {
   'catregiones': CatregionesInitializer;
   'cattipocategoria': CattipocategoriaInitializer;
   'cattipocentrotrabajo': CattipocentrotrabajoInitializer;
+  'catturnos': CatturnosInitializer;
   'cattiponomina': CattiponominaInitializer;
   'catzonaeconomica': CatzonaeconomicaInitializer;
   'catzonageografica': CatzonageograficaInitializer;
@@ -237,6 +242,7 @@ export {
   Catregiones, CatregionesInitializer,
   Cattipocategoria, CattipocategoriaInitializer,
   Cattipocentrotrabajo, CattipocentrotrabajoInitializer,
+  Catturnos, CatturnosInitializer,
   Cattiponomina, CattiponominaInitializer,
   Catzonaeconomica, CatzonaeconomicaInitializer, CatzonaeconomicaId,
   Catzonageografica, CatzonageograficaInitializer,

@@ -1,11 +1,11 @@
 // Automatically generated. Don't change this file manually.
 
-export default interface Cattipocentrotrabajo {
+export default interface Catturnos {
   id: number | null;
 
   descripcion: string | null;
 
-  habilitado: number | null;
+  clave: string | null;
 
   state: string | null;
 
@@ -16,12 +16,12 @@ export default interface Cattipocentrotrabajo {
   id_usuarios_r: number | null;
 }
 
-export interface CattipocentrotrabajoInitializer {
+export interface CatturnosInitializer {
   id?: number;
 
   descripcion?: string;
 
-  habilitado?: number;
+  clave?: string;
 
   state?: string;
 
