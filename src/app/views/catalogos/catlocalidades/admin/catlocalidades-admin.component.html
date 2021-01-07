@@ -19,11 +19,11 @@
                                                 <button *ngIf="boton=='ver'" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','ver',member.id)">
                                                   <i class="fa fa-search"></i>
                                               </button>
-                                                <button *ngIf="boton=='editar'" class="btn btn-brand btn-sm mr-1 btn-html5" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','editar',member.id)">
+                                                <button *ngIf="boton=='editar'" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','editar',member.id)">
                                                   <i class="fa fa-edit"></i>
                                               </button>
-                                                <button *ngIf="boton=='cancelar'" class="btn btn-brand btn-sm mr-1" style="margin-bottom: 4px" type="button">
-                                                  <i class="fa fa-cancel"></i>
+                                                <button *ngIf="boton=='eliminar'" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','eliminar',member.id)">
+                                                  <i class="fa fa-trash"></i>
                                               </button>
                                                 <button *ngIf="boton=='personal'" class="btn btn-brand btn-sm mr-1 " style="margin-bottom: 4px" type="button">
                                                   <i class="fa fa-caret-right"></i>

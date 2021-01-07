@@ -1,10 +1,12 @@
+
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { DataTablesResponse } from '../../../../classes/data-tables-response';
 
 import { environment } from '../../../../../../src/environments/environment';
+
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -58,6 +60,16 @@ export class CategoriasService {
     return this.http.post(this.API_URL + '/categorias/setRecord',
       { dataPack,actionForm }
       , httpOptions);
+  }
+
+  public getReporte(url,id_ze){
+    let params = new HttpParams().set("id_ze", id_ze);
+
+    this.http.get(this.API_URL + url, {responseType: 'arraybuffer',params: params}).subscribe( data => {
+      var file = new Blob([data], {type: 'application/pdf'});
+      var fileURL = window.URL.createObjectURL(file);
+      window.open(fileURL);
+  });
   }
 
 // array de modales

@@ -143,7 +143,8 @@ const routes: Routes = [
       {
         path: 'catalogos/catestatusplaza',
         loadChildren: () => import('./views/catalogos/catestatusplaza/catestatusplaza.module').then(m => m.CatestatusplazaModule)
-      }
+      },
+      //reportes
     ]
   },
   { path: '**', component: P404Component }

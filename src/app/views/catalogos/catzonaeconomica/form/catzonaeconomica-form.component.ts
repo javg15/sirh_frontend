@@ -103,7 +103,7 @@ export class CatzonaeconomicaFormComponent implements OnInit, OnDestroy {
   // close modal
   close(): void {
       this.basicModal.hide();
-      if(this.actionForm.toUpperCase()=="NUEVO"){
+      if(this.actionForm.toUpperCase()!="EDITAR"){
         this.redrawEvent.emit({
           campo: 0,
           operador: 0,

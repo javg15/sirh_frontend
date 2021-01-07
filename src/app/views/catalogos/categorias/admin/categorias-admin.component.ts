@@ -6,6 +6,9 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 
 import { CategoriasService } from '../services/categorias.service';
+import { Catzonaeconomica } from '../../../../_models';
+import { CatzonaeconomicaService } from '../../catzonaeconomica/services/catzonaeconomica.service';
+
 
 import { environment } from '../../../../../../src/environments/environment';
 
@@ -37,17 +40,22 @@ export class CategoriasAdminComponent implements OnInit {
   private dtOptionsAdicional = { datosBusqueda: {campo: 0, operador: 0, valor: ''},raw:0};
 
   nombreModulo = 'Catcategorias';
-
+  tituloBotonReporte='Reporte';
   headersAdmin: any;
+
+  catzonaeconomicaCat:Catzonaeconomica[];
 
   /* En el constructor creamos el objeto categoriasService,
   de la clase HttpConnectService, que contiene el servicio mencionado,
   y estará disponible en toda la clase de este componente.
   El objeto es private, porque no se usará fuera de este componente. */
   constructor(
-    private categoriasService: CategoriasService,private route: ActivatedRoute
+    private categoriasService: CategoriasService,private route: ActivatedRoute,
+    private catzonaeconomicaSvc: CatzonaeconomicaService,
   ) {
-
+    this.catzonaeconomicaSvc.getCatalogo().subscribe(resp => {
+      this.catzonaeconomicaCat = resp;
+    });
   }
 
   ngOnInit(): void {
@@ -114,6 +122,14 @@ export class CategoriasAdminComponent implements OnInit {
 
   closeModal(id: string) {
     this.categoriasService.close(id);
+  }
+
+  openModalHtml(){
+
+  }
+
+  MostrarReporte(param_id_catzonaeconomica){
+    this.categoriasService.getReporte('/reportes/categorias',$(param_id_catzonaeconomica).val());
   }
 
 

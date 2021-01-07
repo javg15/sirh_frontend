@@ -14,6 +14,7 @@ export const actionsButtonSave = {
   nuevo: "Guardar",
   editar: "Guardar",
   cancelar: "Cancelar",
+  eliminar: "Eliminar",
 };
 
 export const titulosModal = {
@@ -21,6 +22,7 @@ export const titulosModal = {
   nuevo: "Nuevo",
   editar: "Editar",
   cancelar: "Cancelar",
+  eliminar: "Eliminar",
 };
 
 

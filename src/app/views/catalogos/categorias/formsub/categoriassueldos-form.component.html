@@ -26,6 +26,7 @@
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="id_catquincena_inicio">Quincena inicio</label>
+                                <!--<input type="date" [(ngModel)]="record.fecha_inicio" class="form-control" name="Fecha inicio">-->
                                 <select class="form-control" [(ngModel)]="record.id_catquincena_inicio" name="Quincena inicio">
                                   <option *ngFor="let col of catquincenaCat" [value]="col.id">{{ col.fechainicio.toString() + ' - ' + col.fechafin.toString() }}</option>
                                 </select>
@@ -49,22 +50,31 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="verpor">Editar...</label>
+                                <select class="form-control" id="cmdEditarHorPla" (change)="changeCmdEditarHorPla($event)">
+                                  <option value="1">Plazas autorizadas</option>
+                                  <option value="2">Horas autorizadas</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div *ngIf="varEditarHorPla=='1'" class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="totalplazaaut">Plazas autorizadas</label>
                                 <input type="text" [(ngModel)]="record.totalplazaaut" class="form-control" name="Plazas autorizadas">
                             </div>
                         </div>
-                        <div class="form-group col-sm-4">
+                        <div *ngIf="varEditarHorPla=='2'" class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="totalhorasaut">Horas autorizadas</label>
                                 <input type="text" [(ngModel)]="record.totalhorasaut" class="form-control" name="Horas autorizadas">
                             </div>
                         </div>
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-3">
                             <div class="form-group">
-                                <label for="importe">Importe</label>
-                                <input type="text" [(ngModel)]="record.importe" class="form-control" name="Importe">
+                                <label for="importe">Sueldo base mensual</label>
+                                <input type="text" [(ngModel)]="record.importe" class="form-control" name="Sueldo base mensual">
                             </div>
                         </div>
                     </div>

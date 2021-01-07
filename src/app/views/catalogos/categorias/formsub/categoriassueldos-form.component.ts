@@ -25,6 +25,7 @@ declare var jQuery: any;
 export class CategoriassueldosFormComponent implements OnInit, OnDestroy {
   @Input() id: string;
   @Input() botonAccion: string;
+  @Input() varEditarHorPla: string = "1";
   @Output() redrawEvent = new EventEmitter<any>();
 
   /* El decorador @ViewChild recibe la clase DataTableDirective, para luego poder
@@ -109,6 +110,18 @@ export class CategoriassueldosFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  changeCmdEditarHorPla(e){
+    this.varEditarHorPla=e.target.value;
+    this.HideShowEditarHorPla();
+
+  }
+
+  HideShowEditarHorPla(){
+    if(this.varEditarHorPla=="1")
+      this.record.totalhorasaut=0;
+    else
+      this.record.totalplazaaut=0;
+  }
   // open modal
   open(idItem: string, accion: string,idParent:number):  void {
     this.actionForm=accion;
@@ -120,6 +133,8 @@ export class CategoriassueldosFormComponent implements OnInit, OnDestroy {
     } else {
     this.categoriassueldosService.getRecord(idItem).subscribe(resp => {
       this.record = resp;
+      this.varEditarHorPla=this.record.totalhorasaut==0 ? "1" : "2";
+      this.HideShowEditarHorPla();
     });
   }
 
@@ -130,7 +145,7 @@ export class CategoriassueldosFormComponent implements OnInit, OnDestroy {
   // close modal
   close(): void {
       this.basicModal.hide();
-      if(this.actionForm.toUpperCase()=="NUEVO"){
+      if(this.actionForm.toUpperCase()!="EDITAR"){
         this.redrawEvent.emit({
           campo: 0,
           operador: 0,
