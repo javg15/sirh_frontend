@@ -30,7 +30,7 @@ export default interface Catplanteles {
 
   clavectse: string | null;
 
-  id_turno: number | null;
+  id_catturnos: number | null;
 
   telefono: string | null;
 
@@ -86,7 +86,7 @@ export interface CatplantelesInitializer {
 
   clavectse?: string;
 
-  id_turno?: number;
+  id_catturnos?: number;
 
   telefono?: string;
 

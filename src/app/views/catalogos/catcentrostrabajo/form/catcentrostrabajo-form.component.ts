@@ -76,7 +76,20 @@ export class CatcentrostrabajoFormComponent implements OnInit, OnDestroy {
       this.elementModal.remove();
   }
 
+  onSelectPlantel(select_plantel) {
+    let id=$(select_plantel).attr("id");
+    let clave=$("#selectPlantel option:selected").text().split("-")[0];
+    if(parseInt(clave)>=1 && parseInt(clave)<=71){
 
+    }
+    /*this.record.id_catregion=id_region;
+    this.record.id_catmunicipios=0;
+    this.catlocalidadesCat=[];
+    //console.log(this.catmunicipiosCat);
+    this.catmunicipiosSvc.getCatalogo(id_region).subscribe(resp => {
+      this.catmunicipiosCat = resp;
+    });*/
+  }
 
   submitAction(form) {
 
@@ -117,7 +130,7 @@ export class CatcentrostrabajoFormComponent implements OnInit, OnDestroy {
   // close modal
   close(): void {
       this.basicModal.hide();
-      if(this.actionForm.toUpperCase()!="EDITAR"){
+      if(this.actionForm.toUpperCase()!="VER"){
         this.redrawEvent.emit({
           campo: 0,
           operador: 0,

@@ -5,6 +5,7 @@ import { CatzonageograficaService } from '../../catzonageografica/services/catzo
 import { CatregionesService } from '../../catregiones/services/catregiones.service';
 import { CatmunicipiosService } from '../../catmunicipios/services/catmunicipios.service';
 import { CatlocalidadesService } from '../../catlocalidades/services/catlocalidades.service';
+import { CatturnosService } from '../../catturnos/services/catturnos.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Catplanteles } from '../../../../_models';
 import { Catzonaeconomica } from '../../../../_models';
@@ -44,6 +45,7 @@ export class CatplantelesFormComponent implements OnInit, OnDestroy {
   catregionesCat:Catregiones[];
   catmunicipiosCat:Catmunicipios[];
   catlocalidadesCat:Catlocalidades[];
+  catturnosCat:Catturnos[];
 
 
   constructor(private catplantelesService: CatplantelesService, private el: ElementRef,
@@ -51,7 +53,8 @@ export class CatplantelesFormComponent implements OnInit, OnDestroy {
       private catzonageograficaSvc: CatzonageograficaService,
       private catregionesSvc: CatregionesService,
       private catmunicipiosSvc: CatmunicipiosService,
-    private catlocalidadesSvc: CatlocalidadesService
+      private catlocalidadesSvc: CatlocalidadesService,
+      private catturnosSvc: CatturnosService,
       ) {
       this.elementModal = el.nativeElement;
       this.catzonaeconomicaSvc.getCatalogo().subscribe(resp => {
@@ -63,14 +66,16 @@ export class CatplantelesFormComponent implements OnInit, OnDestroy {
       this.catregionesSvc.getCatalogo().subscribe(resp => {
         this.catregionesCat = resp;
       });
-
+      this.catturnosSvc.getCatalogo().subscribe(resp => {
+        this.catturnosCat = resp;
+      });
   }
 
   newRecord(): Catplanteles {
     return {
       id: 0,  id_catcentrostrabajo: 0, clave: 0, descripcion: '', ubicacion: '', id_catzonaeconomica: 0,
       id_catzonageografica: 0, adscrip: '', aniocreacion: 0, id_catzonaeconomica2: 0,
-      id_catregion: 0, id_catplantelesasociado: 0, tipoplantel: '', clavectse: '', id_turno: 0,
+      id_catregion: 0, id_catplantelesasociado: 0, tipoplantel: '', clavectse: '', id_catturnos: 0,
       telefono: '', email: '', domicilio: '', latitud: '', longitud: '',
       emsad: 0, state: '', id_catlocalidades: 0, id_catmunicipios: 0, created_at: new Date(),  updated_at: new Date(),
       id_usuarios_r: 0,
@@ -163,7 +168,7 @@ export class CatplantelesFormComponent implements OnInit, OnDestroy {
   // close modal
   close(): void {
       this.basicModal.hide();
-      if(this.actionForm.toUpperCase()!="EDITAR"){
+      if(this.actionForm.toUpperCase()!="VER"){
         this.redrawEvent.emit({
           campo: 0,
           operador: 0,

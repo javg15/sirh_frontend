@@ -11,7 +11,7 @@ declare var jQuery: any;
 
 export class HeaderAdminComponent implements OnInit {
   @Input() nombreModulo: string;
-  @Input() tituloBotonReporte: string;
+  @Input() tituloBotonReporte: string="";
   @Output() agregarEvent = new EventEmitter<any>();
   @Output() reporteEvent = new EventEmitter<any>();
 

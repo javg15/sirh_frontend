@@ -14,7 +14,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class CattipocentrotrabajoService {
+export class CatturnosService {
   public API_URL = environment.APIS_URL;
   private modals: any[] = [];
 

@@ -24,6 +24,16 @@
                         </div>
                         <div class="form-group col-sm-4">
                             <div class="form-group">
+                                <label for="id_catplanteles">Plantel</label>
+                                <select id="selectPlantel" class="form-control" [(ngModel)]="record.id_catplanteles" name="Plantel" (change)="onSelectPlantel($event.target)">
+                                  <option *ngFor="let col of catplantelesCat" [value]="col.id">{{ col.clave + " - " + (col.descripcion!=null?col.descripcion:".") + " - " + col.ubicacion }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
                                 <label for="descripcion">Nombre</label>
                                 <input type="text" [(ngModel)]="record.descripcion" class="form-control" name="Nombre">
                             </div>
@@ -32,18 +42,8 @@
                             <div class="form-group">
                                 <label for="id_cattipoct">Tipo</label>
                                 <select class="form-control" [(ngModel)]="record.id_cattipoct" name="Tipo">
-                                  <option *ngFor="let col of cattipocentrotrabajoCat" [value]="col.id">{{ col.descripcion }}</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="id_catplanteles">Plantel</label>
-                                <select class="form-control" [(ngModel)]="record.id_catplanteles" name="Plantel">
-                                <option *ngFor="let col of catplantelesCat" [value]="col.id">{{ col.ubicacion }}</option>
-                              </select>
+                              <option *ngFor="let col of cattipocentrotrabajoCat" [value]="col.id">{{ col.descripcion }}</option>
+                            </select>
                             </div>
                         </div>
                         <!--<div class="form-group col-sm-4">

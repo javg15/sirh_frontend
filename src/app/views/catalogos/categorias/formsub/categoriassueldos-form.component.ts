@@ -65,7 +65,7 @@ export class CategoriassueldosFormComponent implements OnInit, OnDestroy {
 
   newRecord(idParent:number): Categoriassueldos {
     return {
-      id: 0,  clave: '', id_categorias:idParent, id_catquincena_inicio:0, id_catquincena_fin:0,
+      id: 0,  clave: '', id_categorias:idParent, fecha_inicio:new Date(), fecha_fin:new Date(),
       totalplazaaut:0, totalhorasaut:0, id_catzonaeconomica:0, importe:0,
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
@@ -145,7 +145,7 @@ export class CategoriassueldosFormComponent implements OnInit, OnDestroy {
   // close modal
   close(): void {
       this.basicModal.hide();
-      if(this.actionForm.toUpperCase()!="EDITAR"){
+      if(this.actionForm.toUpperCase()!="VER"){
         this.redrawEvent.emit({
           campo: 0,
           operador: 0,

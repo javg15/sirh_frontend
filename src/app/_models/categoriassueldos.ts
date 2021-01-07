@@ -12,9 +12,9 @@ export default interface Categoriassueldos {
 
   importe: number | null;
 
-  id_catquincena_inicio: number | null;
+  fecha_inicio: Date | null;
 
-  id_catquincena_fin: number | null;
+  fecha_fin: Date | null;
 
   totalplazaaut: number | null;
 
@@ -44,9 +44,9 @@ export interface CategoriassueldosInitializer {
 
   importe?: number;
 
-  id_catquincena_inicio?: number;
+  fecha_inicio?: Date;
 
-  id_catquincena_fin?: number;
+  fecha_fin?: Date;
 
   totalplazaaut?: number;
 
