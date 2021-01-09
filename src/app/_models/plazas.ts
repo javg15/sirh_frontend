@@ -1,40 +1,40 @@
 // Automatically generated. Don't change this file manually.
 
-export type PlazasId = number & { __flavor?: 'plazas' };
-
 export default interface Plazas {
   /** Primary key. Index: plazas_pkey */
-  id: PlazasId;
+  id: number | null;
 
-  idCategoria: number | null;
+  id_categorias: number | null;
 
   consecutivo: number | null;
 
-  idCatplanteles: number | null;
+  id_catplanteles: number | null;
 
-  idCatcentrostrabajo: number | null;
+  id_catcentrostrabajo: number | null;
 
-  idCatzonaeconomica: number | null;
+  id_catzonaeconomica: number | null;
 
-  idCatzonageografica: number | null;
+  id_catzonageografica: number | null;
 
-  idQnainicio: number | null;
+  fecha_creacion: Date | null;
 
-  idQnafin: number | null;
+  fecha_fin: Date | null;
 
-  idStatus: number | null;
+  id_catestatusplaza: number | null;
 
-  idEstatussicodes: number | null;
+  statussicodes: number | null;
 
-  idPuesto: number | null;
+  id_puesto: number | null;
 
-  id_usuarios_r: number;
+  id_sindicato: number | null;
 
-  state: string;
+  state: string | null;
 
   created_at: Date | null;
 
   updated_at: Date | null;
+
+  id_usuarios_r: number | null;
 }
 
 export interface PlazasInitializer {
@@ -42,37 +42,37 @@ export interface PlazasInitializer {
    * Default value: nextval('plazas_id_seq'::regclass)
    * Primary key. Index: plazas_pkey
    */
-  id?: PlazasId;
+  id?: number;
 
-  idCategoria?: number;
+  id_categorias?: number;
 
   consecutivo?: number;
 
-  idCatplanteles?: number;
+  id_catplanteles?: number;
 
-  idCatcentrostrabajo?: number;
+  id_catcentrostrabajo?: number;
 
-  idCatzonaeconomica?: number;
+  id_catzonaeconomica?: number;
 
-  idCatzonageografica?: number;
+  id_catzonageografica?: number;
 
-  idQnainicio?: number;
+  fecha_creacion?: Date;
 
-  idQnafin?: number;
+  fecha_fin?: Date;
 
-  idStatus?: number;
+  id_catestatusplaza?: number;
 
-  idEstatussicodes?: number;
+  statussicodes?: number;
 
-  idPuesto?: number;
+  id_puesto?: number;
 
-  /** Default value: 0 */
-  id_usuarios_r?: number;
+  id_sindicato?: number;
 
-  /** Default value: 'A'::bpchar */
   state?: string;
 
   created_at?: Date;
 
   updated_at?: Date;
+
+  id_usuarios_r?: number;
 }

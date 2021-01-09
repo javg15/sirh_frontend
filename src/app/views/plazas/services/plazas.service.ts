@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { DataTablesResponse } from '../../../../classes/data-tables-response';
+import { DataTablesResponse } from '../../../classes/data-tables-response';
 
-import { environment } from '../../../../../../src/environments/environment';
+import { environment } from '../../../../../src/environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -14,7 +14,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class CattipocentrotrabajoService {
+export class PlazasService {
   public API_URL = environment.APIS_URL;
   private modals: any[] = [];
 
@@ -29,35 +29,21 @@ export class CattipocentrotrabajoService {
       setTimeout(()=>{
         this.http.post<DataTablesResponse>(
           // this.API_URL + '/a6b_apis/read_records_dt.php',
-          this.API_URL + '/cattipocentrotrabajo/getAdmin',
+          this.API_URL + '/plazas/getAdmin',
           {solocabeceras:1,opcionesAdicionales:{raw:0}}, {}
         ).subscribe(resp => {
+            //if(resp.data.length>0)
               o.next(JSON.parse(resp.data[0].cabeceras));
+            /*else{
+              o.next(JSON.parse('[{"data":"id","name":"a_id","title":"ID"},{"data":"categoria","name":"ctc_denominacion","title":"Categoria"},{"data":"plantel","name":"Plantel","title":"Plantel"},{"data":"centro_trabajo","name":"ctt_descripcion","title":"Centro Trabajo"},{"data":"zona_eco","name":"ze_descripcion","title":"Zona Eco"},{"data":"zona_geo","name":"zg_descripcion","title":"Zona Geo"},{"data":"acciones","name":"Accionesbotones>","title":"Acciones","render":"botones"}]'))
+            }*/
           })
       }, 200)
     })
   }
-  /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
-  public getCatalogo(): Observable<any> {
-    return this.http.post(this.API_URL + '/cattipocentrotrabajo/getCatalogo',
-      { }
-      , httpOptions);
-  }
-
-  public getCatalogoAdministrativo(): Observable<any> {
-    return this.http.post(this.API_URL + '/cattipocentrotrabajo/getCatalogoAdministrativo',
-      { }
-      , httpOptions);
-  }
-  public getCatalogoAdministrativoTipos(): Observable<any> {
-    return this.http.post(this.API_URL + '/cattipocentrotrabajo/getCatalogoAdministrativoTipos',
-      { }
-      , httpOptions);
-  }
-
   /* El siguiente método lee los datos de un registro seleccionado para edición. */
   public getRecord(id: any): Observable<any> {
-    return this.http.post(this.API_URL + '/cattipocentrotrabajo/getRecord',
+    return this.http.post(this.API_URL + '/plazas/getRecord',
       { id }
       , httpOptions);
   }
@@ -65,7 +51,7 @@ export class CattipocentrotrabajoService {
   /* El siguiente método graba un registro nuevo, o uno editado. */
   public setRecord(dataPack,actionForm): Observable<any> {
 
-    return this.http.post(this.API_URL + '/cattipocentrotrabajo/setRecord',
+    return this.http.post(this.API_URL + '/plazas/setRecord',
       { dataPack,actionForm }
       , httpOptions);
   }

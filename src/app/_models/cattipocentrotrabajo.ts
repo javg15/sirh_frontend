@@ -7,6 +7,8 @@ export default interface Cattipocentrotrabajo {
 
   habilitado: number | null;
 
+  id_plantelct: number | null;
+
   state: string | null;
 
   created_at: Date | null;
@@ -22,6 +24,8 @@ export interface CattipocentrotrabajoInitializer {
   descripcion?: string;
 
   habilitado?: number;
+
+  id_plantelct?: number;
 
   state?: string;
 

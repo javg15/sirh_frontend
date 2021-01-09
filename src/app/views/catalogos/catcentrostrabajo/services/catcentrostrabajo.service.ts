@@ -61,6 +61,21 @@ export class CatcentrostrabajoService {
     );
   }
 
+  /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
+  public getCatalogo(): Observable<any> {
+    return this.http.post(this.API_URL + '/catcentrostrabajo/getCatalogo',
+      { }
+      , httpOptions);
+  }
+
+  /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
+  public getCatalogoSegunPlantel(id_catplanteles): Observable<any> {
+    return this.http.post(this.API_URL + '/catcentrostrabajo/getCatalogoSegunPlantel',
+      { id_catplanteles }
+      , httpOptions);
+  }
+
+
 // array de modales
   public add(modal: any) {
         this.modals.push(modal);

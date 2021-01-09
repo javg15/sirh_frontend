@@ -42,9 +42,7 @@ export class CatcentrostrabajoFormComponent implements OnInit, OnDestroy {
       this.catplantelesSvc.getCatalogo().subscribe(resp => {
         this.catplantelesCat = resp;
       });
-      this.cattipocentrotrabajoSvc.getCatalogo().subscribe(resp => {
-        this.cattipocentrotrabajoCat = resp;
-      });
+
   }
 
   newRecord(): Catcentrostrabajo {
@@ -77,18 +75,27 @@ export class CatcentrostrabajoFormComponent implements OnInit, OnDestroy {
   }
 
   onSelectPlantel(select_plantel) {
-    let id=$(select_plantel).attr("id");
     let clave=$("#selectPlantel option:selected").text().split("-")[0];
+    this.record.id_catplanteles=select_plantel.value;
+    this.record.id_cattipoct=0;
+    this.cattipocentrotrabajoCat=[];
     if(parseInt(clave)>=1 && parseInt(clave)<=71){
-
+        this.cattipocentrotrabajoCat = [{id:7,descripcion:"Planteles",id_plantelct:0,id_usuarios_r:0
+          ,created_at:new Date(),updated_at:new Date(),state:"",habilitado:0}];
     }
-    /*this.record.id_catregion=id_region;
-    this.record.id_catmunicipios=0;
-    this.catlocalidadesCat=[];
-    //console.log(this.catmunicipiosCat);
-    this.catmunicipiosSvc.getCatalogo(id_region).subscribe(resp => {
-      this.catmunicipiosCat = resp;
-    });*/
+    else if(parseInt(clave)>=91 && parseInt(clave)<=98){
+      this.cattipocentrotrabajoCat = [{id:1,descripcion:"Coordinación de zonas",id_plantelct:0,id_usuarios_r:0
+          ,created_at:new Date(),updated_at:new Date(),state:"",habilitado:0}];
+    }
+    else if(parseInt(clave)==90){
+      this.cattipocentrotrabajoCat = [{id:8,descripcion:"Sindicato",id_plantelct:0,id_usuarios_r:0
+          ,created_at:new Date(),updated_at:new Date(),state:"",habilitado:0}];
+    }
+    else{
+      this.cattipocentrotrabajoSvc.getCatalogoAdministrativo().subscribe(resp => {
+        this.cattipocentrotrabajoCat = resp;
+      });
+    }
   }
 
   submitAction(form) {
@@ -118,9 +125,13 @@ export class CatcentrostrabajoFormComponent implements OnInit, OnDestroy {
     if(idItem=="0"){
       this.record =this.newRecord();
     } else {
-    this.catcentrostrabajoService.getRecord(idItem).subscribe(resp => {
-      this.record = resp;
-    });
+      this.cattipocentrotrabajoSvc.getCatalogoAdministrativoTipos().subscribe(resp => {
+        this.cattipocentrotrabajoCat = resp;
+        this.catcentrostrabajoService.getRecord(idItem).subscribe(resp => {
+          this.record = resp;
+        });
+      });
+
   }
 
     // console.log($('#modalTest').html()); poner el id a algun elemento para testear

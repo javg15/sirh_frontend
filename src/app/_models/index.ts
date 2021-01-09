@@ -27,7 +27,7 @@ import Modulos, { ModulosInitializer, ModulosId } from './modulos';
 import Permgrupos, { PermgruposInitializer, PermgruposId } from './permgrupos';
 import Permgruposmodulos, { PermgruposmodulosInitializer, PermgruposmodulosId } from './permgruposmodulos';
 import Permusuariosmodulos, { PermusuariosmodulosInitializer, PermusuariosmodulosId } from './permusuariosmodulos';
-import Plazas, { PlazasInitializer, PlazasId } from './plazas';
+import Plazas, { PlazasInitializer } from './plazas';
 import Presupuesto, { PresupuestoInitializer, PresupuestoId } from './presupuesto';
 import Rhnominas, { RhnominasInitializer, RhnominasId } from './rhnominas';
 import Searchcampos, { SearchcamposInitializer, SearchcamposId } from './searchcampos';
@@ -123,7 +123,6 @@ type ModelId =
   | PermgruposId
   | PermgruposmodulosId
   | PermusuariosmodulosId
-  | PlazasId
   | PresupuestoId
   | RhnominasId
   | SearchcamposId
@@ -148,7 +147,6 @@ interface ModelIdTypeMap {
   'permgrupos': PermgruposId;
   'permgruposmodulos': PermgruposmodulosId;
   'permusuariosmodulos': PermusuariosmodulosId;
-  'plazas': PlazasId;
   'presupuesto': PresupuestoId;
   'rhnominas': RhnominasId;
   'searchcampos': SearchcamposId;
@@ -255,7 +253,7 @@ export {
   Permgrupos, PermgruposInitializer, PermgruposId,
   Permgruposmodulos, PermgruposmodulosInitializer, PermgruposmodulosId,
   Permusuariosmodulos, PermusuariosmodulosInitializer, PermusuariosmodulosId,
-  Plazas, PlazasInitializer, PlazasId,
+  Plazas, PlazasInitializer,
   Presupuesto, PresupuestoInitializer, PresupuestoId,
   Rhnominas, RhnominasInitializer, RhnominasId,
   Searchcampos, SearchcamposInitializer, SearchcamposId,

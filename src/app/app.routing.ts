@@ -144,6 +144,10 @@ const routes: Routes = [
         path: 'catalogos/catestatusplaza',
         loadChildren: () => import('./views/catalogos/catestatusplaza/catestatusplaza.module').then(m => m.CatestatusplazaModule)
       },
+      {
+        path: 'plazas',
+        loadChildren: () => import('./views/plazas/plazas.module').then(m => m.PlazasModule)
+      },
       //reportes
     ]
   },

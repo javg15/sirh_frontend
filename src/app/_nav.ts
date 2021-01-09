@@ -81,6 +81,15 @@ export const navItems: INavData[] = [
 
     ]
   },
+  {
+    name: 'Plazas',
+    url: '/plazas',
+    icon: '',
+    /*badge: {
+      variant: 'info',
+      text: 'NEW'
+    }*/
+  },
   /*{
     name: 'Buttons',
     url: '/buttons',

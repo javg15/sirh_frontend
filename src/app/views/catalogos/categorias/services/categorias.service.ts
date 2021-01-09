@@ -40,9 +40,9 @@ export class CategoriasService {
     })
   }
   /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
-  public getCatalogo(id_region): Observable<any> {
+  public getCatalogo(): Observable<any> {
     return this.http.post(this.API_URL + '/categorias/getCatalogo',
-      { id_region }
+      {  }
       , httpOptions);
   }
 
