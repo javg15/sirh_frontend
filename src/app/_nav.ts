@@ -84,11 +84,24 @@ export const navItems: INavData[] = [
   {
     name: 'Plazas',
     url: '/plazas',
-    icon: '',
-    /*badge: {
-      variant: 'info',
-      text: 'NEW'
-    }*/
+    icon: 'icon-puzzle',
+    children: [
+      {
+        name: 'Plazas',
+        url: '/plazas/plazas',
+        //icon: 'icon-puzzle'
+      },
+      {
+        name: 'Personal',
+        url: '/plazas/personal',
+        //icon: 'icon-puzzle'
+      },
+      {
+        name: 'Plantillas',
+        url: '/plazas/plantillas',
+        //icon: 'icon-puzzle'
+      },
+    ]
   },
   /*{
     name: 'Buttons',

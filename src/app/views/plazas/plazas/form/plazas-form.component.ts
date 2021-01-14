@@ -1,15 +1,15 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { PlazasService } from '../services/plazas.service';
-import { CategoriasService } from '../../catalogos/categorias/services/categorias.service';
-import { CatplantelesService } from '../../catalogos/catplanteles/services/catplanteles.service';
-import { CatcentrostrabajoService } from '../../catalogos/catcentrostrabajo/services/catcentrostrabajo.service';
-import { CatzonaeconomicaService } from '../../catalogos/catzonaeconomica/services/catzonaeconomica.service';
-import { CatzonageograficaService } from '../../catalogos/catzonageografica/services/catzonageografica.service';
-import { CatestatusplazaService } from '../../catalogos/catestatusplaza/services/catestatusplaza.service';
+import { CategoriasService } from '../../../catalogos/categorias/services/categorias.service';
+import { CatplantelesService } from '../../../catalogos/catplanteles/services/catplanteles.service';
+import { CatcentrostrabajoService } from '../../../catalogos/catcentrostrabajo/services/catcentrostrabajo.service';
+import { CatzonaeconomicaService } from '../../../catalogos/catzonaeconomica/services/catzonaeconomica.service';
+import { CatzonageograficaService } from '../../../catalogos/catzonageografica/services/catzonageografica.service';
+import { CatestatusplazaService } from '../../../catalogos/catestatusplaza/services/catestatusplaza.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Plazas, Categorias, Catcentrostrabajo, Catplanteles, Catzonaeconomica, Catzonageografica, Catestatusplaza } from '../../../_models';
-import { ValidationSummaryComponent } from '../../_shared/validation-summary.component';
-import { actionsButtonSave, titulosModal } from '../../../../../src/environments/environment';
+import { Plazas, Categorias, Catcentrostrabajo, Catplanteles, Catzonaeconomica, Catzonageografica, Catestatusplaza } from '../../../../_models';
+import { ValidationSummaryComponent } from '../../../_shared/validation-summary.component';
+import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 
 
 declare var $: any;
@@ -69,7 +69,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
   newRecord(): Plazas {
     return {
       id: 0,id_categorias: 0,consecutivo: 0, id_catplanteles: 0,  id_catcentrostrabajo: 0,
-      state: '', id_catzonaeconomica: 0, id_catzonageografica: 0, fecha_creacion: new Date(),
+      state: '', id_catplantelescobro: 0, id_catzonageografica: 0, fecha_creacion: new Date(),
       fecha_fin: new Date(), id_catestatusplaza: 0, statussicodes: 0, id_puesto: 0,
       id_sindicato: 0, created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
@@ -116,6 +116,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
         }
         else if(resp.message=="success"){
+          if(this.actionForm.toUpperCase()==="NUEVO") this.actionForm="editar";
           this.record.id=resp.id;
           this.successModal.show();
           setTimeout(()=>{ this.successModal.hide(); }, 2000)

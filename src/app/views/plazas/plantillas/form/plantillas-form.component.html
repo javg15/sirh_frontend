@@ -1,0 +1,109 @@
+<div bsModal #basicModal="bs-modal" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-full-height modal-right" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">{{ tituloForm }}</h4>
+
+                <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+                  <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #dataForm="ngForm" (ngSubmit)="submitAction(dataForm)">
+                    <input type="hidden" name="action" value="{{ actionForm }}">
+                    <div class="form-group">
+
+                        <input type="hidden" [(ngModel)]="record.id" class="form-control" name="ID">
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="id_catplanteles">Plantel</label>
+                                <select class="form-control" [(ngModel)]="record.id_catplanteles" name="Plantel">
+                                  <option *ngFor="let col of catplantelesCat" [value]="col.id">{{ col.clave + " - " + (col.descripcion!=null?col.descripcion:".") + " - " + col.ubicacion }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="id_catplantillas">Plantilla</label>
+                                <select class="form-control" [(ngModel)]="record.id_catplantillas" name="Plantilla">
+                                  <option *ngFor="let col of catplantillasCat" [value]="col.id">{{ col.descripcion }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="actionForm!=='nuevo'">
+                        <app-header-admin id="header-admin-2" [nombreModulo]="nombreModulo" (agregarEvent)="openModal('custom-modal-2','nuevo',0,record.id_catplanteles,record.id_catplantillas)">
+                        </app-header-admin>
+                    </div>
+                    <div class="row">
+                        &nbsp;
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 mx-auto">
+                            <table id="tblPlantillaspersonal" datatable [dtOptions]="dtOptions" class="table table-striped table-bordered row-border hover" width="100%">
+                                <tbody>
+                                    <tr *ngFor="let member of Members">
+                                        <ng-container *ngFor="let col of ColumnNames;index as i">
+                                            <div *ngIf="col=='acciones'; else elseBlock">
+                                                <!--<td><img src="assets/{{ member[col] }}" width="50" /></td>-->
+                                                <td>
+                                                    <div *ngFor="let boton of member[col].split(',')" style="display: contents;">
+                                                        <button *ngIf="boton=='ver'" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-2','ver',member.id,member.id_catplanteles,member.id_catplantillas)">
+                                                      <i class="fa fa-search"></i>
+                                                  </button>
+                                                        <button *ngIf="boton=='editar'" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-2','editar',member.id,member.id_catplanteles,member.id_catplantillas)">
+                                                      <i class="fa fa-edit"></i>
+                                                  </button>
+                                                        <button *ngIf="boton=='deshabilitar'" title="Deshabilitar" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-2','deshabilitar',member.id)">
+                                                      <i class="fa fa-ban"></i>
+                                                  </button>
+                                                    </div>
+                                                </td>
+                                            </div>
+                                            <ng-template #elseBlock>
+                                                <td>{{ member[col] }}</td>
+                                            </ng-template>
+                                        </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        &nbsp;
+                    </div>
+                    <app-validation-summary [form]="dataForm"></app-validation-summary>
+                    <!-- [disabled]="!dataForm.form.valid" -->
+                    <button *ngIf="actionForm!=='ver'" type="submit" class="btn btn-primary">{{ botonAccion }}</button>
+                </form>
+            </div>
+            <!-- <h2>Diagnostic Info</h2>
+            <div [innerHtml]="diagnosticValidate"></div>-->
+        </div>
+    </div>
+</div>
+
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-success" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">&nbsp;</h5>
+            </div>
+            <div class="modal-body">
+                <p>Acción realizada satisfactoriamente</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="successModal.hide()">Cerrar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<app-plantillaspersonal-form id="custom-modal-2" (redrawEvent)="reDraw($event)">
+    <!--<input type="hidden" [(ngModel)]="idItem" />-->
+</app-plantillaspersonal-form>

@@ -104,10 +104,7 @@ const routes: Routes = [
         path: 'widgets',
         loadChildren: () => import('./views/widgets/widgets.module').then(m => m.WidgetsModule)
       },
-      {
-        path: 'personal',
-        loadChildren: () => import('./views/personal/personal.module').then(m => m.PersonalModule)
-      },
+
       {
         path: 'catalogos/catplanteles',
         loadChildren: () => import('./views/catalogos/catplanteles/catplanteles.module').then(m => m.CatplantelesModule)
@@ -145,10 +142,18 @@ const routes: Routes = [
         loadChildren: () => import('./views/catalogos/catestatusplaza/catestatusplaza.module').then(m => m.CatestatusplazaModule)
       },
       {
-        path: 'plazas',
-        loadChildren: () => import('./views/plazas/plazas.module').then(m => m.PlazasModule)
+        path: 'plazas/plazas',
+        loadChildren: () => import('./views/plazas/plazas/plazas.module').then(m => m.PlazasModule)
       },
-      //reportes
+      {
+        path: 'plazas/personal',
+        loadChildren: () => import('./views/plazas/personal/personal.module').then(m => m.PersonalModule)
+      },
+      {
+        path: 'plazas/plantillas',
+        loadChildren: () => import('./views/plazas/plantillas/plantillas.module').then(m => m.PlantillasModule)
+      },
+
     ]
   },
   { path: '**', component: P404Component }

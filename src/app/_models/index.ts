@@ -12,9 +12,11 @@ import Catmunicipios, { CatmunicipiosInitializer, CatmunicipiosId } from './catm
 import Catplanteles, { CatplantelesInitializer, CatplantelesId } from './catplanteles';
 import Catquincena, { CatquincenaInitializer, CatquincenaId } from './catquincena';
 import Catregiones, { CatregionesInitializer } from './catregiones';
+import Catplantillas, { CatplantillasInitializer } from './catplantillas';
 import Cattipocategoria, { CattipocategoriaInitializer } from './cattipocategoria';
 import Cattipocentrotrabajo, { CattipocentrotrabajoInitializer } from './cattipocentrotrabajo';
 import Catturnos, { CatturnosInitializer } from './catturnos';
+import Catestadocivil, { CatestadocivilInitializer } from './catestadocivil';
 import Cattiponomina, { CattiponominaInitializer } from './cattiponomina';
 import Catzonaeconomica, { CatzonaeconomicaInitializer, CatzonaeconomicaId } from './catzonaeconomica';
 import Catzonageografica, { CatzonageograficaInitializer } from './catzonageografica';
@@ -28,6 +30,8 @@ import Permgrupos, { PermgruposInitializer, PermgruposId } from './permgrupos';
 import Permgruposmodulos, { PermgruposmodulosInitializer, PermgruposmodulosId } from './permgruposmodulos';
 import Permusuariosmodulos, { PermusuariosmodulosInitializer, PermusuariosmodulosId } from './permusuariosmodulos';
 import Plazas, { PlazasInitializer } from './plazas';
+import Personal, { PersonalInitializer } from './personal';
+import Plantillaspersonal, { PlantillaspersonalInitializer } from './plantillaspersonal';
 import Presupuesto, { PresupuestoInitializer, PresupuestoId } from './presupuesto';
 import Rhnominas, { RhnominasInitializer, RhnominasId } from './rhnominas';
 import Searchcampos, { SearchcamposInitializer, SearchcamposId } from './searchcampos';
@@ -47,9 +51,11 @@ type Model =
   | Catplanteles
   | Catquincena
   | Catregiones
+  | Catplantillas
   | Cattipocategoria
   | Cattipocentrotrabajo
   | Catturnos
+  | Catestadocivil
   | Cattiponomina
   | Catzonaeconomica
   | Catzonageografica
@@ -63,6 +69,8 @@ type Model =
   | Permgruposmodulos
   | Permusuariosmodulos
   | Plazas
+  | Personal
+  | Plantillaspersonal
   | Presupuesto
   | Rhnominas
   | Searchcampos
@@ -82,9 +90,11 @@ interface ModelTypeMap {
   'catplanteles': Catplanteles;
   'catquincena': Catquincena;
   'catregiones': Catregiones;
+  'catplantillas': Catplantillas;
   'cattipocategoria': Cattipocategoria;
   'cattipocentrotrabajo': Cattipocentrotrabajo;
   'catturnos': Catturnos;
+  'catestadocivil': Catestadocivil;
   'cattiponomina': Cattiponomina;
   'catzonaeconomica': Catzonaeconomica;
   'catzonageografica': Catzonageografica;
@@ -98,6 +108,8 @@ interface ModelTypeMap {
   'permgruposmodulos': Permgruposmodulos;
   'permusuariosmodulos': Permusuariosmodulos;
   'plazas': Plazas;
+  'personal': Personal;
+  'plantillaspersonal': Plantillaspersonal;
   'presupuesto': Presupuesto;
   'rhnominas': Rhnominas;
   'searchcampos': Searchcampos;
@@ -167,6 +179,7 @@ type Initializer =
   | CatplantelesInitializer
   | CatquincenaInitializer
   | CatregionesInitializer
+  | CatplantillasInitializer
   | CattipocategoriaInitializer
   | CattipocentrotrabajoInitializer
   | CatturnosInitializer
@@ -202,6 +215,7 @@ interface InitializerTypeMap {
   'catplanteles': CatplantelesInitializer;
   'catquincena': CatquincenaInitializer;
   'catregiones': CatregionesInitializer;
+  'catplantillas': CatplantillasInitializer;
   'cattipocategoria': CattipocategoriaInitializer;
   'cattipocentrotrabajo': CattipocentrotrabajoInitializer;
   'catturnos': CatturnosInitializer;
@@ -218,6 +232,8 @@ interface InitializerTypeMap {
   'permgruposmodulos': PermgruposmodulosInitializer;
   'permusuariosmodulos': PermusuariosmodulosInitializer;
   'plazas': PlazasInitializer;
+  'personal': PersonalInitializer;
+  'plantillaspersonal': PlantillaspersonalInitializer;
   'presupuesto': PresupuestoInitializer;
   'rhnominas': RhnominasInitializer;
   'searchcampos': SearchcamposInitializer;
@@ -238,9 +254,11 @@ export {
   Catplanteles, CatplantelesInitializer, CatplantelesId,
   Catquincena, CatquincenaInitializer, CatquincenaId,
   Catregiones, CatregionesInitializer,
+  Catplantillas, CatplantillasInitializer,
   Cattipocategoria, CattipocategoriaInitializer,
   Cattipocentrotrabajo, CattipocentrotrabajoInitializer,
   Catturnos, CatturnosInitializer,
+  Catestadocivil, CatestadocivilInitializer,
   Cattiponomina, CattiponominaInitializer,
   Catzonaeconomica, CatzonaeconomicaInitializer, CatzonaeconomicaId,
   Catzonageografica, CatzonageograficaInitializer,
@@ -254,6 +272,8 @@ export {
   Permgruposmodulos, PermgruposmodulosInitializer, PermgruposmodulosId,
   Permusuariosmodulos, PermusuariosmodulosInitializer, PermusuariosmodulosId,
   Plazas, PlazasInitializer,
+  Personal, PersonalInitializer,
+  Plantillaspersonal, PlantillaspersonalInitializer,
   Presupuesto, PresupuestoInitializer, PresupuestoId,
   Rhnominas, RhnominasInitializer, RhnominasId,
   Searchcampos, SearchcamposInitializer, SearchcamposId,

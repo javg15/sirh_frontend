@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CattipocentrotrabajoService } from './catturnos.service';
+import { CatturnosService } from './catturnos.service';
 
-describe('CattipocentrotrabajoService', () => {
-  let service: CattipocentrotrabajoService;
+describe('CatturnosService', () => {
+  let service: CatturnosService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(CattipocentrotrabajoService);
+    service = TestBed.inject(CatturnosService);
   });
 
   it('should be created', () => {

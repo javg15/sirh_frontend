@@ -15,6 +15,7 @@ export const actionsButtonSave = {
   editar: "Guardar",
   cancelar: "Cancelar",
   eliminar: "Eliminar",
+  deshabilitar: "Deshabilitar",
 };
 
 export const titulosModal = {
@@ -23,6 +24,7 @@ export const titulosModal = {
   editar: "Editar",
   cancelar: "Cancelar",
   eliminar: "Eliminar",
+  deshabilitar: "Deshabilitar",
 };
 
 

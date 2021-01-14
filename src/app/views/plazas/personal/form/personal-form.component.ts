@@ -1,0 +1,188 @@
+import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { PersonalService } from '../services/personal.service';
+import { CatestadosService } from '../../../catalogos/catestados/services/catestados.service';
+import { CatmunicipiosService } from '../../../catalogos/catmunicipios/services/catmunicipios.service';
+import { CatlocalidadesService } from '../../../catalogos/catlocalidades/services/catlocalidades.service';
+import { CatestadocivilService } from '../../../catalogos/catestadocivil/services/catestadocivil.service';
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import { Personal,  Catestados, Catmunicipios, Catlocalidades, Catestadocivil } from '../../../../_models';
+import { ValidationSummaryComponent } from '../../../_shared/validation-summary.component';
+import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
+
+
+
+declare var $: any;
+declare var jQuery: any;
+
+@Component({
+  selector: 'app-personal-form',
+  templateUrl: './personal-form.component.html',
+  styleUrls: ['./personal-form.component.css']
+})
+
+export class PersonalFormComponent implements OnInit, OnDestroy {
+  @Input() id: string;
+  @Input() botonAccion: string;
+  @Output() redrawEvent = new EventEmitter<any>();
+  actionForm: string;
+  tituloForm: string;
+
+  private elementModal: any;
+  @ViewChild('basicModal') basicModal: ModalDirective;
+  @ViewChild('successModal') public successModal: ModalDirective;
+  @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
+
+  record: Personal;
+  catestadosCat:Catestados[];
+  catmunicipiosCat:Catmunicipios[];
+  catlocalidadesCat: Catlocalidades[];
+  catestadocivilCat: Catestadocivil[];
+
+
+  constructor(private personalService: PersonalService, private el: ElementRef,
+      private catestadosSvc: CatestadosService,
+      private catmunicipiosSvc: CatmunicipiosService,
+      private catlocalidadesSvc: CatlocalidadesService,
+      private catestadocivilSvc: CatestadocivilService,
+      ) {
+      this.elementModal = el.nativeElement;
+      this.catestadosSvc.getCatalogo().subscribe(resp => {
+        this.catestadosCat = resp;
+      });
+      this.catestadocivilSvc.getCatalogo().subscribe(resp => {
+        this.catestadocivilCat = resp;
+      });
+  }
+
+  newRecord(): Personal {
+    return {
+      id: 0,curp: '', rfc: '',  homoclave: '',
+      state: '', nombre: '', apellidopaterno: '', apellidomaterno:'',id_catestadocivil:0,
+      fechanacimiento: new Date(), id_catestadosresi: 0, id_catmunicipiosresi: 0, id_catlocalidadesresi: 0,
+      telefono: '', email: '', emailoficial:'',observaciones:'',sexo:0,
+      created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
+    };
+  }
+  ngOnInit(): void {
+
+      this.record =this.newRecord();
+
+      let modal = this;
+
+      // ensure id attribute exists
+      if (!modal.id) {
+          console.error('modal must have an id');
+          return;
+      }
+      // add self (this modal instance) to the modal service so it's accessible from controllers
+      modal.personalService.add(modal);
+  }
+
+  // remove self from modal service when directive is destroyed
+  ngOnDestroy(): void {
+      this.personalService.remove(this.id);
+      this.elementModal.remove();
+  }
+
+  onSelectEntidad(id_catestados) {
+    this.record.id_catestadosresi=id_catestados;
+    this.record.id_catmunicipiosresi=0;
+    this.catlocalidadesCat=[];
+    //console.log(this.catmunicipiosCat);
+    this.catmunicipiosSvc.getCatalogoSegunEntidad(id_catestados).subscribe(resp => {
+      this.catmunicipiosCat = resp;
+    });
+  }
+
+  onSelectMunicipio(id_municipio) {
+    this.record.id_catmunicipiosresi=id_municipio;
+    this.record.id_catlocalidadesresi=0;
+    this.catlocalidadesSvc.getCatalogo(id_municipio).subscribe(resp => {
+      this.catlocalidadesCat = resp;
+    });
+  }
+
+  onSelectSexo(id_sexo) {
+    this.record.sexo=id_sexo;
+    this.record.id_catestadocivil=0;
+    this.catestadocivilCat=[];
+    //console.log(this.catmunicipiosCat);
+    this.catestadocivilSvc.getCatalogoSegunSexo(id_sexo).subscribe(resp => {
+      this.catestadocivilCat = resp;
+    });
+  }
+
+  onChangeCurp(curp){
+    this.record.curp=curp.toUpperCase();
+    let rfc=this.record.curp.toString().substring(0,10);
+    this.record.rfc=rfc;
+
+    let fechanacimiento=curp.toString().substring(4,10);
+    //console.log("fechanacimiento=",fechanacimiento)
+    let fecha="";
+    if(parseInt(fechanacimiento.substring(0,2))>20)
+      fecha="19" +fechanacimiento.substring(0,2) + "-" + fechanacimiento.substring(2,4) + "-" + fechanacimiento.substring(4,6);
+    else
+      fecha="20" +fechanacimiento.substring(0,2) + "-" + fechanacimiento.substring(2,4) + "-" + fechanacimiento.substring(4,6);
+
+    let fechaTxt=fecha
+    fecha+="T00:00:00"
+    this.record.fechanacimiento=new Date(fecha);
+    setTimeout(()=>{ $('#txtFechanacimiento').val(fechaTxt) }, 100)
+
+
+  }
+
+  submitAction(form) {
+
+    if(this.actionForm.toUpperCase()!=="VER"){
+      this.validSummary.resetErrorMessages(form);
+
+      this.personalService.setRecord(this.record,this.actionForm).subscribe(resp => {
+        if (resp.hasOwnProperty('error')) {
+          this.validSummary.generateErrorMessagesFromServer(resp.message);
+        }
+        else if(resp.message=="success"){
+          if(this.actionForm.toUpperCase()==="NUEVO") this.actionForm="editar";
+          this.record.id=resp.id;
+          this.successModal.show();
+          setTimeout(()=>{ this.successModal.hide(); }, 2000)
+        }
+      });
+    }
+  }
+
+  // open modal
+  open(idItem: string, accion: string):  void {
+    this.actionForm=accion;
+    this.botonAccion=actionsButtonSave[accion];
+    this.tituloForm=titulosModal[accion] + " registro";
+
+    if(idItem=="0"){
+      this.record =this.newRecord();
+    } else {
+
+    this.personalService.getRecord(idItem).subscribe(resp => {
+      this.record = resp;
+    });
+  }
+
+    // console.log($('#modalTest').html()); poner el id a algun elemento para testear
+    this.basicModal.show();
+  }
+
+  // close modal
+  close(): void {
+      this.basicModal.hide();
+      if(this.actionForm.toUpperCase()!="VER"){
+        this.redrawEvent.emit({
+          campo: 0,
+          operador: 0,
+          valor: ''
+        });
+      }
+  }
+
+  // log contenido de objeto en formulario
+  get diagnosticValidate() { return JSON.stringify(this.record); }
+}

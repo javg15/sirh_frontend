@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
-import { SharedModule } from '../_shared/shared.module';
+import { SharedModule } from '../../_shared/shared.module';
 
 import { PlazasRoutingModule } from './plazas-routing.module';
 import { PlazasService } from './services/plazas.service';

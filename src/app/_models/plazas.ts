@@ -12,7 +12,7 @@ export default interface Plazas {
 
   id_catcentrostrabajo: number | null;
 
-  id_catzonaeconomica: number | null;
+  id_catplantelescobro: number | null;
 
   id_catzonageografica: number | null;
 
@@ -52,7 +52,7 @@ export interface PlazasInitializer {
 
   id_catcentrostrabajo?: number;
 
-  id_catzonaeconomica?: number;
+  id_catplantelescobro?: number;
 
   id_catzonageografica?: number;
 

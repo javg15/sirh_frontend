@@ -44,6 +44,12 @@ export class CatmunicipiosService {
       , httpOptions);
   }
 
+  public getCatalogoSegunEntidad(id_catestados): Observable<any> {
+    return this.http.post(this.API_URL + '/catmunicipios/getCatalogoSegunEntidad',
+      { id_catestados }
+      , httpOptions);
+  }
+
 
   /* El siguiente método lee los datos de un registro seleccionado para edición. */
   public getRecord(id: any): Observable<any> {

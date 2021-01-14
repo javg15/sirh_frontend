@@ -1,13 +1,13 @@
 import { Component, OnInit, Input, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { DataTablesResponse } from '../../../classes/data-tables-response';
+import { DataTablesResponse } from '../../../../classes/data-tables-response';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 
 import { PlazasService } from '../services/plazas.service';
 
-import { environment } from '../../../../../src/environments/environment';
+import { environment } from '../../../../../environments/environment';
 
 declare var $: any;
 declare var jQuery: any;
@@ -15,7 +15,7 @@ declare var jQuery: any;
 @Component({
   selector: 'app-plazas-admin',
   templateUrl: './plazas-admin.component.html',
-  styleUrls: ['./plazas-admin.component.css', '../../_shared/shared.css']
+  styleUrls: ['./plazas-admin.component.css', '../../../_shared/shared.css']
 })
 
 

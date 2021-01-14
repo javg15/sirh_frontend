@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { DataTablesResponse } from '../../../classes/data-tables-response';
+import { DataTablesResponse } from '../../../../classes/data-tables-response';
 
-import { environment } from '../../../../../src/environments/environment';
+import { environment } from '../../../../../../src/environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -14,7 +14,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class PlazasService {
+export class PersonalService {
   public API_URL = environment.APIS_URL;
   private modals: any[] = [];
 
@@ -29,7 +29,7 @@ export class PlazasService {
       setTimeout(()=>{
         this.http.post<DataTablesResponse>(
           // this.API_URL + '/a6b_apis/read_records_dt.php',
-          this.API_URL + '/plazas/getAdmin',
+          this.API_URL + '/personal/getAdmin',
           {solocabeceras:1,opcionesAdicionales:{raw:0}}, {}
         ).subscribe(resp => {
             //if(resp.data.length>0)
@@ -43,15 +43,22 @@ export class PlazasService {
   }
   /* El siguiente método lee los datos de un registro seleccionado para edición. */
   public getRecord(id: any): Observable<any> {
-    return this.http.post(this.API_URL + '/plazas/getRecord',
+    return this.http.post(this.API_URL + '/personal/getRecord',
       { id }
+      , httpOptions);
+  }
+
+  /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
+  public getCatalogoSegunBusqueda(query): Observable<any> {
+    return this.http.post(this.API_URL + '/personal/getCatalogoSegunBusqueda',
+      { query }
       , httpOptions);
   }
 
   /* El siguiente método graba un registro nuevo, o uno editado. */
   public setRecord(dataPack,actionForm): Observable<any> {
 
-    return this.http.post(this.API_URL + '/plazas/setRecord',
+    return this.http.post(this.API_URL + '/personal/setRecord',
       { dataPack,actionForm }
       , httpOptions);
   }
