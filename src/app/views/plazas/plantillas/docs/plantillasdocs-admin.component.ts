@@ -28,7 +28,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   @Input() id: string;
   @Input() botonAccion: string;
   @Output() redrawEvent = new EventEmitter<any>();
-  @ViewChild('idInput') idInput: ElementRef;
+
   /* El decorador @ViewChild recibe la clase DataTableDirective, para luego poder
   crear el dtElement que represente la tabla que estamos creando. */
   @ViewChild(DataTableDirective)
@@ -61,6 +61,8 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
 
   actionForm: string;
   tituloForm: string;
+
+  record_id_plantillaspersonal:number;
 
   private elementModal: any;
   @ViewChild('basicModal') basicModal: ModalDirective;
@@ -136,7 +138,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
     this.tituloForm=titulosModal[accion] + " registro";
-    this.idInput.nativeElement.value=idItem;
+    this.record_id_plantillaspersonal=parseInt(idItem);
 
     this.reDraw();
 
@@ -172,7 +174,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
 
 
     this.dtOptionsAdicional.raw++;
-    this.dtOptionsAdicional.fkeyvalue=this.idInput.nativeElement.value;
+    this.dtOptionsAdicional.fkeyvalue=this.record_id_plantillaspersonal;
     this.dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
 
     this.plantillasdocsService.getAdmin(this.dataTablesParameters).subscribe(resp => {

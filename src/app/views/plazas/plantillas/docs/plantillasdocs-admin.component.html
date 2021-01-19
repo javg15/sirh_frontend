@@ -15,7 +15,7 @@
                         <input type="hidden" #idInput [(ngModel)]="id" class="form-control" name="ID">
                     </div>
                     <div *ngIf="actionForm!=='nuevo'">
-                        <app-header-admin id="header-admin-2" [nombreModulo]="nombreModulo" (agregarEvent)="openModal('custom-modal-2','nuevo',0,0)">
+                        <app-header-admin id="header-admin-2" [nombreModulo]="nombreModulo" (agregarEvent)="openModal('custom-modal-2','nuevo',0,record_id_plantillaspersonal)">
                         </app-header-admin>
                     </div>
                     <div class="row">
