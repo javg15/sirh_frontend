@@ -65,7 +65,7 @@ export class CategoriassueldosFormComponent implements OnInit, OnDestroy {
 
   newRecord(idParent:number): Categoriassueldos {
     return {
-      id: 0,  clave: '', id_categorias:idParent, fecha_inicio:new Date(), fecha_fin:new Date(),
+      id: 0,  clave: '', id_categorias:idParent, fecha_inicio:null, fecha_fin:null,
       totalplazaaut:0, totalhorasaut:0, id_catzonaeconomica:0, importe:0,
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };

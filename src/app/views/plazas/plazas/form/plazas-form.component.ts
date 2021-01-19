@@ -69,8 +69,8 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
   newRecord(): Plazas {
     return {
       id: 0,id_categorias: 0,consecutivo: 0, id_catplanteles: 0,  id_catcentrostrabajo: 0,
-      state: '', id_catplantelescobro: 0, id_catzonageografica: 0, fecha_creacion: new Date(),
-      fecha_fin: new Date(), id_catestatusplaza: 0, statussicodes: 0, id_puesto: 0,
+      state: '', id_catplantelescobro: 0, id_catzonageografica: 0, fecha_creacion: null,
+      fecha_fin: null, id_catestatusplaza: 0, statussicodes: 0, id_puesto: 0,
       id_sindicato: 0, created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }

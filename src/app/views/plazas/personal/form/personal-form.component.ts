@@ -58,7 +58,7 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
     return {
       id: 0,curp: '', rfc: '',  homoclave: '',
       state: '', nombre: '', apellidopaterno: '', apellidomaterno:'',id_catestadocivil:0,
-      fechanacimiento: new Date(), id_catestadosresi: 0, id_catmunicipiosresi: 0, id_catlocalidadesresi: 0,
+      fechanacimiento: null, id_catestadosresi: 0, id_catmunicipiosresi: 0, id_catlocalidadesresi: 0,
       telefono: '', email: '', emailoficial:'',observaciones:'',sexo:0,
       created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };

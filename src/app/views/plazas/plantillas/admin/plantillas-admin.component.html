@@ -1,10 +1,51 @@
 <div class="app-body">
     <main class="d-flex align-items-center">
         <div class="container">
-            <app-search-admin id="search-admin-1" [nombreModulo]="nombreModulo" (buscarEvent)="reDraw($event)">
-            </app-search-admin>
+            <div class="row">
+                <div class="form-group col-sm-3">
+                    <div class="form-group">
+                        <label for="id_catplanteles">Plantel</label>
+                        <ng-select2 [(ngModel)]="record.id_catplanteles" [data]="catplantelesCat" [allowClear]="true" allowClear="true" width="100%">
+                        </ng-select2>
+                    </div>
+                </div>
+                <div class="form-group col-sm-3">
+                    <div class="form-group">
+                        <label for="id_catplantillas">Plantilla</label>
+                        <ng-select2 [(ngModel)]="record.id_catplantillas" [data]="catplantillasCat" [allowClear]="true" allowClear="true" width="100%">
+                        </ng-select2>
+                    </div>
+                </div>
+                <div class="form-group col-sm-4">
+                    <div class="form-group">
+                        <label for="">Personal</label>
+                        <div class="ng-autocomplete">
+                            <ng-autocomplete #id_personal [data]="catpersonalCat" (selected)='onSelectIdPersonal($event)' (inputChanged)='onChangeSearchIdPersonal($event)' [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate" [searchKeyword]="keywordSearch" [minQueryLength]="3"
+                                [debounceTime]="100" [isLoading]="isLoadingSearch">
+                            </ng-autocomplete>
 
-            <app-header-admin id="header-admin-1" [nombreModulo]="nombreModulo" [tituloBotonReporte]="tituloBotonReporte" (agregarEvent)="openModal('custom-modal-1','nuevo',0)" (reporteEvent)="largeModal.show()">
+                            <ng-template #itemTemplate let-item>
+                                <a href="javascript:void(0)">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <span [innerHTML]="item.full_name"></span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </ng-template>
+
+                            <ng-template #notFoundTemplate let-notFound>
+                                <div [innerHTML]="notFound"></div>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <button type="button" class="btn btn-success" (click)="onClickBuscar()">Buscar</button>
+                </div>
+            </div>
+
+            <app-header-admin id="header-admin-1" [nombreModulo]="nombreModulo" [tituloBotonReporte]="tituloBotonReporte" (agregarEvent)="openModal('custom-modal-1','nuevo',0,record.id_catplanteles,record.id_catplantillas)" (reporteEvent)="largeModal.show()">
             </app-header-admin>
             <div class="row">
                 <div class="col-md-12 mx-auto">
@@ -16,15 +57,18 @@
                                         <!--<td><img src="assets/{{ member[col] }}" width="50" /></td>-->
                                         <td>
                                             <div *ngFor="let boton of member[col].split(',')" style="display: contents;">
-                                                <button *ngIf="boton=='ver'" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','ver',member.id)">
+                                                <button *ngIf="boton=='ver'" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','ver',member.id,0,0)">
                                               <i class="fa fa-search"></i>
                                           </button>
-                                                <button *ngIf="boton=='editar'" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','editar',member.id)">
+                                                <button *ngIf="boton=='editar'" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','editar',member.id,0,0)">
                                               <i class="fa fa-edit"></i>
                                           </button>
-                                                <button *ngIf="boton=='eliminar'" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','eliminar',member.id)">
-                                              <i class="fa fa-trash"></i>
+                                                <button *ngIf="boton=='deshabilitar'" title="Desactivar" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','deshabilitar',member.id,0,0)">
+                                              <i class="fa fa-ban"></i>
                                           </button>
+                                                <button *ngIf="boton=='documentacion'" title="Documentación" class="btn btn-brand btn-sm mr-1 btn-xing" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-2','editar',member.id)">
+                                            <i class="fa fa-file"></i>
+                                        </button>
                                             </div>
                                         </td>
                                     </div>
@@ -53,6 +97,10 @@
     <!--<input type="hidden" [(ngModel)]="idItem" />-->
 </app-plantillas-form>
 
+<app-plantillasdocs-admin id="custom-modal-2">
+    <!--<input type="hidden" [(ngModel)]="idItem" />-->
+</app-plantillasdocs-admin>
+
 <div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -67,15 +115,13 @@
                     <div class="form-group col-sm-4">
                         <div class="form-group">
                             <label for="id_catzonaeconomica">Zona Económica</label>
-                            <select class="form-control" #param_id_catzonaeconomica name="Zona Económica">
-                          <option *ngFor="let col of catzonaeconomicaCat" [value]="col.id">{{ col.descripcion }}</option>
-                        </select>
+
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" (click)="MostrarReporte(param_id_catzonaeconomica)">Mostrar</button>
+
             </div>
         </div>
         <!-- /.modal-content -->

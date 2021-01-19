@@ -16,6 +16,7 @@ import { ValidationSummaryComponent } from './validation-summary.component';
   declarations: [
     SearchAdminComponent,
     HeaderAdminComponent,
+
     ValidationSummaryComponent
   ],
   providers: [

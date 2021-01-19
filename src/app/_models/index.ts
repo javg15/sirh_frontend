@@ -32,13 +32,16 @@ import Permusuariosmodulos, { PermusuariosmodulosInitializer, Permusuariosmodulo
 import Plazas, { PlazasInitializer } from './plazas';
 import Personal, { PersonalInitializer } from './personal';
 import Plantillaspersonal, { PlantillaspersonalInitializer } from './plantillaspersonal';
+import Plantillaspersonaldocs, { PlantillaspersonaldocsInitializer } from './plantillaspersonaldocs';
 import Presupuesto, { PresupuestoInitializer, PresupuestoId } from './presupuesto';
 import Rhnominas, { RhnominasInitializer, RhnominasId } from './rhnominas';
 import Searchcampos, { SearchcamposInitializer, SearchcamposId } from './searchcampos';
 import Searchoperador, { SearchoperadorInitializer, SearchoperadorId } from './searchoperador';
 import Usuarios, { UsuariosInitializer, UsuariosId } from './usuarios';
+import Archivos, { ArchivosInitializer } from './archivos';
 
 type Model =
+  | Archivos
   | Calendarios
   | Catcentrostrabajo
   | Categorias
@@ -71,6 +74,7 @@ type Model =
   | Plazas
   | Personal
   | Plantillaspersonal
+  | Plantillaspersonaldocs
   | Presupuesto
   | Rhnominas
   | Searchcampos
@@ -78,6 +82,7 @@ type Model =
   | Usuarios
 
 interface ModelTypeMap {
+  'archivos': Archivos;
   'calendarios': Calendarios;
   'catcentrostrabajo': Catcentrostrabajo;
   'categorias': Categorias;
@@ -110,6 +115,7 @@ interface ModelTypeMap {
   'plazas': Plazas;
   'personal': Personal;
   'plantillaspersonal': Plantillaspersonal;
+  'plantillaspersonaldocs': Plantillaspersonaldocs;
   'presupuesto': Presupuesto;
   'rhnominas': Rhnominas;
   'searchcampos': Searchcampos;
@@ -167,6 +173,7 @@ interface ModelIdTypeMap {
 }
 
 type Initializer =
+  | ArchivosInitializer
   | CalendariosInitializer
   | CatcentrostrabajoInitializer
   | CategoriasInitializer
@@ -203,6 +210,7 @@ type Initializer =
   | UsuariosInitializer
 
 interface InitializerTypeMap {
+  'archivos': ArchivosInitializer;
   'calendarios': CalendariosInitializer;
   'catcentrostrabajo': CatcentrostrabajoInitializer;
   'categorias': CategoriasInitializer;
@@ -234,6 +242,7 @@ interface InitializerTypeMap {
   'plazas': PlazasInitializer;
   'personal': PersonalInitializer;
   'plantillaspersonal': PlantillaspersonalInitializer;
+  'plantillaspersonaldocs': Plantillaspersonaldocs;
   'presupuesto': PresupuestoInitializer;
   'rhnominas': RhnominasInitializer;
   'searchcampos': SearchcamposInitializer;
@@ -242,6 +251,7 @@ interface InitializerTypeMap {
 }
 
 export {
+  Archivos, ArchivosInitializer,
   Calendarios, CalendariosInitializer, CalendariosId,
   Catcentrostrabajo, CatcentrostrabajoInitializer,
   Categorias, CategoriasInitializer, CategoriasId,
@@ -274,6 +284,7 @@ export {
   Plazas, PlazasInitializer,
   Personal, PersonalInitializer,
   Plantillaspersonal, PlantillaspersonalInitializer,
+  Plantillaspersonaldocs, PlantillaspersonaldocsInitializer,
   Presupuesto, PresupuestoInitializer, PresupuestoId,
   Rhnominas, RhnominasInitializer, RhnominasId,
   Searchcampos, SearchcamposInitializer, SearchcamposId,

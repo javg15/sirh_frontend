@@ -3,11 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { PlantillasAdminComponent } from './admin/plantillas-admin.component';
 import { PlantillasFormComponent } from './form/plantillas-form.component';
+import { PlantillasDocsAdminComponent } from './docs/plantillasdocs-admin.component';
+import { PlantillasDocsFormComponent } from './docssub/plantillasdocs-form.component';
 import { PlantillasIniService } from './services/plantillas.ini.service';
-
-import { PlantillaspersonalFormComponent } from './formsub/plantillaspersonal-form.component';
-import { PlantillaspersonalIniService } from './services/plantillaspersonal.ini.service';
-
+import { PlantillasdocsIniService } from './services/plantillasdocs.ini.service';
 
 const routes: Routes = [
   {
@@ -28,7 +27,7 @@ const routes: Routes = [
         },
         resolve: {
           userdata: PlantillasIniService,
-          userdataPersonal: PlantillaspersonalIniService
+          userdataDocs: PlantillasdocsIniService,
         }
       },
       {
@@ -39,13 +38,19 @@ const routes: Routes = [
         },
       },
       {
-        path: 'form',
-        component: PlantillaspersonalFormComponent,
+        path: 'docs',
+        component: PlantillasDocsAdminComponent,
         data: {
-          title: 'Plantillas personal'
-        }
-      }
-
+          title: 'Plantillas'
+        },
+      },
+      {
+        path: 'docs',
+        component: PlantillasDocsFormComponent,
+        data: {
+          title: 'Plantillas'
+        },
+      },
     ]
   }
 ];

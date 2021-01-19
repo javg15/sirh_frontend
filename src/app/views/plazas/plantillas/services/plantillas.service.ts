@@ -31,7 +31,7 @@ export class PlantillasService {
       setTimeout(()=>{
         this.http.post<DataTablesResponse>(
           // this.API_URL + '/a6b_apis/read_records_dt.php',
-          this.API_URL + '/plantillas/getAdmin',
+          this.API_URL + '/plantillaspersonal/getAdmin',
           {solocabeceras:1,opcionesAdicionales:{raw:0}}, {}
         ).subscribe(resp => {
               o.next(JSON.parse(resp.data[0].cabeceras));
@@ -41,8 +41,14 @@ export class PlantillasService {
   }
   /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
   public getCatalogo(): Observable<any> {
-    return this.http.post(this.API_URL + '/plantillas/getCatalogo',
+    return this.http.post(this.API_URL + '/plantillaspersonal/getCatalogo',
       {  }
+      , httpOptions);
+  }
+
+  public getRecordPersonal(id: any): Observable<any> {
+    return this.http.post(this.API_URL + '/plantillaspersonal/getRecordPersonal',
+      { id }
       , httpOptions);
   }
 
@@ -72,6 +78,12 @@ export class PlantillasService {
   });
   }
 
+  public getConsecutivo(idCatplanteles,idCatplantillas): Observable<any> {
+    return this.http.post(this.API_URL + '/plantillaspersonal/getConsecutivo',
+      { idCatplanteles,idCatplantillas }
+      , httpOptions);
+  }
+
 // array de modales
   public add(modal: any) {
         this.modals.push(modal);
@@ -81,10 +93,10 @@ export class PlantillasService {
         this.modals = this.modals.filter(x => x.id !== id);
     }
 
-  public open(id: string, accion: string, idItem: number) {
-        let modal: any = this.modals.filter(x => x.id === id)[0];
-        modal.open(idItem, accion);
-    }
+    public open(id: string, accion: string, idItem: number,idCatplanteles:number,idCatplantillas:number) {
+      let modal: any = this.modals.filter(x => x.id === id)[0];
+      modal.open(idItem, accion,idCatplanteles,idCatplantillas);
+  }
 
   public close(id: string) {
         let modal: any = this.modals.filter(x => x.id === id)[0];

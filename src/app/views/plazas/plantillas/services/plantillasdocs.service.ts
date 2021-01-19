@@ -14,7 +14,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class PlantillaspersonalService {
+export class PlantillasdocsService {
   public API_URL = environment.APIS_URL;
   private modals: any[] = [];
 
@@ -29,7 +29,7 @@ export class PlantillaspersonalService {
       setTimeout(()=>{
         this.http.post<DataTablesResponse>(
           // this.API_URL + '/a6b_apis/read_records_dt.php',
-          this.API_URL + '/plantillaspersonal/getAdmin',
+          this.API_URL + '/plantillaspersonaldocs/getAdmin',
           {solocabeceras:1,opcionesAdicionales:{raw:0}}, {}
         ).subscribe(resp => {
             if(resp.data.length>0)
@@ -43,14 +43,14 @@ export class PlantillaspersonalService {
   }
   /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
   public getCatalogo(id_region): Observable<any> {
-    return this.http.post(this.API_URL + '/plantillaspersonal/getCatalogo',
+    return this.http.post(this.API_URL + '/plantillaspersonaldocs/getCatalogo',
       { id_region }
       , httpOptions);
   }
 
   /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
   public getAdmin(dataTablesParameters): Observable<any> {
-    return this.http.post(this.API_URL + '/plantillaspersonal/getAdmin',
+    return this.http.post(this.API_URL + '/plantillaspersonaldocs/getAdmin',
       { dataTablesParameters }
       , httpOptions);
   }
@@ -58,22 +58,15 @@ export class PlantillaspersonalService {
 
   /* El siguiente método lee los datos de un registro seleccionado para edición. */
   public getRecord(id: any): Observable<any> {
-    return this.http.post(this.API_URL + '/plantillaspersonal/getRecord',
+    return this.http.post(this.API_URL + '/plantillaspersonaldocs/getRecord',
       { id }
       , httpOptions);
   }
-
-  public getRecordPersonal(id: any): Observable<any> {
-    return this.http.post(this.API_URL + '/plantillaspersonal/getRecordPersonal',
-      { id }
-      , httpOptions);
-  }
-
 
   /* El siguiente método graba un registro nuevo, o uno editado. */
   public setRecord(dataPack,actionForm): Observable<any> {
 
-    return this.http.post(this.API_URL + '/plantillaspersonal/setRecord',
+    return this.http.post(this.API_URL + '/plantillaspersonaldocs/setRecord',
       { dataPack,actionForm }
       , httpOptions);
   }
@@ -87,9 +80,9 @@ export class PlantillaspersonalService {
         this.modals = this.modals.filter(x => x.id !== id);
     }
 
-  public open(id: string, accion: string, idItem: number,idCatplanteles:number,idCatplantillas:number) {
+  public open(id: string, accion: string, idItem: number,idParent:number) {
         let modal: any = this.modals.filter(x => x.id === id)[0];
-        modal.open(idItem, accion,idCatplanteles,idCatplantillas);
+        modal.open(idItem, accion,idParent);
     }
 
   public close(id: string) {
