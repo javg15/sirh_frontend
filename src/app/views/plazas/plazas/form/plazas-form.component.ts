@@ -32,6 +32,8 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
   @ViewChild('basicModal') basicModal: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
+  @ViewChild('txtzonaeconomica') txtzonaeconomica: ElementRef;
+  @ViewChild('txtzonageografica') txtzonageografica: ElementRef;
 
   record: Plazas;
   categoriasCat:Categorias[];
@@ -96,14 +98,28 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
   }
 
   onSelectPlantel(select_plantel) {
-    let clave=$("#selectPlantel option:selected").text().split("-")[0];
-    this.record.id_catplanteles=select_plantel.value;
+    //let clave=$("#selectPlantel option:selected").text().split("-")[0];
+    this.record.id_catplanteles=select_plantel;
     this.record.id_catcentrostrabajo=0;
     this.catcentrostrabajoCat=[];
 
     this.catcentrostrabajoSvc.getCatalogoSegunPlantel(this.record.id_catplanteles).subscribe(resp => {
       this.catcentrostrabajoCat = resp;
     });
+
+    this.showAdicionalesPlantel(select_plantel);
+  }
+
+  showAdicionalesPlantel(select_plantel){
+    this.catplantelesSvc.getRecord(select_plantel).subscribe(resp => {
+      this.catzonaeconomicaSvc.getRecord(resp.id_catzonaeconomica).subscribe(resp => {
+        this.txtzonaeconomica.nativeElement.value=resp.descripcion;
+      })
+      this.catzonageograficaSvc.getRecord(resp.id_catzonageografica).subscribe(resp => {
+        this.txtzonageografica.nativeElement.value=resp.descripcion;
+      })
+    });
+
   }
 
   submitAction(form) {
@@ -140,6 +156,8 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
       this.catcentrostrabajoSvc.getCatalogoSegunPlantel(this.record.id_catplanteles).subscribe(resp => {
         this.catcentrostrabajoCat = resp;
       });
+
+      this.showAdicionalesPlantel(resp.id_catplanteles);
     });
   }
 

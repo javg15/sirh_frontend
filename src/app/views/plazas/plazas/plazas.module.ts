@@ -10,7 +10,7 @@ import { PlazasService } from './services/plazas.service';
 import { PlazasAdminComponent } from './admin/plazas-admin.component';
 import { PlazasFormComponent } from './form/plazas-form.component';
 import { DataTablesModule } from 'angular-datatables';
-
+import { NgSelect2Module } from 'ng-select2';
 
 @NgModule({
   imports: [
@@ -19,7 +19,8 @@ import { DataTablesModule } from 'angular-datatables';
     FormsModule,
     DataTablesModule,
     ModalModule.forRoot(),
-    SharedModule
+    SharedModule,
+    NgSelect2Module
   ],
   declarations: [
     PlazasAdminComponent,
