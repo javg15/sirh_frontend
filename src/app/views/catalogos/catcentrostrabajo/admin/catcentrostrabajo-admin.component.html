@@ -25,15 +25,16 @@
                                                 <button *ngIf="boton=='eliminar'" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','eliminar',member.id)">
                                                   <i class="fa fa-trash"></i>
                                               </button>
-                                                <button *ngIf="boton=='personal'" class="btn btn-brand btn-sm mr-1 " style="margin-bottom: 4px" type="button">
-                                                  <i class="fa fa-caret-right"></i>
-                                              </button>
+
                                             </div>
                                         </td>
                                     </div>
                                     <ng-template #elseBlock>
-                                        <td>{{ member[col] }}</td>
+                                        <ng-container *ngIf="col!='id';else elseBlock2">
+                                            <td>{{ member[col] }}</td>
+                                        </ng-container>
                                     </ng-template>
+                                    <ng-template #elseBlock2></ng-template>
                                 </ng-container>
                         </tbody>
                     </table>

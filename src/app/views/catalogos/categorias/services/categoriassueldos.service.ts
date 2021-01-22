@@ -63,6 +63,8 @@ export class CategoriassueldosService {
       , httpOptions);
   }
 
+
+
   /* El siguiente método graba un registro nuevo, o uno editado. */
   public setRecord(dataPack,actionForm): Observable<any> {
 

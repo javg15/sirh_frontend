@@ -32,8 +32,11 @@
                                         </td>
                                     </div>
                                     <ng-template #elseBlock>
-                                        <td>{{ member[col] }}</td>
+                                        <ng-container *ngIf="col!='id';else elseBlock2">
+                                            <td>{{ member[col] }}</td>
+                                        </ng-container>
                                     </ng-template>
+                                    <ng-template #elseBlock2></ng-template>
                                 </ng-container>
                         </tbody>
                     </table>

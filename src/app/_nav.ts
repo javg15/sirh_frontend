@@ -34,6 +34,28 @@ export const navItems: INavData[] = [
     icon: 'icon-puzzle',
     children: [
       {
+        name: 'Plazas',
+        url: '/plazas',
+        icon: 'icon-puzzle',
+        children: [
+          {
+            name: 'Plazas',
+            url: '/plazas/plazas',
+            //icon: 'icon-puzzle'
+          },
+          {
+            name: 'Personal',
+            url: '/plazas/personal',
+            //icon: 'icon-puzzle'
+          },
+          {
+            name: 'Plantillas',
+            url: '/plazas/plantillas',
+            //icon: 'icon-puzzle'
+          },
+        ]
+      },
+      {
         name: 'Municipios',
         url: '/catalogos/catmunicipios',
         //icon: 'icon-puzzle'
@@ -81,28 +103,7 @@ export const navItems: INavData[] = [
 
     ]
   },
-  {
-    name: 'Plazas',
-    url: '/plazas',
-    icon: 'icon-puzzle',
-    children: [
-      {
-        name: 'Plazas',
-        url: '/plazas/plazas',
-        //icon: 'icon-puzzle'
-      },
-      {
-        name: 'Personal',
-        url: '/plazas/personal',
-        //icon: 'icon-puzzle'
-      },
-      {
-        name: 'Plantillas',
-        url: '/plazas/plantillas',
-        //icon: 'icon-puzzle'
-      },
-    ]
-  },
+
   /*{
     name: 'Buttons',
     url: '/buttons',

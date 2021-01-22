@@ -54,6 +54,7 @@ export class CategoriasService {
       , httpOptions);
   }
 
+
   /* El siguiente método graba un registro nuevo, o uno editado. */
   public setRecord(dataPack,actionForm): Observable<any> {
 
@@ -71,6 +72,7 @@ export class CategoriasService {
       window.open(fileURL);
   });
   }
+
 
 // array de modales
   public add(modal: any) {

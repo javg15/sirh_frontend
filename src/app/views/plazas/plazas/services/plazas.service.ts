@@ -56,6 +56,20 @@ export class PlazasService {
       , httpOptions);
   }
 
+  /* Obtener informacion extra de plazas */
+  public getRecordPlazasInfo(id_categorias: any, id_catplanteles: any): Observable<any> {
+    return this.http.post(this.API_URL + '/plazas/getRecordPlazasInfo',
+      { id_categorias, id_catplanteles }
+      , httpOptions);
+  }
+
+  /* Obtiene el consecutivo de categorias*/
+  public getConsecutivo(idCategorias: any): Observable<any> {
+    return this.http.post(this.API_URL + '/plazas/getConsecutivo',
+      { idCategorias }
+      , httpOptions);
+  }
+
   /* El siguiente método comprueba si un DOI está repetido y, por tanto, no puede usarse. */
   public checkRepeatedDoi$(id, doi): Observable<string> {
     return this.http.post(

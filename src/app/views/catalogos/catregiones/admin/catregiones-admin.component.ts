@@ -103,7 +103,8 @@ export class CatregionesAdminComponent implements OnInit {
           );
         },
         columns: this.headersAdmin,
-        columnDefs:[{"width": "5%", "targets": 0}]
+        columnDefs:[{"visible": false, "searchable": false, "targets": 0}
+                  ,{"width":"5%", "targets": 1}]
       };
 
   }

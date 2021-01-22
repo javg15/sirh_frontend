@@ -132,7 +132,8 @@ export class CategoriasFormComponent implements OnInit, OnDestroy {
         },
       },
       columns: this.headersAdmin,
-      columnDefs:[{"width": "5%", "targets": 0}]
+      columnDefs:[{"visible": false, "targets": 0}, //state
+                {"width": "5%", "targets": 1}]
     };
 
   }

@@ -1,6 +1,7 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { PlazasService } from '../services/plazas.service';
 import { CategoriasService } from '../../../catalogos/categorias/services/categorias.service';
+import { CategoriassueldosService } from '../../../catalogos/categorias/services/categoriassueldos.service';
 import { CatplantelesService } from '../../../catalogos/catplanteles/services/catplanteles.service';
 import { CatcentrostrabajoService } from '../../../catalogos/catcentrostrabajo/services/catcentrostrabajo.service';
 import { CatzonaeconomicaService } from '../../../catalogos/catzonaeconomica/services/catzonaeconomica.service';
@@ -34,6 +35,8 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
   @ViewChild('txtzonaeconomica') txtzonaeconomica: ElementRef;
   @ViewChild('txtzonageografica') txtzonageografica: ElementRef;
+  @ViewChild('txtplazasdisponibles') txtplazasdisponibles: ElementRef;
+  @ViewChild('txtconsecutivo') txtconsecutivo: ElementRef;
 
   record: Plazas;
   categoriasCat:Categorias[];
@@ -50,6 +53,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
       private catzonaeconomicaSvc: CatzonaeconomicaService,
       private catzonageograficaSvc: CatzonageograficaService,
       private categoriasSvc: CategoriasService,
+      private categoriassueldosSvc: CategoriassueldosService,
       private catestatusplazaSvc: CatestatusplazaService,
       ) {
       this.elementModal = el.nativeElement;
@@ -110,15 +114,38 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
     this.showAdicionalesPlantel(select_plantel);
   }
 
+  onSelectCategoria(select_categoria){
+    this.record.id_categorias=select_categoria;
+    this.showAdicionalesCategoria();
+  }
+
+  /**
+   * Realiza operaciones extras segun los parametros evaluados
+   */
+  showAdicionalesCategoria(){
+    if(this.record.id_categorias>0 && this.record.id_catplanteles>0){
+      this.plazasService.getRecordPlazasInfo(this.record.id_categorias,this.record.id_catplanteles).subscribe(resp => {
+        this.txtplazasdisponibles.nativeElement.value=resp[0].fn_plazas_disponibles.totalplazasdisponibles;
+      });
+      this.plazasService.getConsecutivo(this.record.id_categorias).subscribe(resp => {
+        this.txtconsecutivo.nativeElement.value=resp;
+      });
+    }
+  }
+
   showAdicionalesPlantel(select_plantel){
+
     this.catplantelesSvc.getRecord(select_plantel).subscribe(resp => {
       this.catzonaeconomicaSvc.getRecord(resp.id_catzonaeconomica).subscribe(resp => {
         this.txtzonaeconomica.nativeElement.value=resp.descripcion;
-      })
+      });
+
       this.catzonageograficaSvc.getRecord(resp.id_catzonageografica).subscribe(resp => {
         this.txtzonageografica.nativeElement.value=resp.descripcion;
       })
     });
+
+    this.showAdicionalesCategoria();
 
   }
 
@@ -158,6 +185,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
       });
 
       this.showAdicionalesPlantel(resp.id_catplanteles);
+      this.showAdicionalesCategoria();
     });
   }
 

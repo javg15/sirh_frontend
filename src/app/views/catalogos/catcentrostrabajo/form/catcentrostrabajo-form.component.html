@@ -25,9 +25,8 @@
                         <div class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="id_catplanteles">Plantel</label>
-                                <select id="selectPlantel" class="form-control" [(ngModel)]="record.id_catplanteles" name="Plantel" (change)="onSelectPlantel($event.target)">
-                                  <option *ngFor="let col of catplantelesCat" [value]="col.id">{{ col.clave + " - " + (col.descripcion!=null?col.descripcion:".") + " - " + col.ubicacion }}</option>
-                                </select>
+                                <ng-select2 id="selectPlantel" [(ngModel)]="record.id_catplanteles" [data]="catplantelesCat" [allowClear]="true" allowClear="true" width="100%" name="Plantel">
+                                </ng-select2>
                             </div>
                         </div>
                         <div class="form-group col-sm-4">
