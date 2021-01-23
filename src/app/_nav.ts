@@ -29,32 +29,33 @@ export const navItems: INavData[] = [
     name: 'Catálogos'
   },*/
   {
-    name: 'Configuración',
-    url: '/catalogos',
+    name: 'Plazas',
+    url: '/plazas',
     icon: 'icon-puzzle',
     children: [
       {
         name: 'Plazas',
-        url: '/plazas',
-        icon: 'icon-puzzle',
-        children: [
-          {
-            name: 'Plazas',
-            url: '/plazas/plazas',
-            //icon: 'icon-puzzle'
-          },
-          {
-            name: 'Personal',
-            url: '/plazas/personal',
-            //icon: 'icon-puzzle'
-          },
-          {
-            name: 'Plantillas',
-            url: '/plazas/plantillas',
-            //icon: 'icon-puzzle'
-          },
-        ]
+        url: '/plazas/plazas',
+        //icon: 'icon-puzzle'
       },
+      {
+        name: 'Personal',
+        url: '/plazas/personal',
+        //icon: 'icon-puzzle'
+      },
+      {
+        name: 'Plantillas',
+        url: '/plazas/plantillas',
+        //icon: 'icon-puzzle'
+      },
+    ]
+  },
+  {
+    name: 'Configuración',
+    url: '/catalogos',
+    icon: 'icon-puzzle',
+    children: [
+
       {
         name: 'Municipios',
         url: '/catalogos/catmunicipios',
