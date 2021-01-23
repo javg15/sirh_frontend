@@ -39,7 +39,7 @@ export class CategoriasAdminComponent implements OnInit {
 
   private dtOptionsAdicional = { datosBusqueda: {campo: 0, operador: 0, valor: ''},raw:0};
 
-  nombreModulo = 'Catcategorias';
+  nombreModulo = 'Categorias';
   tituloBotonReporte='Reporte';
   headersAdmin: any;
 
