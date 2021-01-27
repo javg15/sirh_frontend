@@ -92,8 +92,8 @@ export class PlantillasFormComponent implements OnInit, OnDestroy {
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-      /*this.plantillasService.remove(this.id);
-      this.elementModal.remove();*/
+      this.plantillasService.remove(this.id);
+      this.elementModal.remove();
   }
 
 

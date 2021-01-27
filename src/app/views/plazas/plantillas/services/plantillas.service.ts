@@ -84,22 +84,22 @@ export class PlantillasService {
       , httpOptions);
   }
 
-// array de modales
+  // array de modales
   public add(modal: any) {
-        this.modals.push(modal);
-    }
+    this.modals.push(modal);
+  }
 
   public remove(id: string) {
-        this.modals = this.modals.filter(x => x.id !== id);
-    }
+      this.modals = this.modals.filter(x => x.id !== id);
+  }
 
-    public open(id: string, accion: string, idItem: number,idCatplanteles:number,idCatplantillas:number) {
-      let modal: any = this.modals.filter(x => x.id === id)[0];
-      modal.open(idItem, accion,idCatplanteles,idCatplantillas);
+  public open(id: string, accion: string, idItem: number,idCatplanteles:number,idCatplantillas:number) {
+    let modal: any = this.modals.filter(x => x.id === id)[0];
+    modal.open(idItem, accion,idCatplanteles,idCatplantillas);
   }
 
   public close(id: string) {
-        let modal: any = this.modals.filter(x => x.id === id)[0];
-        modal.close();
-    }
+      let modal: any = this.modals.filter(x => x.id === id)[0];
+      modal.close();
+  }
 }

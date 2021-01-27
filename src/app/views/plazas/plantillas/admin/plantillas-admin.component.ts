@@ -12,6 +12,7 @@ import { CatplantelesService } from '../../../catalogos/catplanteles/services/ca
 import { PersonalService } from '../../personal/services/personal.service';
 import { AutocompleteComponent } from 'angular-ng-autocomplete';
 
+
 import { environment } from '../../../../../environments/environment';
 
 declare var $: any;
@@ -20,7 +21,7 @@ declare var jQuery: any;
 @Component({
   selector: 'app-plantillas-admin',
   templateUrl: './plantillas-admin.component.html',
-  styleUrls: ['./plantillas-admin.component.css', '../../../_shared/shared.css']
+
 })
 
 
@@ -49,7 +50,7 @@ export class PlantillasAdminComponent implements OnInit {
   };
 
   nombreModulo = 'Plantillas';
-  tituloBotonReporte='Reporte';
+
   headersAdmin: any;
   record:Plantillaspersonal={
       id: 0,  id_catplanteles: 0, id_personal:0, id_catplantillas: 0, consecutivo:0,id_usuarios_autoriza:0,
@@ -61,9 +62,7 @@ export class PlantillasAdminComponent implements OnInit {
   catpersonalCat:Personal[];
   keywordSearch = 'full_name';
   isLoadingSearch:boolean;
-
-
-  /* En el constructor creamos el objeto plantillasService,
+  /* En el constructor creamos el objeto plazasService,
   de la clase HttpConnectService, que contiene el servicio mencionado,
   y estará disponible en toda la clase de este componente.
   El objeto es private, porque no se usará fuera de este componente. */
@@ -133,9 +132,10 @@ export class PlantillasAdminComponent implements OnInit {
             }
           );
         },
+
         columns: this.headersAdmin,
-        columnDefs:[{"visible": false, "searchable": false, "targets": 0}
-                  ,{"width":"5%", "targets": 1}]
+        columnDefs:[{"visible": false, "targets": 0}, //state
+                {"width": "5%", "targets": 1}]
       };
 
   }
@@ -146,6 +146,7 @@ export class PlantillasAdminComponent implements OnInit {
   closeModal(id: string) {
     this.plantillasService.close(id);
   }
+
 
   ngAfterViewInit(): void {
     this.dtTrigger.next();
@@ -173,13 +174,21 @@ export class PlantillasAdminComponent implements OnInit {
     if(this.id_personal.query=="") this.record.id_personal=0;
 
     this.dtOptionsAdicional.fkeyvalue=[
-      this.record.id_catplanteles,
-      this.record.id_catplantillas,
+      (this.record.id_catplanteles==null?0:this.record.id_catplanteles),
+      (this.record.id_catplantillas==null?0:this.record.id_catplantillas),
       this.record.id_personal
     ]
     this.reDraw();
   }
 
+  onSelectPlantel(select_plantel){
+    this.record.id_catplanteles=select_plantel;
+    this.onClickBuscar();
+  }
+  onSelectPlantilla(select_plantilla){
+    this.record.id_catplantillas=select_plantilla;
+    this.onClickBuscar();
+  }
   /*********************
    autocomplete id_personal
    *********************/
@@ -189,13 +198,16 @@ export class PlantillasAdminComponent implements OnInit {
       this.catpersonalCat = resp;
       this.isLoadingSearch = false;
     });
-    // fetch remote data from here
-    // And reassign the 'data' which is binded to 'data' property.
+  }
+
+  onCleared(){
+    this.record.id_personal=0;
+    this.onClickBuscar();
   }
 
   onSelectIdPersonal(val: any) {
     let items=val["full_name"].split(" -- ");
-    console.log(items[2]);
     this.record.id_personal=parseInt(items[2]);
+    this.onClickBuscar();
   }
 }

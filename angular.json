@@ -25,8 +25,10 @@
                             "node_modules/font-awesome/css/font-awesome.css",
                             "node_modules/simple-line-icons/css/simple-line-icons.css",
                             "node_modules/datatables.net-dt/css/jquery.dataTables.css",
+                            "node_modules/datatables.net-responsive-dt/css/responsive.dataTables.css",
                             "src/scss/style.scss",
-                            "node_modules/select2/dist/css/select2.min.css"
+                            "node_modules/select2/dist/css/select2.min.css",
+                            "src/app/views/_shared/shared.css"
                         ],
                         "stylePreprocessorOptions": {
                             "includePaths": [
@@ -38,6 +40,7 @@
                             "node_modules/select2/dist/js/select2.min.js",
                             "node_modules/chart.js/dist/Chart.min.js",
                             "node_modules/datatables.net/js/jquery.dataTables.js",
+                            "node_modules/datatables.net-responsive/js/dataTables.responsive.js",
                             "node_modules/moment/min/moment.min.js"
                         ]
                     },

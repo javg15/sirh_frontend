@@ -15,7 +15,7 @@ declare var jQuery: any;
 @Component({
   selector: 'app-catmunicipios-admin',
   templateUrl: './catmunicipios-admin.component.html',
-  styleUrls: ['./catmunicipios-admin.component.css', '../../../_shared/shared.css']
+
 })
 
 
@@ -76,6 +76,8 @@ export class CatmunicipiosAdminComponent implements OnInit {
             previous: 'Ant.'
           },
         },
+        // Use this attribute to enable the responsive extension
+        responsive: true,
         ajax: (dataTablesParameters: any, callback) => {
           this.dtOptionsAdicional.raw++;
           dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;

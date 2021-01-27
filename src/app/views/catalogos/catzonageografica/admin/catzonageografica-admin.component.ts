@@ -15,7 +15,7 @@ declare var jQuery: any;
 @Component({
   selector: 'app-catzonageografica-admin',
   templateUrl: './catzonageografica-admin.component.html',
-  styleUrls: ['./catzonageografica-admin.component.css', '../../../_shared/shared.css']
+
 })
 
 
@@ -76,6 +76,8 @@ export class CatzonageograficaAdminComponent implements OnInit {
             previous: 'Ant.'
           },
         },
+        // Use this attribute to enable the responsive extension
+        responsive: true,
         ajax: (dataTablesParameters: any, callback) => {
           this.dtOptionsAdicional.raw++;
           dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;

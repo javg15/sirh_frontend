@@ -15,7 +15,7 @@ declare var jQuery: any;
 @Component({
   selector: 'app-personal-admin',
   templateUrl: './personal-admin.component.html',
-  styleUrls: ['./personal-admin.component.css', '../../_shared/shared.css']
+
 })
 
 

@@ -15,7 +15,7 @@ declare var jQuery: any;
 @Component({
   selector: 'app-plazas-admin',
   templateUrl: './plazas-admin.component.html',
-  styleUrls: ['./plazas-admin.component.css', '../../../_shared/shared.css']
+
 })
 
 
@@ -76,6 +76,8 @@ export class PlazasAdminComponent implements OnInit {
             previous: 'Ant.'
           },
         },
+        // Use this attribute to enable the responsive extension
+        responsive: true,
         ajax: (dataTablesParameters: any, callback) => {
           this.dtOptionsAdicional.raw++;
           dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;

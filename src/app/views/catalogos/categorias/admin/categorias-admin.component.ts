@@ -18,7 +18,7 @@ declare var jQuery: any;
 @Component({
   selector: 'app-categorias-admin',
   templateUrl: './categorias-admin.component.html',
-  styleUrls: ['./categorias-admin.component.css', '../../../_shared/shared.css']
+
 })
 
 
@@ -84,6 +84,8 @@ export class CategoriasAdminComponent implements OnInit {
             previous: 'Ant.'
           },
         },
+        // Use this attribute to enable the responsive extension
+        responsive: true,
         ajax: (dataTablesParameters: any, callback) => {
           this.dtOptionsAdicional.raw++;
           dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
@@ -124,9 +126,6 @@ export class CategoriasAdminComponent implements OnInit {
     this.categoriasService.close(id);
   }
 
-  openModalHtml(){
-
-  }
 
   MostrarReporte(param_id_catzonaeconomica){
     this.categoriasService.getReporte('/reportes/categorias',$(param_id_catzonaeconomica).val());
