@@ -42,7 +42,7 @@ export class CatplantelesFormComponent implements OnInit, OnDestroy {
   record: Catplanteles;
   catzonaeconomicaCat:Catzonaeconomica[];
   catzonageograficaCat:Catzonageografica[];
-  catregionesCat:Catregiones[];
+  //catregionesCat:Catregiones[];
   catmunicipiosCat:Catmunicipios[];
   catlocalidadesCat:Catlocalidades[];
   catturnosCat:Catturnos[];
@@ -63,8 +63,8 @@ export class CatplantelesFormComponent implements OnInit, OnDestroy {
       this.catzonageograficaSvc.getCatalogo().subscribe(resp => {
         this.catzonageograficaCat = resp;
       });
-      this.catregionesSvc.getCatalogo().subscribe(resp => {
-        this.catregionesCat = resp;
+      this.catmunicipiosSvc.getCatalogoSegunEntidad(30).subscribe(resp => {
+        this.catmunicipiosCat = resp;
       });
       this.catturnosSvc.getCatalogo().subscribe(resp => {
         this.catturnosCat = resp;
@@ -102,7 +102,7 @@ export class CatplantelesFormComponent implements OnInit, OnDestroy {
       this.elementModal.remove();
   }
 
-  onSelectRegion(id_region) {
+  /*onSelectRegion(id_region) {
     this.record.id_catregion=id_region;
     this.record.id_catmunicipios=0;
     this.catlocalidadesCat=[];
@@ -110,7 +110,7 @@ export class CatplantelesFormComponent implements OnInit, OnDestroy {
     this.catmunicipiosSvc.getCatalogo(id_region).subscribe(resp => {
       this.catmunicipiosCat = resp;
     });
-  }
+  }*/
 
   onSelectMunicipio(id_municipio) {
     this.record.id_catmunicipios=id_municipio;
@@ -150,14 +150,8 @@ export class CatplantelesFormComponent implements OnInit, OnDestroy {
     } else {
     this.catplantelesService.getRecord(idItem).subscribe(resp => {
       this.record = resp;
-      this.catmunicipiosSvc.getCatalogo(this.record.id_catregion).subscribe(resp => {
-        this.catmunicipiosCat = resp;
         this.catlocalidadesSvc.getCatalogo(this.record.id_catmunicipios).subscribe(resp => {
           this.catlocalidadesCat = resp;
-          /*this.catplantelesService.getRecord(idItem).subscribe(resp => {
-            this.record = resp;
-          });*/
-        });
       });
     });
   }

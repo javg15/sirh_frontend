@@ -36,6 +36,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
   @ViewChild('txtzonaeconomica') txtzonaeconomica: ElementRef;
   @ViewChild('txtzonageografica') txtzonageografica: ElementRef;
   @ViewChild('txtplazasdisponibles') txtplazasdisponibles: ElementRef;
+  @ViewChild('txtplazasautorizadas') txtplazasautorizadas: ElementRef;
   @ViewChild('txtconsecutivo') txtconsecutivo: ElementRef;
 
   record: Plazas;
@@ -126,6 +127,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
     if(this.record.id_categorias>0 && this.record.id_catplanteles>0){
       this.plazasService.getRecordPlazasInfo(this.record.id_categorias,this.record.id_catplanteles).subscribe(resp => {
         this.txtplazasdisponibles.nativeElement.value=resp[0].fn_plazas_disponibles.totalplazasdisponibles;
+        this.txtplazasautorizadas.nativeElement.value=resp[0].fn_plazas_disponibles.totalplazasautorizadas;
       });
       this.plazasService.getConsecutivo(this.record.id_categorias).subscribe(resp => {
         this.txtconsecutivo.nativeElement.value=resp;
