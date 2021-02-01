@@ -71,7 +71,7 @@ export class PlantillasFormComponent implements OnInit, OnDestroy {
 
   newRecord(idCatplanteles:number,idCatplantillas:number): Plantillaspersonal {
     return {
-      id: 0,  id_catplanteles: idCatplanteles, id_personal:0, id_catplantillas: idCatplantillas, consecutivo:0,id_usuarios_autoriza:0,
+      id: 0,  id_catplanteles: idCatplanteles, id_personal:0, id_catplantillas: idCatplantillas, consecutivo:'',id_usuarios_autoriza:0,
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }
@@ -133,13 +133,14 @@ export class PlantillasFormComponent implements OnInit, OnDestroy {
     if(idItem=="0"){
       this.plantillasService.getConsecutivo(idCatplanteles,idCatplantillas).subscribe(resp => {
         this.record =this.newRecord(idCatplanteles,idCatplantillas);
-        this.record.consecutivo=resp;
+        this.record.consecutivo=resp.toString().padStart(5 , "0");
       });
 
     } else {
       //obtener el registro
       this.plantillasService.getRecord(idItem).subscribe(resp => {
         this.record = resp;
+        this.record.consecutivo=this.record.consecutivo.toString().padStart(5 , "0");
       });
       //obtener el registro del personal relacionado
       this.plantillasService.getRecordPersonal(idItem).subscribe(resp => {
@@ -191,17 +192,19 @@ export class PlantillasFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  onCatplantelesChange(){
+  onCatplantelesChange(select_plantel){
+    this.record.id_catplanteles=select_plantel;
     this.getConsecutivo()
   }
-  onCatplanillasChange(){
+  onCatplanillasChange(select_plantilla){
+    this.record.id_catplantillas=select_plantilla;
     this.getConsecutivo()
   }
 
   getConsecutivo(){
-    if(this.record.id_catplanteles>0 && this.record.id_catplantillas>0 && this.record.id_personal>0){
+    if(this.record.id_catplanteles>0 && this.record.id_catplantillas>0){
       this.plantillasService.getConsecutivo(this.record.id_catplanteles,this.record.id_catplantillas).subscribe(resp => {
-        this.record.consecutivo=resp;
+        this.record.consecutivo=resp.toString().padStart(5 , "0");
       });
     }
   }

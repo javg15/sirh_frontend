@@ -52,8 +52,9 @@ export class PlantillasAdminComponent implements OnInit {
   nombreModulo = 'Plantillas';
 
   headersAdmin: any;
+  id_catdocumentos:number;
   record:Plantillaspersonal={
-      id: 0,  id_catplanteles: 0, id_personal:0, id_catplantillas: 0, consecutivo:0,id_usuarios_autoriza:0,
+      id: 0,  id_catplanteles: 0, id_personal:0, id_catplantillas: 0, consecutivo:'',id_usuarios_autoriza:0,
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     }
   ;
@@ -208,6 +209,11 @@ export class PlantillasAdminComponent implements OnInit {
   onSelectIdPersonal(val: any) {
     let items=val["full_name"].split(" -- ");
     this.record.id_personal=parseInt(items[2]);
+    this.onClickBuscar();
+  }
+
+  onSelectDocumentos(val: any){
+    this.id_catdocumentos = val;
     this.onClickBuscar();
   }
 }

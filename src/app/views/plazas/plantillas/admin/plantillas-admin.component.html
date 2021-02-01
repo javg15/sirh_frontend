@@ -16,10 +16,10 @@
                         </ng-select2>
                     </div>
                 </div>
-                <div class="form-group col-sm-4">
+                <div class="form-group col-sm-3">
                     <div class="form-group">
                         <label for="">Personal</label>
-                        <div class="ng-autocomplete">
+                        <div class="ng-autocomplete" style="width: auto !important">
                             <ng-autocomplete #id_personal [data]="catpersonalCat" (selected)='onSelectIdPersonal($event)' (inputChanged)='onChangeSearchIdPersonal($event)' [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate" [searchKeyword]="keywordSearch" [minQueryLength]="3"
                                 [debounceTime]="100" [isLoading]="isLoadingSearch" (inputCleared)='onCleared()'>
                             </ng-autocomplete>
@@ -40,7 +40,25 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="form-group col-sm-3">
+                    <div class="form-group">
+                        <label for="id_catdocumentos">Documento</label>
+                        <select class="form-control" [(ngModel)]="id_catdocumentos" (change)="onSelectDocumentos($event.target.value)">
+                          <option value = ""></option>
+                          <option value = "1">Información general (Datos generales)</option>
+                          <option value = "2">Nombramiento (Datos laborales)</option>
+                          <option value = "3">Datos de estudios</option>
+                          <option value = "4">Histórico de nombramientos</option>
+                          <option value = "5">Seguro institucional (Beneficiarios)</option>
+                          <option value = "6">Pensiones, juicios (Beneficiarios)</option>
+                          <option value = "7">Datos de familiares</option>
+                          <option value = "8">Permisos y licencias</option>
+                          <option value = "9">Cursos y actualizaciones</option>
+                          <option value = "10">Horario laboral</option>
+                          <option value = "11">Datos clínicos</option>
+                      </select>
+                    </div>
+                </div>
             </div>
 
             <app-header-admin id="header-admin-1" [nombreModulo]="nombreModulo" (agregarEvent)="openModal('custom-modal-1','nuevo',0,record.id_catplanteles,record.id_catplantillas)" (reporteEvent)="largeModal.show()">

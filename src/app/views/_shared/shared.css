@@ -30,6 +30,10 @@ table.dataTable td {
 
 /*autocomplete*/
 
+.ng-autocomplete {
+    width: auto !important;
+}
+
 .autocomplete-container .input-container input {
     line-height: 30px !important;
     height: 30px !important;

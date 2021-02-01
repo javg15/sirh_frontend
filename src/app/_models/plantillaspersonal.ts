@@ -12,7 +12,7 @@ export default interface Plantillaspersonal {
 
   id_catplantillas: number;
 
-  consecutivo: number;
+  consecutivo: string;
 
   id_usuarios_autoriza: number | null;
 
@@ -42,7 +42,7 @@ export interface PlantillaspersonalInitializer {
   id_catplantillas?: number;
 
   /** Default value: 0 */
-  consecutivo?: number;
+  consecutivo?: string;
 
   id_usuarios_autoriza?: number;
 
