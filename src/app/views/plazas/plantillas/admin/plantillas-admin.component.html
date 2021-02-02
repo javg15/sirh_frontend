@@ -42,9 +42,9 @@
                 </div>
                 <div class="form-group col-sm-3">
                     <div class="form-group">
-                        <label for="id_catdocumentos">Documento</label>
-                        <select class="form-control" [(ngModel)]="id_catdocumentos" (change)="onSelectDocumentos($event.target.value)">
-                          <option value = ""></option>
+                        <label for="tipoDocumento">Documento</label>
+                        <select class="form-control" [(ngModel)]="tipoDocumento" (change)="onSelectDocumentos($event.target.value)">
+                          <option value = "0">Todo</option>
                           <option value = "1">Información general (Datos generales)</option>
                           <option value = "2">Nombramiento (Datos laborales)</option>
                           <option value = "3">Datos de estudios</option>
@@ -61,7 +61,7 @@
                 </div>
             </div>
 
-            <app-header-admin id="header-admin-1" [nombreModulo]="nombreModulo" (agregarEvent)="openModal('custom-modal-1','nuevo',0,record.id_catplanteles,record.id_catplantillas)" (reporteEvent)="largeModal.show()">
+            <app-header-admin id="header-admin-1" [nombreModulo]="nombreModulo" (agregarEvent)="openModal('custom-modal-1','nuevo',0,record.id_catplanteles,record.id_catplantillas,tipoDocumento)" (reporteEvent)="largeModal.show()">
             </app-header-admin>
             <div class="row">
                 <div class="col-md-12 mx-auto">
@@ -73,16 +73,16 @@
                                         <!--<td><img src="assets/{{ member[col] }}" width="50" /></td>-->
                                         <td>
                                             <div *ngFor="let boton of member[col].split(',')" style="display: contents;">
-                                                <button *ngIf="boton=='ver'" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','ver',member.id,0,0)">
+                                                <button *ngIf="boton=='ver'" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','ver',member.id,0,0,0)">
                                               <i class="fa fa-search"></i>
                                           </button>
-                                                <button *ngIf="boton=='editar'" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','editar',member.id,0,0)">
+                                                <button *ngIf="boton=='editar'" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','editar',member.id,0,0,0)">
                                               <i class="fa fa-edit"></i>
                                           </button>
-                                                <button *ngIf="boton=='deshabilitar'" title="Desactivar" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','deshabilitar',member.id,0,0)">
+                                                <button *ngIf="boton=='deshabilitar'" title="Desactivar" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','deshabilitar',member.id,0,0,0)">
                                               <i class="fa fa-ban"></i>
                                           </button>
-                                                <button *ngIf="boton=='documentacion'" title="Documentación" class="btn btn-brand btn-sm mr-1 btn-xing" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-2','editar',member.id)">
+                                                <button *ngIf="boton=='documentacion'" title="Documentación" class="btn btn-brand btn-sm mr-1 btn-xing" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-2','editar',member.id,0,0,tipoDocumento)">
                                             <i class="fa fa-file"></i>
                                         </button>
                                             </div>

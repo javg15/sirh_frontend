@@ -93,9 +93,9 @@ export class PlantillasService {
       this.modals = this.modals.filter(x => x.id !== id);
   }
 
-  public open(id: string, accion: string, idItem: number,idCatplanteles:number,idCatplantillas:number) {
+  public open(id: string, accion: string, idItem: number,idCatplanteles:number,idCatplantillas:number,tipoDocumento:number) {
     let modal: any = this.modals.filter(x => x.id === id)[0];
-    modal.open(idItem, accion,idCatplanteles,idCatplantillas);
+    modal.open(idItem, accion,idCatplanteles,idCatplantillas,tipoDocumento);
   }
 
   public close(id: string) {

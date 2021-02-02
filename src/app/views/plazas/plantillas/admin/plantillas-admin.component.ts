@@ -44,15 +44,15 @@ export class PlantillasAdminComponent implements OnInit {
   private dtOptionsAdicional = {
     datosBusqueda: {campo: 0, operador: 0, valor: ''},
     raw:0
-    ,fkey:'id_catplanteles,id_catplantillas,id_personal'
-    ,fkeyvalue:[0,0,0]
+    ,fkey:'id_catplanteles,id_catplantillas,id_personal,tipoDocumento'
+    ,fkeyvalue:[0,0,0,0]
     ,modo:22
   };
 
   nombreModulo = 'Plantillas';
 
   headersAdmin: any;
-  id_catdocumentos:number;
+  tipoDocumento:number;
   record:Plantillaspersonal={
       id: 0,  id_catplanteles: 0, id_personal:0, id_catplantillas: 0, consecutivo:'',id_usuarios_autoriza:0,
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
@@ -136,12 +136,14 @@ export class PlantillasAdminComponent implements OnInit {
 
         columns: this.headersAdmin,
         columnDefs:[{"visible": false, "targets": 0}, //state
-                {"width": "5%", "targets": 1}]
+                {"width": "5%", "targets": [1]},
+                {"width": "10%", "targets": [this.headersAdmin-1]}
+              ]
       };
 
   }
-  openModal(id: string, accion: string, idItem: number,idCatplanteles:number,idCatplantillas:number) {
-    this.plantillasService.open(id, accion, idItem,idCatplanteles,idCatplantillas);
+  openModal(id: string, accion: string, idItem: number,idCatplanteles:number,idCatplantillas:number,tipoDocumento:number) {
+    this.plantillasService.open(id, accion, idItem,idCatplanteles,idCatplantillas,tipoDocumento);
   }
 
   closeModal(id: string) {
@@ -177,7 +179,8 @@ export class PlantillasAdminComponent implements OnInit {
     this.dtOptionsAdicional.fkeyvalue=[
       (this.record.id_catplanteles==null?0:this.record.id_catplanteles),
       (this.record.id_catplantillas==null?0:this.record.id_catplantillas),
-      this.record.id_personal
+      this.record.id_personal,
+      (this.tipoDocumento==null?0:this.tipoDocumento),
     ]
     this.reDraw();
   }
@@ -213,7 +216,7 @@ export class PlantillasAdminComponent implements OnInit {
   }
 
   onSelectDocumentos(val: any){
-    this.id_catdocumentos = val;
+    this.tipoDocumento = val;
     this.onClickBuscar();
   }
 }

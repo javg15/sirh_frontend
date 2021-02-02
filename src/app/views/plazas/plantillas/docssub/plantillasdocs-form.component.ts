@@ -48,9 +48,9 @@ export class PlantillasDocsFormComponent implements OnInit, OnDestroy {
         this.elementModal = el.nativeElement;
   }
 
-  newRecord(idParent:number): Plantillaspersonaldocs {
+  newRecord(idParent:number,tipoDocumento:number): Plantillaspersonaldocs {
     return {
-      id: 0,  id_plantillaspersonal: idParent, tipodoc:0, id_archivos:0,
+      id: 0,  id_plantillaspersonal: idParent, tipodoc:tipoDocumento, id_archivos:0,
       ultimogradoestudios:0,areacarrera:0,carrera:0,estatus:0,
       fechaexpedicion:null,
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
@@ -58,7 +58,7 @@ export class PlantillasDocsFormComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
 
-    this.record =this.newRecord(0);
+    this.record =this.newRecord(0,0);
 
     let modal = this;
 
@@ -99,14 +99,14 @@ export class PlantillasDocsFormComponent implements OnInit, OnDestroy {
   }
 
   // open modal
-  open(idItem: string, accion: string,idParent:number):  void {
+  open(idItem: string, accion: string,idParent:number,tipoDocumento:number):  void {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
     this.tituloForm=titulosModal[accion] + " registro";
     this.formUpload.resetFile();
 
     if(idItem=="0"){
-        this.record =this.newRecord(idParent);
+        this.record =this.newRecord(idParent,tipoDocumento);
         this.listUpload.showFiles(idParent);
     } else {
       //obtener el registro

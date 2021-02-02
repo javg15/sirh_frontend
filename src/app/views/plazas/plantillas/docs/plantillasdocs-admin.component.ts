@@ -47,9 +47,9 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   };
   private dtOptionsAdicional = { datosBusqueda: {campo: 0, operador: 0, valor: ''}
     ,raw:0
-    ,fkey:'id_plantillaspersonal'
-    ,fkeyvalue:0
-    ,modo:2
+    ,fkey:'id_plantillaspersonal,tipodoc'
+    ,fkeyvalue:[0,0]
+    ,modo:22
   };
 
   NumberOfMembers = 0;
@@ -63,6 +63,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   tituloForm: string;
 
   record_id_plantillaspersonal:number;
+  record_tipodoc:number;
 
   private elementModal: any;
   @ViewChild('basicModal') basicModal: ModalDirective;
@@ -134,11 +135,12 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
 
 
   // open modal
-  open(idItem: string, accion: string):  void {
+  open(idItem: string, accion: string,idCatplanteles:string,idCatplantillas:string,tipoDocumento:string):  void {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
     this.tituloForm=titulosModal[accion] + " registro";
     this.record_id_plantillaspersonal=parseInt(idItem);
+    this.record_tipodoc=parseInt(tipoDocumento);
 
     this.reDraw();
 
@@ -161,9 +163,9 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
 
 
   //Sub formulario
-  openModal(id: string, accion: string, idItem: number,idParent:number) {
+  openModal(id: string, accion: string, idItem: number,idParent:number,tipoDocumento:number) {
     //console.log("idItem=>",idItem,"idParent=>",idParent,"idInput=>",this.idInput.nativeElement.value)
-    this.plantillasdocsService.open(id, accion, idItem,idParent);
+    this.plantillasdocsService.open(id, accion, idItem,idParent,tipoDocumento);
   }
 
   closeModal(id: string) {
@@ -174,7 +176,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
 
 
     this.dtOptionsAdicional.raw++;
-    this.dtOptionsAdicional.fkeyvalue=this.record_id_plantillaspersonal;
+    this.dtOptionsAdicional.fkeyvalue=[this.record_id_plantillaspersonal,this.record_tipodoc];
     this.dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
 
     this.plantillasdocsService.getAdmin(this.dataTablesParameters).subscribe(resp => {
