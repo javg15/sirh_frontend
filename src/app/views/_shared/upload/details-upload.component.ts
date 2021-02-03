@@ -19,8 +19,8 @@ export class DetailsUploadComponent implements OnInit {
   ngOnInit() {
   }
 
-  getFile(id){
-    this.uploadFileSvc.getFile(id);
+  getFile(id,tipo){
+    this.uploadFileSvc.getFile(id,tipo);
   }
 
 }

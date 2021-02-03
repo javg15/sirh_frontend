@@ -8,7 +8,7 @@ import { Categoriassueldos, Catzonaeconomica, Catquincena } from '../../../../_m
 import { CatquincenaService } from '../../catquincena/services/catquincena.service';
 import { CatzonaeconomicaService } from '../../catzonaeconomica/services/catzonaeconomica.service';
 
-import { ValidationSummaryComponent } from '../../../_shared/validation-summary.component';
+import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 
 import { CategoriassueldosService } from '../services/categoriassueldos.service';

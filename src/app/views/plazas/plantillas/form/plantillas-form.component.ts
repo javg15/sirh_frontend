@@ -6,7 +6,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Plantillaspersonal, Catplantillas, Catplanteles, Personal } from '../../../../_models';
 import { CatplantillasService } from '../../../catalogos/catplantillas/services/catplantillas.service';
 import { CatplantelesService } from '../../../catalogos/catplanteles/services/catplanteles.service';
-import { ValidationSummaryComponent } from '../../../_shared/validation-summary.component';
+import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 import { PersonalService } from '../../personal/services/personal.service';
 import { AutocompleteComponent } from 'angular-ng-autocomplete';
@@ -45,6 +45,7 @@ export class PlantillasFormComponent implements OnInit, OnDestroy {
   recordpersonalCat:Personal={id: 0,curp: '', rfc: '',  homoclave: '',
       state: '', nombre: '', apellidopaterno: '', apellidomaterno:'',id_catestadocivil:0,
       fechanacimiento: null, id_catestadosresi: 0, id_catmunicipiosresi: 0, id_catlocalidadesresi: 0,
+      id_archivos_avatar:0,
       telefono: '', email: '', emailoficial:'',observaciones:'',sexo:0,
       created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
   };

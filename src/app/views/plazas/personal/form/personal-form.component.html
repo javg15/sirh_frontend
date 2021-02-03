@@ -12,124 +12,141 @@
                 <form #dataForm="ngForm" (ngSubmit)="submitAction(dataForm)">
                     <input type="hidden" name="action" value="{{ actionForm }}">
                     <div class="form-group">
-
                         <input type="hidden" [(ngModel)]="record.id" class="form-control" name="ID">
                     </div>
-                    <div class="row">
-                        <div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="nombre">Nombre</label>
-                                <input type="text" [(ngModel)]="record.nombre" class="form-control" name="Nombre">
+                    <!-- Nav tabs -->
+                    <tabset>
+                        <tab heading="Generales">
+
+                            <div class="row">
+                                <div class="form-group col-sm-4">
+                                    <div class="form-group">
+                                        <label for="nombre">Nombre</label>
+                                        <input type="text" [(ngModel)]="record.nombre" class="form-control" name="Nombre">
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <div class="form-group">
+                                        <label for="apellidopaterno">Apellido Paterno</label>
+                                        <input type="text" [(ngModel)]="record.apellidopaterno" class="form-control" name="Apellido Paterno">
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <div class="form-group">
+                                        <label for="apellidomaterno">Apellido Materno</label>
+                                        <input type="text" [(ngModel)]="record.apellidomaterno" class="form-control" name="Apellido Materno">
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="apellidopaterno">Apellido Paterno</label>
-                                <input type="text" [(ngModel)]="record.apellidopaterno" class="form-control" name="Apellido Paterno">
+                            <div class="row">
+                                <div class="form-group col-sm-5">
+                                    <div class="form-group">
+                                        <label for="curp">CURP</label>
+                                        <input type="text" [(ngModel)]="record.curp" class="form-control" name="CURP" (change)="onChangeCurp($event.target.value)">
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <div class="form-group">
+                                        <label for="rfc">RFC</label>
+                                        <input type="text" [(ngModel)]="record.rfc" class="form-control" name="RFC">
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group">
+                                        <label for="homoclave">Homoclave</label>
+                                        <input type="text" [(ngModel)]="record.homoclave" class="form-control" name="Homoclave">
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="apellidomaterno">Apellido Materno</label>
-                                <input type="text" [(ngModel)]="record.apellidomaterno" class="form-control" name="Apellido Materno">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-5">
-                            <div class="form-group">
-                                <label for="curp">CURP</label>
-                                <input type="text" [(ngModel)]="record.curp" class="form-control" name="CURP" (change)="onChangeCurp($event.target.value)">
-                            </div>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="rfc">RFC</label>
-                                <input type="text" [(ngModel)]="record.rfc" class="form-control" name="RFC">
-                            </div>
-                        </div>
-                        <div class="form-group col-sm-3">
-                            <div class="form-group">
-                                <label for="homoclave">Homoclave</label>
-                                <input type="text" [(ngModel)]="record.homoclave" class="form-control" name="Homoclave">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-3">
-                            <div class="form-group">
-                                <label for="sexo">Sexo</label>
-                                <select class="form-control" [(ngModel)]="record.sexo" name="Sexo" (change)="onSelectSexo($event.target.value)">
+                            <div class="row">
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group">
+                                        <label for="sexo">Sexo</label>
+                                        <select class="form-control" [(ngModel)]="record.sexo" name="Sexo" (change)="onSelectSexo($event.target.value)">
                             <option value=""></option>
                             <option value="1">Mujer</option>
                             <option value="2">Hombre</option>
                             <option value="3">Otro</option>
                           </select>
-                            </div>
-                        </div>
-                        <div class="form-group col-sm-3">
-                            <div class="form-group">
-                                <label for="id_catestadocivil">Estado civil</label>
-                                <select class="form-control" [(ngModel)]="record.id_catestadocivil" name="Estado civil">
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group">
+                                        <label for="id_catestadocivil">Estado civil</label>
+                                        <select class="form-control" [(ngModel)]="record.id_catestadocivil" name="Estado civil">
                                   <option *ngFor="let col of catestadocivilCat" [value]="col.id">{{ col.descripcion }}</option>
                                 </select>
-                            </div>
-                        </div>
+                                    </div>
+                                </div>
 
-                        <div class="form-group col-sm-3">
-                            <div class="form-group">
-                                <label for="fechanacimiento">Fecha de nacimiento</label>
-                                <input id="txtFechanacimiento" type="date" [(ngModel)]="record.fechanacimiento" class="form-control" name="Fecha de nacimiento">
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group">
+                                        <label for="fechanacimiento">Fecha de nacimiento</label>
+                                        <input id="txtFechanacimiento" type="date" [(ngModel)]="record.fechanacimiento" class="form-control" name="Fecha de nacimiento">
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="id_catestadosresi">Entidad</label>
-                                <select class="form-control" [(ngModel)]="record.id_catestadosresi" name="Entidad" (change)="onSelectEntidad($event.target.value)">
+                            <div class="row">
+                                <div class="form-group col-sm-4">
+                                    <div class="form-group">
+                                        <label for="id_catestadosresi">Entidad</label>
+                                        <select class="form-control" [(ngModel)]="record.id_catestadosresi" name="Entidad" (change)="onSelectEntidad($event.target.value)">
                                 <option *ngFor="let col of catestadosCat" [value]="col.id">{{ col.descripcion }}</option>
                               </select>
-                            </div>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="id_catmunicipiosresi">Municipio</label>
-                                <select class="form-control" [(ngModel)]="record.id_catmunicipiosresi" name="Municipio" (change)="onSelectMunicipio($event.target.value)">
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <div class="form-group">
+                                        <label for="id_catmunicipiosresi">Municipio</label>
+                                        <select class="form-control" [(ngModel)]="record.id_catmunicipiosresi" name="Municipio" (change)="onSelectMunicipio($event.target.value)">
                                 <option *ngFor="let col of catmunicipiosCat" [value]="col.id">{{ col.descripcion }}</option>
                               </select>
-                            </div>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="id_catlocalidadesresi">Localidad</label>
-                                <select class="form-control" [(ngModel)]="record.id_catlocalidadesresi" name="Localidad">
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <div class="form-group">
+                                        <label for="id_catlocalidadesresi">Localidad</label>
+                                        <select class="form-control" [(ngModel)]="record.id_catlocalidadesresi" name="Localidad">
                               <option *ngFor="let col of catlocalidadesCat" [value]="col.id">{{ col.descripcion }}</option>
                             </select>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
+                            <div class="row">
 
-                        <div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="telefono">Teléfono</label>
-                                <input type="text" [(ngModel)]="record.telefono" class="form-control" name="Teléfono" mask="(000)000-0000" [specialCharacters]="[ '(' ,')' , '-' ]">
+                                <div class="form-group col-sm-4">
+                                    <div class="form-group">
+                                        <label for="telefono">Teléfono</label>
+                                        <input type="text" [(ngModel)]="record.telefono" class="form-control" name="Teléfono" mask="(000)000-0000" [specialCharacters]="[ '(' ,')' , '-' ]">
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <div class="form-group">
+                                        <label for="email">Cuenta de correo particular</label>
+                                        <input type="text" [(ngModel)]="record.email" class="form-control" name="E-mail particular">
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <div class="form-group">
+                                        <label for="emailoficial">Cuenta de correo oficial</label>
+                                        <input type="text" [(ngModel)]="record.emailoficial" class="form-control" name="E-mail oficial">
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="email">Cuenta de correo particular</label>
-                                <input type="text" [(ngModel)]="record.email" class="form-control" name="E-mail particular">
+                        </tab>
+                        <tab heading="Perfil">
+                            <div class="row">
+                                <div class="form-group col-sm-4">
+                                    <label for="archivo">Archivo .jpg .png (fotografía)  </label>
+                                    <form-upload (onLoaded)="onLoadedFile($event)" [actionForm]="actionForm" [idFile]="record.id_archivos_avatar"></form-upload>
+                                    <br/>
+                                    <br/>
+
+                                    <list-upload></list-upload>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="emailoficial">Cuenta de correo oficial</label>
-                                <input type="text" [(ngModel)]="record.emailoficial" class="form-control" name="E-mail oficial">
-                            </div>
-                        </div>
-                    </div>
+                        </tab>
+                    </tabset>
                     <div class="row">
                         &nbsp;
                     </div>

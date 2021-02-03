@@ -14,15 +14,21 @@ export class LoginComponent implements OnInit {
   isLoginFailed = false;
   errorMessage = '';
   roles: string[] = [];
+  periodoCat:any[]=[];
 
   constructor(private authService: AuthService, private tokenStorage: TokenStorageService,
-    private router: Router) { }
+    private router: Router) {
+
+    }
 
   ngOnInit(): void {
     if (this.tokenStorage.getToken()) {
       this.isLoggedIn = true;
       this.roles = this.tokenStorage.getUser().roles;
     }
+
+    for(let i=2020;i<=new Date().getFullYear();i++)
+      this.periodoCat.push({id:i,descripcion:i});
   }
 
   onSubmit(): void {
@@ -30,6 +36,7 @@ export class LoginComponent implements OnInit {
       data => {
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUser(data);
+        this.tokenStorage.savePeriodo(this.form.periodo)
 
         this.isLoginFailed = false;
         this.isLoggedIn = true;

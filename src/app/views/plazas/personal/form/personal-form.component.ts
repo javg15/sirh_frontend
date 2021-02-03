@@ -6,9 +6,13 @@ import { CatlocalidadesService } from '../../../catalogos/catlocalidades/service
 import { CatestadocivilService } from '../../../catalogos/catestadocivil/services/catestadocivil.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Personal,  Catestados, Catmunicipios, Catlocalidades, Catestadocivil } from '../../../../_models';
-import { ValidationSummaryComponent } from '../../../_shared/validation-summary.component';
+import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
+import { Archivos } from '../../../../_models';
+import { ArchivosService } from '../../../catalogos/archivos/services/archivos.service';
 
+import { ListUploadComponent } from '../../../_shared/upload/list-upload.component';
+import { FormUploadComponent } from '../../../_shared/upload/form-upload.component';
 
 
 declare var $: any;
@@ -31,8 +35,11 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
   @ViewChild('basicModal') basicModal: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
+  @ViewChild(ListUploadComponent) listUpload: ListUploadComponent;
+  @ViewChild(FormUploadComponent) formUpload: FormUploadComponent;
 
   record: Personal;
+  recordFile:Archivos;
   catestadosCat:Catestados[];
   catmunicipiosCat:Catmunicipios[];
   catlocalidadesCat: Catlocalidades[];
@@ -44,6 +51,7 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
       private catmunicipiosSvc: CatmunicipiosService,
       private catlocalidadesSvc: CatlocalidadesService,
       private catestadocivilSvc: CatestadocivilService,
+      private archivosSvc:ArchivosService,
       ) {
       this.elementModal = el.nativeElement;
       this.catestadosSvc.getCatalogo().subscribe(resp => {
@@ -59,6 +67,7 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
       id: 0,curp: '', rfc: '',  homoclave: '',
       state: '', nombre: '', apellidopaterno: '', apellidomaterno:'',id_catestadocivil:0,
       fechanacimiento: null, id_catestadosresi: 0, id_catmunicipiosresi: 0, id_catlocalidadesresi: 0,
+      id_archivos_avatar:0,
       telefono: '', email: '', emailoficial:'',observaciones:'',sexo:0,
       created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
@@ -145,11 +154,34 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
         else if(resp.message=="success"){
           if(this.actionForm.toUpperCase()==="NUEVO") this.actionForm="editar";
           this.record.id=resp.id;
-          this.successModal.show();
-          setTimeout(()=>{ this.successModal.hide(); }, 2000)
+
+          //actualizar el registro de la tabla archivos
+          if(this.record.id_archivos_avatar>0){
+            this.recordFile={id:this.record.id_archivos_avatar,
+                  tabla:"personal",
+                  id_tabla:this.record.id,
+                  tipo: null,  nombre:  null,  datos: null,  id_usuarios_r: 0,
+                  state: '',  created_at: null,   updated_at: null
+                };
+
+              this.archivosSvc.setRecordReferencia(this.recordFile,this.actionForm).subscribe(resp => {
+                this.successModal.show();
+                setTimeout(()=>{ this.successModal.hide(); }, 2000)
+              });
+          }
+          else{
+            this.successModal.show();
+            setTimeout(()=>{ this.successModal.hide(); }, 2000)
+          }
         }
       });
     }
+  }
+
+  //Archivo cargado
+  onLoadedFile(idFile:number){
+    this.record.id_archivos_avatar=idFile;
+    this.listUpload.showFiles(this.record.id_archivos_avatar);
   }
 
   // open modal
@@ -164,6 +196,7 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
 
     this.personalService.getRecord(idItem).subscribe(resp => {
       this.record = resp;
+      this.listUpload.showFiles(this.record.id_archivos_avatar);
     });
   }
 

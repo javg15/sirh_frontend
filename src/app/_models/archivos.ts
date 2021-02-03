@@ -6,7 +6,7 @@ export default interface Archivos {
 
   tabla: string | null;
 
-  idTabla: number | null;
+  id_tabla: number | null;
 
   tipo: string | null;
 
@@ -32,7 +32,7 @@ export interface ArchivosInitializer {
 
   tabla?: string;
 
-  idTabla?: number;
+  id_tabla?: number;
 
   tipo?: string;
 

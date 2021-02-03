@@ -4,7 +4,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Catlocalidades } from '../../../../_models';
 import { CatmunicipiosService } from '../../catmunicipios/services/catmunicipios.service';
 import { Catmunicipios } from '../../../../_models';
-import { ValidationSummaryComponent } from '../../../_shared/validation-summary.component';
+import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../../src/environments/environment';
 
 

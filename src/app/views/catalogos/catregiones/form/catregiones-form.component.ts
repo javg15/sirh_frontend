@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, Eve
 import { CatregionesService } from '../services/catregiones.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Catregiones } from '../../../../_models';
-import { ValidationSummaryComponent } from '../../../_shared/validation-summary.component';
+import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../../src/environments/environment';
 
 

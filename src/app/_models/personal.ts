@@ -28,6 +28,8 @@ export default interface Personal {
 
   id_catlocalidadesresi: number;
 
+  id_archivos_avatar: number;
+
   telefono: string;
 
   email: string;
@@ -75,6 +77,8 @@ export interface PersonalInitializer {
   id_catmunicipiosresi: number;
 
   id_catlocalidadesresi: number;
+
+  id_archivos_avatar: number;
 
   telefono: string;
 

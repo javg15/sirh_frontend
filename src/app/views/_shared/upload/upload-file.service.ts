@@ -19,7 +19,7 @@ export class UploadFileService {
     const formdata: FormData = new FormData();
 
     formdata.append('file', file);
-    formdata.append('idFile', idFile.toString());
+    formdata.append('idFile',(idFile==null?"0":idFile.toString()));
 
     const req = new HttpRequest('POST', this.API_URL + '/archivos/upload', formdata, {
       reportProgress: true,
@@ -34,7 +34,7 @@ export class UploadFileService {
   }
 
   //getFile(id): Observable<any> {
-  getFile(id){
+  getFile(id,tipo){
     const token = this.token.getToken();
     let headers: any = {'Authorization': token};
     //let params = new HttpParams().set("id_ze", id_ze);
@@ -45,8 +45,8 @@ export class UploadFileService {
 
     this.http.get(this.API_URL + '/archivos/' + id, {responseType: 'arraybuffer'})
     .subscribe( data => {
-      console.log(data)
-      var file = new Blob([data], {type: 'application/pdf'});
+      console.log("data=>",data)
+      var file = new Blob([data], {type: tipo});
       var fileURL = window.URL.createObjectURL(file);
       window.open(fileURL);
   });

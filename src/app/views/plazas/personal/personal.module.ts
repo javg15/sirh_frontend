@@ -13,6 +13,10 @@ import { DataTablesModule } from 'angular-datatables';
 
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 
+// Tabs Component
+import { TabsModule } from 'ngx-bootstrap/tabs';
+
+
 const maskConfig: Partial<IConfig> = {
   validation: false,
 };
@@ -26,13 +30,16 @@ const maskConfig: Partial<IConfig> = {
     ModalModule.forRoot(),
     SharedModule,
     NgxMaskModule.forRoot(maskConfig),
+    TabsModule.forRoot(),
   ],
   declarations: [
     PersonalAdminComponent,
-    PersonalFormComponent
+    PersonalFormComponent,
   ],
   providers: [
     PersonalService
+  ],
+  exports:[
   ]
 })
 export class PersonalModule { }

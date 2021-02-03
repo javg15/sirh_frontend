@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter} from '@angular/core';
-import { SearchService } from '../../_services/search.service';
+import { SearchService } from '../../../_services/search.service';
 
 
 declare var $: any;

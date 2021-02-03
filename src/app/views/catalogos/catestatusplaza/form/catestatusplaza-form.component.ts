@@ -4,7 +4,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Catestatusplaza } from '../../../../_models';
 import { CattiponominaService } from '../../cattiponomina/services/cattiponomina.service';
 import { Cattiponomina } from '../../../../_models';
-import { ValidationSummaryComponent } from '../../../_shared/validation-summary.component';
+import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../../src/environments/environment';
 
 

@@ -3,9 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Plantillaspersonaldocs } from '../../../../_models';
-import { ValidationSummaryComponent } from '../../../_shared/validation-summary.component';
+import { Archivos } from '../../../../_models';
+import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 
+import { ArchivosService } from '../../../catalogos/archivos/services/archivos.service';
 import { PlantillasdocsService } from '../services/plantillasdocs.service';
 import { ListUploadComponent } from '../../../_shared/upload/list-upload.component';
 import { FormUploadComponent } from '../../../_shared/upload/form-upload.component';
@@ -38,11 +40,14 @@ export class PlantillasDocsFormComponent implements OnInit, OnDestroy {
   @ViewChild(FormUploadComponent) formUpload: FormUploadComponent;
 
   record: Plantillaspersonaldocs;
+  recordFile:Archivos;
   keywordSearch = 'full_name';
   isLoadingSearch:boolean;
   //recordJsonTipodoc1:any={UltimoGradodeEstudios:0,AreadeCarrera:0,Carrera:0,Estatus:0};
 
-  constructor(private plantillasdocsService: PlantillasdocsService,private el: ElementRef,
+  constructor(private plantillasdocsService: PlantillasdocsService,
+    private el: ElementRef,
+    private archivosSvc:ArchivosService,
     private route: ActivatedRoute
       ) {
         this.elementModal = el.nativeElement;
@@ -91,8 +96,27 @@ export class PlantillasDocsFormComponent implements OnInit, OnDestroy {
         else if(resp.message=="success"){
           if(this.actionForm.toUpperCase()==="NUEVO") this.actionForm="editar";
           this.record.id=resp.id;
-          this.successModal.show();
-          setTimeout(()=>{ this.successModal.hide(); }, 2000)
+
+          //actualizar el registro de la tabla archivos
+          if(this.record.id_archivos>0){
+              this.recordFile={id:this.record.id_archivos,
+                  tabla:"plantillaspersonaldocs",
+                  id_tabla:this.record.id,
+                  tipo: null,  nombre:  null,  datos: null,  id_usuarios_r: 0,
+                  state: '',  created_at: null,   updated_at: null
+                };
+
+              this.archivosSvc.setRecordReferencia(this.recordFile,this.actionForm).subscribe(resp => {
+                this.successModal.show();
+                setTimeout(()=>{ this.successModal.hide(); }, 2000)
+              });
+          }
+          else{
+            this.successModal.show();
+            setTimeout(()=>{ this.successModal.hide(); }, 2000)
+          }
+
+
         }
       });
     }

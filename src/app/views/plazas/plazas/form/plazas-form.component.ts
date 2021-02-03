@@ -9,7 +9,7 @@ import { CatzonageograficaService } from '../../../catalogos/catzonageografica/s
 import { CatestatusplazaService } from '../../../catalogos/catestatusplaza/services/catestatusplaza.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Plazas, Categorias, Catcentrostrabajo, Catplanteles, Catzonaeconomica, Catzonageografica, Catestatusplaza } from '../../../../_models';
-import { ValidationSummaryComponent } from '../../../_shared/validation-summary.component';
+import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 
 
@@ -112,7 +112,8 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
       this.catcentrostrabajoCat = resp;
     });
 
-    this.showAdicionalesPlantel(select_plantel);
+    if(select_plantel>0)
+      this.showAdicionalesPlantel(select_plantel);
   }
 
   onSelectCategoria(select_categoria){

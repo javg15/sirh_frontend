@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import { navItems } from '../../_nav';
+import { TokenStorageService } from '../../_services/token-storage.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,6 +9,12 @@ import { navItems } from '../../_nav';
 export class DefaultLayoutComponent {
   public sidebarMinimized = false;
   public navItems = navItems;
+
+  periodo:String=this.tokenStorage.getPeriodo();
+
+  constructor(private tokenStorage: TokenStorageService) {
+
+    }
 
   toggleMinimize(e) {
     this.sidebarMinimized = e;

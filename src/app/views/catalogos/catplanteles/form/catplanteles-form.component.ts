@@ -14,7 +14,7 @@ import { Catregiones } from '../../../../_models';
 import { Catmunicipios } from '../../../../_models';
 import { Catlocalidades } from '../../../../_models';
 import { Catturnos } from '../../../../_models';
-import { ValidationSummaryComponent } from '../../../_shared/validation-summary.component';
+import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../../src/environments/environment';
 
 

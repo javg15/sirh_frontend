@@ -28,6 +28,7 @@ export class FormUploadComponent implements OnInit {
   }
 
   upload() {
+
     this.progress.percentage = 0;
 
     this.currentFileUpload = this.selectedFiles.item(0);
