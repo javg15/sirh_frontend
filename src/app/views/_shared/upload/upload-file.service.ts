@@ -45,7 +45,7 @@ export class UploadFileService {
 
     this.http.get(this.API_URL + '/archivos/' + id, {responseType: 'arraybuffer'})
     .subscribe( data => {
-      console.log("data=>",data)
+
       var file = new Blob([data], {type: tipo});
       var fileURL = window.URL.createObjectURL(file);
       window.open(fileURL);

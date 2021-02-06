@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   isLoginFailed = false;
   errorMessage = '';
   roles: string[] = [];
-  periodoCat:any[]=[];
+  //periodoCat:any[]=[];
 
   constructor(private authService: AuthService, private tokenStorage: TokenStorageService,
     private router: Router) {
@@ -27,8 +27,8 @@ export class LoginComponent implements OnInit {
       this.roles = this.tokenStorage.getUser().roles;
     }
 
-    for(let i=2020;i<=new Date().getFullYear();i++)
-      this.periodoCat.push({id:i,descripcion:i});
+    /*for(let i=2020;i<=new Date().getFullYear();i++)
+      this.periodoCat.push({id:i,descripcion:i});*/
   }
 
   onSubmit(): void {
@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
       data => {
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUser(data);
-        this.tokenStorage.savePeriodo(this.form.periodo)
+        //this.tokenStorage.savePeriodo(this.form.periodo)
 
         this.isLoginFailed = false;
         this.isLoggedIn = true;
@@ -58,5 +58,9 @@ export class LoginComponent implements OnInit {
   logout(): void {
     this.tokenStorage.signOut();
     window.location.reload();
+  }
+
+  inicio(): void {
+    this.router.navigate(['dashboard']);
   }
 }

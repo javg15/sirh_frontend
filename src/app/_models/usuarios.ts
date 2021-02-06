@@ -29,6 +29,8 @@ export default interface Usuarios {
   state: string | null;
 
   email: string | null;
+
+  id_archivos_avatar: number | null;
 }
 
 export interface UsuariosInitializer {
@@ -62,5 +64,7 @@ export interface UsuariosInitializer {
   state?: string;
 
   email?: string;
+
+  id_archivos_avatar?: number;
 }
 

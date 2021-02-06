@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { TokenStorageService } from '../../../../_services/token-storage.service';
+
 import { DataTablesResponse } from '../../../../classes/data-tables-response';
 
-import { environment } from '../../../../../environments/environment';
+import { environment } from '../../../../../../src/environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -14,7 +14,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class ArchivosService {
+export class UsuariosService {
   public API_URL = environment.APIS_URL;
   private modals: any[] = [];
 
@@ -22,74 +22,56 @@ export class ArchivosService {
   /* En el constructor creamos el objeto http de la clase HttpClient,
   que estará disponible en toda la clase del servicio.
   Se define como public, para que sea accesible desde los componentes necesarios */
-  constructor(public http: HttpClient,private token: TokenStorageService) {}
+  constructor(public http: HttpClient) {}
 
   getHeaders(): Observable<any>{
     return new Observable((o)=>{
       setTimeout(()=>{
         this.http.post<DataTablesResponse>(
           // this.API_URL + '/a6b_apis/read_records_dt.php',
-          this.API_URL + '/archivos/getAdmin',
+          this.API_URL + '/user/getAdmin',
           {solocabeceras:1,opcionesAdicionales:{raw:0}}, {}
         ).subscribe(resp => {
+            //if(resp.data.length>0)
               o.next(JSON.parse(resp.data[0].cabeceras));
+            /*else{
+              o.next(JSON.parse('[{"data":"id","name":"a_id","title":"ID"},{"data":"categoria","name":"ctc_denominacion","title":"Categoria"},{"data":"plantel","name":"Plantel","title":"Plantel"},{"data":"centro_trabajo","name":"ctt_descripcion","title":"Centro Trabajo"},{"data":"zona_eco","name":"ze_descripcion","title":"Zona Eco"},{"data":"zona_geo","name":"zg_descripcion","title":"Zona Geo"},{"data":"acciones","name":"Accionesbotones>","title":"Acciones","render":"botones"}]'))
+            }*/
           })
       }, 200)
     })
   }
-  /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
-  public getCatalogo(): Observable<any> {
-    return this.http.post(this.API_URL + '/archivos/getCatalogo',
-      {  }
-      , httpOptions);
-  }
-
-  public getCatalogoSegunSexo(id_sexo): Observable<any> {
-    return this.http.post(this.API_URL + '/archivos/getCatalogoSegunSexo',
-      { id_sexo }
-      , httpOptions);
-  }
-
-
   /* El siguiente método lee los datos de un registro seleccionado para edición. */
   public getRecord(id: any): Observable<any> {
-    return this.http.post(this.API_URL + '/archivos/getRecord',
+    return this.http.post(this.API_URL + '/user/getRecord',
       { id }
       , httpOptions);
   }
 
-  /* El siguiente método lee los datos avatar de un usuario. */
-  public getAvatar(id: any): Observable<any> {
-    return this.http.post(this.API_URL + '/archivos/getAvatar',
-      { id }
+  /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
+  public getCatalogoSegunBusqueda(query): Observable<any> {
+    return this.http.post(this.API_URL + '/user/getCatalogoSegunBusqueda',
+      { query }
       , httpOptions);
   }
-
-  //obtiene el registro con los campos de referencia
-  public getRecordReferencia(id: any): Observable<any> {
-    return this.http.post(this.API_URL + '/archivos/getRecordReferencia',
-      { id }
-      , httpOptions);
-  }
-
-
-
 
   /* El siguiente método graba un registro nuevo, o uno editado. */
   public setRecord(dataPack,actionForm): Observable<any> {
 
-    return this.http.post(this.API_URL + '/archivos/setRecord',
+    return this.http.post(this.API_URL + '/user/setRecord',
       { dataPack,actionForm }
       , httpOptions);
   }
 
-  /* El siguiente método graba un registro nuevo, o uno editado. */
-  public setRecordReferencia(dataPack,actionForm): Observable<any> {
+  /* Actualiza datos del perfil del usuario en actividad. */
+  public setPerfil(dataPack,actionForm,passConfirm,passActual): Observable<any> {
 
-    return this.http.post(this.API_URL + '/archivos/setRecordReferencia',
-      { dataPack,actionForm }
+    return this.http.post(this.API_URL + '/user/setPerfil',
+      { dataPack,actionForm,passConfirm,passActual }
       , httpOptions);
   }
+
+
 
   /* El siguiente método comprueba si un DOI está repetido y, por tanto, no puede usarse. */
   public checkRepeatedDoi$(id, doi): Observable<string> {

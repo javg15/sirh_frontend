@@ -18,6 +18,7 @@ import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
+
 import { AuthGuard } from './_guards/auth.guard';
 
 
@@ -29,10 +30,10 @@ const routes: Routes = [
   { path: 'user', component: BoardUserComponent },
   { path: 'mod', component: BoardModeratorComponent },
   { path: 'admin', component: BoardAdminComponent },
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
 
   {
-    path: '',
+    path: 'dashboard',
     redirectTo: 'dashboard',
     pathMatch: 'full',
   },
@@ -59,6 +60,13 @@ const routes: Routes = [
   },
   {
     path: 'register',
+    component: RegisterComponent,
+    data: {
+      title: 'Register Page'
+    }
+  },
+  {
+    path: 'usuarios',
     component: RegisterComponent,
     data: {
       title: 'Register Page'
@@ -97,7 +105,7 @@ const routes: Routes = [
         loadChildren: () => import('./views/notifications/notifications.module').then(m => m.NotificationsModule)
       },
       {
-        path: 'theme',
+        path: 'theme5',
         loadChildren: () => import('./views/theme/theme.module').then(m => m.ThemeModule)
       },
       {
@@ -153,7 +161,10 @@ const routes: Routes = [
         path: 'plazas/plantillas',
         loadChildren: () => import('./views/plazas/plantillas/plantillas.module').then(m => m.PlantillasModule)
       },
-
+      {
+        path: 'usuarios/formdirect',
+        loadChildren: () => import('./views/autenticacion/usuarios/usuarios.module').then(m => m.UsuariosModule)
+      },
     ]
   },
   { path: '**', component: P404Component }
