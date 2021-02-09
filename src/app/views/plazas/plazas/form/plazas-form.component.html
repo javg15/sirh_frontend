@@ -18,6 +18,24 @@
                     <div class="row">
                         <div class="form-group col-sm-4">
                             <div class="form-group">
+                                <label for="id_catplanteles">Plantel</label>
+                                <ng-select2 id="selectPlantel" [(ngModel)]="record.id_catplanteles" [data]="catplantelesCat" [allowClear]="true" allowClear="true" width="100%" name="Plantel" (valueChanged)="onSelectPlantel($event)">
+                                </ng-select2>
+                                <!--<select id="selectPlantel" class="form-control" [(ngModel)]="record.id_catplanteles" name="Plantel" (change)="onSelectPlantel($event.target)">
+                              <option *ngFor="let col of catplantelesCat" [value]="col.id">{{ col.clave + " - " + (col.descripcion!=null?col.descripcion:".") + " - " + col.ubicacion }}</option>
+                            </select>-->
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="id_catcentrostrabajo">Centro de trabajo</label>
+                                <select class="form-control" [(ngModel)]="record.id_catcentrostrabajo" name="Centro de trabajo">
+                            <option *ngFor="let col of catcentrostrabajoCat" [value]="col.id">{{ col.clave + " - " + col.descripcion }}</option>
+                          </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
                                 <label for="id_categorias">Categorías</label>
                                 <ng-select2 [(ngModel)]="record.id_categorias" [data]="categoriasCat" [allowClear]="true" allowClear="true" width="100%" name="Categorías" (valueChanged)="onSelectCategoria($event)">
                                 </ng-select2>
@@ -26,24 +44,7 @@
                                 </select>-->
                             </div>
                         </div>
-                        <div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="id_catplanteles">Plantel</label>
-                                <ng-select2 id="selectPlantel" [(ngModel)]="record.id_catplanteles" [data]="catplantelesCat" [allowClear]="true" allowClear="true" width="100%" name="Plantel" (valueChanged)="onSelectPlantel($event)">
-                                </ng-select2>
-                                <!--<select id="selectPlantel" class="form-control" [(ngModel)]="record.id_catplanteles" name="Plantel" (change)="onSelectPlantel($event.target)">
-                                  <option *ngFor="let col of catplantelesCat" [value]="col.id">{{ col.clave + " - " + (col.descripcion!=null?col.descripcion:".") + " - " + col.ubicacion }}</option>
-                                </select>-->
-                            </div>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="id_catcentrostrabajo">Centro de trabajo</label>
-                                <select class="form-control" [(ngModel)]="record.id_catcentrostrabajo" name="Centro de trabajo">
-                                <option *ngFor="let col of catcentrostrabajoCat" [value]="col.id">{{ col.clave + " - " + col.descripcion }}</option>
-                              </select>
-                            </div>
-                        </div>
+
                     </div>
                     <div class="row">
                         <!--<div class="form-group col-sm-4">

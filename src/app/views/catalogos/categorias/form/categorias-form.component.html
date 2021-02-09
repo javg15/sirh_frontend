@@ -58,6 +58,17 @@
                             </select>
                             </div>
                         </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="aplicaa">Aplica a</label>
+                                <select class="form-control" [(ngModel)]="record.aplicaa" name="Aplica a">
+                                <option value="0"></option>
+                                <option value="1">Oficinas centrales</option>
+                                <option value="2">Planteles</option>
+                                <option value="3">Ambos</option>
+                          </select>
+                            </div>
+                        </div>
                     </div>
 
                     <div *ngIf="actionForm!=='nuevo'">

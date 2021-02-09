@@ -18,6 +18,8 @@ export default interface Categorias {
 
   id_tiponomina: number | null;
 
+  aplicaa: number | null;
+
   created_at: Date | null;
 
   updated_at: Date | null;
@@ -45,6 +47,8 @@ export interface CategoriasInitializer {
   id_tipocategoria?: number;
 
   id_tiponomina?: number;
+
+  aplicaa?: number;
 
   created_at?: Date;
 

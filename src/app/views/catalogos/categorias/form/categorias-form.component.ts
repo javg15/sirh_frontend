@@ -86,7 +86,7 @@ export class CategoriasFormComponent implements OnInit, OnDestroy {
   newRecord(): Categorias {
     return {
       id: 0,  clave: '', codigo:'', denominacion: '', nivelsalarial:'',id_tipocategoria:0, id_tiponomina:0,
-      state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
+      state: '', aplicaa:0, created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }
   ngOnInit(): void {
