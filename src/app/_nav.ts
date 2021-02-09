@@ -97,6 +97,11 @@ export const navItems: INavData[] = [
         //icon: 'icon-puzzle'
       },
       {
+        name: 'Tabulares de categorías',
+        url: '/catalogos/categoriastabular',
+        //icon: 'icon-puzzle'
+      },
+      {
         name: 'Estatus de la plaza',
         url: '/catalogos/catestatusplaza',
         //icon: 'icon-puzzle'

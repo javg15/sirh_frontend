@@ -146,6 +146,10 @@ const routes: Routes = [
         loadChildren: () => import('./views/catalogos/categorias/categorias.module').then(m => m.CategoriasModule)
       },
       {
+        path: 'catalogos/categoriastabular',
+        loadChildren: () => import('./views/catalogos/categoriastabular/categoriastabular.module').then(m => m.CategoriastabularModule)
+      },
+      {
         path: 'catalogos/catestatusplaza',
         loadChildren: () => import('./views/catalogos/catestatusplaza/catestatusplaza.module').then(m => m.CatestatusplazaModule)
       },

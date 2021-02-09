@@ -20,7 +20,7 @@ const routes: Routes = [
         path: 'admin',
         component: CatestatusplazaAdminComponent,
         data: {
-          title: 'Catestatusplaza'
+          title: 'Estatus de plaza'
         },
         resolve: {
           userdata: CatestatusplazaIniService

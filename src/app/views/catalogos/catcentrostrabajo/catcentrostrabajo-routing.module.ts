@@ -20,7 +20,7 @@ const routes: Routes = [
         path: 'admin',
         component: CatcentrostrabajoAdminComponent,
         data: {
-          title: 'Catcentrostrabajo'
+          title: 'Centros de trabajo'
         },
         resolve: {
           userdata: CatcentrostrabajoIniService
@@ -30,7 +30,7 @@ const routes: Routes = [
         path: 'form',
         component: CatcentrostrabajoFormComponent,
         data: {
-          title: 'Catcentrostrabajo'
+          title: 'Centros de trabajo'
         }
       }
 

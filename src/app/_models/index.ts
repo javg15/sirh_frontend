@@ -3,6 +3,7 @@
 import Calendarios, { CalendariosInitializer, CalendariosId } from './calendarios';
 import Catcentrostrabajo, { CatcentrostrabajoInitializer } from './catcentrostrabajo';
 import Categorias, { CategoriasInitializer, CategoriasId } from './categorias';
+import Categoriastabular, { CategoriastabularInitializer } from './categoriastabular';
 import Categoriassueldos, { CategoriassueldosInitializer, CategoriassueldosId } from './categoriassueldos';
 import Catestados, { CatestadosInitializer } from './catestados';
 import Catestatusplaza, { CatestatusplazaInitializer } from './catestatusplaza';
@@ -45,6 +46,7 @@ type Model =
   | Calendarios
   | Catcentrostrabajo
   | Categorias
+  | Categoriastabular
   | Categoriassueldos
   | Catestados
   | Catestatusplaza
@@ -86,6 +88,7 @@ interface ModelTypeMap {
   'calendarios': Calendarios;
   'catcentrostrabajo': Catcentrostrabajo;
   'categorias': Categorias;
+  'categoriastabular': Categoriastabular;
   'categoriassueldos': Categoriassueldos;
   'catestados': Catestados;
   'catestatusplaza': Catestatusplaza;
@@ -177,6 +180,7 @@ type Initializer =
   | CalendariosInitializer
   | CatcentrostrabajoInitializer
   | CategoriasInitializer
+  | CategoriastabularInitializer
   | CategoriassueldosInitializer
   | CatestadosInitializer
   | CatestatusplazaInitializer
@@ -214,6 +218,7 @@ interface InitializerTypeMap {
   'calendarios': CalendariosInitializer;
   'catcentrostrabajo': CatcentrostrabajoInitializer;
   'categorias': CategoriasInitializer;
+  'categoriastabular': CategoriastabularInitializer;
   'categoriassueldos': CategoriassueldosInitializer;
   'catestados': CatestadosInitializer;
   'catestatusplaza': CatestatusplazaInitializer;
@@ -255,6 +260,7 @@ export {
   Calendarios, CalendariosInitializer, CalendariosId,
   Catcentrostrabajo, CatcentrostrabajoInitializer,
   Categorias, CategoriasInitializer, CategoriasId,
+  Categoriastabular, CategoriastabularInitializer,
   Categoriassueldos, CategoriassueldosInitializer, CategoriassueldosId,
   Catestados, CatestadosInitializer,
   Catestatusplaza, CatestatusplazaInitializer,

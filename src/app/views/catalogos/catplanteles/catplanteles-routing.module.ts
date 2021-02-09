@@ -20,7 +20,7 @@ const routes: Routes = [
         path: 'admin',
         component: CatplantelesAdminComponent,
         data: {
-          title: 'Catplanteles'
+          title: 'Planteles'
         },
         resolve: {
           userdata: CatplantelesIniService
@@ -30,7 +30,7 @@ const routes: Routes = [
         path: 'form',
         component: CatplantelesFormComponent,
         data: {
-          title: 'Catplanteles'
+          title: 'Planteles'
         }
       }
 

@@ -24,7 +24,7 @@ const routes: Routes = [
         path: 'admin',
         component: CategoriasAdminComponent,
         data: {
-          title: 'Categorias'
+          title: 'Categorías'
         },
         resolve: {
           userdata: CategoriasIniService,
@@ -35,7 +35,7 @@ const routes: Routes = [
         path: 'form',
         component: CategoriasFormComponent,
         data: {
-          title: 'Categorias'
+          title: 'Categorías'
         },
       },
       {

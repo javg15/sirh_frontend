@@ -20,7 +20,7 @@ const routes: Routes = [
         path: 'admin',
         component: CatzonaeconomicaAdminComponent,
         data: {
-          title: 'Catzonaeconomica'
+          title: 'Zona económica'
         },
         resolve: {
           userdata: CatzonaeconomicaIniService

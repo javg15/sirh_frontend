@@ -20,7 +20,7 @@ const routes: Routes = [
         path: 'admin',
         component: CatregionesAdminComponent,
         data: {
-          title: 'Catregiones'
+          title: 'Regiones'
         },
         resolve: {
           userdata: CatregionesIniService
