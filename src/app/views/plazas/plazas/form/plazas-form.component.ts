@@ -66,9 +66,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
         this.catcentrostrabajoCat = resp;
       });
 
-      this.categoriasSvc.getCatalogo().subscribe(resp => {
-        this.categoriasCat = resp;
-      });
+
       this.catestatusplazaSvc.getCatalogo().subscribe(resp => {
         this.catestatusplazaCat = resp;
       });
@@ -111,6 +109,12 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
 
     this.catcentrostrabajoSvc.getCatalogoSegunPlantel(this.record.id_catplanteles).subscribe(resp => {
       this.catcentrostrabajoCat = resp;
+    });
+
+    //Obtener las categporias segun el tipo de plantel seleccionado
+    let tipoplantel=this.catplantelesCat.find(e=>e.id==select_plantel).tipoplantel;
+    this.categoriasSvc.getCatalogoSegunPlantel(tipoplantel).subscribe(resp => {
+      this.categoriasCat = resp;
     });
 
     if(select_plantel>0)

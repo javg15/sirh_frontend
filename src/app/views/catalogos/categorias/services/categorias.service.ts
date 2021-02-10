@@ -46,6 +46,12 @@ export class CategoriasService {
       , httpOptions);
   }
 
+  /* Devuelve el ID y Descripcion de la tabla, segun plantel */
+  public getCatalogoSegunPlantel(tipoplantel): Observable<any> {
+    return this.http.post(this.API_URL + '/categorias/getCatalogoSegunPlantel',
+      { tipoplantel }
+      , httpOptions);
+  }
 
   /* El siguiente método lee los datos de un registro seleccionado para edición. */
   public getRecord(id: any): Observable<any> {

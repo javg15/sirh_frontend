@@ -97,7 +97,7 @@ export const navItems: INavData[] = [
         //icon: 'icon-puzzle'
       },
       {
-        name: 'Tabulares de categorías',
+        name: 'Estructura ocupacional',
         url: '/catalogos/categoriastabular',
         //icon: 'icon-puzzle'
       },
