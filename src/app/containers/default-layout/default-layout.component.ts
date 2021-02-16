@@ -19,7 +19,7 @@ export class DefaultLayoutComponent {
   constructor(private tokenStorage: TokenStorageService,
       private archivoSvc: ArchivosService,
       private router: Router,
-      private _sanitizer: DomSanitizer
+      private _sanitizer: DomSanitizer,
     ) {
       this.archivoSvc.getAvatar(this.usuario.id).subscribe(resp => {
         this.imageAvatar = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'

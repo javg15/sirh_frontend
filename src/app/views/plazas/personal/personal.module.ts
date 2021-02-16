@@ -10,6 +10,7 @@ import { PersonalService } from './services/personal.service';
 import { PersonalAdminComponent } from './admin/personal-admin.component';
 import { PersonalFormComponent } from './form/personal-form.component';
 import { DataTablesModule } from 'angular-datatables';
+import { NgSelect2Module } from 'ng-select2';
 
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 
@@ -31,6 +32,7 @@ const maskConfig: Partial<IConfig> = {
     SharedModule,
     NgxMaskModule.forRoot(maskConfig),
     TabsModule.forRoot(),
+    NgSelect2Module
   ],
   declarations: [
     PersonalAdminComponent,

@@ -29,11 +29,17 @@
                                         </td>
                                     </div>
                                     <ng-template #elseBlock>
-                                        <ng-container *ngIf="col!='id';else elseBlock2">
+                                        <ng-container *ngIf="col=='avatar';else elseBlock2">
+                                            <td><img [src]="transform(member[col])" style="width: 50px;" class="img-avatar" alt="avatar" />
+                                            </td>
+                                        </ng-container>
+                                    </ng-template>
+                                    <ng-template #elseBlock2>
+                                        <ng-container *ngIf="col!='id';else elseBlock3">
                                             <td>{{ member[col] }}</td>
                                         </ng-container>
                                     </ng-template>
-                                    <ng-template #elseBlock2></ng-template>
+                                    <ng-template #elseBlock3></ng-template>
                                 </ng-container>
                         </tbody>
                     </table>

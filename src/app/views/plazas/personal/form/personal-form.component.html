@@ -135,6 +135,13 @@
                             </div>
                         </tab>
                         <tab heading="Perfil">
+                            <div class="form-group col-sm-4">
+                                <div class="form-group">
+                                    <label for="id_usuarios_sistema">Usuario de sistema</label>
+                                    <ng-select2 [(ngModel)]="record.id_usuarios_sistema" [data]="usuariosCat" [allowClear]="true" allowClear="true" width="100%" name="Usuario de sistema">
+                                    </ng-select2>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="form-group col-sm-4">
                                     <label for="archivo">Archivo .jpg .png (fotografía)  </label>

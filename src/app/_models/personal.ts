@@ -30,6 +30,8 @@ export default interface Personal {
 
   id_archivos_avatar: number;
 
+  id_usuarios_sistema: number;
+
   telefono: string;
 
   email: string;
@@ -79,6 +81,8 @@ export interface PersonalInitializer {
   id_catlocalidadesresi: number;
 
   id_archivos_avatar: number;
+
+  id_usuarios_sistema: number;
 
   telefono: string;
 

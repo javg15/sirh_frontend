@@ -71,6 +71,13 @@ export class UsuariosService {
       , httpOptions);
   }
 
+  /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
+  public getCatalogo(): Observable<any> {
+    return this.http.post(this.API_URL + '/user/getCatalogo',
+      {  }
+      , httpOptions);
+  }
+
 
 
   /* El siguiente método comprueba si un DOI está repetido y, por tanto, no puede usarse. */

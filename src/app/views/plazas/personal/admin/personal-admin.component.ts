@@ -8,6 +8,7 @@ import { Subject } from 'rxjs';
 import { PersonalService } from '../services/personal.service';
 
 import { environment } from '../../../../../environments/environment';
+import { DomSanitizer } from '@angular/platform-browser';
 
 declare var $: any;
 declare var jQuery: any;
@@ -45,7 +46,8 @@ export class PersonalAdminComponent implements OnInit {
   y estará disponible en toda la clase de este componente.
   El objeto es private, porque no se usará fuera de este componente. */
   constructor(
-    private personalService: PersonalService,private route: ActivatedRoute
+    private personalService: PersonalService,private route: ActivatedRoute,
+    private _sanitizer: DomSanitizer
   ) {
 
   }
@@ -55,7 +57,7 @@ export class PersonalAdminComponent implements OnInit {
 
       this.dtOptions = {
         pagingType: 'full_numbers',
-        pageLength: 10,
+        pageLength: 50,
         serverSide: true,
         processing: true,
         //destroy : true,
@@ -140,4 +142,9 @@ export class PersonalAdminComponent implements OnInit {
       this.dtTrigger.next();
     });
   }
+
+  //Call this method in the image source, it will sanitize it.
+  transform(image){
+    return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64,'+image);
+}
 }

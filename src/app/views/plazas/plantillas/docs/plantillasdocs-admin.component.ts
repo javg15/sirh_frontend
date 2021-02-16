@@ -99,7 +99,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     this.dtOptions = {
       pagingType: 'full_numbers',
       paging:false,
-      //pageLength: 10,
+      //pageLength: 50,
       //serverSide: true,
       //processing: true,
       ordering:false,

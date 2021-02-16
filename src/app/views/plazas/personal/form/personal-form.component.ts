@@ -4,8 +4,9 @@ import { CatestadosService } from '../../../catalogos/catestados/services/catest
 import { CatmunicipiosService } from '../../../catalogos/catmunicipios/services/catmunicipios.service';
 import { CatlocalidadesService } from '../../../catalogos/catlocalidades/services/catlocalidades.service';
 import { CatestadocivilService } from '../../../catalogos/catestadocivil/services/catestadocivil.service';
+import { UsuariosService } from '../../../autenticacion/usuarios/services/usuarios.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Personal,  Catestados, Catmunicipios, Catlocalidades, Catestadocivil } from '../../../../_models';
+import { Personal,  Catestados, Catmunicipios, Catlocalidades, Catestadocivil, Usuarios } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 import { Archivos } from '../../../../_models';
@@ -13,6 +14,7 @@ import { ArchivosService } from '../../../catalogos/archivos/services/archivos.s
 
 import { ListUploadComponent } from '../../../_shared/upload/list-upload.component';
 import { FormUploadComponent } from '../../../_shared/upload/form-upload.component';
+
 
 
 declare var $: any;
@@ -44,13 +46,14 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
   catmunicipiosCat:Catmunicipios[];
   catlocalidadesCat: Catlocalidades[];
   catestadocivilCat: Catestadocivil[];
-
+  usuariosCat:Usuarios[];
 
   constructor(private personalService: PersonalService, private el: ElementRef,
       private catestadosSvc: CatestadosService,
       private catmunicipiosSvc: CatmunicipiosService,
       private catlocalidadesSvc: CatlocalidadesService,
       private catestadocivilSvc: CatestadocivilService,
+      private usuariosSvc: UsuariosService,
       private archivosSvc:ArchivosService,
       ) {
       this.elementModal = el.nativeElement;
@@ -60,6 +63,10 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
       this.catestadocivilSvc.getCatalogo().subscribe(resp => {
         this.catestadocivilCat = resp;
       });
+      this.usuariosSvc.getCatalogo().subscribe(resp => {
+        this.usuariosCat = resp;
+      });
+
   }
 
   newRecord(): Personal {
@@ -67,7 +74,7 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
       id: 0,curp: '', rfc: '',  homoclave: '',
       state: '', nombre: '', apellidopaterno: '', apellidomaterno:'',id_catestadocivil:0,
       fechanacimiento: null, id_catestadosresi: 0, id_catmunicipiosresi: 0, id_catlocalidadesresi: 0,
-      id_archivos_avatar:0,
+      id_archivos_avatar:0,id_usuarios_sistema:0,
       telefono: '', email: '', emailoficial:'',observaciones:'',sexo:0,
       created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
