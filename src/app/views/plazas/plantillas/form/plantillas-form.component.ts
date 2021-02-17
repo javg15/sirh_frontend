@@ -8,6 +8,8 @@ import { CatplantillasService } from '../../../catalogos/catplantillas/services/
 import { CatplantelesService } from '../../../catalogos/catplanteles/services/catplanteles.service';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
+import { Observable } from 'rxjs';
+import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 import { PersonalService } from '../../personal/services/personal.service';
 import { AutocompleteComponent } from 'angular-ng-autocomplete';
 
@@ -23,16 +25,17 @@ declare var jQuery: any;
 })
 
 export class PlantillasFormComponent implements OnInit, OnDestroy {
+  userFormIsPending: Observable<boolean>; //Procesando información en el servidor
 
   @Input() id: string;
-  @Input() botonAccion: string;
+  @Input() botonAccion: string; //texto del boton según acción
   @Output() redrawEvent = new EventEmitter<any>();
 
   API_URL = environment.APIS_URL;
 
   nombreModulo = 'Plantillaspersonal';
 
-  actionForm: string;
+  actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
 
   private elementModal: any;
@@ -55,7 +58,8 @@ export class PlantillasFormComponent implements OnInit, OnDestroy {
   keywordSearch = 'full_name';
   isLoadingSearch:boolean;
 
-  constructor(private plantillasService: PlantillasService, private el: ElementRef,
+  constructor(private isLoadingService: IsLoadingService,
+      private plantillasService: PlantillasService, private el: ElementRef,
     private catplantillasSvc: CatplantillasService,
     private catplantelesSvc: CatplantelesService,
     private personalSvc: PersonalService,
@@ -89,6 +93,9 @@ export class PlantillasFormComponent implements OnInit, OnDestroy {
     }
     // add self (this modal instance) to the modal service so it's accessible from controllers
     modal.plantillasService.add(modal);
+
+      //loading
+      this.userFormIsPending =this.isLoadingService.isLoading$({ key: 'loading' });
   }
 
   // remove self from modal service when directive is destroyed
@@ -98,7 +105,7 @@ export class PlantillasFormComponent implements OnInit, OnDestroy {
   }
 
 
-  submitAction(form) {
+  async submitAction(form) {
 
     if(this.actionForm.toUpperCase()!=="VER"){
       //si es nuevo registro y no se tiene seleccionado ningun elemento en personal (autocomplete)
@@ -107,6 +114,7 @@ export class PlantillasFormComponent implements OnInit, OnDestroy {
 
       this.validSummary.resetErrorMessages(form);
 
+      await this.isLoadingService.add(
       this.plantillasService.setRecord(this.record,this.actionForm).subscribe(resp => {
         if (resp.hasOwnProperty('error')) {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
@@ -117,7 +125,7 @@ export class PlantillasFormComponent implements OnInit, OnDestroy {
           this.successModal.show();
           setTimeout(()=>{ this.successModal.hide(); }, 2000)
         }
-      });
+      }),{ key: 'loading' });
     }
   }
 

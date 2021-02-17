@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { DataTablesResponse } from '../../../../classes/data-tables-response';
-import { SpinnerService } from '../../../../_services/spinner.service';
 
 import { environment } from '../../../../../../src/environments/environment';
 

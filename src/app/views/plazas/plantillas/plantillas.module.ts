@@ -11,6 +11,7 @@ import { PlantillasAdminComponent } from './admin/plantillas-admin.component';
 import { PlantillasFormComponent } from './form/plantillas-form.component';
 import { PlantillasDocsAdminComponent } from './docs/plantillasdocs-admin.component';
 import { PlantillasDocsFormComponent } from './docssub/plantillasdocs-form.component';
+import { PlantillasDocsProfesionalFormComponent } from './docssub/plantillasdocsprofesional-form.component';
 import { DataTablesModule } from 'angular-datatables';
 
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
@@ -33,6 +34,7 @@ import { NgSelect2Module } from 'ng-select2';
     PlantillasFormComponent,
     PlantillasDocsAdminComponent,
     PlantillasDocsFormComponent,
+    PlantillasDocsProfesionalFormComponent,
   ],
   providers: [
     PlantillasService

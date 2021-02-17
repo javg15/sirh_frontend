@@ -4,7 +4,8 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Catregiones } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../../src/environments/environment';
-
+import { Observable } from 'rxjs';
+import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 
 declare var $: any;
 declare var jQuery: any;
@@ -16,10 +17,11 @@ declare var jQuery: any;
 })
 
 export class CatregionesFormComponent implements OnInit, OnDestroy {
+  userFormIsPending: Observable<boolean>; //Procesando información en el servidor
   @Input() id: string;
-  @Input() botonAccion: string;
+  @Input() botonAccion: string; //texto del boton según acción
   @Output() redrawEvent = new EventEmitter<any>();
-  actionForm: string;
+  actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
 
   private elementModal: any;
@@ -30,7 +32,8 @@ export class CatregionesFormComponent implements OnInit, OnDestroy {
   record: Catregiones;
   catregionesCat:Catregiones[];
 
-  constructor(private catregionesService: CatregionesService, private el: ElementRef
+  constructor(private isLoadingService: IsLoadingService,
+      private catregionesService: CatregionesService, private el: ElementRef
 
       ) {
       this.elementModal = el.nativeElement;
@@ -55,6 +58,9 @@ export class CatregionesFormComponent implements OnInit, OnDestroy {
       }
       // add self (this modal instance) to the modal service so it's accessible from controllers
       modal.catregionesService.add(modal);
+
+      //loading
+      this.userFormIsPending =this.isLoadingService.isLoading$({ key: 'loading' });
   }
 
   // remove self from modal service when directive is destroyed
@@ -64,7 +70,7 @@ export class CatregionesFormComponent implements OnInit, OnDestroy {
   }
 
 
-  submitAction(form) {
+  async submitAction(form) {
 
     if(this.actionForm.toUpperCase()!=="VER"){
       this.validSummary.resetErrorMessages(form);

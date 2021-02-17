@@ -12,7 +12,8 @@ import { Categorias, Cattiponomina } from '../../../../_models';
 import { CattiponominaService } from '../../cattiponomina/services/cattiponomina.service';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../../src/environments/environment';
-
+import { Observable } from 'rxjs';
+import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 import { environment } from '../../../../../../src/environments/environment';
 
 declare var $: any;
@@ -25,9 +26,10 @@ declare var jQuery: any;
 })
 
 export class CategoriasFormComponent implements OnInit, OnDestroy {
+  userFormIsPending: Observable<boolean>; //Procesando información en el servidor
   @Input() dtOptions: DataTables.Settings = {};
   @Input() id: string;
-  @Input() botonAccion: string;
+  @Input() botonAccion: string; //texto del boton según acción
   @Output() redrawEvent = new EventEmitter<any>();
   /* El decorador @ViewChild recibe la clase DataTableDirective, para luego poder
   crear el dtElement que represente la tabla que estamos creando. */
@@ -59,7 +61,7 @@ export class CategoriasFormComponent implements OnInit, OnDestroy {
 
   headersAdmin: any;
 
-  actionForm: string;
+  actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
 
   private elementModal: any;
@@ -71,7 +73,8 @@ export class CategoriasFormComponent implements OnInit, OnDestroy {
   cattiponominaCat:Cattiponomina[];
   cattipoCat:any[];
 
-  constructor(private categoriasService: CategoriasService, private el: ElementRef,
+  constructor(private isLoadingService: IsLoadingService,
+      private categoriasService: CategoriasService, private el: ElementRef,
     private categoriassueldosService: CategoriassueldosService,
     private cattiponominaSvc: CattiponominaService,
     private route: ActivatedRoute
@@ -145,11 +148,12 @@ export class CategoriasFormComponent implements OnInit, OnDestroy {
   }
 
 
-  submitAction(form) {
+  async submitAction(form) {
 
     if(this.actionForm.toUpperCase()!=="VER"){
       this.validSummary.resetErrorMessages(form);
 
+      await this.isLoadingService.add(
       this.categoriasService.setRecord(this.record,this.actionForm).subscribe(resp => {
         if (resp.hasOwnProperty('error')) {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
@@ -160,7 +164,7 @@ export class CategoriasFormComponent implements OnInit, OnDestroy {
           this.successModal.show();
           setTimeout(()=>{ this.successModal.hide(); }, 2000)
         }
-      });
+      }),{ key: 'loading' });
     }
   }
 

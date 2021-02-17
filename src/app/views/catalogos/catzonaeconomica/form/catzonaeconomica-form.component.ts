@@ -4,7 +4,8 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Catzonaeconomica } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../../src/environments/environment';
-
+import { Observable } from 'rxjs';
+import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 
 declare var $: any;
 declare var jQuery: any;
@@ -16,10 +17,11 @@ declare var jQuery: any;
 })
 
 export class CatzonaeconomicaFormComponent implements OnInit, OnDestroy {
+  userFormIsPending: Observable<boolean>; //Procesando información en el servidor
   @Input() id: string;
-  @Input() botonAccion: string;
+  @Input() botonAccion: string; //texto del boton según acción
   @Output() redrawEvent = new EventEmitter<any>();
-  actionForm: string;
+  actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
 
   private elementModal: any;
@@ -30,7 +32,8 @@ export class CatzonaeconomicaFormComponent implements OnInit, OnDestroy {
   record: Catzonaeconomica;
   catzonaeconomicaCat:Catzonaeconomica[];
 
-  constructor(private catzonaeconomicaService: CatzonaeconomicaService, private el: ElementRef
+  constructor(private isLoadingService: IsLoadingService,
+      private catzonaeconomicaService: CatzonaeconomicaService, private el: ElementRef
 
       ) {
       this.elementModal = el.nativeElement;
@@ -55,6 +58,9 @@ export class CatzonaeconomicaFormComponent implements OnInit, OnDestroy {
       }
       // add self (this modal instance) to the modal service so it's accessible from controllers
       modal.catzonaeconomicaService.add(modal);
+
+      //loading
+      this.userFormIsPending =this.isLoadingService.isLoading$({ key: 'loading' });
   }
 
   // remove self from modal service when directive is destroyed
@@ -64,11 +70,12 @@ export class CatzonaeconomicaFormComponent implements OnInit, OnDestroy {
   }
 
 
-  submitAction(form) {
+  async submitAction(form) {
 
     if(this.actionForm.toUpperCase()!=="VER"){
       this.validSummary.resetErrorMessages(form);
 
+      await this.isLoadingService.add(
       this.catzonaeconomicaService.setRecord(this.record,this.actionForm).subscribe(resp => {
         if (resp.hasOwnProperty('error')) {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
@@ -79,7 +86,7 @@ export class CatzonaeconomicaFormComponent implements OnInit, OnDestroy {
           this.successModal.show();
           setTimeout(()=>{ this.successModal.hide(); }, 2000)
         }
-      });
+      }),{ key: 'loading' });
     }
   }
 

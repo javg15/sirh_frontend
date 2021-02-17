@@ -10,6 +10,8 @@ import { CatzonaeconomicaService } from '../../catzonaeconomica/services/catzona
 
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
+import { Observable } from 'rxjs';
+import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 
 import { CategoriassueldosService } from '../services/categoriassueldos.service';
 
@@ -23,8 +25,9 @@ declare var jQuery: any;
 })
 
 export class CategoriassueldosFormComponent implements OnInit, OnDestroy {
+  userFormIsPending: Observable<boolean>; //Procesando información en el servidor
   @Input() id: string;
-  @Input() botonAccion: string;
+  @Input() botonAccion: string; //texto del boton según acción
   @Input() varEditarHorPla: string = "1";
   @Output() redrawEvent = new EventEmitter<any>();
 
@@ -36,7 +39,7 @@ export class CategoriassueldosFormComponent implements OnInit, OnDestroy {
   dtTrigger: Subject<DataTableDirective> = new Subject();
 
 
-  actionForm: string;
+  actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
 
   private elementModal: any;
@@ -48,7 +51,7 @@ export class CategoriassueldosFormComponent implements OnInit, OnDestroy {
   catquincenaCat:Catquincena[];
   catzonaeconomicaCat:Catzonaeconomica[];
 
-  constructor(
+  constructor(private isLoadingService: IsLoadingService,
     private el: ElementRef,
     private catzonaeconomicaSvc: CatzonaeconomicaService,
     private catquincenaSvc: CatquincenaService,
@@ -83,6 +86,9 @@ export class CategoriassueldosFormComponent implements OnInit, OnDestroy {
       }
       // add self (this modal instance) to the modal service so it's accessible from controllers
       modal.categoriassueldosService.add(modal);
+
+      //loading
+      this.userFormIsPending =this.isLoadingService.isLoading$({ key: 'loading' });
   }
 
   // remove self from modal service when directive is destroyed
@@ -92,11 +98,12 @@ export class CategoriassueldosFormComponent implements OnInit, OnDestroy {
   }
 
 
-  submitAction(form) {
+  async submitAction(form) {
 
     if(this.actionForm.toUpperCase()!=="VER"){
       this.validSummary.resetErrorMessages(form);
 
+      await this.isLoadingService.add(
       this.categoriassueldosService.setRecord(this.record,this.actionForm).subscribe(resp => {
         if (resp.hasOwnProperty('error')) {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
@@ -107,7 +114,7 @@ export class CategoriassueldosFormComponent implements OnInit, OnDestroy {
           this.successModal.show();
           setTimeout(()=>{ this.successModal.hide(); }, 2000)
         }
-      });
+      }),{ key: 'loading' });
     }
   }
 

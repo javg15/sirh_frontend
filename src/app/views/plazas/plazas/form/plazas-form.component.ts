@@ -11,6 +11,8 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Plazas, Categorias, Catcentrostrabajo, Catplanteles, Catzonaeconomica, Catzonageografica, Catestatusplaza } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
+import { Observable } from 'rxjs';
+import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 
 
 declare var $: any;
@@ -23,10 +25,11 @@ declare var jQuery: any;
 })
 
 export class PlazasFormComponent implements OnInit, OnDestroy {
+  userFormIsPending: Observable<boolean>; //Procesando información en el servidor
   @Input() id: string;
-  @Input() botonAccion: string;
+  @Input() botonAccion: string; //texto del boton según acción
   @Output() redrawEvent = new EventEmitter<any>();
-  actionForm: string;
+  actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
 
   private elementModal: any;
@@ -49,7 +52,8 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
   catestatusplazaCat:Catestatusplaza[];
 
 
-  constructor(private plazasService: PlazasService, private el: ElementRef,
+  constructor(private isLoadingService: IsLoadingService,
+      private plazasService: PlazasService, private el: ElementRef,
       private catplantelesSvc: CatplantelesService,
       private catcentrostrabajoSvc: CatcentrostrabajoService,
       private catzonaeconomicaSvc: CatzonaeconomicaService,
@@ -93,6 +97,9 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
       }
       // add self (this modal instance) to the modal service so it's accessible from controllers
       modal.plazasService.add(modal);
+
+      //loading
+      this.userFormIsPending =this.isLoadingService.isLoading$({ key: 'loading' });
   }
 
   // remove self from modal service when directive is destroyed
@@ -158,11 +165,12 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
 
   }
 
-  submitAction(form) {
+  async submitAction(form) {
 
     if(this.actionForm.toUpperCase()!=="VER"){
       this.validSummary.resetErrorMessages(form);
 
+      await this.isLoadingService.add(
       this.plazasService.setRecord(this.record,this.actionForm).subscribe(resp => {
         if (resp.hasOwnProperty('error')) {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
@@ -173,7 +181,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
           this.successModal.show();
           setTimeout(()=>{ this.successModal.hide(); }, 2000)
         }
-      });
+      }),{ key: 'loading' });
     }
   }
 

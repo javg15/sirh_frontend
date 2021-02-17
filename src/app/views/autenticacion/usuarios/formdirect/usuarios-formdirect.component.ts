@@ -11,6 +11,8 @@ import { ListUploadComponent } from '../../../_shared/upload/list-upload.compone
 import { FormUploadComponent } from '../../../_shared/upload/form-upload.component';
 
 import { TokenStorageService } from '../../../../_services/token-storage.service';
+import { Observable } from 'rxjs';
+import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 
 declare var $: any;
 declare var jQuery: any;
@@ -22,6 +24,7 @@ declare var jQuery: any;
 })
 
 export class UsuariosFormdirectComponent implements OnInit {
+  userFormIsPending: Observable<boolean>; //Procesando información en el servidor
   @Input() id: string;
 
   actionForm: string="editar";
@@ -42,7 +45,8 @@ export class UsuariosFormdirectComponent implements OnInit {
   passActual:String="";
   recordFile:Archivos;
 
-  constructor(private usuariosService: UsuariosService, private el: ElementRef,
+  constructor(private isLoadingService: IsLoadingService,
+      private usuariosService: UsuariosService, private el: ElementRef,
       private archivosSvc:ArchivosService,
       private tokenStorage: TokenStorageService
       ) {
@@ -71,7 +75,7 @@ export class UsuariosFormdirectComponent implements OnInit {
 
   }
 
-  submitAction(form) {
+  async submitAction(form) {
 
     if(this.actionForm.toUpperCase()!=="VER"){
       this.validSummary.resetErrorMessages(form);
@@ -79,7 +83,8 @@ export class UsuariosFormdirectComponent implements OnInit {
       this.record.id=parseInt(this.id);
       this.record.pass=this.pass.toString();
 
-      this.usuariosService.setPerfil(this.record,this.actionForm,this.passConfirm,this.passActual).subscribe(resp => {
+      await this.isLoadingService.add(
+      this.usuariosService.setPerfil(this.record,this.actionForm,this.passConfirm,this.passActual).subscribe(async resp => {
         if (resp.hasOwnProperty('error')) {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
         }
@@ -96,10 +101,10 @@ export class UsuariosFormdirectComponent implements OnInit {
                   state: '',  created_at: null,   updated_at: null
                 };
 
-              this.archivosSvc.setRecordReferencia(this.recordFile,this.actionForm).subscribe(resp => {
+                await this.isLoadingService.add(this.archivosSvc.setRecordReferencia(this.recordFile,this.actionForm).subscribe(resp => {
                 this.successModal.show();
                 setTimeout(()=>{ this.successModal.hide(); }, 2000)
-              });
+              }),{ key: 'loading' });
 
 
           }
@@ -108,7 +113,7 @@ export class UsuariosFormdirectComponent implements OnInit {
             setTimeout(()=>{ this.successModal.hide(); }, 2000)
           }
         }
-      });
+      }),{ key: 'loading' });
     }
   }
 

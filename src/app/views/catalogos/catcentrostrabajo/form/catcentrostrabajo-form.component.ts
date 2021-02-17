@@ -6,7 +6,8 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Catcentrostrabajo, Cattipocentrotrabajo, Catplanteles } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../../src/environments/environment';
-
+import { Observable } from 'rxjs';
+import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 
 declare var $: any;
 declare var jQuery: any;
@@ -18,10 +19,11 @@ declare var jQuery: any;
 })
 
 export class CatcentrostrabajoFormComponent implements OnInit, OnDestroy {
+  userFormIsPending: Observable<boolean>; //Procesando información en el servidor
   @Input() id: string;
-  @Input() botonAccion: string;
+  @Input() botonAccion: string; //texto del boton según acción
   @Output() redrawEvent = new EventEmitter<any>();
-  actionForm: string;
+  actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
 
   private elementModal: any;
@@ -34,7 +36,8 @@ export class CatcentrostrabajoFormComponent implements OnInit, OnDestroy {
   cattipocentrotrabajoCat: Cattipocentrotrabajo[];
 
 
-  constructor(private catcentrostrabajoService: CatcentrostrabajoService, private el: ElementRef,
+  constructor(private isLoadingService: IsLoadingService,
+      private catcentrostrabajoService: CatcentrostrabajoService, private el: ElementRef,
       private catplantelesSvc: CatplantelesService,
       private cattipocentrotrabajoSvc: CattipocentrotrabajoService
       ) {
@@ -66,6 +69,9 @@ export class CatcentrostrabajoFormComponent implements OnInit, OnDestroy {
       }
       // add self (this modal instance) to the modal service so it's accessible from controllers
       modal.catcentrostrabajoService.add(modal);
+
+      //loading
+      this.userFormIsPending =this.isLoadingService.isLoading$({ key: 'loading' });
   }
 
   // remove self from modal service when directive is destroyed
@@ -98,11 +104,12 @@ export class CatcentrostrabajoFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  submitAction(form) {
+  async submitAction(form) {
 
     if(this.actionForm.toUpperCase()!=="VER"){
       this.validSummary.resetErrorMessages(form);
 
+      await this.isLoadingService.add(
       this.catcentrostrabajoService.setRecord(this.record,this.actionForm).subscribe(resp => {
         if (resp.hasOwnProperty('error')) {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
@@ -113,7 +120,7 @@ export class CatcentrostrabajoFormComponent implements OnInit, OnDestroy {
           this.successModal.show();
           setTimeout(()=>{ this.successModal.hide(); }, 2000)
         }
-      });
+      }),{ key: 'loading' });
     }
   }
 

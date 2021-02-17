@@ -9,6 +9,8 @@ import { Subject } from 'rxjs';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
+import { Observable } from 'rxjs';
+import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 import { PlantillasdocsService } from '../services/plantillasdocs.service';
 
 import { environment } from '../../../../../environments/environment';
@@ -23,10 +25,11 @@ declare var jQuery: any;
 })
 
 export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
+  userFormIsPending: Observable<boolean>; //Procesando información en el servidor
 
   @Input() dtOptions: DataTables.Settings = {};
   @Input() id: string;
-  @Input() botonAccion: string;
+  @Input() botonAccion: string; //texto del boton según acción
   @Output() redrawEvent = new EventEmitter<any>();
 
   /* El decorador @ViewChild recibe la clase DataTableDirective, para luego poder
@@ -59,7 +62,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
 
   headersAdmin: any;
 
-  actionForm: string;
+  actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
 
   record_id_plantillaspersonal:number;

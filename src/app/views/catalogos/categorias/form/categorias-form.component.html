@@ -117,7 +117,10 @@
                     </div>
                     <app-validation-summary [form]="dataForm"></app-validation-summary>
                     <!-- [disabled]="!dataForm.form.valid" -->
-                    <button *ngIf="actionForm!=='ver'" type="submit" class="btn btn-primary">{{ botonAccion }}</button>
+                    <button *ngIf="actionForm!=='ver'" type="submit" [disabled]='userFormIsPending | async' class="btn btn-primary">
+                      <div *ngIf="userFormIsPending | async; else elseBlock"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Procesando...</span></div>
+                      <ng-template #elseBlock>{{ botonAccion }}</ng-template>
+                    </button>
                 </form>
             </div>
             <!-- <h2>Diagnostic Info</h2>

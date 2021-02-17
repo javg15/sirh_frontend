@@ -34,6 +34,9 @@ import Plazas, { PlazasInitializer } from './plazas';
 import Personal, { PersonalInitializer } from './personal';
 import Plantillaspersonal, { PlantillaspersonalInitializer } from './plantillaspersonal';
 import Plantillaspersonaldocs, { PlantillaspersonaldocsInitializer } from './plantillaspersonaldocs';
+import Plantillasdocsfamiliares, { PlantillasdocsfamiliaresInitializer } from './plantillasdocsfamiliares';
+import Plantillasdocsnombramiento, { PlantillasdocsnombramientoInitializer } from './plantillasdocsnombramiento';
+import Plantillasdocsprofesional, { PlantillasdocsprofesionalInitializer } from './plantillasdocsprofesional';
 import Presupuesto, { PresupuestoInitializer, PresupuestoId } from './presupuesto';
 import Rhnominas, { RhnominasInitializer, RhnominasId } from './rhnominas';
 import Searchcampos, { SearchcamposInitializer, SearchcamposId } from './searchcampos';
@@ -77,6 +80,9 @@ type Model =
   | Personal
   | Plantillaspersonal
   | Plantillaspersonaldocs
+  | Plantillasdocsfamiliares
+  | Plantillasdocsnombramiento
+  | Plantillasdocsprofesional
   | Presupuesto
   | Rhnominas
   | Searchcampos
@@ -119,6 +125,9 @@ interface ModelTypeMap {
   'personal': Personal;
   'plantillaspersonal': Plantillaspersonal;
   'plantillaspersonaldocs': Plantillaspersonaldocs;
+  'plantillasdocsnombramiento':Plantillasdocsnombramiento;
+  'plantillasdocsfamiliares':Plantillasdocsfamiliares;
+  'plantillasdocsprofesional':Plantillasdocsprofesional;
   'presupuesto': Presupuesto;
   'rhnominas': Rhnominas;
   'searchcampos': Searchcampos;
@@ -248,6 +257,9 @@ interface InitializerTypeMap {
   'personal': PersonalInitializer;
   'plantillaspersonal': PlantillaspersonalInitializer;
   'plantillaspersonaldocs': Plantillaspersonaldocs;
+  'plantillasdocsprofesional': Plantillasdocsprofesional;
+  'plantillasdocsnombramiento': Plantillasdocsnombramiento;
+  'plantillasdocsfamiliares': Plantillasdocsfamiliares;
   'presupuesto': PresupuestoInitializer;
   'rhnominas': RhnominasInitializer;
   'searchcampos': SearchcamposInitializer;
@@ -291,6 +303,9 @@ export {
   Personal, PersonalInitializer,
   Plantillaspersonal, PlantillaspersonalInitializer,
   Plantillaspersonaldocs, PlantillaspersonaldocsInitializer,
+  Plantillasdocsfamiliares, PlantillasdocsfamiliaresInitializer,
+  Plantillasdocsnombramiento, PlantillasdocsnombramientoInitializer,
+  Plantillasdocsprofesional, PlantillasdocsprofesionalInitializer,
   Presupuesto, PresupuestoInitializer, PresupuestoId,
   Rhnominas, RhnominasInitializer, RhnominasId,
   Searchcampos, SearchcamposInitializer, SearchcamposId,

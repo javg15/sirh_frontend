@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { environment } from '../../../../../src/environments/environment';
+import { environment } from '../../../../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -12,7 +12,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class PersonalService {
+export class PlantillasdocsProfesionalService {
   public API_URL = environment.APIS_URL;
   private modals: any[] = [];
 
@@ -25,7 +25,7 @@ export class PersonalService {
 
   /* El siguiente método lee los datos de un registro seleccionado para edición. */
   public getRecord(id: any): Observable<any> {
-    return this.http.post(this.API_URL + '/user/getRecord',
+    return this.http.post(this.API_URL + '/plantillasdocsprofesional/getRecord',
       { id }
       , httpOptions);
   }
@@ -33,18 +33,9 @@ export class PersonalService {
   /* El siguiente método graba un registro nuevo, o uno editado. */
   public setRecord(dataPack,actionForm): Observable<any> {
 
-    return this.http.post(this.API_URL + '/user/setRecord',
+    return this.http.post(this.API_URL + '/plantillasdocsprofesional/setRecord',
       { dataPack,actionForm }
       , httpOptions);
-  }
-
-  /* El siguiente método comprueba si un DOI está repetido y, por tanto, no puede usarse. */
-  public checkRepeatedDoi$(id, doi): Observable<string> {
-    return this.http.post(
-      this.API_URL + 'check_doi.php',
-      { id, doi },
-      { responseType: 'text' }
-    );
   }
 
 // array de modales
@@ -56,9 +47,9 @@ export class PersonalService {
         this.modals = this.modals.filter(x => x.id !== id);
     }
 
-  public open(id: string, accion: string, idItem: number) {
+  public open(id: string, accion: string, idItem: number,idParent:number,tipoDocumento:number) {
         let modal: any = this.modals.filter(x => x.id === id)[0];
-        modal.open(idItem, accion);
+        modal.open(idItem, accion,idParent,tipoDocumento);
     }
 
   public close(id: string) {
