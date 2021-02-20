@@ -20,7 +20,7 @@ const routes: Routes = [
         path: 'admin',
         component: CategoriastabularAdminComponent,
         data: {
-          title: 'Tabulares de categorías'
+          title: 'Estructura ocupacional'
         },
         resolve: {
           userdata: CategoriastabularIniService

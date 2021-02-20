@@ -1,4 +1,4 @@
-<div bsModal #basicModalDocsProfesional="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+<div bsModal #basicModalDocsNombramiento="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-full-height modal-right" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -17,51 +17,52 @@
                     <div class="row">
                         <div class="form-group col-sm-4">
                             <div class="form-group">
-                                <label for="ultimogradoestudios">Último grado de estudios</label>
-                                <select class="form-control" [(ngModel)]="record.ultimogradoestudios" name="Último grado de estudios">
-                            <option value="0"></option>
-                            <option value="1">Primaria</option>
-                            <option value="2">Secundaria</option>
-                            <option value="3">Bachillerato</option>
-                            <option value="4">Licenciatura</option>
-                            <option value="5">Maestría</option>
-                            <option value="6">Doctorado</option>
-                          </select>
+                                <label for="tipo">Tipo de nombramiento</label>
+                                <select class="form-control" [(ngModel)]="record.tipo" name="Tipo de nombramiento" (change)="onSelectTipoNombramiento($event.target.value)">
+                                  <option value="0"></option>
+                                  <option value="1">Titular</option>
+                                  <option value="2">Provisional</option>
+                                  <option value="3">Interino</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group col-sm-4">
                             <div class="form-group">
-                                <label for="areacarrera">Área de carrera</label>
-                                <select class="form-control" [(ngModel)]="record.areacarrera" name="Área de carrera">
-                              <option value="0"></option>
-                              <option value="1">Tronco Común</option>
-                            </select>
+                                <label for="fechaini">Fecha de inicio</label>
+                                <input type="date" [(ngModel)]="record.fechaini" class="form-control" name="Fecha de inicio">
                             </div>
                         </div>
 
                         <div class="form-group col-sm-4">
                             <div class="form-group">
-                                <label for="carrera">Carrera</label>
-                                <select class="form-control" [(ngModel)]="record.carrera" name="Carrera">
-                            <option value="0"></option>
-                            <option value="1">Primaria</option>
-                            <option value="2">Secundaria</option>
-                            <option value="3">Bachillerato</option>
-                            <option value="4">Licenciatura</option>
-                            <option value="5">Maestría</option>
-                            <option value="6">Doctorado</option>
-                          </select>
+                                <label for="fechafin">Fecha de término</label>
+                                <input id="txtFechafin" type="date" [(ngModel)]="record.fechafin" class="form-control" name="Fecha de término">
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-8">
                             <div class="form-group">
-                                <label for="estatus">Estatus</label>
-                                <select class="form-control" [(ngModel)]="record.estatus" name="Estatus">
-                            <option value="0"></option>
-                            <option value="1">Cursando</option>
-                          </select>
+                                <label for="record_titular">Titular</label>
+                                <div class="ng-autocomplete">
+                                    <ng-autocomplete #id_personal_titular [(ngModel)]="record_titular" [data]="catpersonalCat" (selected)='onSelectIdPersonal($event)' (inputChanged)='onChangeSearchIdPersonal($event)' [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate" [searchKeyword]="keywordSearch"
+                                        [minQueryLength]="3" [debounceTime]="100" [isLoading]="isLoadingSearch" name="Titular">
+                                    </ng-autocomplete>
+
+                                    <ng-template #itemTemplate let-item>
+                                        <a href="javascript:void(0)">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <span [innerHTML]="item.full_name"></span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </ng-template>
+
+                                    <ng-template #notFoundTemplate let-notFound>
+                                        <div [innerHTML]="notFound"></div>
+                                    </ng-template>
+                                </div>
                             </div>
                         </div>
 

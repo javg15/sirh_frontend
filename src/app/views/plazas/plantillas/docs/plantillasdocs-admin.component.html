@@ -1,4 +1,4 @@
-<div bsModal #basicModal="bs-modal" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+<div bsModal #basicModalDocs="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-full-height modal-right" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -12,11 +12,36 @@
                 <form #dataForm="ngForm">
                     <input type="hidden" name="action" value="{{ actionForm }}">
                     <div class="form-group">
-                        <input type="hidden" #idInput [(ngModel)]="id" class="form-control" name="ID">
+                        <input type="hidden" [(ngModel)]="record_id_plantillaspersonal" class="form-control" name="ID">
                     </div>
                     <div *ngIf="actionForm!=='nuevo'">
-                        <app-header-admin id="header-admin-2" [nombreModulo]="nombreModulo" (agregarEvent)="openModal('custom-modal-2','nuevo',0,record_id_plantillaspersonal,record_tipodoc)">
-                        </app-header-admin>
+                        <nav class="header-admin navbar navbar-expand-lg navbar-light bg-light">
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav mr-auto">
+
+                                </ul>
+                                <form class="form-inline my-2 my-lg-0">
+                                    <div class="btn-group" dropdown>
+                                        <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+                                          Agregar documento <span class="caret"></span>
+                                        </button>
+                                        <ul *dropdownMenu class="dropdown-menu" role="menu">
+                                            <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openModal('plantillasdocsprofesional','custom-plantillasdocsprofesional','nuevo',0,record_id_plantillaspersonal)">Preparación profesional</a></li>
+                                            <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openModal('plantillasdocsnombramiento','custom-plantillasdocsnombramiento','nuevo',0,record_id_plantillaspersonal)">Nombramiento administrativo</a></li>
+                                            <li role="menuitem"><a class="dropdown-item" href="#">Seguro institucional (Beneficiarios)</a>
+                                                <li role="menuitem"><a class="dropdown-item" href="#">Pensiones, juicios (Beneficiarios)</a></li>
+                                                <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openModal('plantillasdocsfamiliares','custom-plantillasdocsfamiliares','nuevo',0,record_id_plantillaspersonal)">Datos de familiares</a></li>
+                                                <li role="menuitem"><a class="dropdown-item" href="#">Permisos y licencias</a></li>
+                                                <li role="menuitem"><a class="dropdown-item" href="#">Cursos y actualizaciones</a>
+                                                    <li role="menuitem"><a class="dropdown-item" href="#">Horario laboral</a></li>
+                                                    <li role="menuitem"><a class="dropdown-item" href="#">Datos clínicos</a></li>
+                                        </ul>
+                                    </div>
+                                </form>
+                            </div>
+                        </nav>
+                        <!--<app-header-admin id="header-admin-2" [nombreModulo]="nombreModulo" (agregarEvent)="openModal('custom-modal-2','nuevo',0,record_id_plantillaspersonal,record_tipodoc)">
+                        </app-header-admin>-->
                     </div>
                     <div class="row">
                         &nbsp;
@@ -32,21 +57,24 @@
                                                 <!--<td><img src="assets/{{ member[col] }}" width="50" /></td>-->
                                                 <td>
                                                     <div *ngFor="let boton of member[col].split(',')" style="display: contents;">
-                                                        <button *ngIf="boton=='ver'" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-2','ver',member.id,member.id_plantillaspersonal)">
+                                                        <button *ngIf="boton=='ver'" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo_documento,'custom-' + member.tipo_documento,'ver',member.id,member.id_plantillaspersonal)">
                                                     <i class="fa fa-search"></i>
                                                 </button>
-                                                        <button *ngIf="boton=='editar'" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-2','editar',member.id,member.id_plantillaspersonal)">
+                                                        <button *ngIf="boton=='editar'" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo_documento,'custom-' + member.tipo_documento,'editar',member.id,member.id_plantillaspersonal)">
                                                     <i class="fa fa-edit"></i>
                                                 </button>
-                                                        <button *ngIf="boton=='eliminar'" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-2','eliminar',member.id)">
+                                                        <button *ngIf="boton=='eliminar'" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo_documento,'custom-' + member.tipo_documento,'eliminar',member.id)">
                                                     <i class="fa fa-trash"></i>
                                                 </button>
                                                     </div>
                                                 </td>
                                             </div>
                                             <ng-template #elseBlock>
-                                                <td>{{ member[col] }}</td>
+                                                <ng-container *ngIf="col!='id' && col!='tipo_documento';else elseBlock2">
+                                                    <td>{{ member[col] }}</td>
+                                                </ng-container>
                                             </ng-template>
+                                            <ng-template #elseBlock2></ng-template>
                                         </ng-container>
                                 </tbody>
                             </table>
@@ -82,7 +110,12 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
-
-<app-plantillasdocs-form id="custom-modal-2" (redrawEvent)="reDraw($event)">
-    <!--<input type="hidden" [(ngModel)]="idItem" />-->
+<app-plantillasdocs-form id="custom-plantillasdocs" (redrawEvent)="reDraw($event)">
 </app-plantillasdocs-form>
+
+<app-plantillasdocsprofesional-form id="custom-plantillasdocsprofesional" (redrawEvent)="reDraw($event)">
+</app-plantillasdocsprofesional-form>
+<app-plantillasdocsnombramiento-form id="custom-plantillasdocsnombramiento" (redrawEvent)="reDraw($event)">
+</app-plantillasdocsnombramiento-form>
+<app-plantillasdocsfamiliares-form id="custom-plantillasdocsfamiliares" (redrawEvent)="reDraw($event)">
+</app-plantillasdocsfamiliares-form>

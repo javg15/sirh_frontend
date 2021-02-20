@@ -32,7 +32,7 @@ declare var jQuery: any;
 export class PersonalFormComponent implements OnInit, OnDestroy {
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
 
-  @Input() id: string;
+  @Input() id: string; //idModal
   @Input() botonAccion: string; //texto del boton según acción
   @Output() redrawEvent = new EventEmitter<any>();
   actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
@@ -92,7 +92,7 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
       let modal = this;
 
       // ensure id attribute exists
-      if (!modal.id) {
+      if (!modal.id) {//idModal {
           console.error('modal must have an id');
           return;
       }
@@ -105,7 +105,7 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-      this.personalService.remove(this.id);
+      this.personalService.remove(this.id); //idModal
       this.elementModal.remove();
   }
 

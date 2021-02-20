@@ -1,29 +1,32 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter  } from '@angular/core';
+import { DatePipe } from '@angular/common'
 import { ActivatedRoute } from '@angular/router';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Plantillaspersonaldocs } from '../../../../_models';
+import { Plantillasdocsnombramiento,Personal } from '../../../../_models';
 import { Archivos } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
+import { PersonalService } from '../../personal/services/personal.service';
 
 import { ArchivosService } from '../../../catalogos/archivos/services/archivos.service';
-import { PlantillasdocsService } from '../services/plantillasdocs.service';
+import { PlantillasdocsNombramientoService } from '../services/plantillasdocsnombramiento.service';
 import { ListUploadComponent } from '../../../_shared/upload/list-upload.component';
 import { FormUploadComponent } from '../../../_shared/upload/form-upload.component';
+import { AutocompleteComponent } from 'angular-ng-autocomplete';
 
 declare var $: any;
 declare var jQuery: any;
 
 @Component({
-  selector: 'app-plantillasdocs-form',
-  templateUrl: './plantillasdocs-form.component.html',
+  selector: 'app-plantillasdocsnombramiento-form',
+  templateUrl: './plantillasdocsnombramiento-form.component.html',
   styleUrls: ['./plantillasdocs-form.component.css']
 })
 
-export class PlantillasDocsFormComponent implements OnInit, OnDestroy {
+export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestroy {
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
   @Input() id: string; //idModal
   @Input() botonAccion: string; //texto del boton según acción
@@ -35,33 +38,36 @@ export class PlantillasDocsFormComponent implements OnInit, OnDestroy {
   tituloForm: string;
 
   private elementModal: any;
-
-  @ViewChild('basicModalForm') basicModalForm: ModalDirective;
+  @ViewChild('id_personal_titular') id_personal_titular:AutocompleteComponent;
+  @ViewChild('basicModalDocsNombramiento') basicModalDocsNombramiento: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
   @ViewChild(ListUploadComponent) listUpload: ListUploadComponent;
   @ViewChild(FormUploadComponent) formUpload: FormUploadComponent;
 
-  record: Plantillaspersonaldocs;
+  record: Plantillasdocsnombramiento;
+  record_titular:String;
   recordFile:Archivos;
   keywordSearch = 'full_name';
   isLoadingSearch:boolean;
+  catpersonalCat:Personal[];
   //recordJsonTipodoc1:any={UltimoGradodeEstudios:0,AreadeCarrera:0,Carrera:0,Estatus:0};
 
   constructor(private isLoadingService: IsLoadingService,
-      private plantillasdocsService: PlantillasdocsService,
+      private plantillasdocsnombramientoService: PlantillasdocsNombramientoService,
+      private personalSvc: PersonalService,
     private el: ElementRef,
     private archivosSvc:ArchivosService,
-    private route: ActivatedRoute
+    public datepipe: DatePipe
       ) {
         this.elementModal = el.nativeElement;
   }
 
-  newRecord(idParent:number): Plantillaspersonaldocs {
+  newRecord(idParent:number): Plantillasdocsnombramiento {
     return {
-      id: 0,  id_plantillaspersonal: idParent,  id_archivos:0,
-      ultimogradoestudios:0,areacarrera:0,carrera:0,estatus:0,
-      fechaexpedicion:null,
+      id: 0,  id_plantillaspersonal: idParent, id_archivos:0,
+      fechaexpedicion: null,  tipo: 0,  fechaini: null, fechafin: null,
+      id_personal_titular: 0,  horas: 0,   id_categorias: 0,
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }
@@ -77,7 +83,7 @@ export class PlantillasDocsFormComponent implements OnInit, OnDestroy {
         return;
     }
     // add self (this modal instance) to the modal service so it's accessible from controllers
-    modal.plantillasdocsService.add(modal);
+    modal.plantillasdocsnombramientoService.add(modal);
 
       //loading
       this.userFormIsPending =this.isLoadingService.isLoading$({ key: 'loading' });
@@ -85,18 +91,19 @@ export class PlantillasDocsFormComponent implements OnInit, OnDestroy {
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-      this.plantillasdocsService.remove(this.id); //idModal
+      this.plantillasdocsnombramientoService.remove(this.id); //idModal
       this.elementModal.remove();
   }
 
 
-  submitAction(admin) {
+  async submitAction(admin) {
 
     if(this.actionForm.toUpperCase()!=="VER"){
 
       this.validSummary.resetErrorMessages(admin);
 
-      this.plantillasdocsService.setRecord(this.record,this.actionForm).subscribe(resp => {
+      await this.isLoadingService.add(
+      this.plantillasdocsnombramientoService.setRecord(this.record,this.actionForm).subscribe(async resp => {
         if (resp.hasOwnProperty('error')) {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
         }
@@ -107,25 +114,24 @@ export class PlantillasDocsFormComponent implements OnInit, OnDestroy {
           //actualizar el registro de la tabla archivos
           if(this.record.id_archivos>0){
               this.recordFile={id:this.record.id_archivos,
-                  tabla:"plantillaspersonaldocs",
+                  tabla:"plantillasdocsnombramiento",
                   id_tabla:this.record.id,
                   tipo: null,  nombre:  null,  datos: null,  id_usuarios_r: 0,
                   state: '',  created_at: null,   updated_at: null
                 };
 
+              await this.isLoadingService.add(
               this.archivosSvc.setRecordReferencia(this.recordFile,this.actionForm).subscribe(resp => {
                 this.successModal.show();
                 setTimeout(()=>{ this.successModal.hide(); }, 2000)
-              });
+              }),{ key: 'loading' });
           }
           else{
             this.successModal.show();
             setTimeout(()=>{ this.successModal.hide(); }, 2000)
           }
-
-
         }
-      });
+      }),{ key: 'loading' });
     }
   }
 
@@ -133,22 +139,27 @@ export class PlantillasDocsFormComponent implements OnInit, OnDestroy {
   open(idItem: string, accion: string,idParent:number):  void {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
-    this.tituloForm=titulosModal[accion] + " registro";
+    this.tituloForm="Preparación nombramiento - " + titulosModal[accion] + " registro";
     this.formUpload.resetFile();
+    this.record_titular="";
 
     if(idItem=="0"){
         this.record =this.newRecord(idParent);
-        this.listUpload.showFiles(idParent);
+        this.listUpload.showFiles(0);
     } else {
       //obtener el registro
-      this.plantillasdocsService.getRecord(idItem).subscribe(resp => {
+      this.plantillasdocsnombramientoService.getRecord(idItem).subscribe(resp => {
         this.record = resp;
         this.listUpload.showFiles(this.record.id_archivos);
+        if(this.record.id_personal_titular>0)
+          this.personalSvc.getRecord(this.record.id_personal_titular).subscribe(resp => {
+            this.record_titular = resp.nombre + " " + resp.apellidopaterno + " " + resp.apellidomaterno + " - " + resp.curp;
+          });
       });
     }
 
     // console.log($('#modalTest').html()); poner el id a algun elemento para testear
-    this.basicModalForm.show();
+    this.basicModalDocsNombramiento.show();
   }
 
   //Archivo cargado
@@ -159,7 +170,7 @@ export class PlantillasDocsFormComponent implements OnInit, OnDestroy {
 
   // close modal
   close(): void {
-      this.basicModalForm.hide();
+      this.basicModalDocsNombramiento.hide();
       if(this.actionForm.toUpperCase()!="VER"){
         this.redrawEvent.emit({
           campo: 0,
@@ -171,4 +182,35 @@ export class PlantillasDocsFormComponent implements OnInit, OnDestroy {
 
   // log contenido de objeto en adminulario
   get diagnosticValidate() { return JSON.stringify(this.record); }
+
+  /*********************
+   autocomplete id_personal
+   *********************/
+  onChangeSearchIdPersonal(val: string) {
+    this.isLoadingSearch = true;
+    this.personalSvc.getCatalogoSegunBusqueda(val).subscribe(resp => {
+      this.catpersonalCat = resp;
+      this.isLoadingSearch = false;
+    });
+    // fetch remote data from here
+    // And reassign the 'data' which is binded to 'data' property.
+  }
+
+  onSelectIdPersonal(val: any) {
+    let items=val["full_name"].split(" -- ");
+    this.record.id_personal_titular=parseInt(items[2]);
+  }
+
+  onSelectTipoNombramiento(valor:any){
+    if(this.record.fechaini!=null){
+      let dateString = this.record.fechaini + 'T00:00:00';
+      let newDate = new Date(dateString);
+      this.record.fechafin = new Date();
+      this.record.fechafin.setDate( newDate.getDate() + 181 );
+
+      let fechafin =this.datepipe.transform(this.record.fechafin, 'yyyy-MM-dd');
+      setTimeout(()=>{ $('#txtFechafin').val(fechafin) }, 100)
+    }
+
+  }
 }

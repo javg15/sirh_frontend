@@ -12,7 +12,15 @@ import { PlantillasFormComponent } from './form/plantillas-form.component';
 import { PlantillasDocsAdminComponent } from './docs/plantillasdocs-admin.component';
 import { PlantillasDocsFormComponent } from './docssub/plantillasdocs-form.component';
 import { PlantillasDocsProfesionalFormComponent } from './docssub/plantillasdocsprofesional-form.component';
+import { PlantillasDocsNombramientoFormComponent } from './docssub/plantillasdocsnombramiento-form.component';
+import { PlantillasDocsFamiliaresFormComponent } from './docssub/plantillasdocsfamiliares-form.component';
+
 import { DataTablesModule } from 'angular-datatables';
+
+import { DatePipe } from '@angular/common'
+// Dropdowns Component
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { DropdownsComponent } from '../../buttons/dropdowns.component';
 
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import { NgSelect2Module } from 'ng-select2';
@@ -28,16 +36,21 @@ import { NgSelect2Module } from 'ng-select2';
     SharedModule,
     AutocompleteLibModule,
     NgSelect2Module,
+    BsDropdownModule.forRoot(),
   ],
   declarations: [
+    DropdownsComponent,
     PlantillasAdminComponent,
     PlantillasFormComponent,
     PlantillasDocsAdminComponent,
     PlantillasDocsFormComponent,
     PlantillasDocsProfesionalFormComponent,
+    PlantillasDocsNombramientoFormComponent,
+    PlantillasDocsFamiliaresFormComponent,
   ],
   providers: [
-    PlantillasService
+    PlantillasService,
+    DatePipe
   ],
   exports:[
   ]

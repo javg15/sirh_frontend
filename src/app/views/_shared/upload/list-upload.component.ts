@@ -18,11 +18,11 @@ export class ListUploadComponent implements OnInit {
     this.showFiles(0);
   }
 
-  showFiles(idArchivos:number) {//enable: boolean
+  showFiles(id_archivos:number) {//enable: boolean
     /*this.showFile = enable;
 
     if (enable && this.idFile>0) {*/
-      this.fileUploads = this.uploadService.listFile(idArchivos);
+      this.fileUploads = this.uploadService.listFile(id_archivos);
     //}
   }
 }

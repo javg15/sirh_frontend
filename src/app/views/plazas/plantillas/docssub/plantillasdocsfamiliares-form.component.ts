@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, Eve
 import { ActivatedRoute } from '@angular/router';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Plantillaspersonaldocs } from '../../../../_models';
+import { Plantillasdocsfamiliares } from '../../../../_models';
 import { Archivos } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 
 import { ArchivosService } from '../../../catalogos/archivos/services/archivos.service';
-import { PlantillasdocsService } from '../services/plantillasdocs.service';
+import { PlantillasdocsFamiliaresService } from '../services/plantillasdocsfamiliares.service';
 import { ListUploadComponent } from '../../../_shared/upload/list-upload.component';
 import { FormUploadComponent } from '../../../_shared/upload/form-upload.component';
 
@@ -18,12 +18,12 @@ declare var $: any;
 declare var jQuery: any;
 
 @Component({
-  selector: 'app-plantillasdocs-form',
-  templateUrl: './plantillasdocs-form.component.html',
+  selector: 'app-plantillasdocsfamiliares-form',
+  templateUrl: './plantillasdocsfamiliares-form.component.html',
   styleUrls: ['./plantillasdocs-form.component.css']
 })
 
-export class PlantillasDocsFormComponent implements OnInit, OnDestroy {
+export class PlantillasDocsFamiliaresFormComponent implements OnInit, OnDestroy {
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
   @Input() id: string; //idModal
   @Input() botonAccion: string; //texto del boton según acción
@@ -36,32 +36,31 @@ export class PlantillasDocsFormComponent implements OnInit, OnDestroy {
 
   private elementModal: any;
 
-  @ViewChild('basicModalForm') basicModalForm: ModalDirective;
+  @ViewChild('basicModalDocsFamiliares') basicModalDocsFamiliares: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
   @ViewChild(ListUploadComponent) listUpload: ListUploadComponent;
   @ViewChild(FormUploadComponent) formUpload: FormUploadComponent;
 
-  record: Plantillaspersonaldocs;
+  record: Plantillasdocsfamiliares;
   recordFile:Archivos;
   keywordSearch = 'full_name';
   isLoadingSearch:boolean;
   //recordJsonTipodoc1:any={UltimoGradodeEstudios:0,AreadeCarrera:0,Carrera:0,Estatus:0};
 
   constructor(private isLoadingService: IsLoadingService,
-      private plantillasdocsService: PlantillasdocsService,
+      private plantillasdocsfamiliaresService: PlantillasdocsFamiliaresService,
     private el: ElementRef,
-    private archivosSvc:ArchivosService,
-    private route: ActivatedRoute
+    private archivosSvc:ArchivosService
       ) {
         this.elementModal = el.nativeElement;
   }
 
-  newRecord(idParent:number): Plantillaspersonaldocs {
+  newRecord(idParent:number): Plantillasdocsfamiliares {
     return {
-      id: 0,  id_plantillaspersonal: idParent,  id_archivos:0,
-      ultimogradoestudios:0,areacarrera:0,carrera:0,estatus:0,
-      fechaexpedicion:null,
+      id: 0,  id_plantillaspersonal: idParent, id_archivos:0,
+      curp:'',rfc:'',homoclave:'',nombre:'',apellidopaterno:'',apellidomaterno:'',
+      fechanacimiento:null,sexo:'',
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }
@@ -77,7 +76,7 @@ export class PlantillasDocsFormComponent implements OnInit, OnDestroy {
         return;
     }
     // add self (this modal instance) to the modal service so it's accessible from controllers
-    modal.plantillasdocsService.add(modal);
+    modal.plantillasdocsfamiliaresService.add(modal);
 
       //loading
       this.userFormIsPending =this.isLoadingService.isLoading$({ key: 'loading' });
@@ -85,18 +84,19 @@ export class PlantillasDocsFormComponent implements OnInit, OnDestroy {
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-      this.plantillasdocsService.remove(this.id); //idModal
+      this.plantillasdocsfamiliaresService.remove(this.id); //idModal
       this.elementModal.remove();
   }
 
 
-  submitAction(admin) {
+  async submitAction(admin) {
 
     if(this.actionForm.toUpperCase()!=="VER"){
 
       this.validSummary.resetErrorMessages(admin);
 
-      this.plantillasdocsService.setRecord(this.record,this.actionForm).subscribe(resp => {
+      await this.isLoadingService.add(
+      this.plantillasdocsfamiliaresService.setRecord(this.record,this.actionForm).subscribe(async resp => {
         if (resp.hasOwnProperty('error')) {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
         }
@@ -107,25 +107,24 @@ export class PlantillasDocsFormComponent implements OnInit, OnDestroy {
           //actualizar el registro de la tabla archivos
           if(this.record.id_archivos>0){
               this.recordFile={id:this.record.id_archivos,
-                  tabla:"plantillaspersonaldocs",
+                  tabla:"plantillasdocsfamiliares",
                   id_tabla:this.record.id,
                   tipo: null,  nombre:  null,  datos: null,  id_usuarios_r: 0,
                   state: '',  created_at: null,   updated_at: null
                 };
 
+              await this.isLoadingService.add(
               this.archivosSvc.setRecordReferencia(this.recordFile,this.actionForm).subscribe(resp => {
                 this.successModal.show();
                 setTimeout(()=>{ this.successModal.hide(); }, 2000)
-              });
+              }),{ key: 'loading' });
           }
           else{
             this.successModal.show();
             setTimeout(()=>{ this.successModal.hide(); }, 2000)
           }
-
-
         }
-      });
+      }),{ key: 'loading' });
     }
   }
 
@@ -133,22 +132,22 @@ export class PlantillasDocsFormComponent implements OnInit, OnDestroy {
   open(idItem: string, accion: string,idParent:number):  void {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
-    this.tituloForm=titulosModal[accion] + " registro";
+    this.tituloForm="Datos Familiares - " + titulosModal[accion] + " registro";
     this.formUpload.resetFile();
 
     if(idItem=="0"){
         this.record =this.newRecord(idParent);
-        this.listUpload.showFiles(idParent);
+        this.listUpload.showFiles(0);
     } else {
       //obtener el registro
-      this.plantillasdocsService.getRecord(idItem).subscribe(resp => {
+      this.plantillasdocsfamiliaresService.getRecord(idItem).subscribe(resp => {
         this.record = resp;
         this.listUpload.showFiles(this.record.id_archivos);
       });
     }
 
     // console.log($('#modalTest').html()); poner el id a algun elemento para testear
-    this.basicModalForm.show();
+    this.basicModalDocsFamiliares.show();
   }
 
   //Archivo cargado
@@ -159,7 +158,7 @@ export class PlantillasDocsFormComponent implements OnInit, OnDestroy {
 
   // close modal
   close(): void {
-      this.basicModalForm.hide();
+      this.basicModalDocsFamiliares.hide();
       if(this.actionForm.toUpperCase()!="VER"){
         this.redrawEvent.emit({
           campo: 0,
@@ -171,4 +170,25 @@ export class PlantillasDocsFormComponent implements OnInit, OnDestroy {
 
   // log contenido de objeto en adminulario
   get diagnosticValidate() { return JSON.stringify(this.record); }
+
+  onChangeCurp(curp){
+    this.record.curp=curp.toUpperCase();
+    let rfc=this.record.curp.toString().substring(0,10);
+    this.record.rfc=rfc;
+
+    let fechanacimiento=curp.toString().substring(4,10);
+    //console.log("fechanacimiento=",fechanacimiento)
+    let fecha="";
+    if(parseInt(fechanacimiento.substring(0,2))>20)
+      fecha="19" +fechanacimiento.substring(0,2) + "-" + fechanacimiento.substring(2,4) + "-" + fechanacimiento.substring(4,6);
+    else
+      fecha="20" +fechanacimiento.substring(0,2) + "-" + fechanacimiento.substring(2,4) + "-" + fechanacimiento.substring(4,6);
+
+    let fechaTxt=fecha
+    fecha+="T00:00:00"
+    this.record.fechanacimiento=new Date(fecha);
+    setTimeout(()=>{ $('#txtFechanacimiento').val(fechaTxt) }, 100)
+
+
+  }
 }

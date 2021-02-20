@@ -12,7 +12,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class PlantillasdocsProfesionalService {
+export class PlantillasdocsFamiliaresService {
   public API_URL = environment.APIS_URL;
   private modals: any[] = [];
 
@@ -25,7 +25,7 @@ export class PlantillasdocsProfesionalService {
 
   /* El siguiente método lee los datos de un registro seleccionado para edición. */
   public getRecord(id: any): Observable<any> {
-    return this.http.post(this.API_URL + '/plantillasdocsprofesional/getRecord',
+    return this.http.post(this.API_URL + '/plantillasdocsfamiliares/getRecord',
       { id }
       , httpOptions);
   }
@@ -33,7 +33,7 @@ export class PlantillasdocsProfesionalService {
   /* El siguiente método graba un registro nuevo, o uno editado. */
   public setRecord(dataPack,actionForm): Observable<any> {
 
-    return this.http.post(this.API_URL + '/plantillasdocsprofesional/setRecord',
+    return this.http.post(this.API_URL + '/plantillasdocsfamiliares/setRecord',
       { dataPack,actionForm }
       , httpOptions);
   }

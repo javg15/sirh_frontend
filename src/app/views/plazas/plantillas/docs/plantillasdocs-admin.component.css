@@ -5,3 +5,7 @@
 .ng-autocomplete {
     width: auto;
 }
+
+.dropdown-item {
+    padding: 5px 20px !important;
+}

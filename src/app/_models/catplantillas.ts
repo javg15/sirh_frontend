@@ -10,13 +10,13 @@ export default interface Catplantillas {
 
   abreviatura: string | null;
 
-  idUsuariosR: number;
+  id_usuarios_r: number;
 
   state: string;
 
-  createdAt: Date | null;
+  created_at: Date | null;
 
-  updatedAt: Date | null;
+  updated_at: Date | null;
 }
 
 export interface CatplantillasInitializer {
@@ -31,12 +31,12 @@ export interface CatplantillasInitializer {
   abreviatura?: string;
 
   /** Default value: 0 */
-  idUsuariosR?: number;
+  id_usuarios_r?: number;
 
   /** Default value: 'A'::bpchar */
   state?: string;
 
-  createdAt?: Date;
+  created_at?: Date;
 
-  updatedAt?: Date;
+  updated_at?: Date;
 }

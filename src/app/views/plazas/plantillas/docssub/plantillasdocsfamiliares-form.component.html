@@ -1,4 +1,4 @@
-<div bsModal #basicModal="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+<div bsModal #basicModalDocsFamiliares="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-full-height modal-right" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -13,69 +13,77 @@
                     <input type="hidden" name="action" value="{{ actionForm }}">
                     <div class="form-group">
                         <input type="hidden" [(ngModel)]="record.id" class="form-control" name="ID">
-                        <input type="hidden" [(ngModel)]="record.id_categorias" class="form-control" name="Código">
                     </div>
                     <div class="row">
-                        <div class="form-group col-sm-2">
+                        <div class="form-group col-sm-4">
                             <div class="form-group">
-                                <label for="clave">Clave</label>
-                                <input type="text" [(ngModel)]="record.clave" class="form-control" name="Clave">
-                            </div>
-                        </div>
-
-                        <div class="form-group col-sm-3">
-                            <div class="form-group">
-                                <label for="fecha_inicio">Fecha inicio</label>
-                                <input type="date" [(ngModel)]="record.fecha_inicio" class="form-control" name="Fecha inicio">
-                                <!--<select class="form-control" [(ngModel)]="record.fecha_inicio" name="Fecha inicio">
-                                  <option *ngFor="let col of catquincenaCat" [value]="col.id">{{ col.fechainicio.toString() + ' - ' + col.fechafin.toString() }}</option>
-                                </select>-->
-                            </div>
-                        </div>
-                        <div class="form-group col-sm-3">
-                            <div class="form-group">
-                                <label for="fecha_fin">Fecha final</label>
-                                <input type="date" [(ngModel)]="record.fecha_fin" class="form-control" name="Fecha final">
+                                <label for="nombre">Nombre</label>
+                                <input type="text" [(ngModel)]="record.nombre" class="form-control" name="Nombre">
                             </div>
                         </div>
                         <div class="form-group col-sm-4">
                             <div class="form-group">
-                                <label for="id_catzonaeconomica">Zona Económica</label>
-                                <select class="form-control" [(ngModel)]="record.id_catzonaeconomica" name="Zona Económica">
-                              <option *ngFor="let col of catzonaeconomicaCat" [value]="col.id">{{ col.descripcion }}</option>
-                            </select>
+                                <label for="apellidopaterno">Apellido Paterno</label>
+                                <input type="text" [(ngModel)]="record.apellidopaterno" class="form-control" name="Apellido Paterno">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="apellidomaterno">Apellido Materno</label>
+                                <input type="text" [(ngModel)]="record.apellidomaterno" class="form-control" name="Apellido Materno">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-5">
+                            <div class="form-group">
+                                <label for="curp">CURP</label>
+                                <input type="text" [(ngModel)]="record.curp" class="form-control" name="CURP" (change)="onChangeCurp($event.target.value)">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="rfc">RFC</label>
+                                <input type="text" [(ngModel)]="record.rfc" class="form-control" name="RFC">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="homoclave">Homoclave</label>
+                                <input type="text" [(ngModel)]="record.homoclave" class="form-control" name="Homoclave">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-3">
                             <div class="form-group">
-                                <label for="verpor">Editar...</label>
-                                <select class="form-control" id="cmdEditarHorPla" (change)="changeCmdEditarHorPla($event)">
-                                  <option value="1">Plazas autorizadas</option>
-                                  <option value="2">Horas autorizadas</option>
+                                <label for="sexo">Sexo</label>
+                                <select class="form-control" [(ngModel)]="record.sexo" name="Sexo">
+                                  <option value=""></option>
+                                  <option value="1">Mujer</option>
+                                  <option value="2">Hombre</option>
+                                  <option value="3">Otro</option>
                                 </select>
-                            </div>
-                        </div>
-                        <div *ngIf="varEditarHorPla=='1'" class="form-group col-sm-3">
-                            <div class="form-group">
-                                <label for="totalplazaaut">Plazas autorizadas</label>
-                                <input type="text" [(ngModel)]="record.totalplazaaut" class="form-control" name="Plazas autorizadas">
-                            </div>
-                        </div>
-                        <div *ngIf="varEditarHorPla=='2'" class="form-group col-sm-3">
-                            <div class="form-group">
-                                <label for="totalhorasaut">Horas autorizadas</label>
-                                <input type="text" [(ngModel)]="record.totalhorasaut" class="form-control" name="Horas autorizadas">
                             </div>
                         </div>
                         <div class="form-group col-sm-3">
                             <div class="form-group">
-                                <label for="importe">Sueldo base mensual</label>
-                                <input type="text" [(ngModel)]="record.importe" class="form-control" name="Sueldo base mensual">
+                                <label for="fechanacimiento">Fecha de nacimiento</label>
+                                <input id="txtFechanacimiento" type="date" [(ngModel)]="record.fechanacimiento" class="form-control" name="Fecha de nacimiento">
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <label for="archivo">Archivo .pdf</label>
+                            <form-upload (onLoaded)="onLoadedFile($event)" [actionForm]="actionForm" [idFile]="record.id_archivos"></form-upload>
+                            <br/>
+                            <br/>
+
+                            <list-upload></list-upload>
+                        </div>
+                    </div>
+
                     <div class="row">
                         &nbsp;
                     </div>
@@ -88,7 +96,7 @@
                 </form>
             </div>
             <!-- <h2>Diagnostic Info</h2>
-            <div [innerHtml]="diagnosticValidate"></div>-->
+        <div [innerHtml]="diagnosticValidate"></div>-->
         </div>
     </div>
 </div>
@@ -110,4 +118,3 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
-<!-- /.modal -->

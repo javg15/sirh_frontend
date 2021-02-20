@@ -28,7 +28,7 @@ declare var jQuery: any;
 export class CategoriasFormComponent implements OnInit, OnDestroy {
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
   @Input() dtOptions: DataTables.Settings = {};
-  @Input() id: string;
+  @Input() id: string; //idModal
   @Input() botonAccion: string; //texto del boton según acción
   @Output() redrawEvent = new EventEmitter<any>();
   /* El decorador @ViewChild recibe la clase DataTableDirective, para luego poder
@@ -99,7 +99,7 @@ export class CategoriasFormComponent implements OnInit, OnDestroy {
     let modal = this;
 
     // ensure id attribute exists
-    if (!modal.id) {
+    if (!modal.id) {//idModal {
         console.error('modal must have an id');
         return;
     }
@@ -143,7 +143,7 @@ export class CategoriasFormComponent implements OnInit, OnDestroy {
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-      this.categoriasService.remove(this.id);
+      this.categoriasService.remove(this.id); //idModal
       this.elementModal.remove();
   }
 

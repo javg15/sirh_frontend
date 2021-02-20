@@ -6,9 +6,9 @@ export default interface Plantillasdocsfamiliares {
   /** Primary key. Index: plantillasdocsfamiliares_pkey */
   id: PlantillasdocsfamiliaresId;
 
-  idPlantillaspersonal: number;
+  id_plantillaspersonal: number;
 
-  idArchivos: number | null;
+  id_archivos: number | null;
 
   curp: string;
 
@@ -26,13 +26,13 @@ export default interface Plantillasdocsfamiliares {
 
   sexo: string | null;
 
-  idUsuariosR: number;
+  id_usuarios_r: number;
 
   state: string;
 
-  createdAt: Date | null;
+  created_at: Date | null;
 
-  updatedAt: Date | null;
+  updated_at: Date | null;
 }
 
 export interface PlantillasdocsfamiliaresInitializer {
@@ -43,9 +43,9 @@ export interface PlantillasdocsfamiliaresInitializer {
   id?: PlantillasdocsfamiliaresId;
 
   /** Default value: 0 */
-  idPlantillaspersonal?: number;
+  id_plantillaspersonal?: number;
 
-  idArchivos?: number;
+  id_archivos?: number;
 
   curp: string;
 
@@ -64,12 +64,12 @@ export interface PlantillasdocsfamiliaresInitializer {
   sexo?: string;
 
   /** Default value: 0 */
-  idUsuariosR?: number;
+  id_usuarios_r?: number;
 
   /** Default value: 'A'::bpchar */
   state?: string;
 
-  createdAt?: Date;
+  created_at?: Date;
 
-  updatedAt?: Date;
+  updated_at?: Date;
 }

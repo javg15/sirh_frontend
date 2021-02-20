@@ -26,7 +26,7 @@ declare var jQuery: any;
 
 export class CategoriassueldosFormComponent implements OnInit, OnDestroy {
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
-  @Input() id: string;
+  @Input() id: string; //idModal
   @Input() botonAccion: string; //texto del boton según acción
   @Input() varEditarHorPla: string = "1";
   @Output() redrawEvent = new EventEmitter<any>();
@@ -80,7 +80,7 @@ export class CategoriassueldosFormComponent implements OnInit, OnDestroy {
       let modal = this;
 
       // ensure id attribute exists
-      if (!modal.id) {
+      if (!modal.id) {//idModal {
           console.error('modal must have an id');
           return;
       }
@@ -93,7 +93,7 @@ export class CategoriassueldosFormComponent implements OnInit, OnDestroy {
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-      this.categoriassueldosService.remove(this.id);
+      this.categoriassueldosService.remove(this.id); //idModal
       this.elementModal.remove();
   }
 

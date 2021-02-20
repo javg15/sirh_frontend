@@ -25,7 +25,7 @@ declare var jQuery: any;
 
 export class UsuariosFormdirectComponent implements OnInit {
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
-  @Input() id: string;
+  @Input() idRecord: string;
 
   actionForm: string="editar";
   tituloForm: string;
@@ -54,7 +54,7 @@ export class UsuariosFormdirectComponent implements OnInit {
 
       //obtener el usario desde la sesion
       if (this.tokenStorage.getToken()) {
-        this.id=this.tokenStorage.getUser().id;
+        this.idRecord=this.tokenStorage.getUser().id;
         this.usuariosService.getRecord(this.tokenStorage.getUser().id).subscribe(resp => {
           this.record = resp;
           this.listUpload.showFiles(this.record.id_archivos_avatar);
@@ -80,7 +80,7 @@ export class UsuariosFormdirectComponent implements OnInit {
     if(this.actionForm.toUpperCase()!=="VER"){
       this.validSummary.resetErrorMessages(form);
 
-      this.record.id=parseInt(this.id);
+      this.record.id=parseInt(this.idRecord);
       this.record.pass=this.pass.toString();
 
       await this.isLoadingService.add(

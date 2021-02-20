@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, Eve
 import { ActivatedRoute } from '@angular/router';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Plantillaspersonaldocs } from '../../../../_models';
+import { Plantillasdocsprofesional } from '../../../../_models';
 import { Archivos } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
@@ -25,7 +25,7 @@ declare var jQuery: any;
 
 export class PlantillasDocsProfesionalFormComponent implements OnInit, OnDestroy {
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
-  @Input() id: string;
+  @Input() id: string; //idModal
   @Input() botonAccion: string; //texto del boton según acción
   @Output() redrawEvent = new EventEmitter<any>();
 
@@ -36,13 +36,13 @@ export class PlantillasDocsProfesionalFormComponent implements OnInit, OnDestroy
 
   private elementModal: any;
 
-  @ViewChild('basicModal') basicModal: ModalDirective;
+  @ViewChild('basicModalDocsProfesional') basicModalDocsProfesional: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
   @ViewChild(ListUploadComponent) listUpload: ListUploadComponent;
   @ViewChild(FormUploadComponent) formUpload: FormUploadComponent;
 
-  record: Plantillaspersonaldocs;
+  record: Plantillasdocsprofesional;
   recordFile:Archivos;
   keywordSearch = 'full_name';
   isLoadingSearch:boolean;
@@ -56,9 +56,9 @@ export class PlantillasDocsProfesionalFormComponent implements OnInit, OnDestroy
         this.elementModal = el.nativeElement;
   }
 
-  newRecord(idParent:number,tipoDocumento:number): Plantillaspersonaldocs {
+  newRecord(idParent:number): Plantillasdocsprofesional {
     return {
-      id: 0,  id_plantillaspersonal: idParent, tipodoc:tipoDocumento, id_archivos:0,
+      id: 0,  id_plantillaspersonal: idParent, id_archivos:0,
       ultimogradoestudios:0,areacarrera:0,carrera:0,estatus:0,
       fechaexpedicion:null,
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
@@ -66,12 +66,12 @@ export class PlantillasDocsProfesionalFormComponent implements OnInit, OnDestroy
   }
   ngOnInit(): void {
 
-    this.record =this.newRecord(0,0);
+    this.record =this.newRecord(0);
 
     let modal = this;
 
     // ensure id attribute exists
-    if (!modal.id) {
+    if (!modal.id) {//idModal {
         console.error('modal must have an id');
         return;
     }
@@ -84,7 +84,7 @@ export class PlantillasDocsProfesionalFormComponent implements OnInit, OnDestroy
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-      this.plantillasdocsprofesionalService.remove(this.id);
+      this.plantillasdocsprofesionalService.remove(this.id); //idModal
       this.elementModal.remove();
   }
 
@@ -129,15 +129,15 @@ export class PlantillasDocsProfesionalFormComponent implements OnInit, OnDestroy
   }
 
   // open modal
-  open(idItem: string, accion: string,idParent:number,tipoDocumento:number):  void {
+  open(idItem: string, accion: string,idParent:number):  void {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
-    this.tituloForm=titulosModal[accion] + " registro";
+    this.tituloForm="Preparación profesional - " + titulosModal[accion] + " registro";
     this.formUpload.resetFile();
 
     if(idItem=="0"){
-        this.record =this.newRecord(idParent,tipoDocumento);
-        this.listUpload.showFiles(idParent);
+        this.record =this.newRecord(idParent);
+        this.listUpload.showFiles(0);
     } else {
       //obtener el registro
       this.plantillasdocsprofesionalService.getRecord(idItem).subscribe(resp => {
@@ -147,7 +147,7 @@ export class PlantillasDocsProfesionalFormComponent implements OnInit, OnDestroy
     }
 
     // console.log($('#modalTest').html()); poner el id a algun elemento para testear
-    this.basicModal.show();
+    this.basicModalDocsProfesional.show();
   }
 
   //Archivo cargado
@@ -158,7 +158,7 @@ export class PlantillasDocsProfesionalFormComponent implements OnInit, OnDestroy
 
   // close modal
   close(): void {
-      this.basicModal.hide();
+      this.basicModalDocsProfesional.hide();
       if(this.actionForm.toUpperCase()!="VER"){
         this.redrawEvent.emit({
           campo: 0,

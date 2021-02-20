@@ -6,8 +6,6 @@ export default interface Plantillaspersonaldocs {
 
   id_plantillaspersonal: number;
 
-  tipodoc: number;
-
   id_archivos: number | null;
 
   fechaexpedicion: Date | null;

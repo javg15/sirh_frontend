@@ -1,4 +1,4 @@
-<div bsModal #basicModal="bs-modal" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+<div bsModal #basicModalForm="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-full-height modal-right" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -18,7 +18,7 @@
                         <div class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="tipodoc">Tipo de documento</label>
-                                <select class="form-control" [(ngModel)]="record.tipodoc" name="Tipo de documento">
+                                <select class="form-control" name="Tipo de documento">
                               <option value="0"></option>
                               <option value = "1">Información general (Datos generales)</option>
                               <option value = "2">Nombramiento (Datos laborales)</option>

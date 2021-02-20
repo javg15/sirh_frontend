@@ -12,6 +12,9 @@ import { actionsButtonSave, titulosModal } from '../../../../../environments/env
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 import { PlantillasdocsService } from '../services/plantillasdocs.service';
+import { PlantillasdocsProfesionalService } from '../services/plantillasdocsprofesional.service';
+import { PlantillasdocsNombramientoService } from '../services/plantillasdocsnombramiento.service';
+import { PlantillasdocsFamiliaresService } from '../services/plantillasdocsfamiliares.service';
 
 import { environment } from '../../../../../environments/environment';
 
@@ -28,7 +31,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
 
   @Input() dtOptions: DataTables.Settings = {};
-  @Input() id: string;
+  @Input() id: string; //idModal
   @Input() botonAccion: string; //texto del boton según acción
   @Output() redrawEvent = new EventEmitter<any>();
 
@@ -50,9 +53,9 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   };
   private dtOptionsAdicional = { datosBusqueda: {campo: 0, operador: 0, valor: ''}
     ,raw:0
-    ,fkey:'id_plantillaspersonal,tipodoc'
+    ,fkey:'id,tipodocumento'
     ,fkeyvalue:[0,0]
-    ,modo:22
+    ,modo:0
   };
 
   NumberOfMembers = 0;
@@ -69,7 +72,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   record_tipodoc:number;
 
   private elementModal: any;
-  @ViewChild('basicModal') basicModal: ModalDirective;
+  @ViewChild('basicModalDocs') basicModalDocs: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
 
@@ -77,6 +80,9 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
 
   constructor(private plantillasService: PlantillasService,
     private plantillasdocsService: PlantillasdocsService,
+    private plantillasdocsprofesionalSvc: PlantillasdocsProfesionalService,
+    private plantillasdocsnombramientoSvc: PlantillasdocsNombramientoService,
+    private plantillasdocsfamiliaresSvc: PlantillasdocsFamiliaresService,
     private el: ElementRef,
     private route: ActivatedRoute
       ) {
@@ -89,7 +95,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     let modal = this;
 
     // ensure id attribute exists
-    if (!modal.id) {
+    if (!modal.id) {//idModal {
         console.error('modal must have an id');
         return;
     }
@@ -125,14 +131,14 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
         },
       },
       columns: this.headersAdmin,
-      columnDefs:[{"width": "5%", "targets": 0}]
+      columnDefs:[{"visible": false, "targets": [0,1]}]//ID, tipo
     };
 
   }
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-      this.plantillasService.remove(this.id);
+      this.plantillasService.remove(this.id); //idModal
       this.elementModal.remove();
   }
 
@@ -141,19 +147,19 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   open(idItem: string, accion: string,idCatplanteles:string,idCatplantillas:string,tipoDocumento:string):  void {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
-    this.tituloForm=titulosModal[accion] + " registro";
+    this.tituloForm="Documentación - " +titulosModal[accion] + " registro";
     this.record_id_plantillaspersonal=parseInt(idItem);
     this.record_tipodoc=parseInt(tipoDocumento);
 
     this.reDraw();
 
     // console.log($('#modalTest').html()); poner el id a algun elemento para testear
-    this.basicModal.show();
+    this.basicModalDocs.show();
   }
 
   // close modal
   close(): void {
-      this.basicModal.hide();
+      this.basicModalDocs.hide();
       if(this.actionForm.toUpperCase()!="VER"){
         this.redrawEvent.emit({
           campo: 0,
@@ -166,9 +172,21 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
 
 
   //Sub formulario
-  openModal(id: string, accion: string, idItem: number,idParent:number,tipoDocumento:number) {
-    //console.log("idItem=>",idItem,"idParent=>",idParent,"idInput=>",this.idInput.nativeElement.value)
-    this.plantillasdocsService.open(id, accion, idItem,idParent,tipoDocumento);
+  openModal(tipo:string, id: string, accion: string, idItem: number,idParent:number) {
+    switch(tipo.toLowerCase()){
+      case "plantillasdocsprofesional":
+          this.plantillasdocsprofesionalSvc.open(id, accion, idItem,idParent);
+          break;
+        case "plantillasdocsnombramiento":
+          this.plantillasdocsnombramientoSvc.open(id, accion, idItem,idParent);
+          break;
+        case "plantillasdocsfamiliares":
+          this.plantillasdocsfamiliaresSvc.open(id, accion, idItem,idParent);
+          break;
+      default:
+        this.plantillasdocsService.open(id, accion, idItem,idParent);
+
+    }
   }
 
   closeModal(id: string) {
@@ -180,6 +198,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
 
     this.dtOptionsAdicional.raw++;
     this.dtOptionsAdicional.fkeyvalue=[this.record_id_plantillaspersonal,this.record_tipodoc];
+    //this.dtOptionsAdicional.fkeyvalue=this.record_id_plantillaspersonal;
     this.dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
 
     this.plantillasdocsService.getAdmin(this.dataTablesParameters).subscribe(resp => {

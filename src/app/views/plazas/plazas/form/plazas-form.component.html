@@ -1,4 +1,4 @@
-<div bsModal #basicModal="bs-modal" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+<div bsModal #basicModal="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-full-height modal-right" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -26,14 +26,14 @@
                             </select>-->
                             </div>
                         </div>
-                        <div class="form-group col-sm-4">
+                        <!--<div class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="id_catcentrostrabajo">Centro de trabajo</label>
                                 <select class="form-control" [(ngModel)]="record.id_catcentrostrabajo" name="Centro de trabajo">
                             <option *ngFor="let col of catcentrostrabajoCat" [value]="col.id">{{ col.clave + " - " + col.descripcion }}</option>
                           </select>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="id_categorias">Categorías</label>
@@ -89,7 +89,7 @@
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="id_catestatusplaza">Estatus de plaza</label>
-                                <select class="form-control" [(ngModel)]="record.id_catestatusplaza" name="Estatus de plaza">
+                                <select class="form-control" [(ngModel)]="record.id_catestatusplaza" name="Estatus de plaza" ng-selected="record.id_catestatusplaza">
                                   <option *ngFor="let col of catestatusplazaCat" [value]="col.id">{{ col.descripcion }}</option>
                                 </select>
                             </div>

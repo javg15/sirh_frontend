@@ -26,7 +26,7 @@ declare var jQuery: any;
 
 export class PlazasFormComponent implements OnInit, OnDestroy {
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
-  @Input() id: string;
+  @Input() id: string; //idModal
   @Input() botonAccion: string; //texto del boton según acción
   @Output() redrawEvent = new EventEmitter<any>();
   actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
@@ -80,7 +80,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
     return {
       id: 0,id_categorias: 0,consecutivo: 0, id_catplanteles: 0,  id_catcentrostrabajo: 0,
       state: '', id_catplantelescobro: 0, id_catzonageografica: 0, fecha_creacion: null,
-      fecha_fin: null, id_catestatusplaza: 0, statussicodes: 0, id_puesto: 0,
+      fecha_fin: null, id_catestatusplaza: 1, statussicodes: 0, id_puesto: 0,
       id_sindicato: 0, created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }
@@ -91,7 +91,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
       let modal = this;
 
       // ensure id attribute exists
-      if (!modal.id) {
+      if (!modal.id) {//idModal {
           console.error('modal must have an id');
           return;
       }
@@ -104,7 +104,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-      this.plazasService.remove(this.id);
+      this.plazasService.remove(this.id); //idModal
       this.elementModal.remove();
   }
 
@@ -142,6 +142,12 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
         this.txtplazasdisponibles.nativeElement.value=resp[0].fn_plazas_disponibles.totalplazasdisponibles;
         this.txtplazasautorizadas.nativeElement.value=resp[0].fn_plazas_disponibles.totalplazasautorizadas;
         this.txtplazasautorizadasplantel.nativeElement.value=resp[0].fn_plazas_disponibles.totalautorizadasalplantel;
+
+        //cambio de color alertando de que ya no hay vacantes
+        if(resp[0].fn_plazas_disponibles.totalplazasdisponibles==0 && this.actionForm.toLowerCase()=="nuevo")
+          this.txtplazasdisponibles.nativeElement.style.backgroundColor ="yellow";
+        else
+          this.txtplazasdisponibles.nativeElement.style.backgroundColor ="";
       });
       this.plazasService.getConsecutivo(this.record.id_categorias).subscribe(resp => {
         this.txtconsecutivo.nativeElement.value=resp;

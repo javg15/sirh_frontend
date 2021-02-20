@@ -6,9 +6,9 @@ export default interface Plantillasdocsprofesional {
   /** Primary key. Index: plantillasdocsgeneral_pkey */
   id: PlantillasdocsprofesionalId;
 
-  idPlantillaspersonal: number;
+  id_plantillaspersonal: number;
 
-  idArchivos: number | null;
+  id_archivos: number | null;
 
   fechaexpedicion: Date | null;
 
@@ -20,13 +20,13 @@ export default interface Plantillasdocsprofesional {
 
   estatus: number | null;
 
-  idUsuariosR: number;
+  id_usuarios_r: number;
 
   state: string;
 
-  createdAt: Date | null;
+  created_at: Date | null;
 
-  updatedAt: Date | null;
+  updated_at: Date | null;
 }
 
 export interface PlantillasdocsprofesionalInitializer {
@@ -37,9 +37,9 @@ export interface PlantillasdocsprofesionalInitializer {
   id?: PlantillasdocsprofesionalId;
 
   /** Default value: 0 */
-  idPlantillaspersonal?: number;
+  id_plantillaspersonal?: number;
 
-  idArchivos?: number;
+  id_archivos?: number;
 
   fechaexpedicion?: Date;
 
@@ -52,12 +52,12 @@ export interface PlantillasdocsprofesionalInitializer {
   estatus?: number;
 
   /** Default value: 0 */
-  idUsuariosR?: number;
+  id_usuarios_r?: number;
 
   /** Default value: 'A'::bpchar */
   state?: string;
 
-  createdAt?: Date;
+  created_at?: Date;
 
-  updatedAt?: Date;
+  updated_at?: Date;
 }

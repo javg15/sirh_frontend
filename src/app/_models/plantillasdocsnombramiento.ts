@@ -6,9 +6,9 @@ export default interface Plantillasdocsnombramiento {
   /** Primary key. Index: plantillasdocsnombramiento_pkey */
   id: PlantillasdocsnombramientoId;
 
-  idPlantillaspersonal: number;
+  id_plantillaspersonal: number;
 
-  idArchivos: number | null;
+  id_archivos: number | null;
 
   fechaexpedicion: Date | null;
 
@@ -18,19 +18,19 @@ export default interface Plantillasdocsnombramiento {
 
   fechafin: Date | null;
 
-  idPersonalTitular: number | null;
+  id_personal_titular: number | null;
 
   horas: number | null;
 
-  idCategorias: number | null;
+  id_categorias: number | null;
 
-  idUsuariosR: number;
+  id_usuarios_r: number;
 
   state: string;
 
-  createdAt: Date | null;
+  created_at: Date | null;
 
-  updatedAt: Date | null;
+  updated_at: Date | null;
 }
 
 export interface PlantillasdocsnombramientoInitializer {
@@ -41,9 +41,9 @@ export interface PlantillasdocsnombramientoInitializer {
   id?: PlantillasdocsnombramientoId;
 
   /** Default value: 0 */
-  idPlantillaspersonal?: number;
+  id_plantillaspersonal?: number;
 
-  idArchivos?: number;
+  id_archivos?: number;
 
   fechaexpedicion?: Date;
 
@@ -53,19 +53,19 @@ export interface PlantillasdocsnombramientoInitializer {
 
   fechafin?: Date;
 
-  idPersonalTitular?: number;
+  id_personal_titular?: number;
 
   horas?: number;
 
-  idCategorias?: number;
+  id_categorias?: number;
 
   /** Default value: 0 */
-  idUsuariosR?: number;
+  id_usuarios_r?: number;
 
   /** Default value: 'A'::bpchar */
   state?: string;
 
-  createdAt?: Date;
+  created_at?: Date;
 
-  updatedAt?: Date;
+  updated_at?: Date;
 }
