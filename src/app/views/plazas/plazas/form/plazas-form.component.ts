@@ -207,8 +207,10 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
         this.catcentrostrabajoCat = resp;
       });
 
-      this.showAdicionalesPlantel(resp.id_catplanteles);
-      this.showAdicionalesCategoria();
+      this.onSelectPlantel(resp.id_catplanteles);
+      this.onSelectCategoria(resp.id_categorias);
+      /*this.showAdicionalesPlantel(resp.id_catplanteles);
+      this.showAdicionalesCategoria();*/
     });
   }
 
