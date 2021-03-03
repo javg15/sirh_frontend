@@ -40,6 +40,8 @@ export default interface Personal {
 
   observaciones: string | null;
 
+  numeemp: string | null;
+
   id_usuarios_r: number;
 
   state: string;
@@ -91,6 +93,8 @@ export interface PersonalInitializer {
   emailoficial: string;
 
   observaciones?: string;
+
+  numeemp?: string;
 
   /** Default value: 0 */
   id_usuarios_r?: number;
