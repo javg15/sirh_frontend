@@ -145,6 +145,9 @@ export class PersonalAdminComponent implements OnInit {
 
   //Call this method in the image source, it will sanitize it.
   transform(image){
-    return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64,'+image);
+    if(image.length<10)
+      return 'http://sigaa.cobaev.edu.mx/festival/fotos/personal/' + image + '.JPG';
+    else
+      return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64,'+image);
 }
 }

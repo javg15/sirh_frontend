@@ -58,20 +58,7 @@ const routes: Routes = [
       title: 'Login Page'
     }
   },
-  {
-    path: 'register',
-    component: RegisterComponent,
-    data: {
-      title: 'Register Page'
-    }
-  },
-  {
-    path: 'usuarios',
-    component: RegisterComponent,
-    data: {
-      title: 'Register Page'
-    }
-  },
+
   {
     path: '',
     canActivate: [AuthGuard],
@@ -80,6 +67,13 @@ const routes: Routes = [
       title: 'Home'
     },
     children: [
+      {
+          path: 'register',
+          component: RegisterComponent,
+          data: {
+            title: 'Register Page'
+          }
+      },
       {
         path: 'base',
         loadChildren: () => import('./views/base/base.module').then(m => m.BaseModule)

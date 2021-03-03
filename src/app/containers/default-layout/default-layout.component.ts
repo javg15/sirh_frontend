@@ -24,6 +24,7 @@ export class DefaultLayoutComponent {
       this.archivoSvc.getAvatar(this.usuario.id).subscribe(resp => {
         this.imageAvatar = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
                  + resp[0]["datos"]);
+        //this.imageAvatar = 'http://sigaa.cobaev.edu.mx/festival/fotos/personal/' + 08529 + '.JPG';
       },
       error => {
         this.imageAvatar='assets/img/avatars/avatar.jpg';
