@@ -190,10 +190,14 @@ export class PlantillasFormComponent implements OnInit, OnDestroy {
   onSelectIdPersonal(val: any) {
     let items=val["full_name"].split(" -- ");
     this.record.id_personal=parseInt(items[2]);
-    this.getConsecutivo()
+
     //obtener el registro del personal relacionado
     this.personalSvc.getRecord(this.record.id_personal).subscribe(resp => {
       this.recordpersonalCat = resp;
+      if(this.recordpersonalCat.numeemp!='')
+        this.record.consecutivo=this.recordpersonalCat.numeemp;
+      else
+        this.getConsecutivo()
     });
   }
 

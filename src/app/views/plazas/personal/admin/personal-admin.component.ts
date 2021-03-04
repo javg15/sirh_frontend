@@ -108,6 +108,7 @@ export class PersonalAdminComponent implements OnInit {
             }
           );
         },
+        //order: [[ 3, "desc" ]],
         columns: this.headersAdmin,
         columnDefs:[{"visible": false, "searchable": false, "targets": 0}
                   ,{"width":"5%", "targets": 1}]
