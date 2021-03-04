@@ -172,11 +172,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   close(): void {
       this.basicModalDocsNombramiento.hide();
       if(this.actionForm.toUpperCase()!="VER"){
-        this.redrawEvent.emit({
-          campo: 0,
-          operador: 0,
-          valor: ''
-        });
+        this.redrawEvent.emit(null);
       }
   }
 

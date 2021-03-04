@@ -119,11 +119,7 @@ export class CatestatusplazaFormComponent implements OnInit, OnDestroy {
   close(): void {
       this.basicModal.hide();
       if(this.actionForm.toUpperCase()!="VER"){
-        this.redrawEvent.emit({
-          campo: 0,
-          operador: 0,
-          valor: ''
-        });
+        this.redrawEvent.emit(null);
       }
   }
 

@@ -161,11 +161,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   close(): void {
       this.basicModalDocs.hide();
       if(this.actionForm.toUpperCase()!="VER"){
-        this.redrawEvent.emit({
-          campo: 0,
-          operador: 0,
-          valor: ''
-        });
+        this.redrawEvent.emit(null);
       }
   }
 

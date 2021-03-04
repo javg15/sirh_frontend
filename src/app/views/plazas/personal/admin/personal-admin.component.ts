@@ -58,6 +58,7 @@ export class PersonalAdminComponent implements OnInit {
       this.dtOptions = {
         pagingType: 'full_numbers',
         pageLength: 50,
+        displayStart: 0,
         serverSide: true,
         processing: true,
         //destroy : true,
@@ -81,6 +82,7 @@ export class PersonalAdminComponent implements OnInit {
         // Use this attribute to enable the responsive extension
         responsive: true,
         ajax: (dataTablesParameters: any, callback) => {
+
           this.dtOptionsAdicional.raw++;
           dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
 
@@ -130,16 +132,19 @@ export class PersonalAdminComponent implements OnInit {
     this.dtTrigger.unsubscribe();
   }
 
-  reDraw(datosBusqueda: any = [{campo: 0, operador: 0, valor: ''}]): void {
-
-    this.dtOptionsAdicional.datosBusqueda = datosBusqueda;
+  reDraw(datosBusqueda: any = null): void {
 
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      //dtInstance.clear().draw(); // Add this  line to clear all rows..
-      // Destruimos la tabla
-      dtInstance.destroy();
-      // dtTrigger la reconstruye
-      this.dtTrigger.next();
+      if(datosBusqueda!=null){
+        this.dtOptionsAdicional.datosBusqueda = datosBusqueda;
+        // Destruimos la tabla
+        dtInstance.destroy();
+        // dtTrigger la reconstruye
+        this.dtTrigger.next();
+      }
+      else{
+        dtInstance.clear().draw(false); // viene de form, solo actualiza la vista actual (current page)
+      }
     });
   }
 
