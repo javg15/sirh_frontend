@@ -60,6 +60,9 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   categoriasCat:Categorias[];
   catestatusplazaCat:Catestatusplaza[];
   plazasCat:Plazas[];
+  convigencia:boolean;
+  conlicencia:boolean;
+  esinterina:boolean;
   //recordJsonTipodoc1:any={UltimoGradodeEstudios:0,AreadeCarrera:0,Carrera:0,Estatus:0};
 
   constructor(private isLoadingService: IsLoadingService,
@@ -235,6 +238,12 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   }
 
   onSelectTipoNombramiento(valor:any){
+
+    let tipoNombramiento=this.catestatusplazaCat.find(x=>x.id==valor);
+
+    this.convigencia=(tipoNombramiento.convigencia==1);
+    this.conlicencia=(tipoNombramiento.conlicencia==1);
+    this.esinterina=(tipoNombramiento.esinterina==1);
 
     if(valor==3){
       this.categoriasSvc.getCatalogoDisponibleEnPlantilla(this.record_plantillaspersonal.id_catplanteles,this.record.id_plazas).subscribe(resp => {

@@ -49,6 +49,7 @@ export class CatestatusplazaFormComponent implements OnInit, OnDestroy {
   newRecord(): Catestatusplaza {
     return {
       id: 0,  descripcion: '', clave:'', id_estatussig:'',strid_nombramiento:'', tipoocupplaza:'',
+      convigencia:0,conlicencia:0, esinterina:0,
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }

@@ -38,7 +38,7 @@
                             </div>
                         </div>
 
-                        <div *ngIf="record.id_catestatusplaza!=3" class="form-group col-sm-4">
+                        <div *ngIf="convigencia==true" class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="fechafin">Fecha de término</label>
                                 <input id="txtFechafin" type="date" [(ngModel)]="record.fechafin" class="form-control" name="Fecha de término">

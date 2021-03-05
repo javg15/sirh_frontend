@@ -80,7 +80,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
     return {
       id: 0,id_categorias: 0,consecutivo: 0, id_catplanteles: 0,  id_catcentrostrabajo: 0,
       state: '', id_catplantelescobro: 0, id_catzonageografica: 0, fecha_creacion: null,
-      fecha_fin: null, id_catestatusplaza: 1, statussicodes: 0, id_puesto: 0,
+      fecha_fin: null, id_catestatusplaza: 1, statussicodes: 0, id_puesto: 0,estatus:'',
       id_sindicato: 0, created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }
@@ -195,24 +195,27 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
   open(idItem: string, accion: string):  void {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
-    this.tituloForm=titulosModal[accion] + " registro";
 
     if(idItem=="0"){
       this.record =this.newRecord();
+      this.tituloForm=titulosModal[accion] + " registro";
     } else {
 
-    this.plazasService.getRecord(idItem).subscribe(resp => {
-      this.record = resp;
-      this.catcentrostrabajoSvc.getCatalogoSegunPlantel(this.record.id_catplanteles).subscribe(resp => {
-        this.catcentrostrabajoCat = resp;
-      });
+      this.plazasService.getRecord(idItem).subscribe(resp => {
+        this.record = resp;
+        this.catcentrostrabajoSvc.getCatalogoSegunPlantel(this.record.id_catplanteles).subscribe(resp => {
+          this.catcentrostrabajoCat = resp;
+        });
+        this.plazasService.getClave(idItem).subscribe(resp => {
+          this.tituloForm=titulosModal[accion] + " registro - " + resp[0].clave;
+        });
 
-      this.onSelectPlantel(resp.id_catplanteles);
-      this.onSelectCategoria(resp.id_categorias);
-      /*this.showAdicionalesPlantel(resp.id_catplanteles);
-      this.showAdicionalesCategoria();*/
-    });
-  }
+        this.onSelectPlantel(resp.id_catplanteles);
+        this.onSelectCategoria(resp.id_categorias);
+        /*this.showAdicionalesPlantel(resp.id_catplanteles);
+        this.showAdicionalesCategoria();*/
+      });
+    }
 
     // console.log($('#modalTest').html()); poner el id a algun elemento para testear
     this.basicModal.show();

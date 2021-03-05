@@ -16,6 +16,12 @@ export default interface Catestatusplaza {
 
   tipoocupplaza: string | null;
 
+  convigencia:number | null;
+
+  conlicencia:number | null;
+
+  esinterina:number | null;
+
   created_at: Date | null;
 
   updated_at: Date | null;
@@ -41,6 +47,12 @@ export interface CatestatusplazaInitializer {
   strid_nombramiento?: string;
 
   tipoocupplaza?: string;
+
+  convigencia?: number;
+
+  conlicencia:number;
+
+  esinterina:number;
 
   created_at?: Date;
 

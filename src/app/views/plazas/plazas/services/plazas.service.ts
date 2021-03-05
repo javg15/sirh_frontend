@@ -48,6 +48,13 @@ export class PlazasService {
       , httpOptions);
   }
 
+  /* Obtiene la clave de la plaza */
+  public getClave(id_plazas: any): Observable<any> {
+    return this.http.post(this.API_URL + '/plazas/getClave',
+      { id_plazas }
+      , httpOptions);
+  }
+
   /* El siguiente método graba un registro nuevo, o uno editado. */
   public setRecord(dataPack,actionForm): Observable<any> {
 
