@@ -11,6 +11,7 @@ import { ValidationSummaryComponent } from '../../../_shared/validation/validati
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
+import { PersonalService } from '../../personal/services/personal.service';
 import { PlantillasdocsService } from '../services/plantillasdocs.service';
 import { PlantillasdocsProfesionalService } from '../services/plantillasdocsprofesional.service';
 import { PlantillasdocsNombramientoService } from '../services/plantillasdocsnombramiento.service';
@@ -83,6 +84,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     private plantillasdocsprofesionalSvc: PlantillasdocsProfesionalService,
     private plantillasdocsnombramientoSvc: PlantillasdocsNombramientoService,
     private plantillasdocsfamiliaresSvc: PlantillasdocsFamiliaresService,
+    private personalSvc: PersonalService,
     private el: ElementRef,
     private route: ActivatedRoute
       ) {
@@ -147,14 +149,20 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   open(idItem: string, accion: string,idCatplanteles:string,idCatplantillas:string,tipoDocumento:string):  void {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
-    this.tituloForm="Documentación - " +titulosModal[accion] + " registro";
-    this.record_id_plantillaspersonal=parseInt(idItem);
-    this.record_tipodoc=parseInt(tipoDocumento);
+    this.plantillasService.getRecord(idItem).subscribe(resp => {
+      this.personalSvc.getRecord(resp.id_personal).subscribe(resp => {
+        this.tituloForm="Documentación - " + (resp.apellidopaterno + " " + resp.apellidomaterno + " " + resp.nombre);
+        this.record_id_plantillaspersonal=parseInt(idItem);
+        this.record_tipodoc=parseInt(tipoDocumento);
 
-    this.reDraw();
+        this.reDraw();
 
-    // console.log($('#modalTest').html()); poner el id a algun elemento para testear
-    this.basicModalDocs.show();
+        // console.log($('#modalTest').html()); poner el id a algun elemento para testear
+        this.basicModalDocs.show();
+      });
+    })
+
+
   }
 
   // close modal

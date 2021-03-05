@@ -53,6 +53,14 @@ export class CategoriasService {
       , httpOptions);
   }
 
+  /* Devuelve las categorias disponibles, segun plantel en plantillas*/
+  public getCatalogoDisponibleEnPlantilla(id_catplanteles,id_plazas): Observable<any> {
+    return this.http.post(this.API_URL + '/categorias/getCatalogoDisponibleEnPlantilla',
+      { id_catplanteles,id_plazas }
+      , httpOptions);
+  }
+
+
   /* El siguiente método lee los datos de un registro seleccionado para edición. */
   public getRecord(id: any): Observable<any> {
     return this.http.post(this.API_URL + '/categorias/getRecord',

@@ -3,16 +3,20 @@ import { DatePipe } from '@angular/common'
 import { ActivatedRoute } from '@angular/router';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Plantillasdocsnombramiento,Personal } from '../../../../_models';
+import { Plantillasdocsnombramiento,Personal,Categorias,Plantillaspersonal,Catestatusplaza,Plazas } from '../../../../_models';
 import { Archivos } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 import { PersonalService } from '../../personal/services/personal.service';
+import { PlazasService } from '../../plazas/services/plazas.service';
+import { CategoriasService } from '../../../catalogos/categorias/services/categorias.service';
 
 import { ArchivosService } from '../../../catalogos/archivos/services/archivos.service';
 import { PlantillasdocsNombramientoService } from '../services/plantillasdocsnombramiento.service';
+import { PlantillasService } from '../services/plantillas.service';
+import { CatestatusplazaService } from '../../../catalogos/catestatusplaza/services/catestatusplaza.service';
 import { ListUploadComponent } from '../../../_shared/upload/list-upload.component';
 import { FormUploadComponent } from '../../../_shared/upload/form-upload.component';
 import { AutocompleteComponent } from 'angular-ng-autocomplete';
@@ -37,6 +41,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
 
+
   private elementModal: any;
   @ViewChild('id_personal_titular') id_personal_titular:AutocompleteComponent;
   @ViewChild('basicModalDocsNombramiento') basicModalDocsNombramiento: ModalDirective;
@@ -46,28 +51,39 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   @ViewChild(FormUploadComponent) formUpload: FormUploadComponent;
 
   record: Plantillasdocsnombramiento;
+  record_plantillaspersonal:Plantillaspersonal;
   record_titular:String;
   recordFile:Archivos;
   keywordSearch = 'full_name';
   isLoadingSearch:boolean;
   catpersonalCat:Personal[];
+  categoriasCat:Categorias[];
+  catestatusplazaCat:Catestatusplaza[];
+  plazasCat:Plazas[];
   //recordJsonTipodoc1:any={UltimoGradodeEstudios:0,AreadeCarrera:0,Carrera:0,Estatus:0};
 
   constructor(private isLoadingService: IsLoadingService,
       private plantillasdocsnombramientoService: PlantillasdocsNombramientoService,
       private personalSvc: PersonalService,
+      private categoriasSvc: CategoriasService,
+      private plantillasSvc: PlantillasService,
+      private catestatusplazaSvc: CatestatusplazaService,
+      private plazasSvc: PlazasService,
     private el: ElementRef,
     private archivosSvc:ArchivosService,
     public datepipe: DatePipe
       ) {
         this.elementModal = el.nativeElement;
+        this.catestatusplazaSvc.getCatalogo().subscribe(resp => {
+          this.catestatusplazaCat = resp;
+        });
   }
 
   newRecord(idParent:number): Plantillasdocsnombramiento {
     return {
       id: 0,  id_plantillaspersonal: idParent, id_archivos:0,
-      fechaexpedicion: null,  tipo: 0,  fechaini: null, fechafin: null,
-      id_personal_titular: 0,  horas: 0,   id_categorias: 0,
+      fechaexpedicion: null,  id_catestatusplaza: 0,  fechaini: null, fechafin: null,
+      id_personal_titular: 0,  horas: 0,   id_categorias: 0, id_plazas:0,
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }
@@ -143,20 +159,41 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
     this.formUpload.resetFile();
     this.record_titular="";
 
+
     if(idItem=="0"){
         this.record =this.newRecord(idParent);
         this.listUpload.showFiles(0);
+
+        //obtener el plantel de la plantilla
+        this.plantillasSvc.getRecord(this.record.id_plantillaspersonal).subscribe(resp => {
+          this.record_plantillaspersonal=resp;
+          if(this.record.id_catestatusplaza==3){
+            this.onSelectTipoNombramiento(this.record.id_catestatusplaza);
+          }
+        });
     } else {
       //obtener el registro
       this.plantillasdocsnombramientoService.getRecord(idItem).subscribe(resp => {
         this.record = resp;
         this.listUpload.showFiles(this.record.id_archivos);
-        if(this.record.id_personal_titular>0)
+
+        if(this.record.id_personal_titular>0)//si es el titular
           this.personalSvc.getRecord(this.record.id_personal_titular).subscribe(resp => {
             this.record_titular = resp.nombre + " " + resp.apellidopaterno + " " + resp.apellidomaterno + " - " + resp.curp;
           });
+
+        //obtener el plantel de la plantilla
+        this.plantillasSvc.getRecord(this.record.id_plantillaspersonal).subscribe(resp => {
+          this.record_plantillaspersonal=resp;
+          if(this.record.id_catestatusplaza==3){
+            this.onSelectTipoNombramiento(this.record.id_catestatusplaza);
+            this.onSelectCategorias(this.record.id_categorias);
+          }
+        });
       });
     }
+
+
 
     // console.log($('#modalTest').html()); poner el id a algun elemento para testear
     this.basicModalDocsNombramiento.show();
@@ -198,15 +235,28 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   }
 
   onSelectTipoNombramiento(valor:any){
-    if(this.record.fechaini!=null){
-      let dateString = this.record.fechaini + 'T00:00:00';
-      let newDate = new Date(dateString);
-      this.record.fechafin = new Date();
-      this.record.fechafin.setDate( newDate.getDate() + 181 );
 
-      let fechafin =this.datepipe.transform(this.record.fechafin, 'yyyy-MM-dd');
-      setTimeout(()=>{ $('#txtFechafin').val(fechafin) }, 100)
+    if(valor==3){
+      this.categoriasSvc.getCatalogoDisponibleEnPlantilla(this.record_plantillaspersonal.id_catplanteles,this.record.id_plazas).subscribe(resp => {
+        this.categoriasCat = resp;
+      });
     }
+    else{
+      if(this.record.fechaini!=null){
+        let dateString = this.record.fechaini + 'T00:00:00';
+        let newDate = new Date(dateString);
+        this.record.fechafin = new Date();
+        this.record.fechafin.setDate( newDate.getDate() + 181 );
 
+        let fechafin =this.datepipe.transform(this.record.fechafin, 'yyyy-MM-dd');
+        setTimeout(()=>{ $('#txtFechafin').val(fechafin) }, 100)
+      }
+    }
+  }
+
+  onSelectCategorias(valor:any){
+    this.plazasSvc.getCatalogoDisponibleSegunCategoria(valor,this.record.id_plazas).subscribe(resp => {
+      this.plazasCat = resp;
+    });
   }
 }

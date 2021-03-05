@@ -12,7 +12,9 @@ export default interface Plantillasdocsnombramiento {
 
   fechaexpedicion: Date | null;
 
-  tipo: number | null;
+  id_catestatusplaza: number | null;
+
+  id_plazas: number | null;
 
   fechaini: Date | null;
 
@@ -47,7 +49,9 @@ export interface PlantillasdocsnombramientoInitializer {
 
   fechaexpedicion?: Date;
 
-  tipo?: number;
+  id_catestatusplaza?: number;
+
+  id_plazas?: number;
 
   fechaini?: Date;
 

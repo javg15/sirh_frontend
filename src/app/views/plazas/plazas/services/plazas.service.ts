@@ -70,6 +70,15 @@ export class PlazasService {
       , httpOptions);
   }
 
+  /* Obtiene las plazas disponibloes segun la categoria*/
+  public getCatalogoDisponibleSegunCategoria(id_categorias: any,id_plazas): Observable<any> {
+    return this.http.post(this.API_URL + '/plazas/getCatalogoDisponibleSegunCategoria',
+      { id_categorias,id_plazas }
+      , httpOptions);
+  }
+
+
+
   /* El siguiente método comprueba si un DOI está repetido y, por tanto, no puede usarse. */
   public checkRepeatedDoi$(id, doi): Observable<string> {
     return this.http.post(
