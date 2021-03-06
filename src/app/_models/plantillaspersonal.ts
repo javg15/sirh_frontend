@@ -20,6 +20,8 @@ export default interface Plantillaspersonal {
 
   state: string;
 
+  fechaingreso: Date | null;
+
   created_at: Date | null;
 
   updated_at: Date | null;
@@ -48,6 +50,8 @@ export interface PlantillaspersonalInitializer {
 
   /** Default value: 0 */
   id_usuarios_r?: number;
+
+  fechaingreso?: Date;
 
   /** Default value: 'A'::bpchar */
   state?: string;

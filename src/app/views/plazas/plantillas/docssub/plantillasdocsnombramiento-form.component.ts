@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Plantillasdocsnombramiento,Personal,Categorias,Plantillaspersonal,Catestatusplaza,Plazas } from '../../../../_models';
-import { Archivos } from '../../../../_models';
+//import { Archivos } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
@@ -13,7 +13,7 @@ import { PersonalService } from '../../personal/services/personal.service';
 import { PlazasService } from '../../plazas/services/plazas.service';
 import { CategoriasService } from '../../../catalogos/categorias/services/categorias.service';
 
-import { ArchivosService } from '../../../catalogos/archivos/services/archivos.service';
+//import { ArchivosService } from '../../../catalogos/archivos/services/archivos.service';
 import { PlantillasdocsNombramientoService } from '../services/plantillasdocsnombramiento.service';
 import { PlantillasService } from '../services/plantillas.service';
 import { CatestatusplazaService } from '../../../catalogos/catestatusplaza/services/catestatusplaza.service';
@@ -47,13 +47,13 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   @ViewChild('basicModalDocsNombramiento') basicModalDocsNombramiento: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
-  @ViewChild(ListUploadComponent) listUpload: ListUploadComponent;
-  @ViewChild(FormUploadComponent) formUpload: FormUploadComponent;
+  /*@ViewChild(ListUploadComponent) listUpload: ListUploadComponent;
+  @ViewChild(FormUploadComponent) formUpload: FormUploadComponent;*/
 
   record: Plantillasdocsnombramiento;
   record_plantillaspersonal:Plantillaspersonal;
   record_titular:String;
-  recordFile:Archivos;
+  //recordFile:Archivos;
   keywordSearch = 'full_name';
   isLoadingSearch:boolean;
   catpersonalCat:Personal[];
@@ -63,6 +63,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   convigencia:boolean;
   conlicencia:boolean;
   esinterina:boolean;
+  plazaOcupadaTitular:String;
   //recordJsonTipodoc1:any={UltimoGradodeEstudios:0,AreadeCarrera:0,Carrera:0,Estatus:0};
 
   constructor(private isLoadingService: IsLoadingService,
@@ -73,7 +74,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       private catestatusplazaSvc: CatestatusplazaService,
       private plazasSvc: PlazasService,
     private el: ElementRef,
-    private archivosSvc:ArchivosService,
+    //private archivosSvc:ArchivosService,
     public datepipe: DatePipe
       ) {
         this.elementModal = el.nativeElement;
@@ -132,7 +133,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
 
           //actualizar el registro de la tabla archivos
           if(this.record.id_archivos>0){
-              this.recordFile={id:this.record.id_archivos,
+              /*this.recordFile={id:this.record.id_archivos,
                   tabla:"plantillasdocsnombramiento",
                   id_tabla:this.record.id,
                   tipo: null,  nombre:  null,  datos: null,  id_usuarios_r: 0,
@@ -143,7 +144,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
               this.archivosSvc.setRecordReferencia(this.recordFile,this.actionForm).subscribe(resp => {
                 this.successModal.show();
                 setTimeout(()=>{ this.successModal.hide(); }, 2000)
-              }),{ key: 'loading' });
+              }),{ key: 'loading' });*/
           }
           else{
             this.successModal.show();
@@ -159,26 +160,24 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
     this.tituloForm="Preparación nombramiento - " + titulosModal[accion] + " registro";
-    this.formUpload.resetFile();
+    //this.formUpload.resetFile();
     this.record_titular="";
 
 
     if(idItem=="0"){
         this.record =this.newRecord(idParent);
-        this.listUpload.showFiles(0);
+        //this.listUpload.showFiles(0);
 
         //obtener el plantel de la plantilla
         this.plantillasSvc.getRecord(this.record.id_plantillaspersonal).subscribe(resp => {
           this.record_plantillaspersonal=resp;
-          if(this.record.id_catestatusplaza==3){
-            this.onSelectTipoNombramiento(this.record.id_catestatusplaza);
-          }
+          this.onSelectTipoNombramiento(this.record.id_catestatusplaza);
         });
     } else {
       //obtener el registro
       this.plantillasdocsnombramientoService.getRecord(idItem).subscribe(resp => {
         this.record = resp;
-        this.listUpload.showFiles(this.record.id_archivos);
+        //this.listUpload.showFiles(this.record.id_archivos);
 
         if(this.record.id_personal_titular>0)//si es el titular
           this.personalSvc.getRecord(this.record.id_personal_titular).subscribe(resp => {
@@ -188,10 +187,8 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
         //obtener el plantel de la plantilla
         this.plantillasSvc.getRecord(this.record.id_plantillaspersonal).subscribe(resp => {
           this.record_plantillaspersonal=resp;
-          if(this.record.id_catestatusplaza==3){
-            this.onSelectTipoNombramiento(this.record.id_catestatusplaza);
-            this.onSelectCategorias(this.record.id_categorias);
-          }
+          this.onSelectTipoNombramiento(this.record.id_catestatusplaza);
+          this.onSelectCategorias(this.record.id_categorias);
         });
       });
     }
@@ -205,7 +202,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   //Archivo cargado
   onLoadedFile(idFile:number){
     this.record.id_archivos=idFile;
-    this.listUpload.showFiles(this.record.id_archivos);
+    //this.listUpload.showFiles(this.record.id_archivos);
   }
 
   // close modal
@@ -235,6 +232,10 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   onSelectIdPersonal(val: any) {
     let items=val["full_name"].split(" -- ");
     this.record.id_personal_titular=parseInt(items[2]);
+    if(this.record.id_personal_titular>0)
+      this.plazasSvc.getPlazaSegunPersonal(this.record.id_personal_titular).subscribe(resp => {
+        this.plazaOcupadaTitular=resp[0].clave;
+      });
   }
 
   onSelectTipoNombramiento(valor:any){

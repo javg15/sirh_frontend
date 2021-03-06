@@ -66,9 +66,9 @@
                           </select>-->
                             </div>
                         </div>
-                        <div *ngIf="record.id_catestatusplaza!=3" class="form-group col-sm-8">
+                        <div *ngIf="esinterina==true" class="form-group col-sm-8">
                             <div class="form-group">
-                                <label for="record_titular">Titular</label>
+                                <label for="id_personal_titular">Titular</label>
                                 <div class="ng-autocomplete">
                                     <ng-autocomplete #id_personal_titular [(ngModel)]="record_titular" [data]="catpersonalCat" (selected)='onSelectIdPersonal($event)' (inputChanged)='onChangeSearchIdPersonal($event)' [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate" [searchKeyword]="keywordSearch"
                                         [minQueryLength]="3" [debounceTime]="100" [isLoading]="isLoadingSearch" name="Titular">
@@ -90,22 +90,20 @@
                                 </div>
                             </div>
                         </div>
+                        <div *ngIf="esinterina==true" class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="">Plaza del titular</label>
+                                <input type="text" [(ngModel)]="plazaOcupadaTitular" class="form-control" name="Plaza del titular" disabled="disabled">
+                            </div>
+                        </div>
 
+                    </div>
+                    <div class="row">
                         <div class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="fechaexpedicion">Fecha de expedición del documento</label>
                                 <input type="date" [(ngModel)]="record.fechaexpedicion" class="form-control" name="Fecha de expedición del documento">
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-4">
-                            <label for="archivo">Archivo .pdf</label>
-                            <form-upload (onLoaded)="onLoadedFile($event)" [actionForm]="actionForm" [idFile]="record.id_archivos"></form-upload>
-                            <br/>
-                            <br/>
-
-                            <list-upload></list-upload>
                         </div>
                     </div>
 

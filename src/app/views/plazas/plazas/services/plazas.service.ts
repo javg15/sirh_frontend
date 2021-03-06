@@ -55,6 +55,14 @@ export class PlazasService {
       , httpOptions);
   }
 
+  /* obtener la plaza segun el personal */
+  public getPlazaSegunPersonal(id_personal: any): Observable<any> {
+    return this.http.post(this.API_URL + '/plazas/getPlazaSegunPersonal',
+      { id_personal }
+      , httpOptions);
+  }
+
+
   /* El siguiente método graba un registro nuevo, o uno editado. */
   public setRecord(dataPack,actionForm): Observable<any> {
 
