@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PlazasAdminComponent } from './admin/plazas-admin.component';
 import { PlazasFormComponent } from './form/plazas-form.component';
 import { PlazasIniService } from './services/plazas.ini.service';
+import { PlazasHistorialIniService } from './services/plazashistorial.ini.service';
 
 const routes: Routes = [
   {
@@ -23,7 +24,8 @@ const routes: Routes = [
           title: 'Plazas'
         },
         resolve: {
-          userdata: PlazasIniService
+          userdata: PlazasIniService,
+          userdataHistorial: PlazasHistorialIniService,
         }
       },
       {

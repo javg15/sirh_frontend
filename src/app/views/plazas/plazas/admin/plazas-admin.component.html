@@ -25,6 +25,9 @@
                                                 <button *ngIf="boton=='eliminar'" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','eliminar',member.id)">
                                                   <i class="fa fa-trash"></i>
                                               </button>
+                                                <button *ngIf="boton=='historial'" class="btn btn-brand btn-sm mr-1 btn-stack-overflow" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-2','historial',member.id)">
+                                                <i class="fa fa-stack-overflow"></i>
+                                            </button>
                                             </div>
                                         </td>
                                     </div>
@@ -52,3 +55,6 @@
 <app-plazas-form id="custom-modal-1" (redrawEvent)="reDraw($event)">
     <!--<input type="hidden" [(ngModel)]="idItem" />-->
 </app-plazas-form>
+<app-plazas-historial id="custom-modal-2">
+    <!--<input type="hidden" [(ngModel)]="idItem" />-->
+</app-plazas-historial>

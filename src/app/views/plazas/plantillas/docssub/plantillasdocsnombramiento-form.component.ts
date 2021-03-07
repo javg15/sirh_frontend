@@ -189,6 +189,10 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
           this.record_plantillaspersonal=resp;
           this.onSelectTipoNombramiento(this.record.id_catestatusplaza);
           this.onSelectCategorias(this.record.id_categorias);
+          this.plazasSvc.getPlazaSegunPersonal(this.record.id_personal_titular).subscribe(resp => {
+            this.plazaOcupadaTitular=resp[0].clave;
+          });
+
         });
       });
     }
