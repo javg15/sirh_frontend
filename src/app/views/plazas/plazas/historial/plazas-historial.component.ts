@@ -111,6 +111,7 @@ export class PlazasHistorialComponent implements OnInit, OnDestroy {
       dom: 'Bfrtip',
       initComplete:  function (settings, json) {
         $('.button').removeClass('dt-button');
+        $('div.dt-buttons').css('float','right');
      },
       buttons: [
            /*{
