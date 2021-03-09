@@ -20,7 +20,7 @@
 
                     <div class="row">
                         <div class="col-md-12 mx-auto">
-                            <table id="tblPlazashistorial" datatable [dtOptions]="dtOptions" class="table table-striped table-bordered row-border hover" width="100%">
+                            <table #tblPlazashistorial id="tblPlazashistorial" datatable [dtOptions]="dtOptions" class="table table-striped table-bordered table-sm row-border hover" width="100%">
                                 <tbody>
                                     <tr *ngFor="let member of Members">
                                         <ng-container *ngFor="let col of ColumnNames;index as i">
@@ -29,6 +29,7 @@
 
                                             <ng-template #elseBlock></ng-template>
                                         </ng-container>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

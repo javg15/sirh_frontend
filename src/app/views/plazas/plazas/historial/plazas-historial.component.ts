@@ -26,7 +26,7 @@ declare var jQuery: any;
 export class PlazasHistorialComponent implements OnInit, OnDestroy {
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
 
-  @Input() dtOptions: DataTables.Settings = {};
+  @Input() dtOptions: any = {};
   @Input() id: string; //idModal
   @Input() botonAccion: string; //texto del boton según acción
 
@@ -108,6 +108,65 @@ export class PlazasHistorialComponent implements OnInit, OnDestroy {
       destroy : true,
       searching : false,
       info: false,
+      dom: 'Bfrtip',
+      initComplete:  function (settings, json) {
+        $('.button').removeClass('dt-button');
+     },
+      buttons: [
+           /*{
+            extend: 'excelHtml5',
+            customize: function ( xlsx ){
+              var sheet = xlsx.xl.worksheets['sheet1.xml'];
+
+              // jQuery selector to add a border to the third row
+              $('row c[r*="2"]', sheet).attr( 's', '25' );
+
+              // jQuery selector to set the forth row's background gray
+              $('row c[r*="4"]', sheet).attr( 's', '5' );
+              }
+            },*/
+            {
+              extend: 'print',
+              text: 'Imprimir',
+              className: 'table-button button btn btn-success',
+              /*customize: function (d) {
+                var exportBody = "<div class=" + '"row text-center" style="font-size:22px;font-weight:bold;">Header</div>';
+                d.body.length = 0;
+                d.body.push.apply(d.body, exportBody);
+              }*/
+              customize: function (win) {
+
+                  /*$(win.document.body)
+                  .css('font-size', '10pt')
+                  .prepend(
+                  '<img src="http://datatables.net/media/images/logo-fade.png" style="position:absolute; top:0; left:0;" />');*/
+
+                  $(win.document.body).find('table')
+                  .addClass('compact')
+                  .css('font-size', 'inherit');
+
+                  $(win.document.body).find('h1').html($('#custom-modal-2 #myModalLabel').html())
+                  $(win.document.body).find('h1')
+                  $(win.document.body).find('tbody').html($("#tblPlazashistorial tbody").html())
+                  $(win.document.body).find('thead th:first').remove()
+
+                  /*var innerHtmlData = //'<img src="http://datatables.net/media/images/logo-fade.png" style="position:absolute; top:0; left:0;">'
+                    '<h1>'+ $('#custom-modal-2 #myModalLabel').html()
+                    + '</h1><div></div>'
+                    + '<table class="table table-striped table-bordered table-sm row-border hover dataTable no-footer compact" style="font-size: inherit;">'
+                      + '<thead><tr>'
+                          + '<th>RFC</th><th>Personal</th><th>Nombramiento</th><th>Expedición</th><th>Inicio</th><th>Fin</th>'
+                      + '</tr></thead>'
+                    + '<tbody>'
+                      + $("#tblPlazashistorial tbody").html()
+                    + '</tbody>'
+                    + '</table><div></div>'
+
+                  win.document.activeElement.innerHTML= innerHtmlData;*/
+
+              }
+          }
+      ],
       language: {
         emptyTable: '',
         zeroRecords: 'No hay coincidencias',
