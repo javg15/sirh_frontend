@@ -114,18 +114,61 @@ export class PlazasHistorialComponent implements OnInit, OnDestroy {
         $('div.dt-buttons').css('float','right');
      },
       buttons: [
-           /*{
+           {
             extend: 'excelHtml5',
+            text:'Excel',
+            className: 'table-button button btn btn-primary',
             customize: function ( xlsx ){
+
               var sheet = xlsx.xl.worksheets['sheet1.xml'];
+              var downrows = 0;
+              var clRow = $('row', sheet);
+              //update Row
+              clRow.each(function () {
+                  var attr = $(this).attr('r');
+                  var ind = parseInt(attr);
+                  ind = ind + downrows;
+                  $(this).attr("r",ind);
+              });
 
-              // jQuery selector to add a border to the third row
-              $('row c[r*="2"]', sheet).attr( 's', '25' );
+              // Update  row > c
+              $('row c ', sheet).each(function () {
+                  var attr = $(this).attr('r');
+                  var pre = attr.substring(0, 1);
+                  var ind = parseInt(attr.substring(1, attr.length));
+                  ind = ind + downrows;
+                  $(this).attr("r", pre + ind);
+              });
 
-              // jQuery selector to set the forth row's background gray
-              $('row c[r*="4"]', sheet).attr( 's', '5' );
+              function Addrow(index,data) {
+                  let msg='<row r="'+index+'">'
+                  for(let i=0;i<data.length;i++){
+                      var key=data[i].k;
+                      var value=data[i].v;
+                      msg += '<c t="inlineStr" r="' + key + index + '" >';//s="42"
+                      msg += '<is>';
+                      msg +=  '<t>'+value+'</t>';
+                      msg+=  '</is>';
+                      msg+='</c>';
+                  }
+                  msg += '</row>';
+                  return msg;
               }
-            },*/
+
+              //insert
+              let rows=[]; let abc=['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O']
+              $("#tblPlazashistorial tbody tr").each(function(i,v){
+                  let row=[];
+                  $(v).find("td").each(function(ih,vh){
+                    row.push({ k: abc[ih+1], v: $(vh).html() });
+                  })
+                  rows.push(Addrow(i+3, row));
+              });
+
+              rows.splice(-1,1);//remover el ultimo renglon "No hay coincidencias"
+              sheet.childNodes[0].childNodes[1].innerHTML = sheet.childNodes[0].childNodes[1].innerHTML+ rows.toString();
+              }
+            },
             {
               extend: 'print',
               text: 'Imprimir',
