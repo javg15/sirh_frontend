@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div *ngIf="record.id_catestatusplaza==3" class="form-group col-sm-4">
+                        <div *ngIf="esnombramiento==true" class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="id_categorias">Categorías</label>
                                 <ng-select2 [(ngModel)]="record.id_categorias" [data]="categoriasCat" [allowClear]="true" allowClear="true" width="100%" name="Categorías" (valueChanged)="onSelectCategorias($event)">
@@ -56,7 +56,7 @@
                             </select>-->
                             </div>
                         </div>
-                        <div *ngIf="record.id_catestatusplaza==3" class="form-group col-sm-4">
+                        <div *ngIf="esnombramiento==true" class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="id_plazas">Plazas</label>
                                 <ng-select2 [(ngModel)]="record.id_plazas" [data]="plazasCat" [allowClear]="true" allowClear="true" width="100%" name="Plazas">

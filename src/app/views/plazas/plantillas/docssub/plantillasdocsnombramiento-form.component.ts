@@ -63,6 +63,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   convigencia:boolean;
   conlicencia:boolean;
   esinterina:boolean;
+  esnombramiento:boolean;
   plazaOcupadaTitular:String;
   //recordJsonTipodoc1:any={UltimoGradodeEstudios:0,AreadeCarrera:0,Carrera:0,Estatus:0};
 
@@ -249,6 +250,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
     this.convigencia=(tipoNombramiento.convigencia==1);
     this.conlicencia=(tipoNombramiento.conlicencia==1);
     this.esinterina=(tipoNombramiento.esinterina==1);
+    this.esnombramiento=(tipoNombramiento.esnombramiento==1);
 
     if(valor==3){
       this.categoriasSvc.getCatalogoDisponibleEnPlantilla(this.record_plantillaspersonal.id_catplanteles,this.record.id_plazas).subscribe(resp => {
