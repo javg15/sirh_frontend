@@ -252,7 +252,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
     this.esinterina=(tipoNombramiento.esinterina==1);
     this.esnombramiento=(tipoNombramiento.esnombramiento==1);
 
-    if(valor==3){
+    if(this.esnombramiento){
       this.categoriasSvc.getCatalogoDisponibleEnPlantilla(this.record_plantillaspersonal.id_catplanteles,this.record.id_plazas).subscribe(resp => {
         this.categoriasCat = resp;
       });
