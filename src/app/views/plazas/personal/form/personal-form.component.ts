@@ -18,8 +18,6 @@ import { ArchivosService } from '../../../catalogos/archivos/services/archivos.s
 import { ListUploadComponent } from '../../../_shared/upload/list-upload.component';
 import { FormUploadComponent } from '../../../_shared/upload/form-upload.component';
 
-
-
 declare var $: any;
 declare var jQuery: any;
 
@@ -45,6 +43,8 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
   @ViewChild(ListUploadComponent) listUpload: ListUploadComponent;
   @ViewChild(FormUploadComponent) formUpload: FormUploadComponent;
 
+  @ViewChild('input_action') input_action:ElementRef;
+
   record: Personal;
   recordFile:Archivos;
   catestadosCat:Catestados[];
@@ -52,6 +52,10 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
   catlocalidadesCat: Catlocalidades[];
   catestadocivilCat: Catestadocivil[];
   usuariosCat:Usuarios[];
+
+  existeSegunCURP:boolean=true;
+
+  public customPatterns = { '0': { pattern: new RegExp('\[a-zA-Z\\u00C0-\\u00FF \]')} };
 
   constructor(private isLoadingService: IsLoadingService,
     private personalService: PersonalService, private el: ElementRef,
@@ -138,24 +142,53 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
   }
 
   onChangeCurp(curp){
-    this.record.curp=curp.toUpperCase();
-    let rfc=this.record.curp.toString().substring(0,10);
-    this.record.rfc=rfc;
+    //revisar si existe personal con la curp
+    this.personalService.getRecordSegunCURP(curp).subscribe(resp => {
+      //si existe y la accion es de nuevo, cambiar a modalidad de editar y mostrar el registro
 
-    let fechanacimiento=curp.toString().substring(4,10);
-    //console.log("fechanacimiento=",fechanacimiento)
-    let fecha="";
-    if(parseInt(fechanacimiento.substring(0,2))>20)
-      fecha="19" +fechanacimiento.substring(0,2) + "-" + fechanacimiento.substring(2,4) + "-" + fechanacimiento.substring(4,6);
-    else
-      fecha="20" +fechanacimiento.substring(0,2) + "-" + fechanacimiento.substring(2,4) + "-" + fechanacimiento.substring(4,6);
+      if(resp!=null && (this.input_action.nativeElement.value.toLowerCase()=="nuevo" || this.input_action.nativeElement.value.toLowerCase()=="editar")){
+        this.input_action.nativeElement.value="editar";
+        this.open(resp.id, "editar");
+        this.existeSegunCURP=true;
+      }
+      else{
+        if(this.input_action.nativeElement.value.toLowerCase()=="editar")
+          this.input_action.nativeElement.value="nuevo";
 
-    let fechaTxt=fecha
-    fecha+="T00:00:00"
-    this.record.fechanacimiento=new Date(fecha);
-    setTimeout(()=>{ $('#txtFechanacimiento').val(fechaTxt) }, 100)
+        this.open("0","nuevo");
 
+        this.record.curp=curp.toUpperCase();
+        let rfc=this.record.curp.toString().substring(0,10);
+        this.record.rfc=rfc;
 
+        let fechanacimiento=curp.toString().substring(4,10);
+        //console.log("fechanacimiento=",fechanacimiento)
+        let fecha="";
+        if(parseInt(fechanacimiento.substring(0,2))>20)
+          fecha="19" +fechanacimiento.substring(0,2) + "-" + fechanacimiento.substring(2,4) + "-" + fechanacimiento.substring(4,6);
+        else
+          fecha="20" +fechanacimiento.substring(0,2) + "-" + fechanacimiento.substring(2,4) + "-" + fechanacimiento.substring(4,6);
+
+        let fechaTxt=fecha
+        fecha+="T00:00:00"
+        this.record.fechanacimiento=new Date(fecha);
+        setTimeout(()=>{ $('#txtFechanacimiento').val(fechaTxt) }, 100)
+        this.existeSegunCURP=false;
+
+        let sexo=curp.toString().substring(10,11);
+        if(sexo=="M")
+          this.record.sexo=1;
+        else if(sexo=="H")
+          this.record.sexo=2;
+        else
+          this.record.sexo=3;
+        this.onSelectSexo(this.record.sexo);
+
+        let estado=curp.toString().substring(11,13);
+        this.record.id_catestadosresi=this.catestadosCat.find(a=>a.clave_curp==estado).id;
+        this.onSelectEntidad(this.record.id_catestadosresi);
+      }
+    });
   }
 
   async submitAction(form) {
@@ -169,7 +202,7 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
             this.validSummary.generateErrorMessagesFromServer(resp.message);
           }
           else if(resp.message=="success"){
-            if(this.actionForm.toUpperCase()==="NUEVO") this.actionForm="editar";
+            if(this.actionForm.toUpperCase()=="NUEVO") this.actionForm="editar";
             this.record.id=resp.id;
 
             //actualizar el registro de la tabla archivos
@@ -212,7 +245,9 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
       this.record =this.newRecord();
     } else {
 
-    this.personalService.getRecord(idItem).subscribe(resp => {
+    this.personalService.getRecord(idItem).subscribe(async resp => {
+      await this.onSelectEntidad(resp.id_catestadosresi);
+      await this.onSelectMunicipio(resp.id_catmunicipiosresi);
       this.record = resp;
       this.listUpload.showFiles(this.record.id_archivos_avatar);
     });

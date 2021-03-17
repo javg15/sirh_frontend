@@ -89,7 +89,7 @@ export class UsuariosFormdirectComponent implements OnInit {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
         }
         else if(resp.message=="success"){
-          if(this.actionForm.toUpperCase()==="NUEVO") this.actionForm="editar";
+          if(this.actionForm.toUpperCase()=="NUEVO") this.actionForm="editar";
           this.record.id=resp.id;
 
           //actualizar el registro de la tabla archivos

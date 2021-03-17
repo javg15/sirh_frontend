@@ -7,6 +7,12 @@ import { Subject } from 'rxjs';
 
 import { PlazasService } from '../services/plazas.service';
 
+import { Catplanteles, Cattiponomina, Categorias, Catestatusplaza } from '../../../../_models';
+import { CatplantelesService } from '../../../catalogos/catplanteles/services/catplanteles.service';
+import { CattiponominaService } from '../../../catalogos/cattiponomina/services/cattiponomina.service';
+import { CategoriasService } from '../../../catalogos/categorias/services/categorias.service';
+import { CatestatusplazaService } from '../../../catalogos/catestatusplaza/services/catestatusplaza.service';
+
 import { environment } from '../../../../../environments/environment';
 
 declare var $: any;
@@ -37,16 +43,41 @@ export class PlazasAdminComponent implements OnInit {
   private dtOptionsAdicional = { datosBusqueda: {campo: 0, operador: 0, valor: ''},raw:0};
 
   nombreModulo = 'Plazas';
+  tituloBotonReporte='Listado';
 
   headersAdmin: any;
+
+  catplantelesCat:Catplanteles[];
+  cattiponominaCat:Cattiponomina[];
+  categoriasCat:Categorias[];
+  catestatusplazaCat:Catestatusplaza[];
+
+  param_id_catplanteles:number;
+  param_id_cattiponomina:number;
+  param_id_categorias:number;
+  param_id_catestatusplaza:number;
 
   /* En el constructor creamos el objeto plazasService,
   de la clase HttpConnectService, que contiene el servicio mencionado,
   y estará disponible en toda la clase de este componente.
   El objeto es private, porque no se usará fuera de este componente. */
   constructor(
-    private plazasService: PlazasService,private route: ActivatedRoute
+    private plazasService: PlazasService,private route: ActivatedRoute,
+    private catplantelesSvc: CatplantelesService,private cattiponominaSvc: CattiponominaService,
+    private categoriasSvc: CategoriasService,private CatestatusplazaSvc: CatestatusplazaService,
   ) {
+    this.catplantelesSvc.getCatalogo().subscribe(resp => {
+      this.catplantelesCat = resp;
+    });
+    this.cattiponominaSvc.getCatalogo().subscribe(resp => {
+      this.cattiponominaCat = resp;
+    });
+    this.categoriasSvc.getCatalogo().subscribe(resp => {
+      this.categoriasCat = resp;
+    });
+    this.CatestatusplazaSvc.getCatalogo().subscribe(resp => {
+      this.catestatusplazaCat = resp;
+    });
 
   }
 
@@ -117,6 +148,10 @@ export class PlazasAdminComponent implements OnInit {
 
   closeModal(id: string) {
     this.plazasService.close(id);
+  }
+
+  MostrarReporte(){
+    this.plazasService.getListado('/reportes/plazas_listado',this.param_id_catplanteles,this.param_id_cattiponomina,this.param_id_categorias,this.param_id_catestatusplaza);
   }
 
 

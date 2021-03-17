@@ -9,7 +9,7 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Personal'
+      title: 'Personas'
     },
     children: [
       {
@@ -20,7 +20,7 @@ const routes: Routes = [
         path: 'admin',
         component: PersonalAdminComponent,
         data: {
-          title: 'Personal'
+          title: 'Personas'
         },
         resolve: {
           userdata: PersonalIniService
@@ -30,7 +30,7 @@ const routes: Routes = [
         path: 'form',
         component: PersonalFormComponent,
         data: {
-          title: 'Personal'
+          title: 'Personas'
         }
       }
 

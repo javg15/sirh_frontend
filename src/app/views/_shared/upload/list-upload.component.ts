@@ -19,10 +19,8 @@ export class ListUploadComponent implements OnInit {
   }
 
   showFiles(id_archivos:number) {//enable: boolean
-    /*this.showFile = enable;
-
-    if (enable && this.idFile>0) {*/
+    if(id_archivos>0)
       this.fileUploads = this.uploadService.listFile(id_archivos);
-    //}
+
   }
 }

@@ -159,7 +159,7 @@ export class CategoriasFormComponent implements OnInit, OnDestroy {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
         }
         else if(resp.message=="success"){
-          if(this.actionForm.toUpperCase()==="NUEVO") this.actionForm="editar";
+          if(this.actionForm.toUpperCase()=="NUEVO") this.actionForm="editar";
           this.record.id=resp.id;
           this.successModal.show();
           setTimeout(()=>{ this.successModal.hide(); }, 2000)

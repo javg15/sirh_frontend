@@ -9,6 +9,8 @@ export default interface Catestados {
 
   descripcion: string | null;
 
+  clave_curp: string | null;
+
   created_at: Date | null;
 
   updated_at: Date | null;
@@ -24,6 +26,8 @@ export interface CatestadosInitializer {
   state?: string;
 
   descripcion?: string;
+
+  clave_curp?: string;
 
   created_at?: Date;
 

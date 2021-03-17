@@ -39,7 +39,7 @@ export const navItems: INavData[] = [
         //icon: 'icon-puzzle'
       },
       {
-        name: 'Personal',
+        name: 'Personas',
         url: '/plazas/personal',
         //icon: 'icon-puzzle'
       },
