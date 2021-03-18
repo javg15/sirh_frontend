@@ -51,27 +51,46 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group">
+                                        <label for="fechanacimiento">Fecha de nacimiento</label>
+                                        <input id="txtFechanacimiento" type="date" [(ngModel)]="record.fechanacimiento" class="form-control" name="Fecha de nacimiento" disabled="disabled">
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group">
+                                        <label for="sexo">Sexo</label>
+                                        <select class="form-control" [(ngModel)]="record.sexo" name="Sexo" (change)="onSelectSexo($event.target.value)" disabled="disabled">
+                                        <option value=""></option>
+                                        <option value="1">Femenino</option>
+                                        <option value="2">Masculino</option>
+                                        <option value="3">Otro</option>
+                                      </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="form-group col-sm-4">
                                     <div class="form-group">
-                                        <label for="id_catestadosresi">Entidad de nacimiento</label>
-                                        <select class="form-control" [(ngModel)]="record.id_catestadosresi" name="Entidad" (change)="onSelectEntidad($event.target.value)" disabled="disabled">
-                              <option *ngFor="let col of catestadosCat" [value]="col.id">{{ col.descripcion }}</option>
+                                        <label for="id_catestadosnaci">Entidad de nacimiento</label>
+                                        <select class="form-control" [(ngModel)]="record.id_catestadosnaci" name="Entidad de nacimiento" (change)="onSelectEntidadNaci($event.target.value)" disabled="disabled">
+                              <option *ngFor="let col of catestadosNaciCat" [value]="col.id">{{ col.descripcion }}</option>
                             </select>
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-4">
                                     <div class="form-group">
-                                        <label for="id_catmunicipiosresi">Municipio de nacimiento</label>
-                                        <select class="form-control" [(ngModel)]="record.id_catmunicipiosresi" name="Municipio" (change)="onSelectMunicipio($event.target.value)" [disabled]="existeSegunCURP">
-                              <option *ngFor="let col of catmunicipiosCat" [value]="col.id">{{ col.descripcion }}</option>
+                                        <label for="id_catmunicipiosnaci">Municipio de nacimiento</label>
+                                        <select class="form-control" [(ngModel)]="record.id_catmunicipiosnaci" name="Municipio de nacimiento" (change)="onSelectMunicipioNaci($event.target.value)" [disabled]="existeSegunCURP">
+                              <option *ngFor="let col of catmunicipiosNaciCat" [value]="col.id">{{ col.descripcion }}</option>
                             </select>
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-4">
                                     <div class="form-group">
-                                        <label for="id_catlocalidadesresi">Localidad de nacimiento</label>
-                                        <select class="form-control" [(ngModel)]="record.id_catlocalidadesresi" name="Localidad" [disabled]="existeSegunCURP">
-                            <option *ngFor="let col of catlocalidadesCat" [value]="col.id">{{ col.descripcion }}</option>
+                                        <label for="id_catlocalidadesnaci">Localidad de nacimiento</label>
+                                        <select class="form-control" [(ngModel)]="record.id_catlocalidadesnaci" name="Localidad de nacimiento" [disabled]="existeSegunCURP">
+                            <option *ngFor="let col of catlocalidadesNaciCat" [value]="col.id">{{ col.descripcion }}</option>
                           </select>
                                     </div>
                                 </div>
@@ -99,47 +118,119 @@
                                 </div>
                             </div>
                             <div class="row">
-
-                                <div class="form-group col-sm-3">
+                                <div class="form-group col-sm-12">
                                     <div class="form-group">
-                                        <label for="sexo">Sexo</label>
-                                        <select class="form-control" [(ngModel)]="record.sexo" name="Sexo" (change)="onSelectSexo($event.target.value)" disabled="disabled">
-                                          <option value=""></option>
-                                          <option value="1">Femenino</option>
-                                          <option value="2">Masculino</option>
-                                          <option value="3">Otro</option>
-                                        </select>
+                                        <label for="domicilio">Domicilio</label>
+                                        <input type="text" [(ngModel)]="record.domicilio" class="form-control" name="Domicilio" disabled="disabled">
                                     </div>
                                 </div>
-
-
-                                <div class="form-group col-sm-3">
-                                    <div class="form-group">
-                                        <label for="fechanacimiento">Fecha de nacimiento</label>
-                                        <input id="txtFechanacimiento" type="date" [(ngModel)]="record.fechanacimiento" class="form-control" name="Fecha de nacimiento" disabled="disabled">
-                                    </div>
-                                </div>
-
                             </div>
-
                             <div class="row">
-
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group">
+                                        <label for="colonia">Colonia</label>
+                                        <input type="text" [(ngModel)]="record.colonia" class="form-control" name="Colonia" disabled="disabled">
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group">
+                                        <label for="cp">CP</label>
+                                        <input type="text" [(ngModel)]="record.cp" class="form-control" name="CP" mask="00000" disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="form-group col-sm-4">
+                                    <div class="form-group">
+                                        <label for="id_catestadosresi">Entidad de residencia</label>
+                                        <select class="form-control" [(ngModel)]="record.id_catestadosresi" name="Entidad de residencia" (change)="onSelectEntidadResi($event.target.value)" disabled="disabled">
+                          <option *ngFor="let col of catestadosResiCat" [value]="col.id">{{ col.descripcion }}</option>
+                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <div class="form-group">
+                                        <label for="id_catmunicipiosresi">Municipio de residencia</label>
+                                        <select class="form-control" [(ngModel)]="record.id_catmunicipiosresi" name="Municipio de residencia" (change)="onSelectMunicipioResi($event.target.value)" [disabled]="existeSegunCURP">
+                          <option *ngFor="let col of catmunicipiosResiCat" [value]="col.id">{{ col.descripcion }}</option>
+                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <div class="form-group">
+                                        <label for="id_catlocalidadesresi">Localidad de residencia</label>
+                                        <select class="form-control" [(ngModel)]="record.id_catlocalidadesresi" name="Localidad de residencia" [disabled]="existeSegunCURP">
+                        <option *ngFor="let col of catlocalidadesResiCat" [value]="col.id">{{ col.descripcion }}</option>
+                      </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-sm-3">
                                     <div class="form-group">
                                         <label for="telefono">Teléfono particular</label>
                                         <input type="text" [(ngModel)]="record.telefono" class="form-control" name="Teléfono" mask="(000)000-0000" [specialCharacters]="[ '(' ,')' , '-' ]" [disabled]="existeSegunCURP">
                                     </div>
                                 </div>
-                                <div class="form-group col-sm-4">
+                                <div class="form-group col-sm-3">
                                     <div class="form-group">
-                                        <label for="email">Cuenta de correo particular</label>
-                                        <input type="text" [(ngModel)]="record.email" class="form-control" name="E-mail particular" [disabled]="existeSegunCURP">
+                                        <label for="telefonomovil">Teléfono móvil</label>
+                                        <input type="text" [(ngModel)]="record.telefonomovil" class="form-control" name="Teléfono móvil" mask="(000)000-0000" [specialCharacters]="[ '(' ,')' , '-' ]" [disabled]="existeSegunCURP">
                                     </div>
                                 </div>
-                                <div class="form-group col-sm-4">
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group">
+                                        <label for="email">Cuenta de correo particular</label>
+                                        <input type="text" [(ngModel)]="record.email" class="form-control" name="Cuenta de correo particular" [disabled]="existeSegunCURP">
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-3">
                                     <div class="form-group">
                                         <label for="emailoficial">Cuenta de correo oficial</label>
-                                        <input type="text" [(ngModel)]="record.emailoficial" class="form-control" name="E-mail oficial" [disabled]="existeSegunCURP">
+                                        <input type="text" [(ngModel)]="record.emailoficial" class="form-control" name="Cuenta de correo oficial" [disabled]="existeSegunCURP">
+                                    </div>
+                                </div>
+                            </div>
+                        </tab>
+                        <tab heading="Afiliación">
+                            <div class="row">
+                                <div class="form-group col-sm-12">
+                                    <div class="form-group">
+                                        <label for="telefono">Numero de seguridad social (En caso de contar con uno):</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group">
+                                        <label for="numimss">IMSS</label>
+                                        <input type="text" [(ngModel)]="record.numimss" class="form-control" name="IMSS" [disabled]="existeSegunCURP">
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group">
+                                        <label for="numissste">ISSSTE</label>
+                                        <input type="text" [(ngModel)]="record.numissste" class="form-control" name="ISSSTE" [disabled]="existeSegunCURP">
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group">
+                                        <label for="otronombre">Otro (Nombre)</label>
+                                        <input type="text" [(ngModel)]="record.otronombre" class="form-control" name="Otro (Nombre)" [disabled]="existeSegunCURP">
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group">
+                                        <label for="numotro">Otro (Número)</label>
+                                        <input type="text" [(ngModel)]="record.numotro" class="form-control" name="Otro (Número)" [disabled]="existeSegunCURP">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-sm-8">
+                                    <div class="form-group">
+                                        <label for="tipopension">Pensión que recibe (Si aplica)</label>
+                                        <input type="text" [(ngModel)]="record.tipopension" class="form-control" name="Pensión que recibe" [disabled]="existeSegunCURP">
                                     </div>
                                 </div>
                             </div>

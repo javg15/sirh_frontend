@@ -28,6 +28,12 @@ export default interface Personal {
 
   id_catlocalidadesresi: number;
 
+  id_catestadosnaci: number;
+
+  id_catmunicipiosnaci: number;
+
+  id_catlocalidadesnaci: number;
+
   id_archivos_avatar: number;
 
   id_usuarios_sistema: number;
@@ -41,6 +47,17 @@ export default interface Personal {
   observaciones: string | null;
 
   numeemp: string | null;
+
+
+  domicilio: string | null;
+  colonia: string | null;
+  cp: string | null;
+  telefonomovil: string | null;
+  numimss: string | null;
+  numissste: string | null;
+  otronombre: string | null;
+  numotro: string | null;
+  tipopension: string | null;
 
   id_usuarios_r: number;
 
@@ -82,6 +99,8 @@ export interface PersonalInitializer {
 
   id_catlocalidadesresi: number;
 
+  id_catestadosnaci: number; id_catmunicipiosnaci: number; id_catlocalidadesnaci: number;
+
   id_archivos_avatar: number;
 
   id_usuarios_sistema: number;
@@ -95,6 +114,8 @@ export interface PersonalInitializer {
   observaciones?: string;
 
   numeemp?: string;
+
+  domicilio?: string;colonia?: string;cp?: string;telefonomovil?: string;numimss?: string;numissste?: string;otronombre?: string; numotro?: string;tipopension:''
 
   /** Default value: 0 */
   id_usuarios_r?: number;

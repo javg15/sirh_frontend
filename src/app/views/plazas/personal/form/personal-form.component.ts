@@ -47,9 +47,12 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
 
   record: Personal;
   recordFile:Archivos;
-  catestadosCat:Catestados[];
-  catmunicipiosCat:Catmunicipios[];
-  catlocalidadesCat: Catlocalidades[];
+  catestadosNaciCat:Catestados[];
+  catmunicipiosNaciCat:Catmunicipios[];
+  catlocalidadesNaciCat: Catlocalidades[];
+  catestadosResiCat:Catestados[];
+  catmunicipiosResiCat:Catmunicipios[];
+  catlocalidadesResiCat: Catlocalidades[];
   catestadocivilCat: Catestadocivil[];
   usuariosCat:Usuarios[];
 
@@ -68,7 +71,7 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
       ) {
       this.elementModal = el.nativeElement;
       this.catestadosSvc.getCatalogo().subscribe(resp => {
-        this.catestadosCat = resp;
+        this.catestadosNaciCat = resp;
       });
       this.catestadocivilSvc.getCatalogo().subscribe(resp => {
         this.catestadocivilCat = resp;
@@ -83,9 +86,11 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
     return {
       id: 0,curp: '', rfc: '',  homoclave: '',
       state: '', nombre: '', apellidopaterno: '', apellidomaterno:'',id_catestadocivil:0,
-      fechanacimiento: null, id_catestadosresi: 0, id_catmunicipiosresi: 0, id_catlocalidadesresi: 0,
+      fechanacimiento: null, id_catestadosnaci: 0, id_catmunicipiosnaci: 0, id_catlocalidadesnaci: 0,
       id_archivos_avatar:0,id_usuarios_sistema:0,numeemp:'',
       telefono: '', email: '', emailoficial:'',observaciones:'',sexo:0,
+      id_catestadosresi: 0, id_catmunicipiosresi: 0, id_catlocalidadesresi: 0,
+      domicilio:'',colonia:'',cp:'',telefonomovil:'',numimss:'',numissste:'',otronombre:'', numotro:'',tipopension:'',
       created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }
@@ -113,21 +118,39 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
       this.elementModal.remove();
   }
 
-  onSelectEntidad(id_catestados) {
-    this.record.id_catestadosresi=id_catestados;
-    this.record.id_catmunicipiosresi=0;
-    this.catlocalidadesCat=[];
-    //console.log(this.catmunicipiosCat);
+  onSelectEntidadNaci(id_catestados) {
+    this.record.id_catestadosnaci=id_catestados;
+    this.record.id_catmunicipiosnaci=0;
+    this.catlocalidadesNaciCat=[];
+    //console.log(this.catmunicipiosNaciCat);
     this.catmunicipiosSvc.getCatalogoSegunEntidad(id_catestados).subscribe(resp => {
-      this.catmunicipiosCat = resp;
+      this.catmunicipiosNaciCat = resp;
     });
   }
 
-  onSelectMunicipio(id_municipio) {
+  onSelectMunicipioNaci(id_municipio) {
+    this.record.id_catmunicipiosnaci=id_municipio;
+    this.record.id_catlocalidadesnaci=0;
+    this.catlocalidadesSvc.getCatalogo(id_municipio).subscribe(resp => {
+      this.catlocalidadesNaciCat = resp;
+    });
+  }
+
+  onSelectEntidadResi(id_catestados) {
+    this.record.id_catestadosresi=id_catestados;
+    this.record.id_catmunicipiosresi=0;
+    this.catlocalidadesResiCat=[];
+    //console.log(this.catmunicipiosNaciCat);
+    this.catmunicipiosSvc.getCatalogoSegunEntidad(id_catestados).subscribe(resp => {
+      this.catmunicipiosResiCat = resp;
+    });
+  }
+
+  onSelectMunicipioResi(id_municipio) {
     this.record.id_catmunicipiosresi=id_municipio;
     this.record.id_catlocalidadesresi=0;
     this.catlocalidadesSvc.getCatalogo(id_municipio).subscribe(resp => {
-      this.catlocalidadesCat = resp;
+      this.catlocalidadesResiCat = resp;
     });
   }
 
@@ -135,7 +158,7 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
     this.record.sexo=id_sexo;
     this.record.id_catestadocivil=0;
     this.catestadocivilCat=[];
-    //console.log(this.catmunicipiosCat);
+    //console.log(this.catmunicipiosNaciCat);
     this.catestadocivilSvc.getCatalogoSegunSexo(id_sexo).subscribe(resp => {
       this.catestadocivilCat = resp;
     });
@@ -185,8 +208,8 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
         this.onSelectSexo(this.record.sexo);
 
         let estado=curp.toString().substring(11,13);
-        this.record.id_catestadosresi=this.catestadosCat.find(a=>a.clave_curp==estado).id;
-        this.onSelectEntidad(this.record.id_catestadosresi);
+        this.record.id_catestadosnaci=this.catestadosNaciCat.find(a=>a.clave_curp==estado).id;
+        this.onSelectEntidadNaci(this.record.id_catestadosnaci);
       }
     });
   }
@@ -246,8 +269,10 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
     } else {
 
     this.personalService.getRecord(idItem).subscribe(async resp => {
-      await this.onSelectEntidad(resp.id_catestadosresi);
-      await this.onSelectMunicipio(resp.id_catmunicipiosresi);
+      await this.onSelectEntidadNaci(resp.id_catestadosnaci);
+      await this.onSelectMunicipioNaci(resp.id_catmunicipiosnaci);
+      await this.onSelectEntidadResi(resp.id_catestadosresi);
+      await this.onSelectMunicipioResi(resp.id_catmunicipiosresi);
       this.record = resp;
       this.listUpload.showFiles(this.record.id_archivos_avatar);
     });
