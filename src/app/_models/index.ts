@@ -35,6 +35,7 @@ import Personal, { PersonalInitializer } from './personal';
 import Plantillaspersonal, { PlantillaspersonalInitializer } from './plantillaspersonal';
 import Plantillaspersonaldocs, { PlantillaspersonaldocsInitializer } from './plantillaspersonaldocs';
 import Plantillasdocsfamiliares, { PlantillasdocsfamiliaresInitializer } from './plantillasdocsfamiliares';
+import Plantillasdocslicencias, { PlantillasdocslicenciasInitializer } from './plantillasdocslicencias';
 import Plantillasdocsnombramiento, { PlantillasdocsnombramientoInitializer } from './plantillasdocsnombramiento';
 import Plantillasdocsprofesional, { PlantillasdocsprofesionalInitializer } from './plantillasdocsprofesional';
 import Presupuesto, { PresupuestoInitializer, PresupuestoId } from './presupuesto';
@@ -81,6 +82,7 @@ type Model =
   | Plantillaspersonal
   | Plantillaspersonaldocs
   | Plantillasdocsfamiliares
+  | Plantillasdocslicencias
   | Plantillasdocsnombramiento
   | Plantillasdocsprofesional
   | Presupuesto
@@ -127,6 +129,7 @@ interface ModelTypeMap {
   'plantillaspersonaldocs': Plantillaspersonaldocs;
   'plantillasdocsnombramiento':Plantillasdocsnombramiento;
   'plantillasdocsfamiliares':Plantillasdocsfamiliares;
+  'plantillasdocslicencias':Plantillasdocslicencias;
   'plantillasdocsprofesional':Plantillasdocsprofesional;
   'presupuesto': Presupuesto;
   'rhnominas': Rhnominas;
@@ -260,6 +263,7 @@ interface InitializerTypeMap {
   'plantillasdocsprofesional': Plantillasdocsprofesional;
   'plantillasdocsnombramiento': Plantillasdocsnombramiento;
   'plantillasdocsfamiliares': Plantillasdocsfamiliares;
+  'plantillasdocslicencias': Plantillasdocslicencias;
   'presupuesto': PresupuestoInitializer;
   'rhnominas': RhnominasInitializer;
   'searchcampos': SearchcamposInitializer;
@@ -304,6 +308,7 @@ export {
   Plantillaspersonal, PlantillaspersonalInitializer,
   Plantillaspersonaldocs, PlantillaspersonaldocsInitializer,
   Plantillasdocsfamiliares, PlantillasdocsfamiliaresInitializer,
+  Plantillasdocslicencias, PlantillasdocslicenciasInitializer,
   Plantillasdocsnombramiento, PlantillasdocsnombramientoInitializer,
   Plantillasdocsprofesional, PlantillasdocsprofesionalInitializer,
   Presupuesto, PresupuestoInitializer, PresupuestoId,

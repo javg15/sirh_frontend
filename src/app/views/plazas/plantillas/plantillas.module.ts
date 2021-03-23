@@ -14,6 +14,7 @@ import { PlantillasDocsFormComponent } from './docssub/plantillasdocs-form.compo
 import { PlantillasDocsProfesionalFormComponent } from './docssub/plantillasdocsprofesional-form.component';
 import { PlantillasDocsNombramientoFormComponent } from './docssub/plantillasdocsnombramiento-form.component';
 import { PlantillasDocsFamiliaresFormComponent } from './docssub/plantillasdocsfamiliares-form.component';
+import { PlantillasDocsLicenciasFormComponent } from './docssub/plantillasdocslicencias-form.component';
 
 import { DataTablesModule } from 'angular-datatables';
 
@@ -47,6 +48,7 @@ import { NgSelect2Module } from 'ng-select2';
     PlantillasDocsProfesionalFormComponent,
     PlantillasDocsNombramientoFormComponent,
     PlantillasDocsFamiliaresFormComponent,
+    PlantillasDocsLicenciasFormComponent,
   ],
   providers: [
     PlantillasService,

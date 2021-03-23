@@ -16,6 +16,7 @@ import { PlantillasdocsService } from '../services/plantillasdocs.service';
 import { PlantillasdocsProfesionalService } from '../services/plantillasdocsprofesional.service';
 import { PlantillasdocsNombramientoService } from '../services/plantillasdocsnombramiento.service';
 import { PlantillasdocsFamiliaresService } from '../services/plantillasdocsfamiliares.service';
+import { PlantillasdocsLicenciasService } from '../services/plantillasdocslicencias.service';
 
 import { environment } from '../../../../../environments/environment';
 
@@ -84,6 +85,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     private plantillasdocsprofesionalSvc: PlantillasdocsProfesionalService,
     private plantillasdocsnombramientoSvc: PlantillasdocsNombramientoService,
     private plantillasdocsfamiliaresSvc: PlantillasdocsFamiliaresService,
+    private plantillasdocslicenciasSvc: PlantillasdocsLicenciasService,
     private personalSvc: PersonalService,
     private el: ElementRef,
     private route: ActivatedRoute
@@ -177,6 +179,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
 
   //Sub formulario
   openModal(tipo:string, id: string, accion: string, idItem: number,idParent:number) {
+
     switch(tipo.toLowerCase()){
       case "plantillasdocsprofesional":
           this.plantillasdocsprofesionalSvc.open(id, accion, idItem,idParent);
@@ -187,6 +190,9 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
         case "plantillasdocsfamiliares":
           this.plantillasdocsfamiliaresSvc.open(id, accion, idItem,idParent);
           break;
+          case "plantillasdocslicencias":
+            this.plantillasdocslicenciasSvc.open(id, accion, idItem,idParent);
+            break;
       default:
         this.plantillasdocsService.open(id, accion, idItem,idParent);
 

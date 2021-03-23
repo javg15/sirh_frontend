@@ -1,0 +1,138 @@
+<div bsModal #basicModalDocsLicencias="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-full-height modal-right" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">{{ tituloForm }}</h4>
+
+                <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+                  <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #dataForm="ngForm" (ngSubmit)="submitAction(dataForm)">
+                    <input type="hidden" name="action" value="{{ actionForm }}">
+                    <div class="form-group">
+                        <input type="hidden" [(ngModel)]="record.id" class="form-control" name="ID">
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="folio">Folio</label>
+                                <input type="text" [(ngModel)]="record.folio" class="form-control" name="Folio">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="fechainicio">Fecha de inicio</label>
+                                <input type="date" [(ngModel)]="record.fechainicio" class="form-control" name="Fecha de inicio">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="fechatermino">Fecha de término</label>
+                                <input type="date" [(ngModel)]="record.fechatermino" class="form-control" name="Fecha de término">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="fechaingreso">Fecha de ingreso</label>
+                                <input type="date" [(ngModel)]="record.fechaingreso" class="form-control" name="Fecha de ingreso">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="diagnostico">Diagnóstico</label>
+                                <input type="text" [(ngModel)]="record.diagnostico" class="form-control" name="Diagnóstico">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="tipo">Tipo</label>
+                                <select class="form-control" [(ngModel)]="record.tipo" name="Tipo">
+                                  <option value=""></option>
+                                  <option value="1">Enfermedad general</option>
+                                  <option value="2">Maternidad</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="antiguedad">Antigüedad</label>
+                                <!--<input type="text" [(ngModel)]="antiguedad" class="form-control" name="Antigüedad" disabled="disabled">-->
+                                <textarea [(ngModel)]="antiguedad" rows="5" cols="50" class="form-control" name="antiguedad" disabled="disabled">
+                                </textarea>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="dias_transcurridos">Días transcurridos de licencia</label>
+                                <input type="text" [(ngModel)]="dias_transcurridos" class="form-control" name="Días transcurridos de licencia" disabled="disabled">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="tipo_prestacion">Tipo de prestación correspondiente</label>
+                                <select class="form-control" [(ngModel)]="tipo_prestacion" name="Tipo de prestación correspondiente" disabled="disabled">
+                                  <option value=""></option>
+                                  <option value="S">Sueldo íntegro</option>
+                                  <option value="SB">Sueldo básico</option>
+                                  <option value="SV">Sin vigencia</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="tipo">% prestación correspondiente</label>
+                                <input type="text" [(ngModel)]="cantidad_prestacion" class="form-control" name="% prestación correspondiente" disabled="disabled">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <label for="archivo">Archivo .pdf</label>
+                            <form-upload (onLoaded)="onLoadedFile($event)" [actionForm]="actionForm" [idFile]="record.id_archivos"></form-upload>
+                            <br/>
+                            <br/>
+
+                            <list-upload></list-upload>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        &nbsp;
+                    </div>
+                    <app-validation-summary [form]="dataForm"></app-validation-summary>
+                    <!-- [disabled]="!dataForm.form.valid" -->
+                    <button *ngIf="actionForm!=='ver'" type="submit" [disabled]='userFormIsPending | async' class="btn btn-primary">
+                      <div *ngIf="userFormIsPending | async; else elseBlock"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Procesando...</span></div>
+                      <ng-template #elseBlock>{{ botonAccion }}</ng-template>
+                    </button>
+                </form>
+            </div>
+            <!-- <h2>Diagnostic Info</h2>
+        <div [innerHtml]="diagnosticValidate"></div>-->
+        </div>
+    </div>
+</div>
+
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-success" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">&nbsp;</h5>
+            </div>
+            <div class="modal-body">
+                <p>Acción realizada satisfactoriamente</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="successModal.hide()">Cerrar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
