@@ -47,9 +47,9 @@ export class PlantillasdocsNombramientoService {
         this.modals = this.modals.filter(x => x.id !== id);
     }
 
-  public open(id: string, accion: string, idItem: number,idParent:number) {
+  public open(id: string, accion: string, idItem: number,idParent:number,tipo:number) {
         let modal: any = this.modals.filter(x => x.id === id)[0];
-        modal.open(idItem, accion,idParent);
+        modal.open(idItem, accion,idParent,tipo);
     }
 
   public close(id: string) {

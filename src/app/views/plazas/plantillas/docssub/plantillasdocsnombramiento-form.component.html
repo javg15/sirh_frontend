@@ -17,7 +17,7 @@
                     <div class="row">
                         <div class="form-group col-sm-4">
                             <div class="form-group">
-                                <label for="tipo">Tipo de nombramiento</label>
+                                <label for="tipo">Tipo de {{tipo}}</label>
                                 <select class="form-control" [(ngModel)]="record.id_catestatusplaza" name="Tipo de nombramiento" (change)="onSelectTipoNombramiento($event.target.value)">
                                   <option *ngFor="let col of catestatusplazaCat" [value]="col.id">{{ col.descripcion }}</option>
                                 </select>

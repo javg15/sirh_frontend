@@ -185,8 +185,11 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
           this.plantillasdocsprofesionalSvc.open(id, accion, idItem,idParent);
           break;
         case "plantillasdocsnombramiento":
-          this.plantillasdocsnombramientoSvc.open(id, accion, idItem,idParent);
+          this.plantillasdocsnombramientoSvc.open(id, accion, idItem,idParent,1);
           break;
+        case "plantillasdocslicenciasadmin":
+            this.plantillasdocsnombramientoSvc.open(id, accion, idItem,idParent,2);
+            break;
         case "plantillasdocsfamiliares":
           this.plantillasdocsfamiliaresSvc.open(id, accion, idItem,idParent);
           break;

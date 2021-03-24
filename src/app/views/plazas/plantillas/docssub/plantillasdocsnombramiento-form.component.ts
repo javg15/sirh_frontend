@@ -65,6 +65,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   esinterina:boolean;
   esnombramiento:boolean;
   plazaOcupadaTitular:String;
+  tipo:string;
   //recordJsonTipodoc1:any={UltimoGradodeEstudios:0,AreadeCarrera:0,Carrera:0,Estatus:0};
 
   constructor(private isLoadingService: IsLoadingService,
@@ -79,9 +80,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
     public datepipe: DatePipe
       ) {
         this.elementModal = el.nativeElement;
-        this.catestatusplazaSvc.getCatalogo().subscribe(resp => {
-          this.catestatusplazaCat = resp;
-        });
+
   }
 
   newRecord(idParent:number): Plantillasdocsnombramiento {
@@ -157,13 +156,17 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   }
 
   // open modal
-  open(idItem: string, accion: string,idParent:number):  void {
+  async open(idItem: string, accion: string,idParent:number,tipo:number):  Promise<void> {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
-    this.tituloForm="Preparación nombramiento - " + titulosModal[accion] + " registro";
+    this.tipo=(tipo==1?"nombramiento":"licencia");
+    this.tituloForm="Preparación " + this.tipo +" - " + titulosModal[accion] + " registro";
     //this.formUpload.resetFile();
     this.record_titular="";
 
+    await this.catestatusplazaSvc.getCatalogo(tipo).subscribe(resp => {
+      this.catestatusplazaCat = resp;
+    });
 
     if(idItem=="0"){
         this.record =this.newRecord(idParent);
@@ -245,27 +248,29 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
 
   onSelectTipoNombramiento(valor:any){
 
-    let tipoNombramiento=this.catestatusplazaCat.find(x=>x.id==valor);
+    if(valor!=""){
+      let tipoNombramiento=this.catestatusplazaCat.find(x=>x.id==valor);
 
-    this.convigencia=(tipoNombramiento.convigencia==1);
-    this.conlicencia=(tipoNombramiento.conlicencia==1);
-    this.esinterina=(tipoNombramiento.esinterina==1);
-    this.esnombramiento=(tipoNombramiento.esnombramiento==1);
+      this.convigencia=(tipoNombramiento.convigencia==1);
+      this.conlicencia=(tipoNombramiento.conlicencia==1);
+      this.esinterina=(tipoNombramiento.esinterina==1);
+      this.esnombramiento=(tipoNombramiento.esnombramiento==1);
 
-    if(this.esnombramiento){
-      this.categoriasSvc.getCatalogoDisponibleEnPlantilla(this.record_plantillaspersonal.id_catplanteles,this.record.id_plazas).subscribe(resp => {
-        this.categoriasCat = resp;
-      });
-    }
-    else{
-      if(this.record.fechaini!=null){
-        let dateString = this.record.fechaini + 'T00:00:00';
-        let newDate = new Date(dateString);
-        this.record.fechafin = new Date();
-        this.record.fechafin.setDate( newDate.getDate() + 181 );
+      if(this.esnombramiento){
+        this.categoriasSvc.getCatalogoDisponibleEnPlantilla(this.record_plantillaspersonal.id_catplanteles,this.record.id_plazas).subscribe(resp => {
+          this.categoriasCat = resp;
+        });
+      }
+      else{
+        if(this.record.fechaini!=null){
+          let dateString = this.record.fechaini + 'T00:00:00';
+          let newDate = new Date(dateString);
+          this.record.fechafin = new Date();
+          this.record.fechafin.setDate( newDate.getDate() + 181 );
 
-        let fechafin =this.datepipe.transform(this.record.fechafin, 'yyyy-MM-dd');
-        setTimeout(()=>{ $('#txtFechafin').val(fechafin) }, 100)
+          let fechafin =this.datepipe.transform(this.record.fechafin, 'yyyy-MM-dd');
+          setTimeout(()=>{ $('#txtFechafin').val(fechafin) }, 100)
+        }
       }
     }
   }
