@@ -17,7 +17,7 @@ import { PlantillasdocsProfesionalService } from '../services/plantillasdocsprof
 import { PlantillasdocsNombramientoService } from '../services/plantillasdocsnombramiento.service';
 import { PlantillasdocsFamiliaresService } from '../services/plantillasdocsfamiliares.service';
 import { PlantillasdocsLicenciasService } from '../services/plantillasdocslicencias.service';
-
+import { PlantillasdocsSindicatoService } from '../services/plantillasdocssindicato.service';
 import { environment } from '../../../../../environments/environment';
 
 declare var $: any;
@@ -86,6 +86,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     private plantillasdocsnombramientoSvc: PlantillasdocsNombramientoService,
     private plantillasdocsfamiliaresSvc: PlantillasdocsFamiliaresService,
     private plantillasdocslicenciasSvc: PlantillasdocsLicenciasService,
+    private plantillasdocssindicatoSvc: PlantillasdocsSindicatoService,
     private personalSvc: PersonalService,
     private el: ElementRef,
     private route: ActivatedRoute
@@ -189,6 +190,9 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
           break;
         case "plantillasdocslicenciasadmin":
             this.plantillasdocsnombramientoSvc.open(id, accion, idItem,idParent,2);
+            break;
+        case "plantillasdocssindicato":
+          this.plantillasdocssindicatoSvc.open(id, accion, idItem,idParent);
             break;
         case "plantillasdocsfamiliares":
           this.plantillasdocsfamiliaresSvc.open(id, accion, idItem,idParent);

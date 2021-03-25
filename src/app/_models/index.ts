@@ -35,6 +35,7 @@ import Personal, { PersonalInitializer } from './personal';
 import Plantillaspersonal, { PlantillaspersonalInitializer } from './plantillaspersonal';
 import Plantillaspersonaldocs, { PlantillaspersonaldocsInitializer } from './plantillaspersonaldocs';
 import Plantillasdocsfamiliares, { PlantillasdocsfamiliaresInitializer } from './plantillasdocsfamiliares';
+import Plantillasdocssindicato, { PlantillasdocssindicatoInitializer } from './plantillasdocssindicato';
 import Plantillasdocslicencias, { PlantillasdocslicenciasInitializer } from './plantillasdocslicencias';
 import Plantillasdocsnombramiento, { PlantillasdocsnombramientoInitializer } from './plantillasdocsnombramiento';
 import Plantillasdocsprofesional, { PlantillasdocsprofesionalInitializer } from './plantillasdocsprofesional';
@@ -44,6 +45,9 @@ import Searchcampos, { SearchcamposInitializer, SearchcamposId } from './searchc
 import Searchoperador, { SearchoperadorInitializer, SearchoperadorId } from './searchoperador';
 import Usuarios, { UsuariosInitializer, UsuariosId } from './usuarios';
 import Archivos, { ArchivosInitializer } from './archivos';
+import Catfuncionsecundaria, { CatfuncionsecundariaInitializer } from './catfuncionsecundaria';
+import Catsindicato, { CatsindicatoInitializer } from './catsindicato';
+
 
 type Model =
   | Archivos
@@ -68,6 +72,8 @@ type Model =
   | Cattiponomina
   | Catzonaeconomica
   | Catzonageografica
+  | Catfuncionsecundaria
+  | Catsindicato
   | Ejercicioreal
   | Estudios
   | Horas
@@ -82,6 +88,7 @@ type Model =
   | Plantillaspersonal
   | Plantillaspersonaldocs
   | Plantillasdocsfamiliares
+  | Plantillasdocssindicato
   | Plantillasdocslicencias
   | Plantillasdocsnombramiento
   | Plantillasdocsprofesional
@@ -114,6 +121,8 @@ interface ModelTypeMap {
   'cattiponomina': Cattiponomina;
   'catzonaeconomica': Catzonaeconomica;
   'catzonageografica': Catzonageografica;
+  'catfuncionsecundaria': Catfuncionsecundaria;
+  'catsindicato': Catsindicato;
   'ejercicioreal': Ejercicioreal;
   'estudios': Estudios;
   'horas': Horas;
@@ -129,6 +138,7 @@ interface ModelTypeMap {
   'plantillaspersonaldocs': Plantillaspersonaldocs;
   'plantillasdocsnombramiento':Plantillasdocsnombramiento;
   'plantillasdocsfamiliares':Plantillasdocsfamiliares;
+  'plantillasdocssindicato':Plantillasdocssindicato;
   'plantillasdocslicencias':Plantillasdocslicencias;
   'plantillasdocsprofesional':Plantillasdocsprofesional;
   'presupuesto': Presupuesto;
@@ -205,6 +215,8 @@ type Initializer =
   | CatplantillasInitializer
   | CattipocategoriaInitializer
   | CattipocentrotrabajoInitializer
+  | CatfuncionsecundariaInitializer
+  | CatsindicatoInitializer
   | CatturnosInitializer
   | CattiponominaInitializer
   | CatzonaeconomicaInitializer
@@ -235,6 +247,8 @@ interface InitializerTypeMap {
   'catestados': CatestadosInitializer;
   'catestatusplaza': CatestatusplazaInitializer;
   'catfuentef': CatfuentefInitializer;
+  'catfuncionsecundaria': CatfuncionsecundariaInitializer;
+  'catsindicato': CatsindicatoInitializer;
   'catlocalidades': CatlocalidadesInitializer;
   'catmunicipios': CatmunicipiosInitializer;
   'catplanteles': CatplantelesInitializer;
@@ -263,6 +277,7 @@ interface InitializerTypeMap {
   'plantillasdocsprofesional': Plantillasdocsprofesional;
   'plantillasdocsnombramiento': Plantillasdocsnombramiento;
   'plantillasdocsfamiliares': Plantillasdocsfamiliares;
+  'plantillasdocssindicato': Plantillasdocssindicato;
   'plantillasdocslicencias': Plantillasdocslicencias;
   'presupuesto': PresupuestoInitializer;
   'rhnominas': RhnominasInitializer;
@@ -290,6 +305,8 @@ export {
   Cattipocategoria, CattipocategoriaInitializer,
   Cattipocentrotrabajo, CattipocentrotrabajoInitializer,
   Catturnos, CatturnosInitializer,
+  Catfuncionsecundaria,CatfuncionsecundariaInitializer,
+  Catsindicato, CatsindicatoInitializer,
   Catestadocivil, CatestadocivilInitializer,
   Cattiponomina, CattiponominaInitializer,
   Catzonaeconomica, CatzonaeconomicaInitializer, CatzonaeconomicaId,
@@ -308,6 +325,7 @@ export {
   Plantillaspersonal, PlantillaspersonalInitializer,
   Plantillaspersonaldocs, PlantillaspersonaldocsInitializer,
   Plantillasdocsfamiliares, PlantillasdocsfamiliaresInitializer,
+  Plantillasdocssindicato, PlantillasdocssindicatoInitializer,
   Plantillasdocslicencias, PlantillasdocslicenciasInitializer,
   Plantillasdocsnombramiento, PlantillasdocsnombramientoInitializer,
   Plantillasdocsprofesional, PlantillasdocsprofesionalInitializer,

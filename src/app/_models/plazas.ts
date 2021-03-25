@@ -26,7 +26,7 @@ export default interface Plazas {
 
   id_puesto: number | null;
 
-  id_sindicato: number | null;
+  id_catsindicato: number | null;
 
   estatus: string | null;
 
@@ -68,7 +68,7 @@ export interface PlazasInitializer {
 
   id_puesto?: number;
 
-  id_sindicato?: number;
+  id_catsindicato?: number;
 
   estatus?: string;
 

@@ -1,18 +1,18 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { PlazasService } from '../services/plazas.service';
 import { CategoriasService } from '../../../catalogos/categorias/services/categorias.service';
-import { CategoriassueldosService } from '../../../catalogos/categorias/services/categoriassueldos.service';
 import { CatplantelesService } from '../../../catalogos/catplanteles/services/catplanteles.service';
 import { CatcentrostrabajoService } from '../../../catalogos/catcentrostrabajo/services/catcentrostrabajo.service';
 import { CatzonaeconomicaService } from '../../../catalogos/catzonaeconomica/services/catzonaeconomica.service';
 import { CatzonageograficaService } from '../../../catalogos/catzonageografica/services/catzonageografica.service';
 import { CatestatusplazaService } from '../../../catalogos/catestatusplaza/services/catestatusplaza.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Plazas, Categorias, Catcentrostrabajo, Catplanteles, Catzonaeconomica, Catzonageografica, Catestatusplaza } from '../../../../_models';
+import { Plazas, Categorias, Catcentrostrabajo, Catplanteles, Catzonaeconomica, Catzonageografica, Catestatusplaza,Catsindicato } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
+
 
 
 declare var $: any;
@@ -52,6 +52,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
   catestatusplazaCat:Catestatusplaza[];
 
 
+
   constructor(private isLoadingService: IsLoadingService,
       private plazasService: PlazasService, private el: ElementRef,
       private catplantelesSvc: CatplantelesService,
@@ -59,8 +60,8 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
       private catzonaeconomicaSvc: CatzonaeconomicaService,
       private catzonageograficaSvc: CatzonageograficaService,
       private categoriasSvc: CategoriasService,
-      private categoriassueldosSvc: CategoriassueldosService,
-      private catestatusplazaSvc: CatestatusplazaService,
+        private catestatusplazaSvc: CatestatusplazaService,
+
       ) {
       this.elementModal = el.nativeElement;
       this.catplantelesSvc.getCatalogo().subscribe(resp => {
@@ -69,8 +70,6 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
       this.catcentrostrabajoSvc.getCatalogo().subscribe(resp => {
         this.catcentrostrabajoCat = resp;
       });
-
-
       this.catestatusplazaSvc.getCatalogo().subscribe(resp => {
         this.catestatusplazaCat = resp;
       });
@@ -81,7 +80,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
       id: 0,id_categorias: 0,consecutivo: 0, id_catplanteles: 0,  id_catcentrostrabajo: 0,
       state: '', id_catplantelescobro: 0, id_catzonageografica: 0, fecha_creacion: null,
       fecha_fin: null, id_catestatusplaza: 1, statussicodes: 0, id_puesto: 0,estatus:'',
-      id_sindicato: 0, created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
+      id_catsindicato: 0, created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }
   ngOnInit(): void {

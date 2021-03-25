@@ -3,9 +3,12 @@ import { PlantillasService } from '../services/plantillas.service';
 import { ActivatedRoute } from '@angular/router';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Plantillaspersonal, Catplantillas, Catplanteles, Personal } from '../../../../_models';
+import { Plantillaspersonal, Catplantillas, Catplanteles, Personal,Catcentrostrabajo,Catfuncionsecundaria } from '../../../../_models';
 import { CatplantillasService } from '../../../catalogos/catplantillas/services/catplantillas.service';
 import { CatplantelesService } from '../../../catalogos/catplanteles/services/catplanteles.service';
+import { CatcentrostrabajoService } from '../../../catalogos/catcentrostrabajo/services/catcentrostrabajo.service';
+import { CatfuncionsecundariaService } from '../../../catalogos/catfuncionsecundaria/services/catfuncionsecundaria.service';
+
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
@@ -57,6 +60,8 @@ export class PlantillasFormComponent implements OnInit, OnDestroy {
   catplantillasCat:Catplantillas[];
   catplantelesCat:Catplanteles[];
   catpersonalCat:Personal[];
+  catcentrostrabajoCat:Catcentrostrabajo[];
+  catfuncionsecundariaCat:Catfuncionsecundaria[];
   keywordSearch = 'full_name';
   isLoadingSearch:boolean;
 
@@ -65,6 +70,8 @@ export class PlantillasFormComponent implements OnInit, OnDestroy {
     private catplantillasSvc: CatplantillasService,
     private catplantelesSvc: CatplantelesService,
     private personalSvc: PersonalService,
+    private catcentrostrabajoSvc:CatcentrostrabajoService,
+    private catfuncionsecundariaSvc:CatfuncionsecundariaService,
     private route: ActivatedRoute
       ) {
       this.elementModal = el.nativeElement;
@@ -74,11 +81,18 @@ export class PlantillasFormComponent implements OnInit, OnDestroy {
       this.catplantelesSvc.getCatalogo().subscribe(resp => {
         this.catplantelesCat = resp;
       });
+      this.catcentrostrabajoSvc.getCatalogo().subscribe(resp => {
+        this.catcentrostrabajoCat = resp;
+      });
+      this.catfuncionsecundariaSvc.getCatalogo().subscribe(resp => {
+        this.catfuncionsecundariaCat = resp;
+      });
   }
 
   newRecord(idCatplanteles:number,idCatplantillas:number): Plantillaspersonal {
     return {
       id: 0,  id_catplanteles: idCatplanteles, id_personal:0, id_catplantillas: idCatplantillas, consecutivo:'',id_usuarios_autoriza:0,
+      id_catplanteles_adscripcionreal: 0, id_catcentrostrabajo: 0, id_catfuncionsecundaria: 0,
       fechaingreso: null,  state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }
