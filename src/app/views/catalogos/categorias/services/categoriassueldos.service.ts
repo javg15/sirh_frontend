@@ -64,6 +64,11 @@ export class CategoriassueldosService {
   }
 
 
+public getRecordSegunCategoria(id_categorias: any): Observable<any> {
+  return this.http.post(this.API_URL + '/categoriassueldos/getRecordSegunCategoria',
+    { id_categorias }
+    , httpOptions);
+}
 
   /* El siguiente método graba un registro nuevo, o uno editado. */
   public setRecord(dataPack,actionForm): Observable<any> {

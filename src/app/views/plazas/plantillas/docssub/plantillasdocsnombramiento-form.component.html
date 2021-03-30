@@ -51,9 +51,6 @@
                                 <label for="id_categorias">Categorías</label>
                                 <ng-select2 [(ngModel)]="record.id_categorias" [data]="categoriasCat" [allowClear]="true" allowClear="true" width="100%" name="Categorías" (valueChanged)="onSelectCategorias($event)">
                                 </ng-select2>
-                                <!--<select id="selectPlantel" class="form-control" [(ngModel)]="record.id_categorias" name="Categorías">
-                              <option *ngFor="let col of categoriasCat" [value]="col.id">{{ col.clave + " - " + (col.denominacion!=null?col.denominacion:".") }}</option>
-                            </select>-->
                             </div>
                         </div>
                         <div *ngIf="esnombramiento==true" class="form-group col-sm-4">
@@ -66,6 +63,14 @@
                           </select>-->
                             </div>
                         </div>
+                        <div *ngIf="varAsignarHoras==true" class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="horas">Horas asignadas</label>
+                                <input type="text" [(ngModel)]="record.horas" class="form-control" name="Horas asignadas">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div *ngIf="esinterina==true" class="form-group col-sm-8">
                             <div class="form-group">
                                 <label for="id_personal_titular">Titular</label>
