@@ -39,6 +39,12 @@ export const navItems: INavData[] = [
         //icon: 'icon-puzzle'
       },
       {
+        name: 'Horas',
+        url: '/plazas/horasclase',
+        //icon: 'icon-puzzle'
+      },
+
+      {
         name: 'Personas',
         url: '/plazas/personal',
         //icon: 'icon-puzzle'

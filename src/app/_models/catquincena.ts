@@ -6,6 +6,10 @@ export default interface Catquincena {
   /** Primary key. Index: catquincena_pkey */
   id: CatquincenaId;
 
+  anio: number | null;
+
+  quincena: number | null;
+
   fechainicio: Date | null;
 
   fechafin: Date | null;
@@ -17,6 +21,30 @@ export default interface Catquincena {
   created_at: Date | null;
 
   updated_at: Date | null;
+
+  adicional: number | null;
+
+  idestatusquincena: number | null;
+
+  periodovacacional: string | null;
+
+  fechadepago: string | null;
+
+  observaciones: string | null;
+
+  fechacierre: string | null;
+
+  observaciones2: string | null;
+
+  bimestre: number | null;
+
+  aplicarajusteispt: number | null;
+
+  pagoderetroactividad: number | null;
+
+  liberadaparaportaladmvo: string | null;
+
+  permiteabcderecibos: string | null;
 }
 
 export interface CatquincenaInitializer {
@@ -25,6 +53,10 @@ export interface CatquincenaInitializer {
    * Primary key. Index: catquincena_pkey
    */
   id?: CatquincenaId;
+
+  anio?: number;
+
+  quincena?: number;
 
   fechainicio?: Date;
 
@@ -39,4 +71,28 @@ export interface CatquincenaInitializer {
   created_at?: Date;
 
   updated_at?: Date;
+
+  adicional?: number;
+
+  idestatusquincena?: number;
+
+  periodovacacional?: string;
+
+  fechadepago?: string;
+
+  observaciones?: string;
+
+  fechacierre?: string;
+
+  observaciones2?: string;
+
+  bimestre?: number;
+
+  aplicarajusteispt?: number;
+
+  pagoderetroactividad?: number;
+
+  liberadaparaportaladmvo?: string;
+
+  permiteabcderecibos?: string;
 }

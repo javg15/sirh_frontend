@@ -5,31 +5,27 @@ import { DataTablesResponse } from '../../../../classes/data-tables-response';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 
-import { PlantillasService } from '../services/plantillas.service';
-import { Plantillaspersonal, Catplantillas, Catplanteles,Personal } from '../../../../_models';
-import { CatplantillasService } from '../../../catalogos/catplantillas/services/catplantillas.service';
-import { CatplantelesService } from '../../../catalogos/catplanteles/services/catplanteles.service';
-import { PersonalService } from '../../personal/services/personal.service';
-import { AutocompleteComponent } from 'angular-ng-autocomplete';
+import { CategoriasService } from '../services/categorias.service';
+import { Catzonaeconomica } from '../../../../_models';
+import { CatzonaeconomicaService } from '../../catzonaeconomica/services/catzonaeconomica.service';
 
 
-import { environment } from '../../../../../environments/environment';
+import { environment } from '../../../../../../src/environments/environment';
 
 declare var $: any;
 declare var jQuery: any;
 
 @Component({
-  selector: 'app-plantillas-admin',
-  templateUrl: './plantillas-admin.component.html',
+  selector: 'app-categorias-admin',
+  templateUrl: './categorias-admin.component.html',
 
 })
 
 
-export class PlantillasAdminComponent implements OnInit {
+export class CategoriasAdminComponent implements OnInit {
   @Input() dtOptions: DataTables.Settings = {};
   /* El decorador @ViewChild recibe la clase DataTableDirective, para luego poder
   crear el dtElement que represente la tabla que estamos creando. */
-  @ViewChild('id_personal') id_personal:AutocompleteComponent;
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtInstance: Promise<DataTables.Api>;
@@ -41,43 +37,24 @@ export class PlantillasAdminComponent implements OnInit {
   NumberOfMembers = 0;
   API_URL = environment.APIS_URL;
 
-  private dtOptionsAdicional = {
-    datosBusqueda: {campo: 0, operador: 0, valor: ''},
-    raw:0
-    ,fkey:'id_catplanteles,id_catplantillas,id_personal,tipoDocumento'
-    ,fkeyvalue:[0,0,0,0]
-    ,modo:22
-  };
+  private dtOptionsAdicional = { datosBusqueda: {campo: 0, operador: 0, valor: ''},raw:0};
 
-  nombreModulo = 'Plantillas';
-
+  nombreModulo = 'Categorias';
+  tituloBotonReporte='Reporte';
   headersAdmin: any;
-  tipoDocumento:number=0;
-  record:Plantillaspersonal={
-      id: 0,  id_catplanteles: 0, id_personal:0, id_catplantillas: 0, consecutivo:'',id_usuarios_autoriza:0,
-      fechaingreso:null, state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
-    }
-  ;
-  catplantillasCat:Catplantillas[];
-  catplantelesCat:Catplanteles[];
-  catpersonalCat:Personal[];
-  keywordSearch = 'full_name';
-  isLoadingSearch:boolean;
-  /* En el constructor creamos el objeto plazasService,
+
+  catzonaeconomicaCat:Catzonaeconomica[];
+
+  /* En el constructor creamos el objeto categoriasService,
   de la clase HttpConnectService, que contiene el servicio mencionado,
   y estará disponible en toda la clase de este componente.
   El objeto es private, porque no se usará fuera de este componente. */
   constructor(
-    private plantillasService: PlantillasService,private route: ActivatedRoute,
-    private catplantillasSvc: CatplantillasService,
-    private catplantelesSvc: CatplantelesService,
-    private personalSvc: PersonalService,
+    private categoriasService: CategoriasService,private route: ActivatedRoute,
+    private catzonaeconomicaSvc: CatzonaeconomicaService,
   ) {
-    this.catplantillasSvc.getCatalogo().subscribe(resp => {
-      this.catplantillasCat = resp;
-    });
-    this.catplantelesSvc.getCatalogo().subscribe(resp => {
-      this.catplantelesCat = resp;
+    this.catzonaeconomicaSvc.getCatalogo().subscribe(resp => {
+      this.catzonaeconomicaCat = resp;
     });
   }
 
@@ -107,14 +84,16 @@ export class PlantillasAdminComponent implements OnInit {
             previous: 'Ant.'
           },
         },
+        // Use this attribute to enable the responsive extension
+        responsive: true,
         ajax: (dataTablesParameters: any, callback) => {
           this.dtOptionsAdicional.raw++;
           dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
 
-          this.plantillasService.http
+          this.categoriasService.http
             .post<DataTablesResponse>(
               // this.API_URL + '/a6b_apis/read_records_dt.php',
-              this.API_URL + '/plantillaspersonal/getAdmin',
+              this.API_URL + '/categorias/getAdmin',
               dataTablesParameters, {}
             ).subscribe(resp => {
 
@@ -133,21 +112,23 @@ export class PlantillasAdminComponent implements OnInit {
             }
           );
         },
-
         columns: this.headersAdmin,
         columnDefs:[{"visible": false, "targets": 0}, //state
-                {"width": "5%", "targets": [1]},
-                {"width": "10%", "targets": [this.headersAdmin-1]}
-              ]
+                {"width": "5%", "targets": 1}]
       };
 
   }
-  openModal(id: string, accion: string, idItem: number,idCatplanteles:number,idCatplantillas:number,tipoDocumento:number) {
-    this.plantillasService.open(id, accion, idItem,idCatplanteles,idCatplantillas,tipoDocumento);
+  openModal(id: string, accion: string, idItem: number) {
+    this.categoriasService.open(id, accion, idItem);
   }
 
   closeModal(id: string) {
-    this.plantillasService.close(id);
+    this.categoriasService.close(id);
+  }
+
+
+  MostrarReporte(param_id_catzonaeconomica){
+    this.categoriasService.getReporte('/reportes/categorias',$(param_id_catzonaeconomica).val());
   }
 
 
@@ -174,52 +155,5 @@ export class PlantillasAdminComponent implements OnInit {
         dtInstance.clear().draw(false); // viene de form, solo actualiza la vista actual (current page)
       }
     });
-  }
-
-  onClickBuscar() {
-    if(this.id_personal.query=="") this.record.id_personal=0;
-
-    this.dtOptionsAdicional.fkeyvalue=[
-      (this.record.id_catplanteles==null?0:this.record.id_catplanteles),
-      (this.record.id_catplantillas==null?0:this.record.id_catplantillas),
-      this.record.id_personal,
-      (this.tipoDocumento==null?0:this.tipoDocumento),
-    ]
-    this.reDraw();
-  }
-
-  onSelectPlantel(select_plantel){
-    this.record.id_catplanteles=select_plantel;
-    this.onClickBuscar();
-  }
-  onSelectPlantilla(select_plantilla){
-    this.record.id_catplantillas=select_plantilla;
-    this.onClickBuscar();
-  }
-  /*********************
-   autocomplete id_personal
-   *********************/
-  onChangeSearchIdPersonal(val: string) {
-    this.isLoadingSearch = true;
-    this.personalSvc.getCatalogoSegunBusqueda(val).subscribe(resp => {
-      this.catpersonalCat = resp;
-      this.isLoadingSearch = false;
-    });
-  }
-
-  onCleared(){
-    this.record.id_personal=0;
-    this.onClickBuscar();
-  }
-
-  onSelectIdPersonal(val: any) {
-    let items=val["full_name"].split(" -- ");
-    this.record.id_personal=parseInt(items[2]);
-    this.onClickBuscar();
-  }
-
-  onSelectDocumentos(val: any){
-    this.tipoDocumento = val;
-    this.onClickBuscar();
   }
 }

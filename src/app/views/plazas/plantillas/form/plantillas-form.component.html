@@ -74,26 +74,6 @@
                     <div class="row">
                         <div class="form-group col-sm-4">
                             <div class="form-group">
-                                <label for="id_catplanteles_adscripcionreal">Adscripción real (Ubicación física del empleado)</label>
-                                <ng-select2 [(ngModel)]="record.id_catplanteles_adscripcionreal" [data]="catplantelesCat" [allowClear]="true" allowClear="true" width="100%" name="Adscripción real (Ubicación física del empleado)">
-                                </ng-select2>
-                            </div>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label for="id_catcentrostrabajo">Centro de trabajo (Ubicación física del empleado)</label>
-                            <ng-select2 [(ngModel)]="record.id_catcentrostrabajo" [data]="catcentrostrabajoCat" [allowClear]="true" allowClear="true" width="100%" name="Centro de trabajo (Ubicación física del empleado)">
-                            </ng-select2>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label for="id_catfuncionsecundaria">Función secundaria</label>
-                            <select class="form-control" [(ngModel)]="record.id_catfuncionsecundaria" name="Función secundaria">
-                            <option *ngFor="let col of catfuncionsecundariaCat" [value]="col.id">{{ col.nombre }}</option>
-                          </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-4">
-                            <div class="form-group">
                                 <label for="nombre">Nombre&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                 <input type="text" name="Nombre" disabled="disabled" [value]="recordpersonalCat.nombre" class="form-control" />
                             </div>

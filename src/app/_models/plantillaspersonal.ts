@@ -14,12 +14,6 @@ export default interface Plantillaspersonal {
 
   consecutivo: string;
 
-  id_catplanteles_adscripcionreal: number | null;
-
-  id_catcentrostrabajo: number | null;
-
-  id_catfuncionsecundaria: number | null;
-
   id_usuarios_autoriza: number | null;
 
   id_usuarios_r: number;
@@ -53,12 +47,6 @@ export interface PlantillaspersonalInitializer {
   consecutivo?: string;
 
   id_usuarios_autoriza?: number;
-
-  id_catplanteles_adscripcionreal?: number;
-
-  id_catcentrostrabajo?: number;
-
-  id_catfuncionsecundaria?: number;
 
   /** Default value: 0 */
   id_usuarios_r?: number;

@@ -152,6 +152,10 @@ const routes: Routes = [
         loadChildren: () => import('./views/plazas/plazas/plazas.module').then(m => m.PlazasModule)
       },
       {
+        path: 'plazas/horasclase',
+        loadChildren: () => import('./views/plazas/horasclase/horasclase.module').then(m => m.HorasclaseModule)
+      },
+      {
         path: 'plazas/personal',
         loadChildren: () => import('./views/plazas/personal/personal.module').then(m => m.PersonalModule)
       },
