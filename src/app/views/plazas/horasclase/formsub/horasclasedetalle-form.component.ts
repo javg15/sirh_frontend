@@ -54,7 +54,7 @@ export class HorasclasedetalleFormComponent implements OnInit, OnDestroy {
     private horasclasedetalleService: HorasclasedetalleService
       ) {
       this.elementModal = el.nativeElement;
-      this.categoriasSvc.getCatalogo().subscribe(resp => {
+      this.categoriasSvc.getCatalogoDocentes().subscribe(resp => {
         this.categoriasCat = resp;
       });
   }

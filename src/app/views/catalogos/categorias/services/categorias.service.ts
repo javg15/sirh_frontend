@@ -46,6 +46,13 @@ export class CategoriasService {
       , httpOptions);
   }
 
+  public getCatalogoDocentes(): Observable<any> {
+    return this.http.post(this.API_URL + '/categorias/getCatalogoDocentes',
+      {  }
+      , httpOptions);
+  }
+
+
   /* Devuelve el ID y Descripcion de la tabla, segun plantel */
   public getCatalogoSegunPlantel(tipoplantel): Observable<any> {
     return this.http.post(this.API_URL + '/categorias/getCatalogoSegunPlantel',
