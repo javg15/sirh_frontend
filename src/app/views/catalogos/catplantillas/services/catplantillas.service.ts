@@ -43,6 +43,12 @@ export class CatplantillasService {
       {  }
       , httpOptions);
   }
+  public getCatalogoParaCategorias(): Observable<any> {
+    return this.http.post(this.API_URL + '/catplantillas/getCatalogoParaCategorias',
+      {  }
+      , httpOptions);
+  }
+
 
   public getCatalogoSegunSexo(id_sexo): Observable<any> {
     return this.http.post(this.API_URL + '/catplantillas/getCatalogoSegunSexo',
