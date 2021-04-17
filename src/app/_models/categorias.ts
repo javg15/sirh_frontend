@@ -14,7 +14,7 @@ export default interface Categorias {
 
   nivelsalarial: string | null;
 
-  id_catplantillas: number | null;
+  id_cattipocategoria: number | null;
 
   id_tiponomina: number | null;
 
@@ -44,7 +44,7 @@ export interface CategoriasInitializer {
 
   nivelsalarial?: string;
 
-  id_catplantillas?: number;
+  id_cattipocategoria?: number;
 
   id_tiponomina?: number;
 

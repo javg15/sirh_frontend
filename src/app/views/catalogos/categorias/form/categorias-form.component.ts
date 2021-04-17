@@ -8,9 +8,9 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Categorias, Cattiponomina,Catplantillas } from '../../../../_models';
+import { Categorias, Cattiponomina,Cattipocategoria } from '../../../../_models';
 import { CattiponominaService } from '../../cattiponomina/services/cattiponomina.service';
-import { CatplantillasService } from '../../catplantillas/services/catplantillas.service';
+import { CattipocategoriaService } from '../../cattipocategoria/services/cattipocategoria.service';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../../src/environments/environment';
 import { Observable } from 'rxjs';
@@ -72,27 +72,27 @@ export class CategoriasFormComponent implements OnInit, OnDestroy {
 
   record: Categorias;
   cattiponominaCat:Cattiponomina[];
-  catplantillasCat:Catplantillas[];
+  cattipocategoriaCat:Cattipocategoria[];
 
   constructor(private isLoadingService: IsLoadingService,
       private categoriasService: CategoriasService, private el: ElementRef,
     private categoriassueldosService: CategoriassueldosService,
     private cattiponominaSvc: CattiponominaService,
-    private catplantillasSvc:CatplantillasService,
+    private cattipocategoriaSvc:CattipocategoriaService,
     private route: ActivatedRoute
       ) {
       this.elementModal = el.nativeElement;
       this.cattiponominaSvc.getCatalogo().subscribe(resp => {
         this.cattiponominaCat = resp;
       });
-      this.catplantillasSvc.getCatalogoParaCategorias().subscribe(resp => {
-        this.catplantillasCat = resp;
+      this.cattipocategoriaSvc.getCatalogo().subscribe(resp => {
+        this.cattipocategoriaCat = resp;
       });
   }
 
   newRecord(): Categorias {
     return {
-      id: 0,  clave: '', codigo:'', denominacion: '', nivelsalarial:'',id_catplantillas:0, id_tiponomina:0,
+      id: 0,  clave: '', codigo:'', denominacion: '', nivelsalarial:'',id_cattipocategoria:0, id_tiponomina:0,
       state: '', aplicaa:0, created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }

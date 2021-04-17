@@ -1,12 +1,10 @@
-
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { DataTablesResponse } from '../../../../classes/data-tables-response';
 
 import { environment } from '../../../../../../src/environments/environment';
-
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -16,7 +14,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class CategoriasService {
+export class CattipocategoriaService {
   public API_URL = environment.APIS_URL;
   private modals: any[] = [];
 
@@ -31,7 +29,7 @@ export class CategoriasService {
       setTimeout(()=>{
         this.http.post<DataTablesResponse>(
           // this.API_URL + '/a6b_apis/read_records_dt.php',
-          this.API_URL + '/categorias/getAdmin',
+          this.API_URL + '/cattipocategoria/getAdmin',
           {solocabeceras:1,opcionesAdicionales:{raw:0}}, {}
         ).subscribe(resp => {
               o.next(JSON.parse(resp.data[0].cabeceras));
@@ -41,52 +39,35 @@ export class CategoriasService {
   }
   /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
   public getCatalogo(): Observable<any> {
-    return this.http.post(this.API_URL + '/categorias/getCatalogo',
+    return this.http.post(this.API_URL + '/cattipocategoria/getCatalogo',
       {  }
-      , httpOptions);
-  }
-
-  /* Devuelve el ID y Descripcion de la tabla, segun plantel */
-  public getCatalogoSegunPlantel(tipoplantel): Observable<any> {
-    return this.http.post(this.API_URL + '/categorias/getCatalogoSegunPlantel',
-      { tipoplantel }
-      , httpOptions);
-  }
-
-  /* Devuelve las categorias disponibles, segun plantel en plantillas*/
-  public getCatalogoDisponibleEnPlantilla(id_catplanteles,id_plazas): Observable<any> {
-    return this.http.post(this.API_URL + '/categorias/getCatalogoDisponibleEnPlantilla',
-      { id_catplanteles,id_plazas }
       , httpOptions);
   }
 
 
   /* El siguiente método lee los datos de un registro seleccionado para edición. */
   public getRecord(id: any): Observable<any> {
-    return this.http.post(this.API_URL + '/categorias/getRecord',
+    return this.http.post(this.API_URL + '/cattipocategoria/getRecord',
       { id }
       , httpOptions);
   }
 
-
   /* El siguiente método graba un registro nuevo, o uno editado. */
   public setRecord(dataPack,actionForm): Observable<any> {
 
-    return this.http.post(this.API_URL + '/categorias/setRecord',
+    return this.http.post(this.API_URL + '/cattipocategoria/setRecord',
       { dataPack,actionForm }
       , httpOptions);
   }
 
-  public getReporte(url,id_ze){
-    let params = new HttpParams().set("id_ze", id_ze);
-
-    this.http.get(this.API_URL + url, {responseType: 'arraybuffer',params: params}).subscribe( data => {
-      var file = new Blob([data], {type: 'application/pdf'});
-      var fileURL = window.URL.createObjectURL(file);
-      window.open(fileURL);
-  });
+  /* El siguiente método comprueba si un DOI está repetido y, por tanto, no puede usarse. */
+  public checkRepeatedDoi$(id, doi): Observable<string> {
+    return this.http.post(
+      this.API_URL + 'check_doi.php',
+      { id, doi },
+      { responseType: 'text' }
+    );
   }
-
 
 // array de modales
   public add(modal: any) {
