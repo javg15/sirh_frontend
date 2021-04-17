@@ -9,6 +9,8 @@ export default interface Cattipocategoria {
 
   desctipoplaza: string | null;
 
+  id_catplantillas: number | null;
+
   orden: number | null;
 
   state: string | null;
@@ -28,6 +30,8 @@ export interface CattipocategoriaInitializer {
   paratipificarcategoria?: number;
 
   desctipoplaza?: string;
+
+  id_catplantillas?: number | null;
 
   orden?: number;
 
