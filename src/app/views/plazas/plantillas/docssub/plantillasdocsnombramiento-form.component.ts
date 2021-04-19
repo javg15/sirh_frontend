@@ -69,6 +69,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   plazaOcupadaTitular:String;
   tipo:string;
   varAsignarHoras:boolean;
+  varAsignarHorasSemestres:boolean;
   //recordJsonTipodoc1:any={UltimoGradodeEstudios:0,AreadeCarrera:0,Carrera:0,Estatus:0};
 
   constructor(private isLoadingService: IsLoadingService,
@@ -91,7 +92,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
     return {
       id: 0,  id_plantillaspersonal: idParent, id_archivos:0,
       fechaexpedicion: null,  id_catestatusplaza: 0,  fechaini: null, fechafin: null,
-      id_personal_titular: 0,  horas: 0,   id_categorias: 0, id_plazas:0,
+      id_personal_titular: 0,  horas: 0, horasb: 0,  id_categorias: 0, id_plazas:0,
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }
@@ -179,6 +180,8 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
         //obtener el plantel de la plantilla
         this.plantillasSvc.getRecord(this.record.id_plantillaspersonal).subscribe(resp => {
           this.record_plantillaspersonal=resp;
+          this.varAsignarHorasSemestres=(this.record_plantillaspersonal.id_catplantillas==4?true:false);
+
           this.onSelectTipoNombramiento(this.record.id_catestatusplaza);
         });
     } else {
@@ -195,6 +198,8 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
         //obtener el plantel de la plantilla
         this.plantillasSvc.getRecord(this.record.id_plantillaspersonal).subscribe(resp => {
           this.record_plantillaspersonal=resp;
+          this.varAsignarHorasSemestres=(this.record_plantillaspersonal.id_catplantillas==4?true:false);
+
           this.onSelectTipoNombramiento(this.record.id_catestatusplaza);
           this.onSelectCategorias(this.record.id_categorias);
           this.plazasSvc.getPlazaSegunPersonal(this.record.id_personal_titular).subscribe(resp => {

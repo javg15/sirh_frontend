@@ -24,6 +24,8 @@ export default interface Plantillasdocsnombramiento {
 
   horas: number | null;
 
+  horasb: number | null;
+
   id_categorias: number | null;
 
   id_usuarios_r: number;
@@ -60,6 +62,8 @@ export interface PlantillasdocsnombramientoInitializer {
   id_personal_titular?: number;
 
   horas?: number;
+
+  horasb?: number;
 
   id_categorias?: number;
 

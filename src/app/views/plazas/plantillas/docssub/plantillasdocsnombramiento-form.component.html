@@ -63,10 +63,22 @@
                           </select>-->
                             </div>
                         </div>
-                        <div *ngIf="varAsignarHoras==true" class="form-group col-sm-4">
+                        <div *ngIf="varAsignarHoras==true && varAsignarHorasSemestres==false" class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="horas">Horas asignadas</label>
                                 <input type="text" [(ngModel)]="record.horas" class="form-control" name="Horas asignadas">
+                            </div>
+                        </div>
+                        <div *ngIf="varAsignarHorasSemestres==true" class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="horasB">Semestre A</label>
+                                <input type="text" [(ngModel)]="record.horas" class="form-control" name="Semestre A">
+                            </div>
+                        </div>
+                        <div *ngIf="varAsignarHorasSemestres==true" class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="horasB">Semestre B</label>
+                                <input type="text" [(ngModel)]="record.horasb" class="form-control" name="Semestre B">
                             </div>
                         </div>
                     </div>
