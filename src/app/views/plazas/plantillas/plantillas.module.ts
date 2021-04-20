@@ -16,6 +16,7 @@ import { PlantillasDocsNombramientoFormComponent } from './docssub/plantillasdoc
 import { PlantillasDocsFamiliaresFormComponent } from './docssub/plantillasdocsfamiliares-form.component';
 import { PlantillasDocsSindicatoFormComponent } from './docssub/plantillasdocssindicato-form.component';
 import { PlantillasDocsLicenciasFormComponent } from './docssub/plantillasdocslicencias-form.component';
+import { ReplacePipe } from '../../../_services/replace-pipe';
 
 import { DataTablesModule } from 'angular-datatables';
 
@@ -51,6 +52,7 @@ import { NgSelect2Module } from 'ng-select2';
     PlantillasDocsFamiliaresFormComponent,
     PlantillasDocsSindicatoFormComponent,
     PlantillasDocsLicenciasFormComponent,
+    ReplacePipe
   ],
   providers: [
     PlantillasService,

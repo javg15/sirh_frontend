@@ -73,7 +73,9 @@
                                             </div>
                                             <ng-template #elseBlock>
                                                 <ng-container *ngIf="col!='id' && col!='tipo_documento';else elseBlock2">
-                                                    <td>{{ member[col] }}</td>
+                                                    <td>
+                                                        <div [innerHtml]="member[col]"></div>
+                                                    </td>
                                                 </ng-container>
                                             </ng-template>
                                             <ng-template #elseBlock2></ng-template>

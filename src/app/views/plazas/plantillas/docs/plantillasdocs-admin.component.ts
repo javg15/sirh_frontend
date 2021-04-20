@@ -136,7 +136,8 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
         },
       },
       columns: this.headersAdmin,
-      columnDefs:[{"visible": false, "targets": [0,1]}]//ID, tipo
+      columnDefs:[{"visible": false, "targets": [0,1]},
+                {"width": "20%", "targets": [3]}]//ID, tipo
     };
 
   }

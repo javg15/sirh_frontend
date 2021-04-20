@@ -69,16 +69,18 @@
                                 <input type="text" [(ngModel)]="record.horas" class="form-control" name="Horas asignadas">
                             </div>
                         </div>
-                        <div *ngIf="varAsignarHorasSemestres==true" class="form-group col-sm-4">
+                    </div>
+                    <div class="row" *ngIf="varAsignarHorasSemestres==true">
+                        <div class="form-group col-sm-4">
                             <div class="form-group">
-                                <label for="horasB">Semestre A</label>
-                                <input type="text" [(ngModel)]="record.horas" class="form-control" name="Semestre A">
+                                <label for="horasB">Semestre A (Feb - Jun)</label>
+                                <input type="text" [(ngModel)]="record.horas" class="form-control" name="Semestre A" disabled>
                             </div>
                         </div>
-                        <div *ngIf="varAsignarHorasSemestres==true" class="form-group col-sm-4">
+                        <div class="form-group col-sm-4">
                             <div class="form-group">
-                                <label for="horasB">Semestre B</label>
-                                <input type="text" [(ngModel)]="record.horasb" class="form-control" name="Semestre B">
+                                <label for="horasB">Semestre B (Jul - Ene)</label>
+                                <input type="text" [(ngModel)]="record.horasb" class="form-control" name="Semestre B" disabled>
                             </div>
                         </div>
                     </div>

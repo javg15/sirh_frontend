@@ -41,7 +41,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
   @ViewChild('txtplazasdisponibles') txtplazasdisponibles: ElementRef;
   @ViewChild('txtplazasautorizadas') txtplazasautorizadas: ElementRef;
   @ViewChild('txtplazasautorizadasplantel') txtplazasautorizadasplantel: ElementRef;
-    @ViewChild('txtconsecutivo') txtconsecutivo: ElementRef;
+    //@ViewChild('txtconsecutivo') txtconsecutivo: ElementRef;
 
   record: Plazas;
   categoriasCat:Categorias[];
@@ -149,7 +149,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
           this.txtplazasdisponibles.nativeElement.style.backgroundColor ="";
       });
       this.plazasService.getConsecutivo(this.record.id_categorias).subscribe(resp => {
-        this.txtconsecutivo.nativeElement.value=resp;
+        this.record.consecutivo=resp;
       });
     }
   }

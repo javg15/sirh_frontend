@@ -73,6 +73,7 @@ export class CategoriasFormComponent implements OnInit, OnDestroy {
   record: Categorias;
   cattiponominaCat:Cattiponomina[];
   cattipocategoriaCat:Cattipocategoria[];
+  varHorasAsignadas:boolean;
 
   constructor(private isLoadingService: IsLoadingService,
       private categoriasService: CategoriasService, private el: ElementRef,
@@ -93,7 +94,7 @@ export class CategoriasFormComponent implements OnInit, OnDestroy {
   newRecord(): Categorias {
     return {
       id: 0,  clave: '', codigo:'', denominacion: '', nivelsalarial:'',id_cattipocategoria:0, id_tiponomina:0,
-      state: '', aplicaa:0, created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
+      horasasignadas:0, state: '', aplicaa:0, created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }
   ngOnInit(): void {
@@ -151,6 +152,12 @@ export class CategoriasFormComponent implements OnInit, OnDestroy {
       this.elementModal.remove();
   }
 
+  onSelectTipoCategoria(id_tipoCategoria) {
+    this.record.id_cattipocategoria=id_tipoCategoria;
+    //docente
+    this.varHorasAsignadas=(id_tipoCategoria==2);
+
+  }
 
   async submitAction(form) {
 
@@ -184,6 +191,7 @@ export class CategoriasFormComponent implements OnInit, OnDestroy {
     } else {
       this.categoriasService.getRecord(idItem).subscribe(resp => {
         this.record = resp;
+        this.varHorasAsignadas=(this.record.id_cattipocategoria==2);
         this.reDraw();
       });
     }

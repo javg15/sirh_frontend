@@ -20,6 +20,8 @@ export default interface Categorias {
 
   aplicaa: number | null;
 
+  horasasignadas: number | null;
+
   created_at: Date | null;
 
   updated_at: Date | null;
@@ -49,6 +51,8 @@ export interface CategoriasInitializer {
   id_tiponomina?: number;
 
   aplicaa?: number;
+
+  horasasignadas?: number;
 
   created_at?: Date;
 

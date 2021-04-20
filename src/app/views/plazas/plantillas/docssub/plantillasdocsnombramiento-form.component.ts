@@ -285,6 +285,11 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   }
 
   onSelectCategorias(valor:any){
+    if(this.varAsignarHorasSemestres && this.categoriasCat!=null){
+      this.record.horas=this.categoriasCat.find(a=>a.id==valor).horasasignadas;
+      this.record.horasb=this.categoriasCat.find(a=>a.id==valor).horasasignadas;
+    }
+
     this.categoriassueldosSvc.getRecordSegunCategoria(valor).subscribe(resp => {
       this.varAsignarHoras=false;
       this.categoriassueldosCat=resp;

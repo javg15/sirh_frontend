@@ -53,7 +53,7 @@
                         <div class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="id_cattipocategoria">Tipo de categoría</label>
-                                <select class="form-control" [(ngModel)]="record.id_cattipocategoria" name="Tipo de categoría">
+                                <select class="form-control" [(ngModel)]="record.id_cattipocategoria" name="Tipo de categoría" (change)="onSelectTipoCategoria($event.target.value)">
                                   <option *ngFor="let col of cattipocategoriaCat" [value]="col.id">{{ col.descripcion }}</option>
                             </select>
                             </div>
@@ -67,6 +67,14 @@
                                 <option value="2">Planteles</option>
                                 <option value="3">Ambos</option>
                           </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="varHorasAsignadas==true" class="row">
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="horasasignadas">Horas asignadas</label>
+                                <input type="text" [(ngModel)]="record.horasasignadas" class="form-control" name="Horas asignadas">
                             </div>
                         </div>
                     </div>
