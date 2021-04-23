@@ -21,7 +21,9 @@ export class SearchAdminComponent implements OnInit {
 
   selectedItemsCampos: any = {id: 0, idesc: '', orden: 0};
   selectedItemsOperadores: any = {id: 0, idesc: '', orden: 0};
+  tipoEdicion:number;
   valorBuscar: string;
+  comboCat:any={id:"---------",idesc:"----------"};
 
   constructor(private searchService: SearchService) {
   }
@@ -33,7 +35,9 @@ export class SearchAdminComponent implements OnInit {
         this.itemsCampos.push({
           id: resp.data[i].id,
           idesc: resp.data[i].idesc,
-          orden: resp.data[i].orden
+          orden: resp.data[i].orden,
+          edicion:resp.data[i].edicion,
+          valores:resp.data[i].valores,
         });
       }
     });
@@ -55,8 +59,18 @@ export class SearchAdminComponent implements OnInit {
 
   onSelectCampos(id_campo) {
     this.itemsOperadores = [{id: 0, idesc: '', orden: 0}];
+    this.tipoEdicion=this.itemsCampos.find(a=>a.id==id_campo).edicion;
+    this.valorBuscar="";
+    if(this.tipoEdicion==1){//combo
+      this.comboCat=JSON.parse(this.itemsCampos.find(a=>a.id==id_campo).valores);
+    }
+
     this.searchService.getSearchoperadores(id_campo).subscribe(resp => {
       for (let i = 0; i < resp.data.length; i++) {
+        if(i==0){
+          this.selectedItemsOperadores.id=resp.data[0].id;
+        }
+
         this.itemsOperadores.push({
           id: resp.data[i].id,
           idesc: resp.data[i].idesc,
@@ -65,6 +79,11 @@ export class SearchAdminComponent implements OnInit {
       }
     });
   }
+
+  onSelectComboValor(valor){
+    this.valorBuscar=valor;
+  }
+
 
   onClickBuscar() {
 
