@@ -181,8 +181,8 @@ export class CategoriasdetalleFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  changeCmdEditarHorPla(e){
-    this.varEditarHorPla=e;
+  changeCmdEditarHorPla(value){
+    this.varEditarHorPla=value;
     this.HideShowEditarHorPla();
 
   }
