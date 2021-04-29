@@ -34,7 +34,7 @@
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="verpor">Editar...</label>
-                                <select class="form-control" id="cmdEditarHorPla" (change)="changeCmdEditarHorPla($event)">
+                                <select class="form-control" id="cmdEditarHorPla" (change)="changeCmdEditarHorPla($event.target.value)">
                                   <option value="1">Plazas autorizadas</option>
                                   <option value="2">Horas autorizadas</option>
                                 </select>

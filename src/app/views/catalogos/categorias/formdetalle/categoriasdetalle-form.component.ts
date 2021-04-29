@@ -53,7 +53,7 @@ export class CategoriasdetalleFormComponent implements OnInit, OnDestroy {
   };
   private dtOptionsAdicional = { datosBusqueda: {campo: 0, operador: 0, valor: ''}
     ,raw:0
-    ,fkey:'id_categorias'
+    ,fkey:'id_categoriasdetalle'
     ,fkeyvalue:0
     ,modo:2
   };
@@ -61,7 +61,7 @@ export class CategoriasdetalleFormComponent implements OnInit, OnDestroy {
   NumberOfMembers = 0;
   API_URL = environment.APIS_URL;
 
-  nombreModulo = 'Categorias';
+  nombreModulo = 'Categoriasdetalle';
 
   headersAdmin: any;
 
@@ -182,7 +182,7 @@ export class CategoriasdetalleFormComponent implements OnInit, OnDestroy {
   }
 
   changeCmdEditarHorPla(e){
-    this.varEditarHorPla=e.target.value;
+    this.varEditarHorPla=e;
     this.HideShowEditarHorPla();
 
   }
@@ -201,12 +201,14 @@ export class CategoriasdetalleFormComponent implements OnInit, OnDestroy {
 
     if(idItem=="0"){
       this.record =this.newRecord(idParent);
+      this.reDraw();
     } else {
-    this.categoriasdetalleService.getRecord(idItem).subscribe(resp => {
-      this.record = resp;
-      this.varEditarHorPla=this.record.totalhorasaut==0 ? "1" : "2";
-      this.HideShowEditarHorPla();
-    });
+      this.categoriasdetalleService.getRecord(idItem).subscribe(resp => {
+        this.record = resp;
+        this.varEditarHorPla=this.record.totalhorasaut==0 ? "1" : "2";
+        this.HideShowEditarHorPla();
+        this.reDraw();
+      });
   }
 
     // console.log($('#modalTest').html()); poner el id a algun elemento para testear
@@ -237,6 +239,7 @@ export class CategoriasdetalleFormComponent implements OnInit, OnDestroy {
 
 
     this.dtOptionsAdicional.raw++;
+    console.log("this.record.id=>",this.record.id)
     this.dtOptionsAdicional.fkeyvalue=this.record.id;
     this.dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
 
