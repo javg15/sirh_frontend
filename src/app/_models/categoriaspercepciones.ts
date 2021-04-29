@@ -14,6 +14,10 @@ export default interface Categoriaspercepciones {
 
   fecha_fin: Date | null;
 
+  id_catquincena_ini: number;
+
+  id_catquincena_fin: number,
+
   id_usuarios_r: number;
 
   state: string;
@@ -37,6 +41,10 @@ export interface CategoriaspercepcionesInitializer {
   fecha_inicio?: Date;
 
   fecha_fin?: Date;
+
+  id_catquincena_ini?: number;
+
+  id_catquincena_fin?: number,
 
   /** Default value: 0 */
   id_usuarios_r?: number;

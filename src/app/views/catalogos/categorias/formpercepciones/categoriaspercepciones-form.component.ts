@@ -4,7 +4,7 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Categoriaspercepciones } from '../../../../_models';
+import { Categoriaspercepciones, Catquincena } from '../../../../_models';
 import { CatquincenaService } from '../../catquincena/services/catquincena.service';
 import { CatzonaeconomicaService } from '../../catzonaeconomica/services/catzonaeconomica.service';
 
@@ -14,6 +14,7 @@ import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 
 import { CategoriaspercepcionesService } from '../services/categoriaspercepciones.service';
+import * as moment from 'moment';
 
 declare var $: any;
 declare var jQuery: any;
@@ -47,6 +48,7 @@ export class CategoriaspercepcionesFormComponent implements OnInit, OnDestroy {
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
 
   record: Categoriaspercepciones;
+  catquincenaCat:Catquincena[];
 
   public customPatterns = { '0': { pattern: new RegExp('\[0-9a-zA-Z\\u00C0-\\u00FF \]')} };
 
@@ -57,12 +59,15 @@ export class CategoriaspercepcionesFormComponent implements OnInit, OnDestroy {
     private categoriaspercepcionesService: CategoriaspercepcionesService
       ) {
       this.elementModal = el.nativeElement;
+      this.catquincenaSvc.getCatalogoSegunAnio(moment().format('YYYY')).subscribe(resp => {
+        this.catquincenaCat = resp;
+      });
   }
 
   newRecord(idParent:number): Categoriaspercepciones {
     return {
       id: 0,  id_categoriasdetalle:idParent, fecha_inicio:null, fecha_fin:null,
-      importe:0,
+      id_catquincena_ini: 0, id_catquincena_fin: 0, importe:0,
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }

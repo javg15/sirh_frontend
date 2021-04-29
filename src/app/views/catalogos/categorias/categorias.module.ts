@@ -14,6 +14,7 @@ import { CategoriaspercepcionesFormComponent } from './formpercepciones/categori
 import { DataTablesModule } from 'angular-datatables';
 
 import { NgxMaskModule, IConfig } from 'ngx-mask'
+import { NgSelect2Module } from 'ng-select2';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -28,6 +29,7 @@ const maskConfig: Partial<IConfig> = {
     ModalModule.forRoot(),
     SharedModule,
     NgxMaskModule.forRoot(maskConfig),
+    NgSelect2Module
   ],
   declarations: [
     CategoriasAdminComponent,

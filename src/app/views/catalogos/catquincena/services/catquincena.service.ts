@@ -68,6 +68,13 @@ export class CatquincenaService {
       , httpOptions);
   }
 
+  public getCatalogoSegunAnio(anio): Observable<any> {
+    return this.http.post(this.API_URL + '/catquincena/getCatalogoSegunAnio',
+      { anio }
+      , httpOptions);
+  }
+
+
 // array de modales
   public add(modal: any) {
         this.modals.push(modal);

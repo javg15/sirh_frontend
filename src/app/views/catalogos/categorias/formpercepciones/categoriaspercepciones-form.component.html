@@ -16,19 +16,33 @@
                         <input type="hidden" [(ngModel)]="record.id_categoriasdetalle" class="form-control" name="Código">
                     </div>
                     <div class="row">
-                        <div class="form-group col-sm-3">
+                        <!--<div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="fecha_inicio">Fecha inicio</label>
                                 <input type="date" [(ngModel)]="record.fecha_inicio" class="form-control" name="Fecha inicio">
-                                <!--<select class="form-control" [(ngModel)]="record.fecha_inicio" name="Fecha inicio">
+                                <--<select class="form-control" [(ngModel)]="record.fecha_inicio" name="Fecha inicio">
                                   <option *ngFor="let col of catquincenaCat" [value]="col.id">{{ col.fechainicio.toString() + ' - ' + col.fechafin.toString() }}</option>
-                                </select>-->
+                                </select>--
                             </div>
                         </div>
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="fecha_fin">Fecha final</label>
                                 <input type="date" [(ngModel)]="record.fecha_fin" class="form-control" name="Fecha final">
+                            </div>
+                        </div>-->
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="id_catquincena_ini">Quincena inicio</label>
+                                <ng-select2 [(ngModel)]="record.id_catquincena_ini" [data]="catquincenaCat" [allowClear]="true" allowClear="true" width="100%" name="Quincena inicio">
+                                </ng-select2>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="id_catquincena_fin">Quincena fin</label>
+                                <ng-select2 [(ngModel)]="record.id_catquincena_fin" [data]="catquincenaCat" [allowClear]="true" allowClear="true" width="100%" name="Quincena fin">
+                                </ng-select2>
                             </div>
                         </div>
                         <div class="form-group col-sm-3">
