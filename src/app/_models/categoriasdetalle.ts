@@ -6,7 +6,7 @@ export default interface Categoriasdetalle {
   /** Primary key. Index: categoriasautorizadas_pkey */
   id: CategoriasdetalleId;
 
-  clave: string | null;
+  codigo: string | null;
 
   id_categorias: number | null;
 
@@ -32,7 +32,7 @@ export interface CategoriasdetalleInitializer {
    */
   id?: CategoriasdetalleId;
 
-  clave?: string;
+  codigo?: string;
 
   id_categorias?: number;
 

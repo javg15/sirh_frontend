@@ -98,7 +98,7 @@ export class CategoriasdetalleFormComponent implements OnInit, OnDestroy {
 
   newRecord(idParent:number): Categoriasdetalle {
     return {
-      id: 0,  clave: '', id_categorias:idParent,
+      id: 0,  codigo: '', id_categorias:idParent,
       totalplazaaut:0, totalhorasaut:0, id_catzonaeconomica:0,
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };

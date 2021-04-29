@@ -157,7 +157,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
       this.categoriasdetalleSvc.getCatalogo(this.record.id_categorias).subscribe(resp => {
         this.categoriasdetalleCat = resp;
         if(this.categoriasdetalleCat.length>0)//si solo existe un registro
-          this.categoriasdetalleCat.unshift({id:null,clave:'',clave_ze:''});
+          this.categoriasdetalleCat.unshift({id:null,codigo:'',clave_ze:''});
       });
     }
   }
