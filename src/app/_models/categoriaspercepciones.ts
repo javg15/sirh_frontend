@@ -1,26 +1,18 @@
 // Automatically generated. Don't change this file manually.
 
-export type CategoriassueldosId = number & { __flavor?: 'categoriassueldos' };
+export type CategoriaspercepcionesId = number & { __flavor?: 'categoriaspercepciones' };
 
-export default interface Categoriassueldos {
+export default interface Categoriaspercepciones {
   /** Primary key. Index: categoriasautorizadas_pkey */
-  id: CategoriassueldosId;
+  id: CategoriaspercepcionesId;
 
-  clave: string | null;
-
-  id_categorias: number | null;
+  id_categoriasdetalle: number | null;
 
   importe: number | null;
 
   fecha_inicio: Date | null;
 
   fecha_fin: Date | null;
-
-  totalplazaaut: number | null;
-
-  totalhorasaut: number | null;
-
-  id_catzonaeconomica: number | null;
 
   id_usuarios_r: number;
 
@@ -31,28 +23,20 @@ export default interface Categoriassueldos {
   updated_at: Date | null;
 }
 
-export interface CategoriassueldosInitializer {
+export interface CategoriaspercepcionesInitializer {
   /**
    * Default value: nextval('categoriasautorizadas_id_seq'::regclass)
    * Primary key. Index: categoriasautorizadas_pkey
    */
-  id?: CategoriassueldosId;
+  id?: CategoriaspercepcionesId;
 
-  clave?: string;
-
-  id_categorias?: number;
+  id_categoriasdetalle?: number;
 
   importe?: number;
 
   fecha_inicio?: Date;
 
   fecha_fin?: Date;
-
-  totalplazaaut?: number;
-
-  totalhorasaut?: number;
-
-  id_catzonaeconomica?: number;
 
   /** Default value: 0 */
   id_usuarios_r?: number;

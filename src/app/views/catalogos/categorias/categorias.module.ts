@@ -9,9 +9,15 @@ import { CategoriasRoutingModule } from './categorias-routing.module';
 import { CategoriasService } from './services/categorias.service';
 import { CategoriasAdminComponent } from './admin/categorias-admin.component';
 import { CategoriasFormComponent } from './form/categorias-form.component';
-import { CategoriassueldosFormComponent } from './formsub/categoriassueldos-form.component';
+import { CategoriasdetalleFormComponent } from './formdetalle/categoriasdetalle-form.component';
+import { CategoriaspercepcionesFormComponent } from './formpercepciones/categoriaspercepciones-form.component';
 import { DataTablesModule } from 'angular-datatables';
 
+import { NgxMaskModule, IConfig } from 'ngx-mask'
+
+const maskConfig: Partial<IConfig> = {
+  validation: false,
+};
 
 @NgModule({
   imports: [
@@ -20,12 +26,14 @@ import { DataTablesModule } from 'angular-datatables';
     FormsModule,
     DataTablesModule,
     ModalModule.forRoot(),
-    SharedModule
+    SharedModule,
+    NgxMaskModule.forRoot(maskConfig),
   ],
   declarations: [
     CategoriasAdminComponent,
     CategoriasFormComponent,
-    CategoriassueldosFormComponent
+    CategoriasdetalleFormComponent,
+    CategoriaspercepcionesFormComponent
   ],
   providers: [
     CategoriasService

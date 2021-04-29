@@ -44,7 +44,14 @@
                                 </select>-->
                             </div>
                         </div>
-
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="id_categoriasdetalle">Código</label>
+                                <select id="selectPlantel" class="form-control" [(ngModel)]="record.id_categoriasdetalle" name="Código">
+                                <option *ngFor="let col of categoriasdetalleCat" [value]="col.id">{{ col.clave + " - " + col.clave_ze }}</option>
+                              </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <!--<div class="form-group col-sm-4">

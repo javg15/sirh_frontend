@@ -64,7 +64,7 @@ export class UsuariosFormdirectComponent implements OnInit {
 
   newRecord(): Usuarios {
     return {
-      id: 0,  username: '',   pass: '',
+      id: 0,  username: '',   pass: '',record_catzonasgeograficas:[],
       uPassenc: '',  perfil: 0,  nombre: '',   numemp: '',   created_at: new Date(),  updated_at: new Date(),
       id_permgrupos: 0, id_usuarios_r: 0, state: '',  email: '', id_archivos_avatar:0
     };

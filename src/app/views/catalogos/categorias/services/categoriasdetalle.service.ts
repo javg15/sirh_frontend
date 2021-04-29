@@ -14,7 +14,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class CategoriassueldosService {
+export class CategoriasdetalleService {
   public API_URL = environment.APIS_URL;
   private modals: any[] = [];
 
@@ -29,7 +29,7 @@ export class CategoriassueldosService {
       setTimeout(()=>{
         this.http.post<DataTablesResponse>(
           // this.API_URL + '/a6b_apis/read_records_dt.php',
-          this.API_URL + '/categoriassueldos/getAdmin',
+          this.API_URL + '/categoriasdetalle/getAdmin',
           {solocabeceras:1,opcionesAdicionales:{raw:0}}, {}
         ).subscribe(resp => {
             if(resp.data.length>0)
@@ -42,15 +42,15 @@ export class CategoriassueldosService {
     })
   }
   /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
-  public getCatalogo(id_region): Observable<any> {
-    return this.http.post(this.API_URL + '/categoriassueldos/getCatalogo',
-      { id_region }
+  public getCatalogo(id_categorias): Observable<any> {
+    return this.http.post(this.API_URL + '/categoriasdetalle/getCatalogo',
+      { id_categorias }
       , httpOptions);
   }
 
   /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
   public getAdmin(dataTablesParameters): Observable<any> {
-    return this.http.post(this.API_URL + '/categoriassueldos/getAdmin',
+    return this.http.post(this.API_URL + '/categoriasdetalle/getAdmin',
       { dataTablesParameters }
       , httpOptions);
   }
@@ -58,14 +58,14 @@ export class CategoriassueldosService {
 
   /* El siguiente método lee los datos de un registro seleccionado para edición. */
   public getRecord(id: any): Observable<any> {
-    return this.http.post(this.API_URL + '/categoriassueldos/getRecord',
+    return this.http.post(this.API_URL + '/categoriasdetalle/getRecord',
       { id }
       , httpOptions);
   }
 
 
 public getRecordSegunCategoria(id_categorias: any): Observable<any> {
-  return this.http.post(this.API_URL + '/categoriassueldos/getRecordSegunCategoria',
+  return this.http.post(this.API_URL + '/categoriasdetalle/getRecordSegunCategoria',
     { id_categorias }
     , httpOptions);
 }
@@ -73,7 +73,7 @@ public getRecordSegunCategoria(id_categorias: any): Observable<any> {
   /* El siguiente método graba un registro nuevo, o uno editado. */
   public setRecord(dataPack,actionForm): Observable<any> {
 
-    return this.http.post(this.API_URL + '/categoriassueldos/setRecord',
+    return this.http.post(this.API_URL + '/categoriasdetalle/setRecord',
       { dataPack,actionForm }
       , httpOptions);
   }

@@ -12,15 +12,11 @@ import { UsuariosFormComponent } from './form/usuarios-form.component';
 import { UsuariosFormdirectComponent } from './formdirect/usuarios-formdirect.component';
 import { DataTablesModule } from 'angular-datatables';
 
-import { NgxMaskModule, IConfig } from 'ngx-mask'
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 
 // Tabs Component
 import { TabsModule } from 'ngx-bootstrap/tabs';
 
-
-const maskConfig: Partial<IConfig> = {
-  validation: false,
-};
 
 @NgModule({
   imports: [
@@ -30,8 +26,8 @@ const maskConfig: Partial<IConfig> = {
     DataTablesModule,
     ModalModule.forRoot(),
     SharedModule,
-    NgxMaskModule.forRoot(maskConfig),
     TabsModule.forRoot(),
+    AngularMultiSelectModule
   ],
   declarations: [
     UsuariosAdminComponent,

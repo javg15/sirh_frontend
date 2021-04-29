@@ -13,16 +13,9 @@
                     <input type="hidden" name="action" value="{{ actionForm }}">
                     <div class="form-group">
                         <input type="hidden" [(ngModel)]="record.id" class="form-control" name="ID">
-                        <input type="hidden" [(ngModel)]="record.id_categorias" class="form-control" name="Código">
+                        <input type="hidden" [(ngModel)]="record.id_categoriasdetalle" class="form-control" name="Código">
                     </div>
                     <div class="row">
-                        <div class="form-group col-sm-2">
-                            <div class="form-group">
-                                <label for="clave">Clave</label>
-                                <input type="text" [(ngModel)]="record.clave" class="form-control" name="Clave">
-                            </div>
-                        </div>
-
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="fecha_inicio">Fecha inicio</label>
@@ -36,37 +29,6 @@
                             <div class="form-group">
                                 <label for="fecha_fin">Fecha final</label>
                                 <input type="date" [(ngModel)]="record.fecha_fin" class="form-control" name="Fecha final">
-                            </div>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="id_catzonaeconomica">Zona Económica</label>
-                                <select class="form-control" [(ngModel)]="record.id_catzonaeconomica" name="Zona Económica">
-                              <option *ngFor="let col of catzonaeconomicaCat" [value]="col.id">{{ col.descripcion }}</option>
-                            </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-3">
-                            <div class="form-group">
-                                <label for="verpor">Editar...</label>
-                                <select class="form-control" id="cmdEditarHorPla" (change)="changeCmdEditarHorPla($event)">
-                                  <option value="1">Plazas autorizadas</option>
-                                  <option value="2">Horas autorizadas</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div *ngIf="varEditarHorPla=='1'" class="form-group col-sm-3">
-                            <div class="form-group">
-                                <label for="totalplazaaut">Plazas autorizadas</label>
-                                <input type="text" [(ngModel)]="record.totalplazaaut" class="form-control" name="Plazas autorizadas">
-                            </div>
-                        </div>
-                        <div *ngIf="varEditarHorPla=='2'" class="form-group col-sm-3">
-                            <div class="form-group">
-                                <label for="totalhorasaut">Horas autorizadas</label>
-                                <input type="text" [(ngModel)]="record.totalhorasaut" class="form-control" name="Horas autorizadas">
                             </div>
                         </div>
                         <div class="form-group col-sm-3">

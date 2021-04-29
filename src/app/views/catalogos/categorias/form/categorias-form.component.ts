@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter  } from '@angular/core';
 import { CategoriasService } from '../services/categorias.service';
-import { CategoriassueldosService } from '../services/categoriassueldos.service';
+import { CategoriasdetalleService } from '../services/categoriasdetalle.service';
 import { ActivatedRoute } from '@angular/router';
 
 import { DataTablesResponse } from '../../../../classes/data-tables-response';
@@ -58,7 +58,7 @@ export class CategoriasFormComponent implements OnInit, OnDestroy {
   NumberOfMembers = 0;
   API_URL = environment.APIS_URL;
 
-  nombreModulo = 'Categoriassueldos';
+  nombreModulo = 'Categorias';
 
   headersAdmin: any;
 
@@ -77,7 +77,7 @@ export class CategoriasFormComponent implements OnInit, OnDestroy {
 
   constructor(private isLoadingService: IsLoadingService,
       private categoriasService: CategoriasService, private el: ElementRef,
-    private categoriassueldosService: CategoriassueldosService,
+    private categoriasdetalleService: CategoriasdetalleService,
     private cattiponominaSvc: CattiponominaService,
     private cattipocategoriaSvc:CattipocategoriaService,
     private route: ActivatedRoute
@@ -112,7 +112,7 @@ export class CategoriasFormComponent implements OnInit, OnDestroy {
     modal.categoriasService.add(modal);
 
       //subtabla datatable
-    this.headersAdmin = this.route.snapshot.data.userdataSueldos; // get data from resolver
+    this.headersAdmin = this.route.snapshot.data.userdataDetalle; // get data from resolver
 
     this.dtOptions = {
       pagingType: 'full_numbers',
@@ -214,11 +214,11 @@ export class CategoriasFormComponent implements OnInit, OnDestroy {
 
   //Sub formulario
   openModal(id: string, accion: string, idItem: number,idParent:number) {
-    this.categoriassueldosService.open(id, accion, idItem,idParent);
+    this.categoriasdetalleService.open(id, accion, idItem,idParent);
   }
 
   closeModal(id: string) {
-    this.categoriassueldosService.close(id);
+    this.categoriasdetalleService.close(id);
   }
 
   reDraw(): void {
@@ -228,13 +228,13 @@ export class CategoriasFormComponent implements OnInit, OnDestroy {
     this.dtOptionsAdicional.fkeyvalue=this.record.id;
     this.dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
 
-    this.categoriassueldosService.getAdmin(this.dataTablesParameters).subscribe(resp => {
+    this.categoriasdetalleService.getAdmin(this.dataTablesParameters).subscribe(resp => {
 
         this.ColumnNames = resp.columnNames;
         this.Members = resp.data;
         this.NumberOfMembers = resp.data.length;
         $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
-        //$('#tblCategoriassueldos').dataTable({searching: false, paging: false, info: false});
+        //$('#tblCategoriasdetalle').dataTable({searching: false, paging: false, info: false});
         if (this.NumberOfMembers > 0) {
           $('.dataTables_empty').css('display', 'none');
         }

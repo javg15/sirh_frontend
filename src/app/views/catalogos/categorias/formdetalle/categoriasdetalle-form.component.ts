@@ -4,28 +4,32 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Categoriassueldos, Catzonaeconomica, Catquincena } from '../../../../_models';
+import { Categoriasdetalle, Catzonaeconomica, Catquincena } from '../../../../_models';
 import { CatquincenaService } from '../../catquincena/services/catquincena.service';
 import { CatzonaeconomicaService } from '../../catzonaeconomica/services/catzonaeconomica.service';
+import { ActivatedRoute } from '@angular/router';
 
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
+import { environment } from '../../../../../../src/environments/environment';
 
-import { CategoriassueldosService } from '../services/categoriassueldos.service';
+import { CategoriasdetalleService } from '../services/categoriasdetalle.service';
+import { CategoriaspercepcionesService } from '../services/categoriaspercepciones.service';
 
 declare var $: any;
 declare var jQuery: any;
 
 @Component({
-  selector: 'app-categoriassueldos-form',
-  templateUrl: './categoriassueldos-form.component.html',
-  styleUrls: ['./categoriassueldos-form.component.css']
+  selector: 'app-categoriasdetalle-form',
+  templateUrl: './categoriasdetalle-form.component.html',
+  styleUrls: ['./categoriasdetalle-form.component.css']
 })
 
-export class CategoriassueldosFormComponent implements OnInit, OnDestroy {
+export class CategoriasdetalleFormComponent implements OnInit, OnDestroy {
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
+  @Input() dtOptions: DataTables.Settings = {};
   @Input() id: string; //idModal
   @Input() botonAccion: string; //texto del boton según acción
   @Input() varEditarHorPla: string = "1";
@@ -38,6 +42,28 @@ export class CategoriassueldosFormComponent implements OnInit, OnDestroy {
   dtInstance: Promise<DataTables.Api>;
   dtTrigger: Subject<DataTableDirective> = new Subject();
 
+  Members: any[];
+  ColumnNames: string[];
+
+  private dataTablesParameters={
+    draw: 1,  length: 100 , opcionesAdicionales: {},
+    order: [{column: 0, dir: "asc"}],
+    search: {value: "", regex: false},
+    start: 0
+  };
+  private dtOptionsAdicional = { datosBusqueda: {campo: 0, operador: 0, valor: ''}
+    ,raw:0
+    ,fkey:'id_categorias'
+    ,fkeyvalue:0
+    ,modo:2
+  };
+
+  NumberOfMembers = 0;
+  API_URL = environment.APIS_URL;
+
+  nombreModulo = 'Categorias';
+
+  headersAdmin: any;
 
   actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
@@ -47,15 +73,19 @@ export class CategoriassueldosFormComponent implements OnInit, OnDestroy {
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
 
-  record: Categoriassueldos;
+  record: Categoriasdetalle;
   catquincenaCat:Catquincena[];
   catzonaeconomicaCat:Catzonaeconomica[];
+
+  public customPatterns = { '0': { pattern: new RegExp('\[0-9a-zA-Z\\u00C0-\\u00FF \]')} };
 
   constructor(private isLoadingService: IsLoadingService,
     private el: ElementRef,
     private catzonaeconomicaSvc: CatzonaeconomicaService,
     private catquincenaSvc: CatquincenaService,
-    private categoriassueldosService: CategoriassueldosService
+    private categoriasdetalleService: CategoriasdetalleService,
+    private categoriaspercepcionesService: CategoriaspercepcionesService,
+    private route: ActivatedRoute
       ) {
       this.elementModal = el.nativeElement;
       this.catzonaeconomicaSvc.getCatalogo().subscribe(resp => {
@@ -66,10 +96,10 @@ export class CategoriassueldosFormComponent implements OnInit, OnDestroy {
       });
   }
 
-  newRecord(idParent:number): Categoriassueldos {
+  newRecord(idParent:number): Categoriasdetalle {
     return {
-      id: 0,  clave: '', id_categorias:idParent, fecha_inicio:null, fecha_fin:null,
-      totalplazaaut:0, totalhorasaut:0, id_catzonaeconomica:0, importe:0,
+      id: 0,  clave: '', id_categorias:idParent,
+      totalplazaaut:0, totalhorasaut:0, id_catzonaeconomica:0,
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }
@@ -85,7 +115,40 @@ export class CategoriassueldosFormComponent implements OnInit, OnDestroy {
           return;
       }
       // add self (this modal instance) to the modal service so it's accessible from controllers
-      modal.categoriassueldosService.add(modal);
+      modal.categoriasdetalleService.add(modal);
+
+      //subtabla datatable
+      this.headersAdmin = this.route.snapshot.data.userdataPercepciones; // get data from resolver
+
+      this.dtOptions = {
+        pagingType: 'full_numbers',
+        paging:false,
+        //pageLength: 50,
+        //serverSide: true,
+        //processing: true,
+        ordering:false,
+        destroy : true,
+        searching : false,
+        info: false,
+        language: {
+          emptyTable: '',
+          zeroRecords: 'No hay coincidencias',
+          lengthMenu: 'Mostrar _MENU_ elementos',
+          search: 'Buscar:',
+          info: 'De _START_ a _END_ de _TOTAL_ elementos',
+          infoEmpty: 'De 0 a 0 de 0 elementos',
+          infoFiltered: '(filtrados de _MAX_ elementos totales)',
+          paginate: {
+            first: 'Prim.',
+            last: 'Últ.',
+            next: 'Sig.',
+            previous: 'Ant.'
+          },
+        },
+        columns: this.headersAdmin,
+        columnDefs:[{"visible": false, "targets": 0}, //state
+                  {"width": "5%", "targets": 1}]
+      };
 
       //loading
       this.userFormIsPending =this.isLoadingService.isLoading$({ key: 'loading' });
@@ -93,7 +156,7 @@ export class CategoriassueldosFormComponent implements OnInit, OnDestroy {
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-      this.categoriassueldosService.remove(this.id); //idModal
+      this.categoriaspercepcionesService.remove(this.id); //idModal
       this.elementModal.remove();
   }
 
@@ -104,7 +167,7 @@ export class CategoriassueldosFormComponent implements OnInit, OnDestroy {
       this.validSummary.resetErrorMessages(form);
 
       await this.isLoadingService.add(
-      this.categoriassueldosService.setRecord(this.record,this.actionForm).subscribe(resp => {
+      this.categoriasdetalleService.setRecord(this.record,this.actionForm).subscribe(resp => {
         if (resp.hasOwnProperty('error')) {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
         }
@@ -139,7 +202,7 @@ export class CategoriassueldosFormComponent implements OnInit, OnDestroy {
     if(idItem=="0"){
       this.record =this.newRecord(idParent);
     } else {
-    this.categoriassueldosService.getRecord(idItem).subscribe(resp => {
+    this.categoriasdetalleService.getRecord(idItem).subscribe(resp => {
       this.record = resp;
       this.varEditarHorPla=this.record.totalhorasaut==0 ? "1" : "2";
       this.HideShowEditarHorPla();
@@ -161,6 +224,34 @@ export class CategoriassueldosFormComponent implements OnInit, OnDestroy {
   // log contenido de objeto en formulario
   get diagnosticValidate() { return JSON.stringify(this.record); }
 
+  //Sub formulario
+  openModal(id: string, accion: string, idItem: number,idParent:number) {
+    this.categoriaspercepcionesService.open(id, accion, idItem,idParent);
+  }
 
+  closeModal(id: string) {
+    this.categoriaspercepcionesService.close(id);
+  }
+
+  reDraw(): void {
+
+
+    this.dtOptionsAdicional.raw++;
+    this.dtOptionsAdicional.fkeyvalue=this.record.id;
+    this.dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
+
+    this.categoriaspercepcionesService.getAdmin(this.dataTablesParameters).subscribe(resp => {
+
+        this.ColumnNames = resp.columnNames;
+        this.Members = resp.data;
+        this.NumberOfMembers = resp.data.length;
+        $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
+        //$('#tblCategoriasdetalle').dataTable({searching: false, paging: false, info: false});
+        if (this.NumberOfMembers > 0) {
+          $('.dataTables_empty').css('display', 'none');
+        }
+      }
+    );
+  }
 
 }

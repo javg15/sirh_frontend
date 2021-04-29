@@ -37,7 +37,7 @@ export class PersonalAdminComponent implements OnInit {
 
   private dtOptionsAdicional = { datosBusqueda: {campo: 0, operador: 0, valor: ''},raw:0};
 
-  nombreModulo = 'Personas';
+  nombreModulo = 'Personal';
 
   headersAdmin: any;
 

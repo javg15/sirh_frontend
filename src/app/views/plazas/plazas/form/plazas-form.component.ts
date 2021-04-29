@@ -6,8 +6,10 @@ import { CatcentrostrabajoService } from '../../../catalogos/catcentrostrabajo/s
 import { CatzonaeconomicaService } from '../../../catalogos/catzonaeconomica/services/catzonaeconomica.service';
 import { CatzonageograficaService } from '../../../catalogos/catzonageografica/services/catzonageografica.service';
 import { CatestatusplazaService } from '../../../catalogos/catestatusplaza/services/catestatusplaza.service';
+import { CategoriasdetalleService } from '../../../catalogos/categorias/services/categoriasdetalle.service';
+
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Plazas, Categorias, Catcentrostrabajo, Catplanteles, Catzonaeconomica, Catzonageografica, Catestatusplaza,Catsindicato } from '../../../../_models';
+import { Plazas, Categorias, Catcentrostrabajo, Catplanteles, Catzonaeconomica, Catzonageografica, Catestatusplaza,Categoriasdetalle } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
@@ -50,7 +52,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
   catzonaeconomicaCat:Catzonaeconomica[];
   catzonageograficaCat:Catzonageografica[];
   catestatusplazaCat:Catestatusplaza[];
-
+  categoriasdetalleCat:any[];
 
 
   constructor(private isLoadingService: IsLoadingService,
@@ -59,6 +61,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
       private catcentrostrabajoSvc: CatcentrostrabajoService,
       private catzonaeconomicaSvc: CatzonaeconomicaService,
       private catzonageograficaSvc: CatzonageograficaService,
+      private categoriasdetalleSvc: CategoriasdetalleService,
       private categoriasSvc: CategoriasService,
         private catestatusplazaSvc: CatestatusplazaService,
 
@@ -79,7 +82,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
     return {
       id: 0,id_categorias: 0,consecutivo: 0, id_catplanteles: 0,  id_catcentrostrabajo: 0,
       state: '', id_catplantelescobro: 0, id_catzonageografica: 0, fecha_creacion: null,
-      fecha_fin: null, id_catestatusplaza: 1, statussicodes: 0, id_puesto: 0,estatus:'',
+      fecha_fin: null, id_catestatusplaza: 1, statussicodes: 0, id_puesto: 0,estatus:'',id_categoriasdetalle:0,
       id_catsindicato: 0, created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }
@@ -151,6 +154,11 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
       this.plazasService.getConsecutivo(this.record.id_categorias).subscribe(resp => {
         this.record.consecutivo=resp;
       });
+      this.categoriasdetalleSvc.getCatalogo(this.record.id_categorias).subscribe(resp => {
+        this.categoriasdetalleCat = resp;
+        if(this.categoriasdetalleCat.length>0)//si solo existe un registro
+          this.categoriasdetalleCat.unshift({id:null,clave:'',clave_ze:''});
+      });
     }
   }
 
@@ -209,8 +217,17 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
           this.tituloForm=titulosModal[accion] + " registro - " + resp[0].clave;
         });
 
-        this.onSelectPlantel(resp.id_catplanteles);
-        this.onSelectCategoria(resp.id_categorias);
+        //se pasa a esta variable porque en alguna parte desconocida  this.record.id_categorias se pasa a null
+        let id_categorias=this.record.id_categorias;
+
+        this.onSelectPlantel(this.record.id_catplanteles);
+        //Obtener las categporias segun el tipo de plantel seleccionado
+        let tipoplantel=this.catplantelesCat.find(e=>e.id==this.record.id_catplanteles).tipoplantel;
+        this.categoriasSvc.getCatalogoSegunPlantel(tipoplantel).subscribe(resp => {
+          this.categoriasCat = resp;
+          this.record.id_categorias=id_categorias;
+          this.onSelectCategoria(id_categorias);
+        });
         /*this.showAdicionalesPlantel(resp.id_catplanteles);
         this.showAdicionalesCategoria();*/
       });

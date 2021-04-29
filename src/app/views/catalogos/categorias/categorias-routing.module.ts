@@ -3,10 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { CategoriasAdminComponent } from './admin/categorias-admin.component';
 import { CategoriasFormComponent } from './form/categorias-form.component';
-import { CategoriasIniService } from './services/categorias.ini.service';
+import { CategoriasdetalleFormComponent } from './formdetalle/categoriasdetalle-form.component';
+import { CategoriaspercepcionesFormComponent } from './formpercepciones/categoriaspercepciones-form.component';
 
-import { CategoriassueldosFormComponent } from './formsub/categoriassueldos-form.component';
-import { CategoriassueldosIniService } from './services/categoriassueldos.ini.service';
+import { CategoriasIniService } from './services/categorias.ini.service';
+import { CategoriasdetalleIniService } from './services/categoriasdetalle.ini.service';
+import { CategoriaspercepcionesIniService } from './services/categoriaspercepciones.ini.service';
 
 
 const routes: Routes = [
@@ -28,7 +30,8 @@ const routes: Routes = [
         },
         resolve: {
           userdata: CategoriasIniService,
-          userdataSueldos: CategoriassueldosIniService
+          userdataDetalle: CategoriasdetalleIniService,
+          userdataPercepciones: CategoriaspercepcionesIniService,
         }
       },
       {
@@ -39,10 +42,17 @@ const routes: Routes = [
         },
       },
       {
-        path: 'form',
-        component: CategoriassueldosFormComponent,
+        path: 'formdetalle',
+        component: CategoriasdetalleFormComponent,
         data: {
-          title: 'Categorias sueldos'
+          title: 'Categorias detalle'
+        }
+      },
+      {
+        path: 'formpercepciones',
+        component: CategoriaspercepcionesFormComponent,
+        data: {
+          title: 'Categorias percepciones'
         }
       }
 

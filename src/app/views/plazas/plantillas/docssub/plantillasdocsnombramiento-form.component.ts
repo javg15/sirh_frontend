@@ -3,7 +3,7 @@ import { DatePipe } from '@angular/common'
 import { ActivatedRoute } from '@angular/router';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Plantillasdocsnombramiento,Personal,Categorias,Plantillaspersonal,Catestatusplaza,Plazas,Categoriassueldos } from '../../../../_models';
+import { Plantillasdocsnombramiento,Personal,Categorias,Plantillaspersonal,Catestatusplaza,Plazas,Categoriasdetalle } from '../../../../_models';
 //import { Archivos } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
@@ -12,7 +12,7 @@ import { IsLoadingService } from '../../../../_services/is-loading/is-loading.se
 import { PersonalService } from '../../personal/services/personal.service';
 import { PlazasService } from '../../plazas/services/plazas.service';
 import { CategoriasService } from '../../../catalogos/categorias/services/categorias.service';
-import { CategoriassueldosService } from '../../../catalogos/categorias/services/categoriassueldos.service';
+import { CategoriasdetalleService } from '../../../catalogos/categorias/services/categoriasdetalle.service';
 
 //import { ArchivosService } from '../../../catalogos/archivos/services/archivos.service';
 import { PlantillasdocsNombramientoService } from '../services/plantillasdocsnombramiento.service';
@@ -59,7 +59,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   isLoadingSearch:boolean;
   catpersonalCat:Personal[];
   categoriasCat:Categorias[];
-  categoriassueldosCat:Categoriassueldos[];
+  categoriasdetalleCat:Categoriasdetalle[];
   catestatusplazaCat:Catestatusplaza[];
   plazasCat:Plazas[];
   convigencia:boolean;
@@ -79,7 +79,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       private plantillasSvc: PlantillasService,
       private catestatusplazaSvc: CatestatusplazaService,
       private plazasSvc: PlazasService,
-      private categoriassueldosSvc: CategoriassueldosService,
+      private categoriasdetalleSvc: CategoriasdetalleService,
     private el: ElementRef,
     //private archivosSvc:ArchivosService,
     public datepipe: DatePipe
@@ -290,12 +290,12 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       this.record.horasb=this.categoriasCat.find(a=>a.id==valor).horasasignadas;
     }
 
-    this.categoriassueldosSvc.getRecordSegunCategoria(valor).subscribe(resp => {
+    this.categoriasdetalleSvc.getRecordSegunCategoria(valor).subscribe(resp => {
       this.varAsignarHoras=false;
-      this.categoriassueldosCat=resp;
+      this.categoriasdetalleCat=resp;
 
-      if(this.categoriassueldosCat.length>0){
-        if(this.categoriassueldosCat[0].totalhorasaut>0)
+      if(this.categoriasdetalleCat.length>0){
+        if(this.categoriasdetalleCat[0].totalhorasaut>0)
           this.varAsignarHoras=true;
       }
 

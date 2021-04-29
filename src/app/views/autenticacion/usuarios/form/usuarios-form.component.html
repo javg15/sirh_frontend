@@ -24,28 +24,38 @@
                                         <input type="text" [(ngModel)]="record.username" class="form-control" name="Numero de empleado">
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-sm-4">
                                     <div class="form-group">
                                         <label for="apellidopaterno">Contraseña</label>
-                                        <input type="text" [(ngModel)]="record.pass" class="form-control" name="Contraseña">
+                                        <input type="password" [(ngModel)]="record.pass" class="form-control" name="Contraseña">
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <div class="form-group">
+                                        <label for="passConfirm">Repetir contraseña</label>
+                                        <input type="password" [(ngModel)]="passConfirm" class="form-control" name="Repetir contraseña">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="form-group col-sm-4">
                                     <div class="form-group">
-                                        <label for="passConfirm">Repetir contraseña</label>
-                                        <input type="text" [(ngModel)]="passConfirm" class="form-control" name="Repetir contraseña">
+                                        <label for="id_permgrupos">Grupo de usuarios</label>
+                                        <input type="text" [(ngModel)]="record.id_permgrupos" class="form-control" name="Grupo de usuarios">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-sm-5">
+                                <div class="form-group col-sm-6">
                                     <div class="form-group">
-                                        <label for="id_permgrupos">Grupo de usuarios</label>
-                                        <input type="text" [(ngModel)]="record.id_permgrupos" class="form-control" name="Grupo de usuarios">
+                                        <label for="id_catzonasgeograficas">Zonas geográficas a trabajar (si aplica)</label>
+                                        <angular2-multiselect [data]="catzonageograficaCat" [(ngModel)]="record.record_catzonasgeograficas" [settings]="dropdownSettings" class="form-control" name="Zonas geográficas a trabajar (si aplica)">
+                                            <c-item>
+                                                <ng-template let-item="item">
+                                                    <label style="color: #333;min-width: 150px;">{{item.descripcion}}</label>
+                                                </ng-template>
+                                            </c-item>
+                                        </angular2-multiselect>
                                     </div>
                                 </div>
                             </div>

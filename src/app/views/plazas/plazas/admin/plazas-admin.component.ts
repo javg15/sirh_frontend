@@ -42,7 +42,7 @@ export class PlazasAdminComponent implements OnInit {
 
   private dtOptionsAdicional = { datosBusqueda: {campo: 0, operador: 0, valor: ''},raw:0};
 
-  nombreModulo = 'Plazas';
+  nombreModulo = 'Horasclase';
   tituloBotonReporte='Listado';
 
   headersAdmin: any;

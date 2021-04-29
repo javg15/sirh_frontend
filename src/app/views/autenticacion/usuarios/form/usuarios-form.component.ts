@@ -4,8 +4,9 @@ import { CatestadosService } from '../../../catalogos/catestados/services/catest
 import { CatmunicipiosService } from '../../../catalogos/catmunicipios/services/catmunicipios.service';
 import { CatlocalidadesService } from '../../../catalogos/catlocalidades/services/catlocalidades.service';
 import { CatestadocivilService } from '../../../catalogos/catestadocivil/services/catestadocivil.service';
+import { CatzonageograficaService } from '../../../catalogos/catzonageografica/services/catzonageografica.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Usuarios,  Catestados, Catmunicipios, Catlocalidades, Catestadocivil } from '../../../../_models';
+import { Usuarios,  Catestados, Catmunicipios, Catlocalidades, Catestadocivil,Catzonageografica } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
@@ -42,25 +43,40 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
   @ViewChild(FormUploadComponent) formUpload: FormUploadComponent;
 
   record: Usuarios;
-  passConfirm:String;
+  passConfirm:String="";
+  pass:String="";
+  passActual:String="";
   recordFile:Archivos;
   catestadosCat:Catestados[];
   catmunicipiosCat:Catmunicipios[];
   catlocalidadesCat: Catlocalidades[];
   catestadocivilCat: Catestadocivil[];
-
+  catzonageograficaCat:Catzonageografica[];
+  dropdownSettings = {
+    singleSelection: false,
+                                  text:"",
+                                  selectAllText:'Todas',
+                                  unSelectAllText:'Ninguna',
+                                  enableSearchFilter: false,
+                                  classes:"myclass custom-class"
+  };
 
   constructor(private isLoadingService: IsLoadingService,
       private usuariosService: UsuariosService, private el: ElementRef,
       private archivosSvc:ArchivosService,
+      private catzonageograficaSvc: CatzonageograficaService,
       ) {
       this.elementModal = el.nativeElement;
+      this.catzonageograficaSvc.getCatalogo().subscribe(resp => {
+        this.catzonageograficaCat = resp;
+      });
   }
 
   newRecord(): Usuarios {
     return {
       id: 0,  username: '',   pass: '',
       uPassenc: '',  perfil: 0,  nombre: '',   numemp: '',   created_at: new Date(),  updated_at: new Date(),
+      record_catzonasgeograficas:[],
       id_permgrupos: 0, id_usuarios_r: 0, state: '',  email: '', id_archivos_avatar:0
     };
   }
@@ -95,7 +111,7 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
       this.validSummary.resetErrorMessages(form);
 
       await this.isLoadingService.add(
-      this.usuariosService.setRecord(this.record,this.actionForm).subscribe(async resp => {
+      this.usuariosService.setPerfil(this.record,this.actionForm,this.passConfirm,this.passActual).subscribe(async resp => {
         if (resp.hasOwnProperty('error')) {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
         }

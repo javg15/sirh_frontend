@@ -112,9 +112,14 @@ export const navItems: INavData[] = [
         url: '/catalogos/catestatusplaza',
         //icon: 'icon-puzzle'
       },
-
+      {
+        name: 'Usuarios',
+        url: '/autenticacion/usuarios',
+        //icon: 'icon-puzzle'
+      },
     ]
   },
+
 
   /*{
     name: 'Buttons',

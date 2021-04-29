@@ -18,6 +18,8 @@ export default interface Usuarios {
 
   numemp: string | null;
 
+  record_catzonasgeograficas:string[] | null;
+
   created_at: Date | null;
 
   updated_at: Date | null;
@@ -51,6 +53,8 @@ export interface UsuariosInitializer {
   nombre?: string;
 
   numemp?: string;
+
+  record_catzonasgeograficas?:string[];
 
   created_at?: Date;
 

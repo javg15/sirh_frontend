@@ -167,6 +167,10 @@ const routes: Routes = [
         path: 'usuarios/formdirect',
         loadChildren: () => import('./views/autenticacion/usuarios/usuarios.module').then(m => m.UsuariosModule)
       },
+      {
+        path: 'autenticacion/usuarios',
+        loadChildren: () => import('./views/autenticacion/usuarios/usuarios.module').then(m => m.UsuariosModule)
+      },
     ]
   },
   { path: '**', component: P404Component }

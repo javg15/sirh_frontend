@@ -4,7 +4,8 @@ import Archivos, { ArchivosInitializer,  } from './archivos';
 import Calendarios, { CalendariosInitializer, CalendariosId } from './calendarios';
 import Catcentrostrabajo, { CatcentrostrabajoInitializer } from './catcentrostrabajo';
 import Categorias, { CategoriasInitializer, CategoriasId } from './categorias';
-import Categoriassueldos, { CategoriassueldosInitializer, CategoriassueldosId } from './categoriassueldos';
+import Categoriasdetalle, { CategoriasdetalleInitializer, CategoriasdetalleId } from './categoriasdetalle';
+import Categoriaspercepciones, { CategoriaspercepcionesInitializer, CategoriaspercepcionesId } from './categoriaspercepciones';
 import Categoriastabular, { CategoriastabularInitializer,  } from './categoriastabular';
 import Catestadocivil, { CatestadocivilInitializer,  } from './catestadocivil';
 import Catestados, { CatestadosInitializer } from './catestados';
@@ -59,7 +60,8 @@ type Model =
   | Calendarios
   | Catcentrostrabajo
   | Categorias
-  | Categoriassueldos
+  | Categoriasdetalle
+  | Categoriaspercepciones
   | Categoriastabular
   | Catestadocivil
   | Catestados
@@ -114,7 +116,8 @@ interface ModelTypeMap {
   'calendarios': Calendarios;
   'catcentrostrabajo': Catcentrostrabajo;
   'categorias': Categorias;
-  'categoriassueldos': Categoriassueldos;
+  'categoriasdetalle': Categoriasdetalle;
+  'categoriaspercepciones':Categoriaspercepciones;
   'categoriastabular': Categoriastabular;
   'catestadocivil': Catestadocivil;
   'catestados': Catestados;
@@ -168,7 +171,8 @@ interface ModelTypeMap {
 type ModelId =
   | CalendariosId
   | CategoriasId
-  | CategoriassueldosId
+  | CategoriasdetalleId
+  | CategoriaspercepcionesId
   | CatestatusplazaId
   | CatfuentefId
   | CatlocalidadesId
@@ -207,7 +211,8 @@ type ModelId =
 interface ModelIdTypeMap {
   'calendarios': CalendariosId;
   'categorias': CategoriasId;
-  'categoriassueldos': CategoriassueldosId;
+  'categoriasdetalle': CategoriasdetalleId;
+  'categoriaspercepciones':CategoriaspercepcionesId;
   'catestatusplaza': CatestatusplazaId;
   'catfuentef': CatfuentefId;
   'catlocalidades': CatlocalidadesId;
@@ -249,7 +254,8 @@ type Initializer =
   | CalendariosInitializer
   | CatcentrostrabajoInitializer
   | CategoriasInitializer
-  | CategoriassueldosInitializer
+  | CategoriasdetalleInitializer
+  | CategoriaspercepcionesInitializer
   | CategoriastabularInitializer
   | CatestadocivilInitializer
   | CatestadosInitializer
@@ -304,7 +310,8 @@ interface InitializerTypeMap {
   'calendarios': CalendariosInitializer;
   'catcentrostrabajo': CatcentrostrabajoInitializer;
   'categorias': CategoriasInitializer;
-  'categoriassueldos': CategoriassueldosInitializer;
+  'categoriasdetalle': CategoriasdetalleInitializer;
+  'categoriaspercepciones':CategoriaspercepcionesInitializer;
   'categoriastabular': CategoriastabularInitializer;
   'catestadocivil': CatestadocivilInitializer;
   'catestados': CatestadosInitializer;
@@ -360,7 +367,8 @@ export {
   Calendarios, CalendariosInitializer, CalendariosId,
   Catcentrostrabajo, CatcentrostrabajoInitializer,
     Categorias, CategoriasInitializer, CategoriasId,
-    Categoriassueldos, CategoriassueldosInitializer, CategoriassueldosId,
+    Categoriasdetalle, CategoriasdetalleInitializer, CategoriasdetalleId,
+    Categoriaspercepciones, CategoriaspercepcionesInitializer, CategoriaspercepcionesId,
   Categoriastabular, CategoriastabularInitializer,
   Catestadocivil, CatestadocivilInitializer,
   Catestados, CatestadosInitializer,

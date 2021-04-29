@@ -10,7 +10,7 @@
         </div>
         <div class="card-body" (collapsed)="collapsed($event)" (expanded)="expanded($event)" [collapse]="isCollapsed">
             <div class="row">
-                <div class="form-group col-sm-4">
+                <div class="form-group col-sm-3">
                     <label for="cmbSearchBuscaren">Buscar en:</label>
                     <select class="form-control" id="cmbSearchBuscaren" [(ngModel)]="selectedItemsCampos.id" (change)="onSelectCampos($event.target.value)">
                     <ng-container *ngFor="let col of itemsCampos;index as i">
@@ -26,7 +26,7 @@
                     </ng-container>
               </select>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-3">
                     <div *ngIf="tipoEdicion==0" class="form-group">
                         <label for="cmbSearchA">a:</label>
                         <input type="text" class="form-control" id="cmbSearchA" [(ngModel)]="valorBuscar">
@@ -42,7 +42,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-1">
                     <button type="button" class="btn btn-success" (click)="onClickBuscar()">Buscar</button>
                 </div>
                 <div class="col-sm-2">
