@@ -197,7 +197,7 @@ export class CategoriasdetalleFormComponent implements OnInit, OnDestroy {
   open(idItem: string, accion: string,idParent:number):  void {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
-    this.tituloForm=titulosModal[accion] + " registro";
+    this.tituloForm="Detalle de categoría - " + titulosModal[accion] + " registro";
 
     if(idItem=="0"){
       this.record =this.newRecord(idParent);

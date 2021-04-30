@@ -18,6 +18,8 @@ export default interface Categoriaspercepciones {
 
   id_catquincena_fin: number,
 
+  id_catpercepciones: number,
+
   id_usuarios_r: number;
 
   state: string;
@@ -46,6 +48,7 @@ export interface CategoriaspercepcionesInitializer {
 
   id_catquincena_fin?: number,
 
+  id_catpercepciones?: number,
   /** Default value: 0 */
   id_usuarios_r?: number;
 

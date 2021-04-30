@@ -17,6 +17,7 @@ import Catmunicipios, { CatmunicipiosInitializer, CatmunicipiosId } from './catm
 import Catplanteles, { CatplantelesInitializer, CatplantelesId } from './catplanteles';
 import Catplantillas, { CatplantillasInitializer, CatplantillasId } from './catplantillas';
 import Catquincena, { CatquincenaInitializer, CatquincenaId } from './catquincena';
+import Catpercepciones, { CatpercepcionesInitializer } from './catpercepciones';
 import Catregiones, { CatregionesInitializer } from './catregiones';
 import Catsindicato, { CatsindicatoInitializer } from './catsindicato';
 import Cattipocategoria, { CattipocategoriaInitializer } from './cattipocategoria';
@@ -73,6 +74,7 @@ type Model =
   | Catplanteles
   | Catplantillas
   | Catquincena
+  | Catpercepciones
   | Catregiones
   | Catsindicato
   | Cattipocategoria
@@ -129,6 +131,7 @@ interface ModelTypeMap {
   'catplanteles': Catplanteles;
   'catplantillas': Catplantillas;
   'catquincena': Catquincena;
+  'catpercepciones':Catpercepciones;
   'catregiones': Catregiones;
   'catsindicato': Catsindicato;
   'cattipocategoria': Cattipocategoria;
@@ -267,6 +270,7 @@ type Initializer =
   | CatplantelesInitializer
   | CatplantillasInitializer
   | CatquincenaInitializer
+  | CatpercepcionesInitializer
   | CatregionesInitializer
   | CatsindicatoInitializer
   | CattipocategoriaInitializer
@@ -323,6 +327,7 @@ interface InitializerTypeMap {
   'catplanteles': CatplantelesInitializer;
   'catplantillas': CatplantillasInitializer;
   'catquincena': CatquincenaInitializer;
+  'catpercepciones':CatpercepcionesInitializer;
   'catregiones': CatregionesInitializer;
   'catsindicato': CatsindicatoInitializer;
   'cattipocategoria': CattipocategoriaInitializer;
@@ -380,6 +385,7 @@ export {
   Catplanteles, CatplantelesInitializer, CatplantelesId,
   Catplantillas, CatplantillasInitializer, CatplantillasId,
   Catquincena, CatquincenaInitializer, CatquincenaId,
+  Catpercepciones, CatpercepcionesInitializer,
   Catregiones, CatregionesInitializer,
   Catsindicato, CatsindicatoInitializer,
   Cattipocategoria, CattipocategoriaInitializer,

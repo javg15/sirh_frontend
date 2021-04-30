@@ -4,8 +4,9 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Categoriaspercepciones, Catquincena } from '../../../../_models';
+import { Categoriaspercepciones, Catquincena, Catpercepciones } from '../../../../_models';
 import { CatquincenaService } from '../../catquincena/services/catquincena.service';
+import { CatpercepcionesService } from '../../catpercepciones/services/catpercepciones.service';
 import { CatzonaeconomicaService } from '../../catzonaeconomica/services/catzonaeconomica.service';
 
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
@@ -49,12 +50,13 @@ export class CategoriaspercepcionesFormComponent implements OnInit, OnDestroy {
 
   record: Categoriaspercepciones;
   catquincenaCat:Catquincena[];
+  catpercepcionesCat: Catpercepciones[];
 
   public customPatterns = { '0': { pattern: new RegExp('\[0-9a-zA-Z\\u00C0-\\u00FF \]')} };
 
   constructor(private isLoadingService: IsLoadingService,
     private el: ElementRef,
-    private catzonaeconomicaSvc: CatzonaeconomicaService,
+    private catpercepcionesSvc: CatpercepcionesService,
     private catquincenaSvc: CatquincenaService,
     private categoriaspercepcionesService: CategoriaspercepcionesService
       ) {
@@ -62,12 +64,15 @@ export class CategoriaspercepcionesFormComponent implements OnInit, OnDestroy {
       this.catquincenaSvc.getCatalogoSegunAnio(moment().format('YYYY')).subscribe(resp => {
         this.catquincenaCat = resp;
       });
+      this.catpercepcionesSvc.getCatalogo().subscribe(resp => {
+        this.catpercepcionesCat = resp;
+      });
   }
 
   newRecord(idParent:number): Categoriaspercepciones {
     return {
       id: 0,  id_categoriasdetalle:idParent, fecha_inicio:null, fecha_fin:null,
-      id_catquincena_ini: 0, id_catquincena_fin: 0, importe:0,
+      id_catquincena_ini: 0, id_catquincena_fin: 0, importe:0,id_catpercepciones:0,
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }
@@ -121,7 +126,7 @@ export class CategoriaspercepcionesFormComponent implements OnInit, OnDestroy {
   open(idItem: string, accion: string,idParent:number):  void {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
-    this.tituloForm=titulosModal[accion] + " registro";
+    this.tituloForm="Percepciones de categoría - " + titulosModal[accion] + " registro";
 
     if(idItem=="0"){
       this.record =this.newRecord(idParent);
