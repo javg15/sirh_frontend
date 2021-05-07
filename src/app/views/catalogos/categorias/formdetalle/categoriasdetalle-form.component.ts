@@ -76,6 +76,7 @@ export class CategoriasdetalleFormComponent implements OnInit, OnDestroy {
   record: Categoriasdetalle;
   catquincenaCat:Catquincena[];
   catzonaeconomicaCat:Catzonaeconomica[];
+  record_codigo:String;
 
   public customPatterns = { '0': { pattern: new RegExp('\[0-9a-zA-Z\\u00C0-\\u00FF \]')} };
 
