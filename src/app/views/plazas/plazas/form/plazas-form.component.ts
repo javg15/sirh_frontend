@@ -205,7 +205,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
 
     if(idItem=="0"){
       this.record =this.newRecord();
-      this.tituloForm=titulosModal[accion] + " registro";
+      this.tituloForm="Plazas - " + titulosModal[accion] + " registro";
     } else {
 
       this.plazasService.getRecord(idItem).subscribe(resp => {
@@ -214,7 +214,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
           this.catcentrostrabajoCat = resp;
         });
         this.plazasService.getClave(idItem).subscribe(resp => {
-          this.tituloForm=titulosModal[accion] + " registro - " + resp[0].clave;
+          this.tituloForm="Plazas - " + titulosModal[accion] + " registro - " + resp[0].clave;
         });
 
         //se pasa a esta variable porque en alguna parte desconocida  this.record.id_categorias se pasa a null

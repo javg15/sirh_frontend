@@ -133,7 +133,7 @@ export class PlantillasDocsFormComponent implements OnInit, OnDestroy {
   open(idItem: string, accion: string,idParent:number):  void {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
-    this.tituloForm=titulosModal[accion] + " registro";
+    this.tituloForm="Documentación - " + titulosModal[accion] + " registro";
     this.formUpload.resetFile();
 
     if(idItem=="0"){

@@ -149,7 +149,7 @@ export class PlantillasFormComponent implements OnInit, OnDestroy {
   open(idItem: string, accion: string,idCatplanteles:number,idCatplantillas:number):  void {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
-    this.tituloForm=titulosModal[accion] + " registro";
+    this.tituloForm="Plantillas - " + titulosModal[accion] + " registro";
 
     //limpiar autocomplete
     this.id_personal.clear();this.id_personal.close();
