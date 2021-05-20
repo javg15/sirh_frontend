@@ -61,10 +61,10 @@ export class PlantillasService {
   }
 
   /* El siguiente método graba un registro nuevo, o uno editado. */
-  public setRecord(dataPack,actionForm): Observable<any> {
+  public setRecord(dataPack,actionForm,record_id_catquincena): Observable<any> {
 
     return this.http.post(this.API_URL + '/plantillaspersonal/setRecord',
-      { dataPack,actionForm }
+      { dataPack,actionForm,record_id_catquincena }
       , httpOptions);
   }
 

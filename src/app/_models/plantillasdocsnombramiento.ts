@@ -35,6 +35,10 @@ export default interface Plantillasdocsnombramiento {
   created_at: Date | null;
 
   updated_at: Date | null;
+
+  id_catquincena_ini: number | null;
+
+  id_catquincena_fin: number | null;
 }
 
 export interface PlantillasdocsnombramientoInitializer {
@@ -76,4 +80,8 @@ export interface PlantillasdocsnombramientoInitializer {
   created_at?: Date;
 
   updated_at?: Date;
+
+  id_catquincena_ini?: number;
+
+  id_catquincena_fin?: number;
 }

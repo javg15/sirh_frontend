@@ -3,7 +3,7 @@ import { DatePipe } from '@angular/common'
 import { ActivatedRoute } from '@angular/router';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Plantillasdocsnombramiento,Personal,Categorias,Plantillaspersonal,Catestatusplaza,Plazas,Categoriasdetalle } from '../../../../_models';
+import { Plantillasdocsnombramiento,Personal,Categorias,Plantillaspersonal,Catestatusplaza,Plazas,Categoriasdetalle,Catquincena } from '../../../../_models';
 //import { Archivos } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
@@ -13,6 +13,7 @@ import { PersonalService } from '../../personal/services/personal.service';
 import { PlazasService } from '../../plazas/services/plazas.service';
 import { CategoriasService } from '../../../catalogos/categorias/services/categorias.service';
 import { CategoriasdetalleService } from '../../../catalogos/categorias/services/categoriasdetalle.service';
+import { CatquincenaService } from '../../../catalogos/catquincena/services/catquincena.service';
 
 //import { ArchivosService } from '../../../catalogos/archivos/services/archivos.service';
 import { PlantillasdocsNombramientoService } from '../services/plantillasdocsnombramiento.service';
@@ -62,6 +63,8 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   categoriasdetalleCat:Categoriasdetalle[];
   catestatusplazaCat:Catestatusplaza[];
   plazasCat:Plazas[];
+  catquincenaCat:Catquincena[];
+
   convigencia:boolean;
   conlicencia:boolean;
   esinterina:boolean;
@@ -80,12 +83,15 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       private catestatusplazaSvc: CatestatusplazaService,
       private plazasSvc: PlazasService,
       private categoriasdetalleSvc: CategoriasdetalleService,
+      private catquincenaSvc: CatquincenaService,
     private el: ElementRef,
     //private archivosSvc:ArchivosService,
     public datepipe: DatePipe
       ) {
         this.elementModal = el.nativeElement;
-
+        this.catquincenaSvc.getCatalogo().subscribe(resp => {
+          this.catquincenaCat = resp;
+        });
   }
 
   newRecord(idParent:number): Plantillasdocsnombramiento {
@@ -93,7 +99,8 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       id: 0,  id_plantillaspersonal: idParent, id_archivos:0,
       fechaexpedicion: null,  id_catestatusplaza: 0,  fechaini: null, fechafin: null,
       id_personal_titular: 0,  horas: 0, horasb: 0,  id_categorias: 0, id_plazas:0,
-      state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
+      state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0,
+      id_catquincena_ini:0,id_catquincena_fin:0
     };
   }
   ngOnInit(): void {

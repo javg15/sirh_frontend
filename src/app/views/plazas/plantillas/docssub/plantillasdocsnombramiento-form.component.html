@@ -33,15 +33,17 @@
                         </div>
                         <div class="form-group col-sm-4">
                             <div class="form-group">
-                                <label for="fechaini">Fecha de inicio</label>
-                                <input type="date" [(ngModel)]="record.fechaini" class="form-control" name="Fecha de inicio">
+                                <label for="fechaini">Quincena de inicio</label>
+                                <ng-select2 [(ngModel)]="record.id_catquincena_ini" [data]="catquincenaCat" [allowClear]="true" allowClear="true" width="100%" name="Quincena de inicio">
+                                </ng-select2>
                             </div>
                         </div>
 
                         <div *ngIf="convigencia==true" class="form-group col-sm-4">
                             <div class="form-group">
-                                <label for="fechafin">Fecha de término</label>
-                                <input id="txtFechafin" type="date" [(ngModel)]="record.fechafin" class="form-control" name="Fecha de término">
+                                <label for="id_catquincena_fin">Quincena de término</label>
+                                <ng-select2 [(ngModel)]="record.id_catquincena_fin" [data]="catquincenaCat" [allowClear]="true" allowClear="true" width="100%" name="Quincena de término">
+                                </ng-select2>
                             </div>
                         </div>
                     </div>

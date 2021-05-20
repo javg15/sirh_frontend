@@ -3,11 +3,12 @@ import { PlantillasService } from '../services/plantillas.service';
 import { ActivatedRoute } from '@angular/router';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Plantillaspersonal, Catplantillas, Catplanteles, Personal,Catcentrostrabajo,Catfuncionsecundaria } from '../../../../_models';
+import { Plantillaspersonal, Catplantillas, Catplanteles, Personal,Catcentrostrabajo,Catfuncionsecundaria, Catquincena } from '../../../../_models';
 import { CatplantillasService } from '../../../catalogos/catplantillas/services/catplantillas.service';
 import { CatplantelesService } from '../../../catalogos/catplanteles/services/catplanteles.service';
 import { CatcentrostrabajoService } from '../../../catalogos/catcentrostrabajo/services/catcentrostrabajo.service';
 import { CatfuncionsecundariaService } from '../../../catalogos/catfuncionsecundaria/services/catfuncionsecundaria.service';
+import { CatquincenaService } from '../../../catalogos/catquincena/services/catquincena.service';
 
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
@@ -57,11 +58,13 @@ export class PlantillasFormComponent implements OnInit, OnDestroy {
       domicilio:'',colonia:'',cp:'',telefonomovil:'',numimss:'',numissste:'',otronombre:'', numotro:'',tipopension:'',
       created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
   };
+  record_id_catquincena:number=0;
   catplantillasCat:Catplantillas[];
   catplantelesCat:Catplanteles[];
   catpersonalCat:Personal[];
   catcentrostrabajoCat:Catcentrostrabajo[];
   catfuncionsecundariaCat:Catfuncionsecundaria[];
+  catquincenaCat:Catquincena[];
   keywordSearch = 'full_name';
   isLoadingSearch:boolean;
 
@@ -72,6 +75,7 @@ export class PlantillasFormComponent implements OnInit, OnDestroy {
     private personalSvc: PersonalService,
     private catcentrostrabajoSvc:CatcentrostrabajoService,
     private catfuncionsecundariaSvc:CatfuncionsecundariaService,
+    private catquincenaSvc:CatquincenaService,
     private route: ActivatedRoute
       ) {
       this.elementModal = el.nativeElement;
@@ -86,6 +90,9 @@ export class PlantillasFormComponent implements OnInit, OnDestroy {
       });
       this.catfuncionsecundariaSvc.getCatalogo().subscribe(resp => {
         this.catfuncionsecundariaCat = resp;
+      });
+      this.catquincenaSvc.getCatalogo().subscribe(resp => {
+        this.catquincenaCat = resp;
       });
   }
 
@@ -130,7 +137,7 @@ export class PlantillasFormComponent implements OnInit, OnDestroy {
       this.validSummary.resetErrorMessages(form);
 
       await this.isLoadingService.add(
-      this.plantillasService.setRecord(this.record,this.actionForm).subscribe(resp => {
+      this.plantillasService.setRecord(this.record,this.actionForm,this.record_id_catquincena).subscribe(resp => {
         if (resp.hasOwnProperty('error')) {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
         }
@@ -148,8 +155,14 @@ export class PlantillasFormComponent implements OnInit, OnDestroy {
   // open modal
   open(idItem: string, accion: string,idCatplanteles:number,idCatplantillas:number):  void {
     this.actionForm=accion;
-    this.botonAccion=actionsButtonSave[accion];
-    this.tituloForm="Plantillas - " + titulosModal[accion] + " registro";
+    if(accion=="actualizar"){
+      this.botonAccion="Actualizar";
+      this.tituloForm="Plantillas - Actualizar registro";
+    }
+    else{
+      this.botonAccion=actionsButtonSave[accion];
+      this.tituloForm="Plantillas - " + titulosModal[accion] + " registro";
+    }
 
     //limpiar autocomplete
     this.id_personal.clear();this.id_personal.close();
@@ -222,7 +235,8 @@ export class PlantillasFormComponent implements OnInit, OnDestroy {
   }
   onCatplanillasChange(select_plantilla){
     this.record.id_catplantillas=select_plantilla;
-    this.getConsecutivo()
+    if(this.actionForm.toUpperCase()!='ACTUALIZAR')
+      this.getConsecutivo()
   }
 
   getConsecutivo(){
