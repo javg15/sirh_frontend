@@ -8,7 +8,8 @@ import Categoriasdetalle, { CategoriasdetalleInitializer, CategoriasdetalleId } 
 import Categoriaspercepciones, { CategoriaspercepcionesInitializer, CategoriaspercepcionesId } from './categoriaspercepciones';
 import Categoriastabular, { CategoriastabularInitializer,  } from './categoriastabular';
 import Catestadocivil, { CatestadocivilInitializer,  } from './catestadocivil';
-import Catestados, { CatestadosInitializer } from './catestados';
+import Catestados, { CatestadosInitializer } from './Catestados';
+import Catbajamotivo, { CatbajamotivoInitializer } from './Catbajamotivo';
 import Catestatusplaza, { CatestatusplazaInitializer, CatestatusplazaId } from './catestatusplaza';
 import Catfuentef, { CatfuentefInitializer, CatfuentefId } from './catfuentef';
 import Catfuncionsecundaria, { CatfuncionsecundariaInitializer } from './catfuncionsecundaria';
@@ -66,6 +67,7 @@ type Model =
   | Categoriastabular
   | Catestadocivil
   | Catestados
+  | Catbajamotivo
   | Catestatusplaza
   | Catfuentef
   | Catfuncionsecundaria
@@ -123,6 +125,7 @@ interface ModelTypeMap {
   'categoriastabular': Categoriastabular;
   'catestadocivil': Catestadocivil;
   'catestados': Catestados;
+  'catbajamotivo': Catbajamotivo;
   'catestatusplaza': Catestatusplaza;
   'catfuentef': Catfuentef;
   'catfuncionsecundaria': Catfuncionsecundaria;
@@ -262,6 +265,7 @@ type Initializer =
   | CategoriastabularInitializer
   | CatestadocivilInitializer
   | CatestadosInitializer
+  | CatbajamotivoInitializer
   | CatestatusplazaInitializer
   | CatfuentefInitializer
   | CatfuncionsecundariaInitializer
@@ -319,6 +323,7 @@ interface InitializerTypeMap {
   'categoriastabular': CategoriastabularInitializer;
   'catestadocivil': CatestadocivilInitializer;
   'catestados': CatestadosInitializer;
+  'catbajamotivo': CatbajamotivoInitializer;
   'catestatusplaza': CatestatusplazaInitializer;
   'catfuentef': CatfuentefInitializer;
   'catfuncionsecundaria': CatfuncionsecundariaInitializer;
@@ -377,6 +382,7 @@ export {
   Categoriastabular, CategoriastabularInitializer,
   Catestadocivil, CatestadocivilInitializer,
   Catestados, CatestadosInitializer,
+  Catbajamotivo,CatbajamotivoInitializer,
   Catestatusplaza, CatestatusplazaInitializer, CatestatusplazaId,
     Catfuentef, CatfuentefInitializer, CatfuentefId,
   Catfuncionsecundaria, CatfuncionsecundariaInitializer,

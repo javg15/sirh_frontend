@@ -9,12 +9,12 @@ import { CatestatusplazaService } from '../../../catalogos/catestatusplaza/servi
 import { CategoriasdetalleService } from '../../../catalogos/categorias/services/categoriasdetalle.service';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Plazas, Categorias, Catcentrostrabajo, Catplanteles, Catzonaeconomica, Catzonageografica, Catestatusplaza,Categoriasdetalle } from '../../../../_models';
+import { Plazas, Categorias, Catcentrostrabajo, Catplanteles, Catzonaeconomica, Catzonageografica, Catestatusplaza,Categoriasdetalle,Catquincena } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
-
+import { CatquincenaService } from '../../../catalogos/catquincena/services/catquincena.service';
 
 
 declare var $: any;
@@ -53,7 +53,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
   catzonageograficaCat:Catzonageografica[];
   catestatusplazaCat:Catestatusplaza[];
   categoriasdetalleCat:any[];
-
+  catquincenaCat:Catquincena[];
 
   constructor(private isLoadingService: IsLoadingService,
       private plazasService: PlazasService, private el: ElementRef,
@@ -64,7 +64,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
       private categoriasdetalleSvc: CategoriasdetalleService,
       private categoriasSvc: CategoriasService,
         private catestatusplazaSvc: CatestatusplazaService,
-
+        private catquincenaSvc:CatquincenaService,
       ) {
       this.elementModal = el.nativeElement;
       this.catplantelesSvc.getCatalogo().subscribe(resp => {
@@ -76,13 +76,16 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
       this.catestatusplazaSvc.getCatalogo().subscribe(resp => {
         this.catestatusplazaCat = resp;
       });
+      this.catquincenaSvc.getCatalogo().subscribe(resp => {
+        this.catquincenaCat = resp;
+      });
   }
 
   newRecord(): Plazas {
     return {
       id: 0,id_categorias: 0,consecutivo: 0, id_catplanteles: 0,  id_catcentrostrabajo: 0,
-      state: '', id_catplantelescobro: 0, id_catzonageografica: 0, fecha_creacion: null,
-      fecha_fin: null, id_catestatusplaza: 1, statussicodes: 0, id_puesto: 0,estatus:'',id_categoriasdetalle:0,
+      state: '', id_catplantelescobro: 0, id_catzonageografica: 0, id_catquincena_ini: 0,
+      id_catquincena_fin: 0, id_catestatusplaza: 1, statussicodes: 0, id_puesto: 0,estatus:'',id_categoriasdetalle:0,
       id_catsindicato: 0, created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }
@@ -208,6 +211,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
       this.tituloForm="Plazas - " + titulosModal[accion] + " registro";
     } else {
 
+      this.tituloForm="Plazas - " + titulosModal[accion] + " registro";
       this.plazasService.getRecord(idItem).subscribe(resp => {
         this.record = resp;
         this.catcentrostrabajoSvc.getCatalogoSegunPlantel(this.record.id_catplanteles).subscribe(resp => {

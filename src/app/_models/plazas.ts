@@ -16,9 +16,9 @@ export default interface Plazas {
 
   id_catzonageografica: number | null;
 
-  fecha_creacion: Date | null;
+  id_catquincena_ini: number | null;
 
-  fecha_fin: Date | null;
+  id_catquincena_fin: number | null;
 
   id_catestatusplaza: number | null;
 
@@ -60,9 +60,9 @@ export interface PlazasInitializer {
 
   id_catzonageografica?: number;
 
-  fecha_creacion?: Date;
+  id_catquincena_ini?: number;
 
-  fecha_fin?: Date;
+  id_catquincena_fin?: number;
 
   id_catestatusplaza?: number;
 

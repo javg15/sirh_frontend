@@ -29,6 +29,7 @@
                                             <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openModal('plantillasdocsprofesional','custom-plantillasdocsprofesional','nuevo',0,record_id_plantillaspersonal)">Preparación profesional</a></li>
                                             <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openModal('plantillasdocsnombramiento','custom-plantillasdocsnombramiento','nuevo',0,record_id_plantillaspersonal)">Nombramiento administrativo</a></li>
                                             <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openModal('plantillasdocslicenciasadmin','custom-plantillasdocsnombramiento','nuevo',0,record_id_plantillaspersonal)">Licencia administrativa</a></li>
+                                            <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openModal('plantillasdocsbaja','custom-plantillasdocsbaja','nuevo',0,record_id_plantillaspersonal)">Baja administrativa</a></li>
                                             <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openModal('plantillasdocssindicato','custom-plantillasdocssindicato','nuevo',0,record_id_plantillaspersonal)">Adhesión sindical</a></li>
                                             <li role="menuitem"><a class="dropdown-item" href="#">Seguro institucional (Beneficiarios)</a>
                                                 <li role="menuitem"><a class="dropdown-item" href="#">Pensiones, juicios (Beneficiarios)</a></li>
@@ -129,3 +130,5 @@
 </app-plantillasdocsfamiliares-form>
 <app-plantillasdocslicencias-form id="custom-plantillasdocslicencias" (redrawEvent)="reDraw($event)">
 </app-plantillasdocslicencias-form>
+<app-plantillasdocsbaja-form id="custom-plantillasdocsbaja" (redrawEvent)="reDraw($event)">
+</app-plantillasdocsbaja-form>

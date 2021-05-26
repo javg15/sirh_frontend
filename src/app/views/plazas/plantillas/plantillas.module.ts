@@ -13,6 +13,7 @@ import { PlantillasDocsAdminComponent } from './docs/plantillasdocs-admin.compon
 import { PlantillasDocsFormComponent } from './docssub/plantillasdocs-form.component';
 import { PlantillasDocsProfesionalFormComponent } from './docssub/plantillasdocsprofesional-form.component';
 import { PlantillasDocsNombramientoFormComponent } from './docssub/plantillasdocsnombramiento-form.component';
+import { PlantillasDocsBajaFormComponent } from './docssub/plantillasdocsbaja-form.component';
 import { PlantillasDocsFamiliaresFormComponent } from './docssub/plantillasdocsfamiliares-form.component';
 import { PlantillasDocsSindicatoFormComponent } from './docssub/plantillasdocssindicato-form.component';
 import { PlantillasDocsLicenciasFormComponent } from './docssub/plantillasdocslicencias-form.component';
@@ -48,6 +49,7 @@ import { NgSelect2Module } from 'ng-select2';
     PlantillasDocsAdminComponent,
     PlantillasDocsFormComponent,
     PlantillasDocsProfesionalFormComponent,
+    PlantillasDocsBajaFormComponent,
     PlantillasDocsNombramientoFormComponent,
     PlantillasDocsFamiliaresFormComponent,
     PlantillasDocsSindicatoFormComponent,

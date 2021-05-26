@@ -7,6 +7,7 @@ import { PlantillasDocsAdminComponent } from './docs/plantillasdocs-admin.compon
 import { PlantillasDocsFormComponent } from './docssub/plantillasdocs-form.component';
 import { PlantillasDocsProfesionalFormComponent } from './docssub/plantillasdocsprofesional-form.component';
 import { PlantillasDocsNombramientoFormComponent } from './docssub/plantillasdocsnombramiento-form.component';
+import { PlantillasDocsBajaFormComponent } from './docssub/plantillasdocsbaja-form.component';
 import { PlantillasDocsFamiliaresFormComponent } from './docssub/plantillasdocsfamiliares-form.component';
 import { PlantillasIniService } from './services/plantillas.ini.service';
 import { PlantillasdocsIniService } from './services/plantillasdocs.ini.service';
@@ -66,6 +67,13 @@ const routes: Routes = [
         component: PlantillasDocsNombramientoFormComponent,
         data: {
           title: 'Nombramiento Administrativo'
+        },
+      },
+      {
+        path: 'docsbaja',
+        component: PlantillasDocsBajaFormComponent,
+        data: {
+          title: 'Baja Administrativo'
         },
       },
       {

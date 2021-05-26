@@ -39,6 +39,8 @@ export default interface Plantillasdocsnombramiento {
   id_catquincena_ini: number | null;
 
   id_catquincena_fin: number | null;
+
+  id_catbajamotivo: number | null;
 }
 
 export interface PlantillasdocsnombramientoInitializer {
@@ -84,4 +86,6 @@ export interface PlantillasdocsnombramientoInitializer {
   id_catquincena_ini?: number;
 
   id_catquincena_fin?: number;
+
+  id_catbajamotivo?: number;
 }
