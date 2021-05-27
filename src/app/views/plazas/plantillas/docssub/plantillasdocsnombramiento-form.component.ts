@@ -22,6 +22,7 @@ import { CatestatusplazaService } from '../../../catalogos/catestatusplaza/servi
 import { ListUploadComponent } from '../../../_shared/upload/list-upload.component';
 import { FormUploadComponent } from '../../../_shared/upload/form-upload.component';
 import { AutocompleteComponent } from 'angular-ng-autocomplete';
+import * as moment from 'moment';
 
 declare var $: any;
 declare var jQuery: any;
@@ -89,7 +90,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
     public datepipe: DatePipe
       ) {
         this.elementModal = el.nativeElement;
-        this.catquincenaSvc.getCatalogo().subscribe(resp => {
+        this.catquincenaSvc.getCatalogoSegunAnio(moment().format('YYYY')).subscribe(resp => {
           this.catquincenaCat = resp;
         });
   }
