@@ -6,10 +6,11 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 
 import { PlantillasService } from '../services/plantillas.service';
-import { Plantillaspersonal, Catplantillas, Catplanteles,Personal } from '../../../../_models';
+import { Plantillaspersonal, Catplantillas, Catplanteles,Personal,Categorias } from '../../../../_models';
 import { CatplantillasService } from '../../../catalogos/catplantillas/services/catplantillas.service';
 import { CatplantelesService } from '../../../catalogos/catplanteles/services/catplanteles.service';
 import { PersonalService } from '../../personal/services/personal.service';
+import { CategoriasService } from '../../../catalogos/categorias/services/categorias.service';
 import { AutocompleteComponent } from 'angular-ng-autocomplete';
 
 
@@ -44,8 +45,8 @@ export class PlantillasAdminComponent implements OnInit {
   private dtOptionsAdicional = {
     datosBusqueda: {campo: 0, operador: 0, valor: ''},
     raw:0
-    ,fkey:'id_catplanteles,id_catplantillas,id_personal,tipoDocumento'
-    ,fkeyvalue:[0,0,0,0]
+    ,fkey:'id_catplanteles,id_catplantillas,id_personal,tipoDocumento,id_categoria'
+    ,fkeyvalue:[0,0,0,0,0]
     ,modo:22
   };
 
@@ -53,6 +54,7 @@ export class PlantillasAdminComponent implements OnInit {
 
   headersAdmin: any;
   tipoDocumento:number=0;
+  id_categoria:number=0;
   record:Plantillaspersonal={
       id: 0,  id_catplanteles: 0, id_personal:0, id_catplantillas: 0, consecutivo:'',id_usuarios_autoriza:0,
       fechaingreso:null, state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
@@ -61,6 +63,7 @@ export class PlantillasAdminComponent implements OnInit {
   catplantillasCat:Catplantillas[];
   catplantelesCat:Catplanteles[];
   catpersonalCat:Personal[];
+  categoriasCat:Categorias[];
   keywordSearch = 'full_name';
   isLoadingSearch:boolean;
   /* En el constructor creamos el objeto plazasService,
@@ -72,12 +75,16 @@ export class PlantillasAdminComponent implements OnInit {
     private catplantillasSvc: CatplantillasService,
     private catplantelesSvc: CatplantelesService,
     private personalSvc: PersonalService,
+    private categoriasSvc: CategoriasService
   ) {
     this.catplantillasSvc.getCatalogo().subscribe(resp => {
       this.catplantillasCat = resp;
     });
     this.catplantelesSvc.getCatalogo().subscribe(resp => {
       this.catplantelesCat = resp;
+    });
+    this.categoriasSvc.getCatalogo().subscribe(resp => {
+      this.categoriasCat = resp;
     });
   }
 
@@ -184,6 +191,7 @@ export class PlantillasAdminComponent implements OnInit {
       (this.record.id_catplantillas==null?0:this.record.id_catplantillas),
       this.record.id_personal,
       (this.tipoDocumento==null?0:this.tipoDocumento),
+      (this.id_categoria==null?0:this.id_categoria),
     ]
     this.reDraw();
   }
@@ -194,6 +202,10 @@ export class PlantillasAdminComponent implements OnInit {
   }
   onSelectPlantilla(select_plantilla){
     this.record.id_catplantillas=select_plantilla;
+    this.onClickBuscar();
+  }
+  onSelectCategorias(val){
+    this.id_categoria = val;
     this.onClickBuscar();
   }
   /*********************
