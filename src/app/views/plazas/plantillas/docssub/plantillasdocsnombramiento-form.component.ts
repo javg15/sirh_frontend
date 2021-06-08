@@ -177,7 +177,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
     if(this.actionForm.toUpperCase()!=="VER"){
 
       this.validSummary.resetErrorMessages(admin);
-console.log("this.record:",this.record)
+
       await this.isLoadingService.add(
       this.plantillasdocsnombramientoService.setRecord(this.record,this.actionForm).subscribe(async resp => {
         if (resp.hasOwnProperty('error')) {
@@ -367,10 +367,10 @@ console.log("this.record:",this.record)
     });
 
     //Obtener las categporias segun el tipo de plantel seleccionado
-    let tipoplantel=this.catplantelesCat.find(e=>e.id==select_plantel).tipoplantel;
+    /*let tipoplantel=this.catplantelesCat.find(e=>e.id==select_plantel).tipoplantel;
     this.categoriasSvc.getCatalogoSegunPlantel(tipoplantel).subscribe(resp => {
       this.categoriasCat = resp;
-    });
+    });*/
 
     if(select_plantel>0)
       this.showAdicionalesPlantel(select_plantel);
