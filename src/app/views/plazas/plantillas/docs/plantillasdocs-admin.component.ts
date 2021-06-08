@@ -72,6 +72,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   tituloForm: string;
 
   record_id_plantillaspersonal:number;
+  record_id_catplanteles:number;
   record_tipodoc:number;
 
   private elementModal: any;
@@ -138,8 +139,8 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
         },
       },
       columns: this.headersAdmin,
-      columnDefs:[{"visible": false, "targets": [0,1]},
-                {"width": "20%", "targets": [3]}]//ID, tipo
+      columnDefs:[{"visible": false, "targets": [0,1,2]},
+                {"width": "20%", "targets": [4]}]//ID, tipo
     };
 
   }
@@ -155,10 +156,12 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   open(idItem: string, accion: string,idCatplanteles:string,idCatplantillas:string,tipoDocumento:string):  void {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
+    this.record_id_catplanteles=parseInt(idCatplanteles);
     this.plantillasService.getRecord(idItem).subscribe(resp => {
       this.personalSvc.getRecord(resp.id_personal).subscribe(resp => {
         this.tituloForm="Documentación - " + (resp.apellidopaterno + " " + resp.apellidomaterno + " " + resp.nombre);
         this.record_id_plantillaspersonal=parseInt(idItem);
+
         this.record_tipodoc=parseInt(tipoDocumento);
 
         this.reDraw();

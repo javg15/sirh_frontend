@@ -54,26 +54,27 @@
                         <div class="col-md-12 mx-auto">
                             <table id="tblPlantillaspersonaldocs" datatable [dtOptions]="dtOptions" class="table table-striped table-bordered row-border hover" width="100%">
                                 <tbody>
-                                    <tr *ngFor="let member of Members">
+                                    <tr *ngFor="let member of Members;index as irecord">
                                         <ng-container *ngFor="let col of ColumnNames;index as i">
                                             <div *ngIf="col=='acciones'; else elseBlock">
                                                 <!--<td><img src="assets/{{ member[col] }}" width="50" /></td>-->
                                                 <td>
                                                     <div *ngFor="let boton of member[col].split(',')" style="display: contents;">
-                                                        <button *ngIf="boton=='ver'" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo_documento,'custom-' + member.tipo_documento,'ver',member.id,member.id_plantillaspersonal)">
-                                                    <i class="fa fa-search"></i>
-                                                </button>
-                                                        <button *ngIf="boton=='editar'" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo_documento,'custom-' + member.tipo_documento,'editar',member.id,member.id_plantillaspersonal)">
-                                                    <i class="fa fa-edit"></i>
-                                                </button>
-                                                        <button *ngIf="boton=='eliminar'" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo_documento,'custom-' + member.tipo_documento,'eliminar',member.id)">
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
+                                                        <button *ngIf="boton=='ver' || (boton=='editar' && irecord>0)" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo_documento,'custom-' + member.tipo_documento,'ver',member.id,member.id_plantillaspersonal)">
+                                                            <i class="fa fa-search"></i>
+                                                        </button>
+
+                                                        <button *ngIf="boton=='editar' && irecord==0" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo_documento,'custom-' + member.tipo_documento,'editar',member.id,member.id_plantillaspersonal)">
+                                                              <i class="fa fa-edit"></i>
+                                                          </button>
+                                                        <button *ngIf="boton=='eliminar' && irecord==0" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo_documento,'custom-' + member.tipo_documento,'eliminar',member.id)">
+                                                              <i class="fa fa-trash"></i>
+                                                          </button>
                                                     </div>
                                                 </td>
                                             </div>
                                             <ng-template #elseBlock>
-                                                <ng-container *ngIf="col!='id' && col!='tipo_documento';else elseBlock2">
+                                                <ng-container *ngIf="col!='id' && col!='tipo_documento' && col!='id_catplanteles';else elseBlock2">
                                                     <td>
                                                         <div [innerHtml]="member[col]"></div>
                                                     </td>

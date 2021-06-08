@@ -62,6 +62,8 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
   @ViewChild('txtzonaeconomica') txtzonaeconomica: ElementRef;
   @ViewChild('txtzonageografica') txtzonageografica: ElementRef;
+  @ViewChild('txtid_catplanteles') txtid_catplanteles: ElementRef;
+
   /*@ViewChild(ListUploadComponent) listUpload: ListUploadComponent;
   @ViewChild(FormUploadComponent) formUpload: FormUploadComponent;*/
 
@@ -131,9 +133,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
         this.catesquemapagoSvc.getCatalogo().subscribe(resp => {
           this.catesquemapagoCat = resp;
         });
-        this.catplantelesSvc.getCatalogo().subscribe(resp => {
-          this.catplantelesCat = resp;
-        });
+
   }
 
   newRecord(idParent:number): Plantillasdocsnombramiento {
@@ -215,6 +215,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   async open(idItem: string, accion: string,idParent:number,tipo:number):  Promise<void> {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
+
     this.tipo=(tipo==1?"nombramiento":"licencia");
     this.tituloForm="Preparación " + this.tipo +" - " + titulosModal[accion] + " registro";
     //this.formUpload.resetFile();
@@ -224,13 +225,23 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       this.catestatusplazaCat = resp;
     });
 
+
     if(idItem=="0"){
         this.record =this.newRecord(idParent);
+
         //this.listUpload.showFiles(0);
 
         //obtener el plantel de la plantilla
         this.plantillasSvc.getRecord(this.record.id_plantillaspersonal).subscribe(resp => {
           this.record_plantillaspersonal=resp;
+          this.record.id_catplanteles=this.record_plantillaspersonal.id_catplanteles; // se asigna aquí, porque es de solo lectura y viene desde la plantilla
+
+          this.catplantelesSvc.getCatalogo().subscribe(resp => {
+            this.catplantelesCat = resp;
+            this.txtid_catplanteles.nativeElement.value=resp.find(x=>x.id==this.record.id_catplanteles).ubicacion;
+          });
+
+          this.onSelectPlantel(this.record.id_catplanteles);
           this.varAsignarHorasSemestres=(this.record_plantillaspersonal.id_catplantillas==4?true:false);
 
           this.onSelectTipoNombramiento(this.record.id_catestatusplaza);
@@ -240,6 +251,11 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       this.plantillasdocsnombramientoService.getRecord(idItem).subscribe(resp => {
         this.record = resp;
         //this.listUpload.showFiles(this.record.id_archivos);
+
+        this.catplantelesSvc.getCatalogo().subscribe(resp => {
+          this.catplantelesCat = resp;
+          this.txtid_catplanteles.nativeElement.value=resp.find(x=>x.id==this.record.id_catplanteles).ubicacion;
+        });
 
         if(this.record.id_personal_titular>0)//si es el titular
           this.personalSvc.getRecord(this.record.id_personal_titular).subscribe(resp => {
@@ -351,14 +367,15 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       }
 
     });
-    this.plazasSvc.getCatalogoDisponibleSegunCategoria(valor,this.record.id_plazas).subscribe(resp => {
+
+    this.plazasSvc.getCatalogoDisponibleSegunCategoria(valor,this.record.id_plazas,this.record.id_catplanteles).subscribe(resp => {
       this.plazasCat = resp;
     });
   }
 
   onSelectPlantel(select_plantel) {
     //let clave=$("#selectPlantel option:selected").text().split("-")[0];
-    this.record.id_catplanteles=select_plantel;
+    //this.record.id_catplanteles=select_plantel;
     this.record.id_catcentrostrabajo=0;
     this.catcentrostrabajoCat=[];
 

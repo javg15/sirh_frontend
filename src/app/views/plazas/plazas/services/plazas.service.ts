@@ -86,9 +86,9 @@ export class PlazasService {
   }
 
   /* Obtiene las plazas disponibloes segun la categoria*/
-  public getCatalogoDisponibleSegunCategoria(id_categorias: any,id_plazas): Observable<any> {
+  public getCatalogoDisponibleSegunCategoria(id_categorias: any,id_plazas, id_catplanteles): Observable<any> {
     return this.http.post(this.API_URL + '/plazas/getCatalogoDisponibleSegunCategoria',
-      { id_categorias,id_plazas }
+      { id_categorias,id_plazas,id_catplanteles }
       , httpOptions);
   }
 
