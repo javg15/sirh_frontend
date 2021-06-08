@@ -41,6 +41,21 @@ export default interface Plantillasdocsnombramiento {
   id_catquincena_fin: number | null;
 
   id_catbajamotivo: number | null;
+
+  id_catplanteles: number | null;
+
+  id_catfuncionprimaria: number | null;
+
+  id_catfuncionsecundaria: number | null;
+
+  id_catcentrostrabajo: number;
+
+  id_cattipoocupacion: number | null;
+
+  id_cattiposemestre: number | null;
+
+  id_catesquemapago: number | null;
+
 }
 
 export interface PlantillasdocsnombramientoInitializer {
@@ -88,4 +103,20 @@ export interface PlantillasdocsnombramientoInitializer {
   id_catquincena_fin?: number;
 
   id_catbajamotivo?: number;
+
+  id_catplanteles?: number;
+
+  id_catfuncionprimaria?: number;
+
+  id_catfuncionsecundaria?: number;
+
+  /** Default value: 0 */
+  id_catcentrostrabajo?: number;
+
+  id_cattipoocupacion?: number;
+
+  id_cattiposemestre?: number;
+
+  /** Default value: 0 */
+  id_catesquemapago?: number;
 }

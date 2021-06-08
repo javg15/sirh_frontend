@@ -83,7 +83,9 @@ export class PlantillasDocsBajaFormComponent implements OnInit, OnDestroy {
       fechaexpedicion: null,  id_catestatusplaza: 1,  fechaini: null, fechafin: null,
       id_personal_titular: 0,  horas: 0, horasb: 0,  id_categorias: 0, id_plazas:0,
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0,
-      id_catquincena_ini:0,id_catquincena_fin:0,id_catbajamotivo:0
+      id_catquincena_ini:0,id_catquincena_fin:0,id_catbajamotivo:0,id_catplanteles:0,
+      id_catcentrostrabajo:0,id_catesquemapago:0,id_catfuncionprimaria:0,id_catfuncionsecundaria:0,
+      id_cattipoocupacion:0,id_cattiposemestre:0
     };
   }
   ngOnInit(): void {

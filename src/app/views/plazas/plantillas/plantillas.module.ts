@@ -28,7 +28,7 @@ import { DropdownsComponent } from '../../buttons/dropdowns.component';
 
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import { NgSelect2Module } from 'ng-select2';
-
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 @NgModule({
   imports: [
@@ -41,6 +41,7 @@ import { NgSelect2Module } from 'ng-select2';
     AutocompleteLibModule,
     NgSelect2Module,
     BsDropdownModule.forRoot(),
+    TabsModule.forRoot(),
   ],
   declarations: [
     DropdownsComponent,

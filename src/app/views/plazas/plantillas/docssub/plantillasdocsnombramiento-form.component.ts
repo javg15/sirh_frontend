@@ -3,7 +3,9 @@ import { DatePipe } from '@angular/common'
 import { ActivatedRoute } from '@angular/router';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Plantillasdocsnombramiento,Personal,Categorias,Plantillaspersonal,Catestatusplaza,Plazas,Categoriasdetalle,Catquincena } from '../../../../_models';
+import { Plantillasdocsnombramiento,Personal,Categorias,Plantillaspersonal,Catestatusplaza,
+    Plazas,Categoriasdetalle,Catquincena, Catfuncionprimaria,Catfuncionsecundaria,Catesquemapago,
+    Cattiposemestre, Catplanteles,Catcentrostrabajo } from '../../../../_models';
 //import { Archivos } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
@@ -14,6 +16,14 @@ import { PlazasService } from '../../plazas/services/plazas.service';
 import { CategoriasService } from '../../../catalogos/categorias/services/categorias.service';
 import { CategoriasdetalleService } from '../../../catalogos/categorias/services/categoriasdetalle.service';
 import { CatquincenaService } from '../../../catalogos/catquincena/services/catquincena.service';
+import { CatfuncionprimariaService } from '../../../catalogos/catfuncionprimaria/services/catfuncionprimaria.service';
+import { CatfuncionsecundariaService } from '../../../catalogos/catfuncionsecundaria/services/catfuncionsecundaria.service';
+import { CattiposemestreService } from '../../../catalogos/cattiposemestre/services/cattiposemestre.service';
+import { CatesquemapagoService } from '../../../catalogos/catesquemapago/services/catesquemapago.service';
+import { CatplantelesService } from '../../../catalogos/catplanteles/services/catplanteles.service';
+import { CatcentrostrabajoService } from '../../../catalogos/catcentrostrabajo/services/catcentrostrabajo.service';
+import { CatzonaeconomicaService } from '../../../catalogos/catzonaeconomica/services/catzonaeconomica.service';
+import { CatzonageograficaService } from '../../../catalogos/catzonageografica/services/catzonageografica.service';
 
 //import { ArchivosService } from '../../../catalogos/archivos/services/archivos.service';
 import { PlantillasdocsNombramientoService } from '../services/plantillasdocsnombramiento.service';
@@ -50,6 +60,8 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   @ViewChild('basicModalDocsNombramiento') basicModalDocsNombramiento: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
+  @ViewChild('txtzonaeconomica') txtzonaeconomica: ElementRef;
+  @ViewChild('txtzonageografica') txtzonageografica: ElementRef;
   /*@ViewChild(ListUploadComponent) listUpload: ListUploadComponent;
   @ViewChild(FormUploadComponent) formUpload: FormUploadComponent;*/
 
@@ -65,6 +77,12 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   catestatusplazaCat:Catestatusplaza[];
   plazasCat:Plazas[];
   catquincenaCat:Catquincena[];
+  catfuncionprimariaCat:Catfuncionprimaria[];
+  catfuncionsecundariaCat:Catfuncionsecundaria[];
+  cattiposemestreCat:Cattiposemestre[];
+  catesquemapagoCat:Catesquemapago[];
+  catplantelesCat:Catplanteles[];
+  catcentrostrabajoCat:Catcentrostrabajo[];
 
   convigencia:boolean;
   conlicencia:boolean;
@@ -85,6 +103,14 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       private plazasSvc: PlazasService,
       private categoriasdetalleSvc: CategoriasdetalleService,
       private catquincenaSvc: CatquincenaService,
+      private catfuncionprimariaSvc: CatfuncionprimariaService,
+      private catfuncionsecundariaSvc: CatfuncionsecundariaService,
+      private catesquemapagoSvc: CatesquemapagoService,
+      private cattiposemestreSvc: CattiposemestreService,
+      private catplantelesSvc: CatplantelesService,
+      private catcentrostrabajoSvc: CatcentrostrabajoService,
+      private catzonaeconomicaSvc: CatzonaeconomicaService,
+      private catzonageograficaSvc: CatzonageograficaService,
     private el: ElementRef,
     //private archivosSvc:ArchivosService,
     public datepipe: DatePipe
@@ -92,6 +118,21 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
         this.elementModal = el.nativeElement;
         this.catquincenaSvc.getCatalogoSegunAnio(moment().format('YYYY')).subscribe(resp => {
           this.catquincenaCat = resp;
+        });
+        this.catfuncionprimariaSvc.getCatalogo().subscribe(resp => {
+          this.catfuncionprimariaCat = resp;
+        });
+        this.catfuncionsecundariaSvc.getCatalogo().subscribe(resp => {
+          this.catfuncionsecundariaCat = resp;
+        });
+        this.cattiposemestreSvc.getCatalogo().subscribe(resp => {
+          this.cattiposemestreCat = resp;
+        });
+        this.catesquemapagoSvc.getCatalogo().subscribe(resp => {
+          this.catesquemapagoCat = resp;
+        });
+        this.catplantelesSvc.getCatalogo().subscribe(resp => {
+          this.catplantelesCat = resp;
         });
   }
 
@@ -101,7 +142,9 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       fechaexpedicion: null,  id_catestatusplaza: 0,  fechaini: null, fechafin: null,
       id_personal_titular: 0,  horas: 0, horasb: 0,  id_categorias: 0, id_plazas:0,
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0,
-      id_catquincena_ini:0,id_catquincena_fin:0,id_catbajamotivo:0
+      id_catquincena_ini:0,id_catquincena_fin:0,id_catbajamotivo:0,id_catplanteles:0,
+      id_catcentrostrabajo:0,id_catesquemapago:0,id_catfuncionprimaria:0,id_catfuncionsecundaria:0,
+      id_cattipoocupacion:0,id_cattiposemestre:0
     };
   }
   ngOnInit(): void {
@@ -134,7 +177,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
     if(this.actionForm.toUpperCase()!=="VER"){
 
       this.validSummary.resetErrorMessages(admin);
-
+console.log("this.record:",this.record)
       await this.isLoadingService.add(
       this.plantillasdocsnombramientoService.setRecord(this.record,this.actionForm).subscribe(async resp => {
         if (resp.hasOwnProperty('error')) {
@@ -310,6 +353,39 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
     });
     this.plazasSvc.getCatalogoDisponibleSegunCategoria(valor,this.record.id_plazas).subscribe(resp => {
       this.plazasCat = resp;
+    });
+  }
+
+  onSelectPlantel(select_plantel) {
+    //let clave=$("#selectPlantel option:selected").text().split("-")[0];
+    this.record.id_catplanteles=select_plantel;
+    this.record.id_catcentrostrabajo=0;
+    this.catcentrostrabajoCat=[];
+
+    this.catcentrostrabajoSvc.getCatalogoSegunPlantel(this.record.id_catplanteles).subscribe(resp => {
+      this.catcentrostrabajoCat = resp;
+    });
+
+    //Obtener las categporias segun el tipo de plantel seleccionado
+    let tipoplantel=this.catplantelesCat.find(e=>e.id==select_plantel).tipoplantel;
+    this.categoriasSvc.getCatalogoSegunPlantel(tipoplantel).subscribe(resp => {
+      this.categoriasCat = resp;
+    });
+
+    if(select_plantel>0)
+      this.showAdicionalesPlantel(select_plantel);
+  }
+
+  showAdicionalesPlantel(select_plantel){
+
+    this.catplantelesSvc.getRecord(select_plantel).subscribe(resp => {
+      this.catzonaeconomicaSvc.getRecord(resp.id_catzonaeconomica).subscribe(resp => {
+        this.txtzonaeconomica.nativeElement.value=resp.descripcion;
+      });
+
+      this.catzonageograficaSvc.getRecord(resp.id_catzonageografica).subscribe(resp => {
+        this.txtzonageografica.nativeElement.value=resp.descripcion;
+      })
     });
   }
 }

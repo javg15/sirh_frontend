@@ -12,7 +12,10 @@ import Catestados, { CatestadosInitializer } from './Catestados';
 import Catbajamotivo, { CatbajamotivoInitializer } from './Catbajamotivo';
 import Catestatusplaza, { CatestatusplazaInitializer, CatestatusplazaId } from './catestatusplaza';
 import Catfuentef, { CatfuentefInitializer, CatfuentefId } from './catfuentef';
+import Catfuncionprimaria, { CatfuncionprimariaInitializer } from './catfuncionprimaria';
 import Catfuncionsecundaria, { CatfuncionsecundariaInitializer } from './catfuncionsecundaria';
+import Cattiposemestre, { CattiposemestreInitializer } from './cattiposemestre';
+import Catesquemapago, { CatesquemapagoInitializer } from './catesquemapago';
 import Catlocalidades, { CatlocalidadesInitializer, CatlocalidadesId } from './catlocalidades';
 import Catmunicipios, { CatmunicipiosInitializer, CatmunicipiosId } from './catmunicipios';
 import Catplanteles, { CatplantelesInitializer, CatplantelesId } from './catplanteles';
@@ -70,7 +73,10 @@ type Model =
   | Catbajamotivo
   | Catestatusplaza
   | Catfuentef
+  | Catfuncionprimaria
   | Catfuncionsecundaria
+  | Catesquemapago
+  | Cattiposemestre
   | Catlocalidades
   | Catmunicipios
   | Catplanteles
@@ -128,7 +134,10 @@ interface ModelTypeMap {
   'catbajamotivo': Catbajamotivo;
   'catestatusplaza': Catestatusplaza;
   'catfuentef': Catfuentef;
+  'catfuncionprimaria': Catfuncionprimaria;
   'catfuncionsecundaria': Catfuncionsecundaria;
+  'catesquemapago': Catesquemapago;
+  'cattiposemestre': Cattiposemestre;
   'catlocalidades': Catlocalidades;
   'catmunicipios': Catmunicipios;
   'catplanteles': Catplanteles;
@@ -268,7 +277,10 @@ type Initializer =
   | CatbajamotivoInitializer
   | CatestatusplazaInitializer
   | CatfuentefInitializer
+  | CatfuncionprimariaInitializer
   | CatfuncionsecundariaInitializer
+  | CatesquemapagoInitializer
+  | CattiposemestreInitializer
   | CatlocalidadesInitializer
   | CatmunicipiosInitializer
   | CatplantelesInitializer
@@ -326,7 +338,10 @@ interface InitializerTypeMap {
   'catbajamotivo': CatbajamotivoInitializer;
   'catestatusplaza': CatestatusplazaInitializer;
   'catfuentef': CatfuentefInitializer;
+  'catfuncionprimaria': CatfuncionprimariaInitializer;
   'catfuncionsecundaria': CatfuncionsecundariaInitializer;
+  'catesquemapago': CatesquemapagoInitializer;
+  'cattiposemestre': CattiposemestreInitializer;
   'catlocalidades': CatlocalidadesInitializer;
   'catmunicipios': CatmunicipiosInitializer;
   'catplanteles': CatplantelesInitializer;
@@ -385,7 +400,10 @@ export {
   Catbajamotivo,CatbajamotivoInitializer,
   Catestatusplaza, CatestatusplazaInitializer, CatestatusplazaId,
     Catfuentef, CatfuentefInitializer, CatfuentefId,
+  Catfuncionprimaria, CatfuncionprimariaInitializer,
   Catfuncionsecundaria, CatfuncionsecundariaInitializer,
+  Catesquemapago, CatesquemapagoInitializer,
+  Cattiposemestre, CattiposemestreInitializer,
   Catlocalidades, CatlocalidadesInitializer, CatlocalidadesId,
   Catmunicipios, CatmunicipiosInitializer, CatmunicipiosId,
   Catplanteles, CatplantelesInitializer, CatplantelesId,
