@@ -36,6 +36,7 @@ import Estudios, { EstudiosInitializer, EstudiosId } from './estudios';
 import Gruposclase, { GruposclaseInitializer, GruposclaseId } from './gruposclase';
 import Horas, { HorasInitializer, HorasId } from './horas';
 import Horasclase, { HorasclaseInitializer, HorasclaseId } from './horasclase';
+import Horasclaseasignar, { HorasclaseasignarInitializer, HorasclaseasignarId } from './horasclaseasignar';
 import Horasclasedetalle, { HorasclasedetalleInitializer, HorasclasedetalleId } from './horasclasedetalle';
 import Log, { LogInitializer, LogId } from './log';
 import Materiasclase, { MateriasclaseInitializer, MateriasclaseId } from './materiasclase';
@@ -97,6 +98,7 @@ type Model =
   | Gruposclase
   | Horas
   | Horasclase
+  | Horasclaseasignar
   | Horasclasedetalle
   | Log
   | Materiasclase
@@ -158,6 +160,7 @@ interface ModelTypeMap {
   'gruposclase': Gruposclase;
   'horas': Horas;
   'horasclase': Horasclase;
+  'horasclaseasignar': Horasclaseasignar;
   'horasclasedetalle': Horasclasedetalle;
   'log': Log;
   'materiasclase': Materiasclase;
@@ -202,6 +205,7 @@ type ModelId =
   | GruposclaseId
   | HorasId
   | HorasclaseId
+  | HorasclaseasignarId
   | HorasclasedetalleId
   | LogId
   | MateriasclaseId
@@ -242,6 +246,7 @@ interface ModelIdTypeMap {
   'gruposclase': GruposclaseId;
   'horas': HorasId;
   'horasclase': HorasclaseId;
+  'horasclaseasignar': HorasclaseasignarId;
   'horasclasedetalle': HorasclasedetalleId;
   'log': LogId;
   'materiasclase': MateriasclaseId;
@@ -301,6 +306,7 @@ type Initializer =
   | GruposclaseInitializer
   | HorasInitializer
   | HorasclaseInitializer
+  | HorasclaseasignarInitializer
   | HorasclasedetalleInitializer
   | LogInitializer
   | MateriasclaseInitializer
@@ -362,6 +368,7 @@ interface InitializerTypeMap {
   'gruposclase': GruposclaseInitializer;
   'horas': HorasInitializer;
   'horasclase': HorasclaseInitializer;
+  'horasclaseasignar': HorasclaseasignarInitializer;
   'horasclasedetalle': HorasclasedetalleInitializer;
   'log': LogInitializer;
   'materiasclase': MateriasclaseInitializer;
@@ -424,6 +431,7 @@ export {
   Gruposclase, GruposclaseInitializer, GruposclaseId,
   Horas, HorasInitializer, HorasId,
   Horasclase, HorasclaseInitializer, HorasclaseId,
+  Horasclaseasignar, HorasclaseasignarInitializer, HorasclaseasignarId,
   Horasclasedetalle, HorasclasedetalleInitializer, HorasclasedetalleId,
   Log, LogInitializer, LogId,
   Materiasclase, MateriasclaseInitializer, MateriasclaseId,

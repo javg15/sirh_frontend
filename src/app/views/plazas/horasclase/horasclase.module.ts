@@ -9,6 +9,7 @@ import { HorasclaseRoutingModule } from './horasclase-routing.module';
 import { HorasclaseService } from './services/horasclase.service';
 import { HorasclaseAdminComponent } from './admin/horasclase-admin.component';
 import { HorasclaseFormComponent } from './form/horasclase-form.component';
+import { HorasclaseasignarFormComponent } from './form/horasclaseasignar-form.component';
 import { HorasclasedetalleFormComponent } from './formsub/horasclasedetalle-form.component';
 import { DataTablesModule } from 'angular-datatables';
 import { NgSelect2Module } from 'ng-select2';
@@ -26,6 +27,7 @@ import { NgSelect2Module } from 'ng-select2';
   declarations: [
     HorasclaseAdminComponent,
     HorasclaseFormComponent,
+    HorasclaseasignarFormComponent,
     HorasclasedetalleFormComponent
   ],
   providers: [
