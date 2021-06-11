@@ -17,13 +17,34 @@ export class SearchAdminComponent implements OnInit {
 
   isCollapsed: boolean = true;
   itemsCampos: Array<any> = [{id: 0, idesc: '', orden: 0}];
-  itemsOperadores: Array<any> = [{id: 0, idesc: '', orden: 0}];
+  itemsOperadores: Array<Array<any>> = [[{id: 0, idesc: '', orden: 0}]
+              ,[{id: 0, idesc: '', orden: 0}]
+              ,[{id: 0, idesc: '', orden: 0}]
+              ,[{id: 0, idesc: '', orden: 0}]
+              ,[{id: 0, idesc: '', orden: 0}]];
 
-  selectedItemsCampos: any = {id: 0, idesc: '', orden: 0};
-  selectedItemsOperadores: any = {id: 0, idesc: '', orden: 0};
-  tipoEdicion:number;
-  valorBuscar: string;
-  comboCat:any={id:"---------",idesc:"----------"};
+  selectedItemsCampos: Array<any> = [{id: 0, idesc: '', orden: 0}
+                            ,{id: 0, idesc: '', orden: 0}
+                            ,{id: 0, idesc: '', orden: 0}
+                            ,{id: 0, idesc: '', orden: 0}
+                            ,{id: 0, idesc: '', orden: 0}];
+
+  selectedItemsOperadores: Array<any> = [{id: 0, idesc: '', orden: 0}
+                            ,{id: 0, idesc: '', orden: 0}
+                            ,{id: 0, idesc: '', orden: 0}
+                            ,{id: 0, idesc: '', orden: 0}
+                            ,{id: 0, idesc: '', orden: 0}
+                            ,{id: 0, idesc: '', orden: 0}];
+
+  tipoEdicion:Array<number>= [0,0,0,0,0];;
+  valorBuscar: Array<string>= ['','','','',''];;
+  cuentaVisibles:number=1;
+
+  comboCat:Array<Array<any>>=[[{id:"---------",idesc:"----------"}]
+                            ,[{id:"---------",idesc:"----------"}]
+                            ,[{id:"---------",idesc:"----------"}]
+                            ,[{id:"---------",idesc:"----------"}]
+                            ,[{id:"---------",idesc:"----------"}]];
 
   constructor(private searchService: SearchService) {
   }
@@ -42,7 +63,7 @@ export class SearchAdminComponent implements OnInit {
       }
     });
 
-    this.onSelectCampos(this.selectedItemsCampos.id);
+    this.onSelectCampos(0,this.selectedItemsCampos[0].id);
   }
 
   ngOnDestroy(): void {
@@ -57,21 +78,21 @@ export class SearchAdminComponent implements OnInit {
     // console.log(event);
   }
 
-  onSelectCampos(id_campo) {
-    this.itemsOperadores = [{id: 0, idesc: '', orden: 0}];
-    this.tipoEdicion=this.itemsCampos.find(a=>a.id==id_campo).edicion;
-    this.valorBuscar="";
-    if(this.tipoEdicion==1){//combo
-      this.comboCat=JSON.parse(this.itemsCampos.find(a=>a.id==id_campo).valores);
+  onSelectCampos(idx, id_campo) {
+    this.itemsOperadores[idx] = [{id: 0, idesc: '', orden: 0}];
+    this.tipoEdicion[idx]=this.itemsCampos.find(a=>a.id==id_campo).edicion;
+    this.valorBuscar[idx]="";
+    if(this.tipoEdicion[idx]==1){//combo
+      this.comboCat[idx]=JSON.parse(this.itemsCampos.find(a=>a.id==id_campo).valores);
     }
 
     this.searchService.getSearchoperadores(id_campo).subscribe(resp => {
       for (let i = 0; i < resp.data.length; i++) {
         if(i==0){
-          this.selectedItemsOperadores.id=resp.data[0].id;
+          this.selectedItemsOperadores[idx].id=resp.data[0].id;
         }
 
-        this.itemsOperadores.push({
+        this.itemsOperadores[idx].push({
           id: resp.data[i].id,
           idesc: resp.data[i].idesc,
           orden: resp.data[i].orden
@@ -80,25 +101,43 @@ export class SearchAdminComponent implements OnInit {
     });
   }
 
-  onSelectComboValor(valor){
-    this.valorBuscar=valor;
+  onSelectComboValor(idx,valor){
+    this.valorBuscar[idx]=valor;
   }
 
 
   onClickBuscar() {
-
-    this.buscarEvent.emit({
-        campo: this.selectedItemsCampos.id,
-        operador: this.selectedItemsOperadores.id,
-        valor: this.valorBuscar
-      }
-    );
+    let campo:Array<any>=[];
+    let operador:Array<any>=[];
+    let valor:Array<any>=[];
+    //verificar los renglones multicriterio
+    for(let i=0;i<this.cuentaVisibles;i++){
+      campo.push(this.selectedItemsCampos[i].id);
+      operador.push(this.selectedItemsOperadores[i].id);
+      valor.push(this.valorBuscar[i]);
+    }
+    let buscarItems:any={campo:campo.join('|'),operador:operador.join('|'),valor:valor.join('|')};
+    this.buscarEvent.emit(buscarItems);
   }
 
   onClickClear() {
-    this.selectedItemsCampos = {id: 0, idesc: '', orden: 0};
-    this.selectedItemsOperadores = {id: 0, idesc: '', orden: 0};
-    this.valorBuscar = '';
+    this.selectedItemsCampos = [{id: 0, idesc: '', orden: 0}
+    ,{id: 0, idesc: '', orden: 0}
+    ,{id: 0, idesc: '', orden: 0}
+    ,{id: 0, idesc: '', orden: 0}
+    ,{id: 0, idesc: '', orden: 0}];
+    this.selectedItemsOperadores = [{id: 0, idesc: '', orden: 0}
+    ,{id: 0, idesc: '', orden: 0}
+    ,{id: 0, idesc: '', orden: 0}
+    ,{id: 0, idesc: '', orden: 0}
+    ,{id: 0, idesc: '', orden: 0}];
+    this.valorBuscar = ['','','','',''];
+    this.cuentaVisibles=1;
     this.onClickBuscar();
+  }
+
+  onClickAddMinus(accion){
+    if(accion==1 && this.cuentaVisibles<5) this.cuentaVisibles++;
+    if(accion==2 && this.cuentaVisibles>1) this.cuentaVisibles--;
   }
 }
