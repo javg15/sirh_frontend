@@ -85,7 +85,7 @@ export class HorasclaseService {
 
   public open(id: string, accion: string, idItem: number) {
         let modal: any = this.modals.filter(x => x.id === id)[0];
-        modal.open(idItem, accion);
+        modal.open(idItem, accion,idItem);
     }
 
   public close(id: string) {

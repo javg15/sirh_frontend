@@ -1,9 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { UsuariosService } from '../services/usuarios.service';
-import { CatestadosService } from '../../../catalogos/catestados/services/catestados.service';
-import { CatmunicipiosService } from '../../../catalogos/catmunicipios/services/catmunicipios.service';
-import { CatlocalidadesService } from '../../../catalogos/catlocalidades/services/catlocalidades.service';
-import { CatestadocivilService } from '../../../catalogos/catestadocivil/services/catestadocivil.service';
+import { UsuarioszonasService } from '../../../autenticacion/usuarioszonas/services/usuarioszonas.service';
 import { CatzonageograficaService } from '../../../catalogos/catzonageografica/services/catzonageografica.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Usuarios,  Catestados, Catmunicipios, Catlocalidades, Catestadocivil,Catzonageografica } from '../../../../_models';
@@ -65,6 +62,7 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
       private usuariosService: UsuariosService, private el: ElementRef,
       private archivosSvc:ArchivosService,
       private catzonageograficaSvc: CatzonageograficaService,
+      private usuarioszonasSvc:UsuarioszonasService
       ) {
       this.elementModal = el.nativeElement;
       this.catzonageograficaSvc.getCatalogo().subscribe(resp => {
@@ -111,7 +109,7 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
       this.validSummary.resetErrorMessages(form);
 
       await this.isLoadingService.add(
-      this.usuariosService.setPerfil(this.record,this.actionForm,this.passConfirm,this.passActual).subscribe(async resp => {
+      this.usuariosService.setPerfil(this.record,this.actionForm,this.passConfirm,this.passActual,0).subscribe(async resp => {
         if (resp.hasOwnProperty('error')) {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
         }
@@ -161,6 +159,10 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
     this.usuariosService.getRecord(idItem).subscribe(resp => {
       this.record = resp;
       this.listUpload.showFiles(this.record.id_archivos_avatar);
+//obtener las zonas seleccionadas
+      this.usuarioszonasSvc.getRecord(idItem).subscribe(resp => {
+        this.record.record_catzonasgeograficas = resp;
+      });
     });
   }
 

@@ -84,7 +84,7 @@ export class UsuariosFormdirectComponent implements OnInit {
       this.record.pass=this.pass.toString();
 
       await this.isLoadingService.add(
-      this.usuariosService.setPerfil(this.record,this.actionForm,this.passConfirm,this.passActual).subscribe(async resp => {
+      this.usuariosService.setPerfil(this.record,this.actionForm,this.passConfirm,this.passActual,1).subscribe(async resp => {
         if (resp.hasOwnProperty('error')) {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
         }

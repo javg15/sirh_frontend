@@ -1,4 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter  } from '@angular/core';
+import { HorasclaseService } from '../services/horasclase.service';
 import { HorasclaseasignarService } from '../services/horasclaseasignar.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -38,28 +39,9 @@ export class HorasclaseasignarFormComponent implements OnInit, OnDestroy {
   dtInstance: Promise<DataTables.Api>;
   dtTrigger: Subject<DataTableDirective> = new Subject();
 
-  Members: any[];
-  ColumnNames: string[];
-
-  private dataTablesParameters={
-    draw: 1,  length: 100 , opcionesAdicionales: {},
-    order: [{column: 0, dir: "asc"}],
-    search: {value: "", regex: false},
-    start: 0
-  };
-  private dtOptionsAdicional = { datosBusqueda: {campo: 0, operador: 0, valor: ''}
-    ,raw:0
-    ,fkey:'id_horasclaseasignar'
-    ,fkeyvalue:0
-    ,modo:2
-  };
-
-  NumberOfMembers = 0;
   API_URL = environment.APIS_URL;
 
   nombreModulo = 'Horasclaseasignar';
-
-  headersAdmin: any;
 
   actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
@@ -74,8 +56,8 @@ export class HorasclaseasignarFormComponent implements OnInit, OnDestroy {
   plantillaspersonalCat:Plantillaspersonal[];
 
   constructor(private isLoadingService: IsLoadingService,
-      private horasclaseasignarService: HorasclaseasignarService, private el: ElementRef,
-      //private horasclaseasignardetalleService: HorasclasedetalleService,
+    private horasclaseService: HorasclaseService,private el: ElementRef,
+    private horasclaseasignarSvc: HorasclaseasignarService,
     private plantillaspersonalSvc: PlantillasService,
     private catquincenaSvc: CatquincenaService,
     private route: ActivatedRoute
@@ -84,9 +66,7 @@ export class HorasclaseasignarFormComponent implements OnInit, OnDestroy {
       this.catquincenaSvc.getCatalogo().subscribe(resp => {
         this.catquincenaCat = resp;
       });
-      this.plantillaspersonalSvc.getCatalogo().subscribe(resp => {
-        this.plantillaspersonalCat = resp;
-      });
+
       //this.cattipoCat=[{id:'',descripcion:''},{id:1,descripcion:'ADMINISTRATIVO'},{id:2,descripcion:'DOCENTE'},{id:3,descripcion:'DIRECTIVO'}];
   }
 
@@ -109,46 +89,16 @@ export class HorasclaseasignarFormComponent implements OnInit, OnDestroy {
         return;
     }
     // add self (this modal instance) to the modal service so it's accessible from controllers
-    modal.horasclaseasignarService.add(modal);
+    modal.horasclaseService.add(modal);
 
-      //subtabla datatable
-    this.headersAdmin = this.route.snapshot.data.userdataSueldos; // get data from resolver
-
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      paging:false,
-      //pageLength: 50,
-      //serverSide: true,
-      //processing: true,
-      ordering:false,
-      destroy : true,
-      searching : false,
-      info: false,
-      language: {
-        emptyTable: '',
-        zeroRecords: 'No hay coincidencias',
-        lengthMenu: 'Mostrar _MENU_ elementos',
-        search: 'Buscar:',
-        info: 'De _START_ a _END_ de _TOTAL_ elementos',
-        infoEmpty: 'De 0 a 0 de 0 elementos',
-        infoFiltered: '(filtrados de _MAX_ elementos totales)',
-        paginate: {
-          first: 'Prim.',
-          last: 'Últ.',
-          next: 'Sig.',
-          previous: 'Ant.'
-        },
-      },
-      columns: this.headersAdmin,
-      columnDefs:[{"visible": false, "targets": 0}, //state
-                {"width": "5%", "targets": 1}]
-    };
+    //loading
+    this.userFormIsPending =this.isLoadingService.isLoading$({ key: 'loading' });
 
   }
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-      this.horasclaseasignarService.remove(this.id); //idModal
+      this.horasclaseService.remove(this.id); //idModal
       this.elementModal.remove();
   }
 
@@ -159,7 +109,7 @@ export class HorasclaseasignarFormComponent implements OnInit, OnDestroy {
       this.validSummary.resetErrorMessages(form);
 
       await this.isLoadingService.add(
-      this.horasclaseasignarService.setRecord(this.record,this.actionForm).subscribe(resp => {
+      this.horasclaseasignarSvc.setRecord(this.record,this.actionForm).subscribe(resp => {
         if (resp.hasOwnProperty('error')) {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
         }
@@ -174,23 +124,31 @@ export class HorasclaseasignarFormComponent implements OnInit, OnDestroy {
   }
 
   // open modal
-  open(idItem: string, accion: string):  void {
+  open(idItem: string, accion: string,idParent:number):  void {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
     this.tituloForm="Horas clase - " + titulosModal[accion] + " registro";
 
-    if(idItem=="0"){
-        this.record =this.newRecord();
-        //this.reDraw();
-    } else {
-      this.horasclaseasignarService.getRecord(idItem).subscribe(resp => {
-        this.record = resp;
-        //this.reDraw();
-      });
-    }
+    this.horasclaseService.getRecord(idItem).subscribe(resp => {
+      this.plantillaspersonalSvc.getCatalogoSegunPlantel(resp.id_catplanteles).subscribe(resp => {
+        this.plantillaspersonalCat = resp;
 
-    // console.log($('#modalTest').html()); poner el id a algun elemento para testear
-    this.basicModal.show();
+        this.horasclaseasignarSvc.getRecordSegunParent(idItem).subscribe(resp => {
+          if(resp.message){
+            this.record =this.newRecord();
+            this.record.id_horasclase=idParent;
+          }
+          else
+            this.record = resp;
+          //this.reDraw();
+        });
+
+        // console.log($('#modalTest').html()); poner el id a algun elemento para testear
+        this.basicModal.show();
+      });
+    });
+
+
   }
 
   // close modal

@@ -35,6 +35,7 @@ import Ejercicioreal, { EjerciciorealInitializer, EjerciciorealId } from './ejer
 import Estudios, { EstudiosInitializer, EstudiosId } from './estudios';
 import Gruposclase, { GruposclaseInitializer, GruposclaseId } from './gruposclase';
 import Horas, { HorasInitializer, HorasId } from './horas';
+import UsuariosZonas, { UsuariosZonasInitializer, UsuariosZonasId } from './usuarios_zonas';
 import Horasclase, { HorasclaseInitializer, HorasclaseId } from './horasclase';
 import Horasclaseasignar, { HorasclaseasignarInitializer, HorasclaseasignarId } from './horasclaseasignar';
 import Horasclasedetalle, { HorasclasedetalleInitializer, HorasclasedetalleId } from './horasclasedetalle';
@@ -96,6 +97,7 @@ type Model =
   | Ejercicioreal
   | Estudios
   | Gruposclase
+  | UsuariosZonas
   | Horas
   | Horasclase
   | Horasclaseasignar
@@ -158,6 +160,7 @@ interface ModelTypeMap {
   'ejercicioreal': Ejercicioreal;
   'estudios': Estudios;
   'gruposclase': Gruposclase;
+  'usuarioszonas':UsuariosZonas;
   'horas': Horas;
   'horasclase': Horasclase;
   'horasclaseasignar': Horasclaseasignar;
@@ -203,6 +206,7 @@ type ModelId =
   | EjerciciorealId
   | EstudiosId
   | GruposclaseId
+  | UsuariosZonasId
   | HorasId
   | HorasclaseId
   | HorasclaseasignarId
@@ -244,6 +248,7 @@ interface ModelIdTypeMap {
   'ejercicioreal': EjerciciorealId;
   'estudios': EstudiosId;
   'gruposclase': GruposclaseId;
+  'usuarioszonas':UsuariosZonasId;
   'horas': HorasId;
   'horasclase': HorasclaseId;
   'horasclaseasignar': HorasclaseasignarId;
@@ -304,6 +309,7 @@ type Initializer =
   | EjerciciorealInitializer
   | EstudiosInitializer
   | GruposclaseInitializer
+  | UsuariosZonasInitializer
   | HorasInitializer
   | HorasclaseInitializer
   | HorasclaseasignarInitializer
@@ -366,6 +372,7 @@ interface InitializerTypeMap {
   'ejercicioreal': EjerciciorealInitializer;
   'estudios': EstudiosInitializer;
   'gruposclase': GruposclaseInitializer;
+  'usuarioszonas':UsuariosZonasInitializer;
   'horas': HorasInitializer;
   'horasclase': HorasclaseInitializer;
   'horasclaseasignar': HorasclaseasignarInitializer;
@@ -429,6 +436,7 @@ export {
   Ejercicioreal, EjerciciorealInitializer, EjerciciorealId,
   Estudios, EstudiosInitializer, EstudiosId,
   Gruposclase, GruposclaseInitializer, GruposclaseId,
+  UsuariosZonas,UsuariosZonasInitializer,UsuariosZonasId,
   Horas, HorasInitializer, HorasId,
   Horasclase, HorasclaseInitializer, HorasclaseId,
   Horasclaseasignar, HorasclaseasignarInitializer, HorasclaseasignarId,

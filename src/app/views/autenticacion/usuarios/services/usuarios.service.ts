@@ -64,10 +64,10 @@ export class UsuariosService {
   }
 
   /* Actualiza datos del perfil del usuario en actividad. */
-  public setPerfil(dataPack,actionForm,passConfirm,passActual): Observable<any> {
+  public setPerfil(dataPack,actionForm,passConfirm,passActual,onlypass): Observable<any> {
 
     return this.http.post(this.API_URL + '/user/setPerfil',
-      { dataPack,actionForm,passConfirm,passActual }
+      { dataPack,actionForm,passConfirm,passActual,onlypass }
       , httpOptions);
   }
 

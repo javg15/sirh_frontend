@@ -107,7 +107,8 @@ export class HorasclaseAdminComponent implements OnInit {
         },
         columns: this.headersAdmin,
         columnDefs:[{"visible": false, "targets": 0}, //state
-                {"width": "5%", "targets": 1}]
+                //{"width": "5%", "targets": 1}
+              ]
       };
 
   }

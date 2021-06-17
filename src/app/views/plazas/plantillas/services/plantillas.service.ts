@@ -46,6 +46,12 @@ export class PlantillasService {
       , httpOptions);
   }
 
+  public getCatalogoSegunPlantel(id_catplanteles): Observable<any> {
+    return this.http.post(this.API_URL + '/plantillaspersonal/getCatalogoSegunPlantel',
+      { id_catplanteles }
+      , httpOptions);
+  }
+
   public getRecordPersonal(id: any): Observable<any> {
     return this.http.post(this.API_URL + '/plantillaspersonal/getRecordPersonal',
       { id }

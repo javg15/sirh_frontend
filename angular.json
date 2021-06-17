@@ -28,7 +28,8 @@
                             "node_modules/datatables.net-responsive-dt/css/responsive.dataTables.css",
                             "src/scss/style.scss",
                             "node_modules/select2/dist/css/select2.min.css",
-                            "src/app/views/_shared/shared.css"
+                            "src/app/views/_shared/shared.css",
+                            "node_modules/angular2-multiselect-dropdown/themes/default.theme.css"
                         ],
                         "stylePreprocessorOptions": {
                             "includePaths": [
