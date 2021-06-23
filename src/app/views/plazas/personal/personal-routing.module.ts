@@ -3,7 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { PersonalAdminComponent } from './admin/personal-admin.component';
 import { PersonalFormComponent } from './form/personal-form.component';
+import { PersonalhorasAdminComponent } from './horasadmin/personalhoras-admin.component';
+import { PersonalhorasFormComponent } from './horasform/personalhoras-form.component';
 import { PersonalIniService } from './services/personal.ini.service';
+import { PersonalhorasAdminIniService } from './services/personalhorasadmin.ini.service';
 
 const routes: Routes = [
   {
@@ -23,7 +26,8 @@ const routes: Routes = [
           title: 'Personas'
         },
         resolve: {
-          userdata: PersonalIniService
+          userdata: PersonalIniService,
+          userdataHoras: PersonalhorasAdminIniService,
         }
       },
       {
@@ -32,7 +36,21 @@ const routes: Routes = [
         data: {
           title: 'Personas'
         }
-      }
+      },
+      {
+        path: 'horas',
+        component: PersonalhorasAdminComponent,
+        data: {
+          title: 'Horas asignadas'
+        },
+      },
+      {
+        path: 'horasform',
+        component: PersonalhorasFormComponent,
+        data: {
+          title: 'Horas asignadas'
+        },
+      },
 
     ]
   }
@@ -42,4 +60,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PersonalRoutingModule {}
+export class PersonalRoutingModule { }

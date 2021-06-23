@@ -1,0 +1,126 @@
+<div bsModal #basicModalDocsSindicato="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-full-height modal-right" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">{{ tituloForm }}</h4>
+
+                <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+                  <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #dataForm="ngForm" (ngSubmit)="submitAction(dataForm)">
+                    <input type="hidden" name="action" value="{{ actionForm }}">
+                    <div class="form-group">
+                        <input type="hidden" [(ngModel)]="record.id" class="form-control" name="ID">
+                        <input type="hidden" [(ngModel)]="record.id_personal" class="form-control" name="id_personal">
+                        <input type="hidden" [(ngModel)]="record.id_semestre" class="form-control" name="id_semestre">
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-8">
+                            <div class="form-group">
+                                <label for="nombre">Nombre</label>
+                                <!--<input type="text" name="Nombre" disabled="disabled" [value]="recordpersonal.nombre + ' ' + recordpersonal.apellidopaterno + ' ' + recordpersonal.apellidomaterno" class="form-control" />-->
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="semestre">Semestre</label>
+                                <input type="text" name="Semestre" disabled="disabled" [value]="semestreCat.anio + ' ' + semestreCat.tipo" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="record_plantel">Plantel</label>
+                                <ng-select2 [(ngModel)]="record_plantel_id" [data]="catplantelesCat" [allowClear]="true" allowClear="true" width="100%" name="Plantel" (valueChanged)="onSelectPlantel($event)">
+                                </ng-select2>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="record_gruposclase_id">Grupo</label>
+                                <ng-select2 [(ngModel)]="record_gruposclase_id" [data]="gruposclaseCat" [allowClear]="true" allowClear="true" width="100%" name="Grupo" (valueChanged)="onSelectGruposclase($event)">
+                                </ng-select2>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="id_materiasclase">Materia</label>
+                                <ng-select2 [(ngModel)]="id_materiasclase" [data]="materiasclaseCat" [allowClear]="true" allowClear="true" width="100%" name="Grupo" (valueChanged)="onSelectMateriasclase($event)">
+                                </ng-select2>
+                                <!--<select id="selectPlantel" class="form-control" [(ngModel)]="record.id_categorias" name="Categorías">
+                  <option *ngFor="let col of categoriasCat" [value]="col.id">{{ col.clave + " - " + (col.denominacion!=null?col.denominacion:".") }}</option>
+                </select>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="cantidad">Cantidad</label>
+                                <input type="text" [(ngModel)]="record.cantidad" class="form-control" name="Cantidad">
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="id_catestatushora">Estatus</label>
+                                <select class="form-control" [(ngModel)]="record.id_catestatushora" name="Estatus">
+                                  <option *ngFor="let col of catestatushoraCat" [value]="col.id">{{ col.descripcion }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="id_catquincena_ini">Quincena inicial</label>
+                                <ng-select2 [(ngModel)]="record.id_catquincena_ini" [data]="catquincenaCat" [allowClear]="true" allowClear="true" width="100%" name="Quincena inicial">
+                                </ng-select2>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="id_catquincena_fin">Quincena final</label>
+                                <ng-select2 [(ngModel)]="record.id_catquincena_fin" [data]="catquincenaCat" [allowClear]="true" allowClear="true" width="100%" name="Quincena final">
+                                </ng-select2>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        &nbsp;
+                    </div>
+                    <app-validation-summary [form]="dataForm"></app-validation-summary>
+                    <!-- [disabled]="!dataForm.form.valid" -->
+                    <button *ngIf="actionForm!=='ver'" type="submit" [disabled]='userFormIsPending | async' class="btn btn-primary">
+                      <div *ngIf="userFormIsPending | async; else elseBlock"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Procesando...</span></div>
+                      <ng-template #elseBlock>{{ botonAccion }}</ng-template>
+                    </button>
+                </form>
+            </div>
+            <!-- <h2>Diagnostic Info</h2>
+        <div [innerHtml]="diagnosticValidate"></div>-->
+        </div>
+    </div>
+</div>
+
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-success" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">&nbsp;</h5>
+            </div>
+            <div class="modal-body">
+                <p>Acción realizada satisfactoriamente</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="successModal.hide()">Cerrar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

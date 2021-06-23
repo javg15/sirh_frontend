@@ -25,11 +25,14 @@
                                                 <button *ngIf="boton=='eliminar'" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','eliminar',member.id)">
                                                   <i class="fa fa-trash"></i>
                                               </button>
+                                                <button *ngIf="boton=='asignacion'" title="Asignación" class="btn btn-brand btn-sm mr-1 btn-xing" style="margin-bottom: 4px" type="button" (click)="openModal('custompersonalhorasadmin','editar',member.id)">
+                                                <i class="fa fa-exchange"></i>
+                                              </button>
                                             </div>
                                         </td>
                                     </div>
                                     <ng-template #elseBlock>
-                                        <ng-container *ngIf="col=='avatar';else elseBlock2">
+                                        <ng-container *ngIf="col=='foto';else elseBlock2">
                                             <td>
                                                 <img [src]="member[col].length<10?'http://sigaa.cobaev.edu.mx/festival/fotos/personal/' + member[col] + '.JPG':transform(member[col])" style="width: 50px;" class="img-avatar" alt="" onerror="this.style.display = 'none'" />
                                                 <img [src]="member[col].length<10?'http://sigaa.cobaev.edu.mx/festival/fotos/personal/' + member[col] + '.jpg':transform(member[col])" style="width: 50px;" class="img-avatar" alt="" onerror="this.style.display = 'none'" />
@@ -65,3 +68,6 @@
 <app-personal-form id="custom-modal-1" (redrawEvent)="reDraw($event)">
     <!--<input type="hidden" [(ngModel)]="idItem" />-->
 </app-personal-form>
+
+<app-personalhoras-admin id="custompersonalhorasadmin" (redrawEvent)="reDraw($event)">
+</app-personalhoras-admin>

@@ -9,6 +9,8 @@ import { PersonalRoutingModule } from './personal-routing.module';
 import { PersonalService } from './services/personal.service';
 import { PersonalAdminComponent } from './admin/personal-admin.component';
 import { PersonalFormComponent } from './form/personal-form.component';
+import { PersonalhorasAdminComponent } from './horasadmin/personalhoras-admin.component';
+import { PersonalhorasFormComponent } from './horasform/personalhoras-form.component';
 import { DataTablesModule } from 'angular-datatables';
 import { NgSelect2Module } from 'ng-select2';
 
@@ -37,11 +39,13 @@ const maskConfig: Partial<IConfig> = {
   declarations: [
     PersonalAdminComponent,
     PersonalFormComponent,
+    PersonalhorasAdminComponent,
+    PersonalhorasFormComponent,
   ],
   providers: [
     PersonalService
   ],
-  exports:[
+  exports: [
   ]
 })
 export class PersonalModule { }

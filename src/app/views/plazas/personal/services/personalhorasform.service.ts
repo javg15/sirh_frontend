@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { DataTablesResponse } from '../../../../classes/data-tables-response';
-
 import { environment } from '../../../../../environments/environment';
 
 const httpOptions = {
@@ -14,7 +12,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class CatestadocivilService {
+export class PersonalhorasFormService {
   public API_URL = environment.APIS_URL;
   private modals: any[] = [];
 
@@ -24,36 +22,10 @@ export class CatestadocivilService {
   Se define como public, para que sea accesible desde los componentes necesarios */
   constructor(public http: HttpClient) { }
 
-  getHeaders(): Observable<any> {
-    return new Observable((o) => {
-      setTimeout(() => {
-        this.http.post<DataTablesResponse>(
-          // this.API_URL + '/a6b_apis/read_records_dt.php',
-          this.API_URL + '/catestadocivil/getAdmin',
-          { solocabeceras: 1, opcionesAdicionales: { raw: 0 } }, {}
-        ).subscribe(resp => {
-          o.next(JSON.parse(resp.data[0].cabeceras));
-        })
-      }, 200)
-    })
-  }
-  /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
-  public getCatalogo(): Observable<any> {
-    return this.http.post(this.API_URL + '/catestadocivil/getCatalogo',
-      {}
-      , httpOptions);
-  }
-
-  public getCatalogoSegunSexo(id_sexo): Observable<any> {
-    return this.http.post(this.API_URL + '/catestadocivil/getCatalogoSegunSexo',
-      { id_sexo }
-      , httpOptions);
-  }
-
 
   /* El siguiente método lee los datos de un registro seleccionado para edición. */
   public getRecord(id: any): Observable<any> {
-    return this.http.post(this.API_URL + '/catestadocivil/getRecord',
+    return this.http.post(this.API_URL + '/personalhoras/getRecord',
       { id }
       , httpOptions);
   }
@@ -61,12 +33,10 @@ export class CatestadocivilService {
   /* El siguiente método graba un registro nuevo, o uno editado. */
   public setRecord(dataPack, actionForm): Observable<any> {
 
-    return this.http.post(this.API_URL + '/catestadocivil/setRecord',
+    return this.http.post(this.API_URL + '/personalhoras/setRecord',
       { dataPack, actionForm }
       , httpOptions);
   }
-
-
 
   // array de modales
   public add(modal: any) {
@@ -77,9 +47,9 @@ export class CatestadocivilService {
     this.modals = this.modals.filter(x => x.id !== id);
   }
 
-  public open(id: string, accion: string, idItem: number) {
+  public open(id: string, accion: string, idItem: number, idParent: number, idSemestre: number) {
     let modal: any = this.modals.filter(x => x.id === id)[0];
-    modal.open(idItem, accion);
+    modal.open(idItem, accion, idParent, idSemestre);
   }
 
   public close(id: string) {

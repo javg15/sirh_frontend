@@ -14,7 +14,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class CatestadocivilService {
+export class PersonalhorasAdminService {
   public API_URL = environment.APIS_URL;
   private modals: any[] = [];
 
@@ -29,40 +29,25 @@ export class CatestadocivilService {
       setTimeout(() => {
         this.http.post<DataTablesResponse>(
           // this.API_URL + '/a6b_apis/read_records_dt.php',
-          this.API_URL + '/catestadocivil/getAdmin',
+          this.API_URL + '/personalhoras/getAdmin',
           { solocabeceras: 1, opcionesAdicionales: { raw: 0 } }, {}
         ).subscribe(resp => {
-          o.next(JSON.parse(resp.data[0].cabeceras));
+          if (resp.data.length > 0)
+            o.next(JSON.parse(resp.data[0].cabeceras));
+          else {
+            o.next(JSON.parse('[{"data":"id","name":"a_id","title":"ID"},{"data":"z_e","name":"cze_descripcion","title":"Z E"},{"data":"pl_auto","name":"a_totalplazaaut","title":"Pl Auto"},{"data":"horas_auto","name":"a_totalhorasaut","title":"Horas Auto"},{"data":"quin_inicio","name":"Quin_Inicio","title":"Quin Inicio"},{"data":"quin_fin","name":"Quin_Fin","title":"Quin Fin"},{"data":"importe","name":"a_importe","title":"Importe"},{"data":"acciones","name":"Accionesbotones>","title":"Acciones","render":"botones"}]'))
+          }
         })
       }, 200)
     })
   }
   /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
-  public getCatalogo(): Observable<any> {
-    return this.http.post(this.API_URL + '/catestadocivil/getCatalogo',
-      {}
-      , httpOptions);
-  }
-
-  public getCatalogoSegunSexo(id_sexo): Observable<any> {
-    return this.http.post(this.API_URL + '/catestadocivil/getCatalogoSegunSexo',
-      { id_sexo }
-      , httpOptions);
-  }
 
 
-  /* El siguiente método lee los datos de un registro seleccionado para edición. */
-  public getRecord(id: any): Observable<any> {
-    return this.http.post(this.API_URL + '/catestadocivil/getRecord',
-      { id }
-      , httpOptions);
-  }
-
-  /* El siguiente método graba un registro nuevo, o uno editado. */
-  public setRecord(dataPack, actionForm): Observable<any> {
-
-    return this.http.post(this.API_URL + '/catestadocivil/setRecord',
-      { dataPack, actionForm }
+  /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
+  public getAdmin(dataTablesParameters): Observable<any> {
+    return this.http.post(this.API_URL + '/personalhoras/getAdmin',
+      { dataTablesParameters }
       , httpOptions);
   }
 
@@ -77,9 +62,9 @@ export class CatestadocivilService {
     this.modals = this.modals.filter(x => x.id !== id);
   }
 
-  public open(id: string, accion: string, idItem: number) {
+  public open(id: string, accion: string, idItem: number, idParent: number) {
     let modal: any = this.modals.filter(x => x.id === id)[0];
-    modal.open(idItem, accion);
+    modal.open(idItem, accion, idParent);
   }
 
   public close(id: string) {

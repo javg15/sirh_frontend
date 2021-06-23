@@ -22,22 +22,22 @@ export class PlazasService {
   /* En el constructor creamos el objeto http de la clase HttpClient,
   que estará disponible en toda la clase del servicio.
   Se define como public, para que sea accesible desde los componentes necesarios */
-  constructor(public http: HttpClient) {}
+  constructor(public http: HttpClient) { }
 
-  getHeaders(): Observable<any>{
-    return new Observable((o)=>{
-      setTimeout(()=>{
+  getHeaders(): Observable<any> {
+    return new Observable((o) => {
+      setTimeout(() => {
         this.http.post<DataTablesResponse>(
           // this.API_URL + '/a6b_apis/read_records_dt.php',
           this.API_URL + '/plazas/getAdmin',
-          {solocabeceras:1,opcionesAdicionales:{raw:0}}, {}
+          { solocabeceras: 1, opcionesAdicionales: { raw: 0 } }, {}
         ).subscribe(resp => {
-            //if(resp.data.length>0)
-              o.next(JSON.parse(resp.data[0].cabeceras));
-            /*else{
-              o.next(JSON.parse('[{"data":"id","name":"a_id","title":"ID"},{"data":"categoria","name":"ctc_denominacion","title":"Categoria"},{"data":"plantel","name":"Plantel","title":"Plantel"},{"data":"centro_trabajo","name":"ctt_descripcion","title":"Centro Trabajo"},{"data":"zona_eco","name":"ze_descripcion","title":"Zona Eco"},{"data":"zona_geo","name":"zg_descripcion","title":"Zona Geo"},{"data":"acciones","name":"Accionesbotones>","title":"Acciones","render":"botones"}]'))
-            }*/
-          })
+          //if(resp.data.length>0)
+          o.next(JSON.parse(resp.data[0].cabeceras));
+          /*else{
+            o.next(JSON.parse('[{"data":"id","name":"a_id","title":"ID"},{"data":"categoria","name":"ctc_denominacion","title":"Categoria"},{"data":"plantel","name":"Plantel","title":"Plantel"},{"data":"centro_trabajo","name":"ctt_descripcion","title":"Centro Trabajo"},{"data":"zona_eco","name":"ze_descripcion","title":"Zona Eco"},{"data":"zona_geo","name":"zg_descripcion","title":"Zona Geo"},{"data":"acciones","name":"Accionesbotones>","title":"Acciones","render":"botones"}]'))
+          }*/
+        })
       }, 200)
     })
   }
@@ -64,10 +64,10 @@ export class PlazasService {
 
 
   /* El siguiente método graba un registro nuevo, o uno editado. */
-  public setRecord(dataPack,actionForm): Observable<any> {
+  public setRecord(dataPack, actionForm): Observable<any> {
 
     return this.http.post(this.API_URL + '/plazas/setRecord',
-      { dataPack,actionForm }
+      { dataPack, actionForm }
       , httpOptions);
   }
 
@@ -86,53 +86,46 @@ export class PlazasService {
   }
 
   /* Obtiene las plazas disponibloes segun la categoria*/
-  public getCatalogoDisponibleSegunCategoria(id_categorias: any,id_plazas, id_catplanteles): Observable<any> {
+  public getCatalogoDisponibleSegunCategoria(id_categorias: any, id_plazas, id_catplanteles): Observable<any> {
     return this.http.post(this.API_URL + '/plazas/getCatalogoDisponibleSegunCategoria',
-      { id_categorias,id_plazas,id_catplanteles }
+      { id_categorias, id_plazas, id_catplanteles }
       , httpOptions);
   }
 
 
 
-  /* El siguiente método comprueba si un DOI está repetido y, por tanto, no puede usarse. */
-  public checkRepeatedDoi$(id, doi): Observable<string> {
-    return this.http.post(
-      this.API_URL + 'check_doi.php',
-      { id, doi },
-      { responseType: 'text' }
-    );
-  }
 
-  public getListado(url,id_catplanteles=0,id_cattiponomina=0,id_categorias=0,id_catestatusplaza=0){
-    let params = new HttpParams().set("id_catplanteles", (id_catplanteles==null?0:id_catplanteles).toString())
-      .set("id_cattiponomina", (id_cattiponomina==null?0:id_cattiponomina).toString())
-      .set("id_categorias", (id_categorias==null?0:id_categorias).toString())
-      .set("id_catestatusplaza", (id_catestatusplaza==null?0:id_catestatusplaza).toString())
+
+  public getListado(url, id_catplanteles = 0, id_cattiponomina = 0, id_categorias = 0, id_catestatusplaza = 0) {
+    let params = new HttpParams().set("id_catplanteles", (id_catplanteles == null ? 0 : id_catplanteles).toString())
+      .set("id_cattiponomina", (id_cattiponomina == null ? 0 : id_cattiponomina).toString())
+      .set("id_categorias", (id_categorias == null ? 0 : id_categorias).toString())
+      .set("id_catestatusplaza", (id_catestatusplaza == null ? 0 : id_catestatusplaza).toString())
       ;
 
-    this.http.get(this.API_URL + url, {responseType: 'arraybuffer',params: params}).subscribe( data => {
-      var file = new Blob([data], {type: 'application/pdf'});
+    this.http.get(this.API_URL + url, { responseType: 'arraybuffer', params: params }).subscribe(data => {
+      var file = new Blob([data], { type: 'application/pdf' });
       var fileURL = window.URL.createObjectURL(file);
       window.open(fileURL);
     });
   }
 
-// array de modales
+  // array de modales
   public add(modal: any) {
-        this.modals.push(modal);
-    }
+    this.modals.push(modal);
+  }
 
   public remove(id: string) {
-        this.modals = this.modals.filter(x => x.id !== id);
-    }
+    this.modals = this.modals.filter(x => x.id !== id);
+  }
 
   public open(id: string, accion: string, idItem: number) {
-        let modal: any = this.modals.filter(x => x.id === id)[0];
-        modal.open(idItem, accion);
-    }
+    let modal: any = this.modals.filter(x => x.id === id)[0];
+    modal.open(idItem, accion);
+  }
 
   public close(id: string) {
-        let modal: any = this.modals.filter(x => x.id === id)[0];
-        modal.close();
-    }
+    let modal: any = this.modals.filter(x => x.id === id)[0];
+    modal.close();
+  }
 }

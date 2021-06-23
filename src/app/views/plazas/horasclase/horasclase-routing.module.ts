@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { HorasclaseAdminComponent } from './admin/horasclase-admin.component';
 import { HorasclaseFormComponent } from './form/horasclase-form.component';
-import { HorasclaseasignarFormComponent } from './form/horasclaseasignar-form.component';
 import { HorasclaseIniService } from './services/horasclase.ini.service';
 
 import { HorasclasedetalleFormComponent } from './formsub/horasclasedetalle-form.component';
@@ -37,13 +36,6 @@ const routes: Routes = [
         component: HorasclaseFormComponent,
         data: {
           title: 'Horas clase'
-        },
-      },
-      {
-        path: 'form',
-        component: HorasclaseasignarFormComponent,
-        data: {
-          title: 'Asignación'
         },
       },
       {

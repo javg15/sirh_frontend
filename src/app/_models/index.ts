@@ -1,13 +1,13 @@
 // Automatically generated. Don't change this file manually.
 
-import Archivos, { ArchivosInitializer,  } from './archivos';
+import Archivos, { ArchivosInitializer, } from './archivos';
 import Calendarios, { CalendariosInitializer, CalendariosId } from './calendarios';
 import Catcentrostrabajo, { CatcentrostrabajoInitializer } from './catcentrostrabajo';
 import Categorias, { CategoriasInitializer, CategoriasId } from './categorias';
 import Categoriasdetalle, { CategoriasdetalleInitializer, CategoriasdetalleId } from './categoriasdetalle';
 import Categoriaspercepciones, { CategoriaspercepcionesInitializer, CategoriaspercepcionesId } from './categoriaspercepciones';
-import Categoriastabular, { CategoriastabularInitializer,  } from './categoriastabular';
-import Catestadocivil, { CatestadocivilInitializer,  } from './catestadocivil';
+import Categoriastabular, { CategoriastabularInitializer, } from './categoriastabular';
+import Catestadocivil, { CatestadocivilInitializer, } from './catestadocivil';
 import Catestados, { CatestadosInitializer } from './Catestados';
 import Catbajamotivo, { CatbajamotivoInitializer } from './Catbajamotivo';
 import Catestatusplaza, { CatestatusplazaInitializer, CatestatusplazaId } from './catestatusplaza';
@@ -25,7 +25,7 @@ import Catpercepciones, { CatpercepcionesInitializer } from './catpercepciones';
 import Catregiones, { CatregionesInitializer } from './catregiones';
 import Catsindicato, { CatsindicatoInitializer } from './catsindicato';
 import Cattipocategoria, { CattipocategoriaInitializer } from './cattipocategoria';
-import Cattipocentrotrabajo, { CattipocentrotrabajoInitializer,  } from './cattipocentrotrabajo';
+import Cattipocentrotrabajo, { CattipocentrotrabajoInitializer, } from './cattipocentrotrabajo';
 import Cattipohorasdocente, { CattipohorasdocenteInitializer, CattipohorasdocenteId } from './cattipohorasdocente';
 import Cattiponomina, { CattiponominaInitializer } from './cattiponomina';
 import Catturnos, { CatturnosInitializer, } from './catturnos';
@@ -47,6 +47,7 @@ import Permgrupos, { PermgruposInitializer, PermgruposId } from './permgrupos';
 import Permgruposmodulos, { PermgruposmodulosInitializer, PermgruposmodulosId } from './permgruposmodulos';
 import Permusuariosmodulos, { PermusuariosmodulosInitializer, PermusuariosmodulosId } from './permusuariosmodulos';
 import Personal, { PersonalInitializer, } from './personal';
+import Personalhoras, { PersonalhorasInitializer, } from './personalhoras';
 import Plantillasdocsfamiliares, { PlantillasdocsfamiliaresInitializer, PlantillasdocsfamiliaresId } from './plantillasdocsfamiliares';
 import Plantillasdocslicencias, { PlantillasdocslicenciasInitializer, PlantillasdocslicenciasId } from './plantillasdocslicencias';
 import Plantillasdocsnombramiento, { PlantillasdocsnombramientoInitializer, PlantillasdocsnombramientoId } from './plantillasdocsnombramiento';
@@ -110,6 +111,7 @@ type Model =
   | Permgruposmodulos
   | Permusuariosmodulos
   | Personal
+  | Personalhoras
   | Plantillasdocsfamiliares
   | Plantillasdocslicencias
   | Plantillasdocsnombramiento
@@ -131,7 +133,7 @@ interface ModelTypeMap {
   'catcentrostrabajo': Catcentrostrabajo;
   'categorias': Categorias;
   'categoriasdetalle': Categoriasdetalle;
-  'categoriaspercepciones':Categoriaspercepciones;
+  'categoriaspercepciones': Categoriaspercepciones;
   'categoriastabular': Categoriastabular;
   'catestadocivil': Catestadocivil;
   'catestados': Catestados;
@@ -147,7 +149,7 @@ interface ModelTypeMap {
   'catplanteles': Catplanteles;
   'catplantillas': Catplantillas;
   'catquincena': Catquincena;
-  'catpercepciones':Catpercepciones;
+  'catpercepciones': Catpercepciones;
   'catregiones': Catregiones;
   'catsindicato': Catsindicato;
   'cattipocategoria': Cattipocategoria;
@@ -160,7 +162,7 @@ interface ModelTypeMap {
   'ejercicioreal': Ejercicioreal;
   'estudios': Estudios;
   'gruposclase': Gruposclase;
-  'usuarioszonas':UsuariosZonas;
+  'usuarioszonas': UsuariosZonas;
   'horas': Horas;
   'horasclase': Horasclase;
   'horasclaseasignar': Horasclaseasignar;
@@ -173,6 +175,7 @@ interface ModelTypeMap {
   'permgruposmodulos': Permgruposmodulos;
   'permusuariosmodulos': Permusuariosmodulos;
   'personal': Personal;
+  'personalhoras': Personalhoras;
   'plantillasdocsfamiliares': Plantillasdocsfamiliares;
   'plantillasdocslicencias': Plantillasdocslicencias;
   'plantillasdocsnombramiento': Plantillasdocsnombramiento;
@@ -235,7 +238,7 @@ interface ModelIdTypeMap {
   'calendarios': CalendariosId;
   'categorias': CategoriasId;
   'categoriasdetalle': CategoriasdetalleId;
-  'categoriaspercepciones':CategoriaspercepcionesId;
+  'categoriaspercepciones': CategoriaspercepcionesId;
   'catestatusplaza': CatestatusplazaId;
   'catfuentef': CatfuentefId;
   'catlocalidades': CatlocalidadesId;
@@ -248,7 +251,7 @@ interface ModelIdTypeMap {
   'ejercicioreal': EjerciciorealId;
   'estudios': EstudiosId;
   'gruposclase': GruposclaseId;
-  'usuarioszonas':UsuariosZonasId;
+  'usuarioszonas': UsuariosZonasId;
   'horas': HorasId;
   'horasclase': HorasclaseId;
   'horasclaseasignar': HorasclaseasignarId;
@@ -322,6 +325,7 @@ type Initializer =
   | PermgruposmodulosInitializer
   | PermusuariosmodulosInitializer
   | PersonalInitializer
+  | PersonalhorasInitializer
   | PlantillasdocsfamiliaresInitializer
   | PlantillasdocslicenciasInitializer
   | PlantillasdocsnombramientoInitializer
@@ -343,7 +347,7 @@ interface InitializerTypeMap {
   'catcentrostrabajo': CatcentrostrabajoInitializer;
   'categorias': CategoriasInitializer;
   'categoriasdetalle': CategoriasdetalleInitializer;
-  'categoriaspercepciones':CategoriaspercepcionesInitializer;
+  'categoriaspercepciones': CategoriaspercepcionesInitializer;
   'categoriastabular': CategoriastabularInitializer;
   'catestadocivil': CatestadocivilInitializer;
   'catestados': CatestadosInitializer;
@@ -359,7 +363,7 @@ interface InitializerTypeMap {
   'catplanteles': CatplantelesInitializer;
   'catplantillas': CatplantillasInitializer;
   'catquincena': CatquincenaInitializer;
-  'catpercepciones':CatpercepcionesInitializer;
+  'catpercepciones': CatpercepcionesInitializer;
   'catregiones': CatregionesInitializer;
   'catsindicato': CatsindicatoInitializer;
   'cattipocategoria': CattipocategoriaInitializer;
@@ -372,7 +376,7 @@ interface InitializerTypeMap {
   'ejercicioreal': EjerciciorealInitializer;
   'estudios': EstudiosInitializer;
   'gruposclase': GruposclaseInitializer;
-  'usuarioszonas':UsuariosZonasInitializer;
+  'usuarioszonas': UsuariosZonasInitializer;
   'horas': HorasInitializer;
   'horasclase': HorasclaseInitializer;
   'horasclaseasignar': HorasclaseasignarInitializer;
@@ -385,15 +389,16 @@ interface InitializerTypeMap {
   'permgruposmodulos': PermgruposmodulosInitializer;
   'permusuariosmodulos': PermusuariosmodulosInitializer;
   'personal': PersonalInitializer;
+  'personalhoras': PersonalhorasInitializer;
   'plantillasdocsfamiliares': PlantillasdocsfamiliaresInitializer;
   'plantillasdocslicencias': PlantillasdocslicenciasInitializer;
   'plantillasdocsnombramiento': PlantillasdocsnombramientoInitializer;
   'plantillasdocsprofesional': PlantillasdocsprofesionalInitializer;
   'plantillasdocssindicato': PlantillasdocssindicatoInitializer;
   'plantillaspersonal': PlantillaspersonalInitializer;
-    'plantillaspersonaldocs': PlantillaspersonaldocsInitializer;
+  'plantillaspersonaldocs': PlantillaspersonaldocsInitializer;
   'plazas': PlazasInitializer;
-    'presupuesto': PresupuestoInitializer;
+  'presupuesto': PresupuestoInitializer;
   'rhnominas': RhnominasInitializer;
   'searchcampos': SearchcamposInitializer;
   'searchoperador': SearchoperadorInitializer;
@@ -405,15 +410,15 @@ export {
   Archivos, ArchivosInitializer,
   Calendarios, CalendariosInitializer, CalendariosId,
   Catcentrostrabajo, CatcentrostrabajoInitializer,
-    Categorias, CategoriasInitializer, CategoriasId,
-    Categoriasdetalle, CategoriasdetalleInitializer, CategoriasdetalleId,
-    Categoriaspercepciones, CategoriaspercepcionesInitializer, CategoriaspercepcionesId,
+  Categorias, CategoriasInitializer, CategoriasId,
+  Categoriasdetalle, CategoriasdetalleInitializer, CategoriasdetalleId,
+  Categoriaspercepciones, CategoriaspercepcionesInitializer, CategoriaspercepcionesId,
   Categoriastabular, CategoriastabularInitializer,
   Catestadocivil, CatestadocivilInitializer,
   Catestados, CatestadosInitializer,
-  Catbajamotivo,CatbajamotivoInitializer,
+  Catbajamotivo, CatbajamotivoInitializer,
   Catestatusplaza, CatestatusplazaInitializer, CatestatusplazaId,
-    Catfuentef, CatfuentefInitializer, CatfuentefId,
+  Catfuentef, CatfuentefInitializer, CatfuentefId,
   Catfuncionprimaria, CatfuncionprimariaInitializer,
   Catfuncionsecundaria, CatfuncionsecundariaInitializer,
   Catesquemapago, CatesquemapagoInitializer,
@@ -436,7 +441,7 @@ export {
   Ejercicioreal, EjerciciorealInitializer, EjerciciorealId,
   Estudios, EstudiosInitializer, EstudiosId,
   Gruposclase, GruposclaseInitializer, GruposclaseId,
-  UsuariosZonas,UsuariosZonasInitializer,UsuariosZonasId,
+  UsuariosZonas, UsuariosZonasInitializer, UsuariosZonasId,
   Horas, HorasInitializer, HorasId,
   Horasclase, HorasclaseInitializer, HorasclaseId,
   Horasclaseasignar, HorasclaseasignarInitializer, HorasclaseasignarId,
@@ -449,13 +454,14 @@ export {
   Permgruposmodulos, PermgruposmodulosInitializer, PermgruposmodulosId,
   Permusuariosmodulos, PermusuariosmodulosInitializer, PermusuariosmodulosId,
   Personal, PersonalInitializer,
+  Personalhoras, PersonalhorasInitializer,
   Plantillasdocsfamiliares, PlantillasdocsfamiliaresInitializer, PlantillasdocsfamiliaresId,
   Plantillasdocslicencias, PlantillasdocslicenciasInitializer, PlantillasdocslicenciasId,
   Plantillasdocsnombramiento, PlantillasdocsnombramientoInitializer, PlantillasdocsnombramientoId,
   Plantillasdocsprofesional, PlantillasdocsprofesionalInitializer, PlantillasdocsprofesionalId,
   Plantillasdocssindicato, PlantillasdocssindicatoInitializer, PlantillasdocssindicatoId,
   Plantillaspersonal, PlantillaspersonalInitializer, PlantillaspersonalId,
-    Plantillaspersonaldocs, PlantillaspersonaldocsInitializer,
+  Plantillaspersonaldocs, PlantillaspersonaldocsInitializer,
   Plazas, PlazasInitializer,
   Presupuesto, PresupuestoInitializer, PresupuestoId,
   Rhnominas, RhnominasInitializer, RhnominasId,
