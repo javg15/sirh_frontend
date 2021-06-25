@@ -16,6 +16,9 @@ import Catfuncionprimaria, { CatfuncionprimariaInitializer } from './catfuncionp
 import Catfuncionsecundaria, { CatfuncionsecundariaInitializer } from './catfuncionsecundaria';
 import Cattiposemestre, { CattiposemestreInitializer } from './cattiposemestre';
 import Catesquemapago, { CatesquemapagoInitializer } from './catesquemapago';
+import Catestatushora, { CatestatushoraInitializer } from './catestatushora';
+import Cattipohorasmateria, { CattipohorasmateriaInitializer } from './cattipohorasmateria';
+import Catnombramientos, { CatnombramientosInitializer } from './catnombramientos';
 import Catlocalidades, { CatlocalidadesInitializer, CatlocalidadesId } from './catlocalidades';
 import Catmunicipios, { CatmunicipiosInitializer, CatmunicipiosId } from './catmunicipios';
 import Catplanteles, { CatplantelesInitializer, CatplantelesId } from './catplanteles';
@@ -79,6 +82,9 @@ type Model =
   | Catfuncionprimaria
   | Catfuncionsecundaria
   | Catesquemapago
+  | Catestatushora
+  | Cattipohorasmateria
+  | Catnombramientos
   | Cattiposemestre
   | Catlocalidades
   | Catmunicipios
@@ -143,6 +149,9 @@ interface ModelTypeMap {
   'catfuncionprimaria': Catfuncionprimaria;
   'catfuncionsecundaria': Catfuncionsecundaria;
   'catesquemapago': Catesquemapago;
+  'catestatushora': Catestatushora;
+  'cattipohorasmateria': Cattipohorasmateria;
+  'catnombramientos': Catnombramientos;
   'cattiposemestre': Cattiposemestre;
   'catlocalidades': Catlocalidades;
   'catmunicipios': Catmunicipios;
@@ -293,6 +302,9 @@ type Initializer =
   | CatfuncionprimariaInitializer
   | CatfuncionsecundariaInitializer
   | CatesquemapagoInitializer
+  | CatestatushoraInitializer
+  | CattipohorasmateriaInitializer
+  | CatnombramientosInitializer
   | CattiposemestreInitializer
   | CatlocalidadesInitializer
   | CatmunicipiosInitializer
@@ -357,6 +369,9 @@ interface InitializerTypeMap {
   'catfuncionprimaria': CatfuncionprimariaInitializer;
   'catfuncionsecundaria': CatfuncionsecundariaInitializer;
   'catesquemapago': CatesquemapagoInitializer;
+  'catestatushora': CatestatushoraInitializer;
+  'cattipohorasmateria': CattipohorasmateriaInitializer;
+  'catnombramientos': CatnombramientosInitializer;
   'cattiposemestre': CattiposemestreInitializer;
   'catlocalidades': CatlocalidadesInitializer;
   'catmunicipios': CatmunicipiosInitializer;
@@ -422,6 +437,9 @@ export {
   Catfuncionprimaria, CatfuncionprimariaInitializer,
   Catfuncionsecundaria, CatfuncionsecundariaInitializer,
   Catesquemapago, CatesquemapagoInitializer,
+  Catestatushora, CatestatushoraInitializer,
+  Cattipohorasmateria, CattipohorasmateriaInitializer,
+  Catnombramientos, CatnombramientosInitializer,
   Cattiposemestre, CattiposemestreInitializer,
   Catlocalidades, CatlocalidadesInitializer, CatlocalidadesId,
   Catmunicipios, CatmunicipiosInitializer, CatmunicipiosId,

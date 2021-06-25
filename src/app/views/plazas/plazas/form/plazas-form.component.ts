@@ -54,6 +54,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
   catestatusplazaCat:Catestatusplaza[];
   categoriasdetalleCat:any[];
   catquincenaCat:Catquincena[];
+  varHorasAB:boolean;
 
   constructor(private isLoadingService: IsLoadingService,
       private plazasService: PlazasService, private el: ElementRef,
@@ -86,7 +87,8 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
       id: 0,id_categorias: 0,consecutivo: 0, id_catplanteles: 0,  id_catcentrostrabajo: 0,
       state: '', id_catplantelescobro: 0, id_catzonageografica: 0, id_catquincena_ini: 0,
       id_catquincena_fin: 0, id_catestatusplaza: 1, statussicodes: 0, id_puesto: 0,estatus:'',id_categoriasdetalle:0,
-      id_catsindicato: 0, created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
+      id_catsindicato: 0, created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0,
+      horas:0,horasb:0
     };
   }
   ngOnInit(): void {
@@ -135,6 +137,14 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
 
   onSelectCategoria(select_categoria){
     this.record.id_categorias=select_categoria;
+
+    let categoria=this.categoriasCat.find(e=>e.id==select_categoria);
+
+    if(categoria.id_cattipocategoria==2 && categoria.horasasignadas==0)
+      this.varHorasAB=true;
+    else
+      this.varHorasAB=false;
+
     this.showAdicionalesCategoria();
   }
 

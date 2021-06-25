@@ -32,6 +32,10 @@ export default interface Plazas {
 
   estatus: string | null;
 
+  horas: number | null;
+
+  horasb: number | null;
+
   state: string | null;
 
   created_at: Date | null;
@@ -73,6 +77,10 @@ export interface PlazasInitializer {
   id_catsindicato?: number;
 
   id_categoriasdetalle?: number;
+
+  horas?: number;
+
+  horasb?: number;
 
   estatus?: string;
 

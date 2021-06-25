@@ -57,7 +57,7 @@ export class PersonalAdminComponent implements OnInit {
 
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 50,
+      pageLength: 10,
       displayStart: 0,
       serverSide: true,
       processing: true,

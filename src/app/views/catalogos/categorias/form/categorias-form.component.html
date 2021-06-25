@@ -70,14 +70,14 @@
                             </div>
                         </div>
                     </div>
-                    <div *ngIf="varHorasAsignadas==true" class="row">
+                    <!--<div *ngIf="varHorasAsignadas==true" class="row">
                         <div class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="horasasignadas">Horas asignadas</label>
                                 <input type="text" [(ngModel)]="record.horasasignadas" class="form-control" name="Horas asignadas">
                             </div>
                         </div>
-                    </div>
+                    </div>-->
 
                     <div *ngIf="actionForm!=='nuevo'">
                         <app-header-admin id="header-admin-2" [nombreModulo]="nombreModulo" (agregarEvent)="openModal('custom-modal-2','nuevo',0,record.id)">

@@ -42,15 +42,27 @@ export class PersonalhorasFormComponent implements OnInit, OnDestroy {
 
   private elementModal: any;
 
-  @ViewChild('basicModalDocsSindicato') basicModalDocsSindicato: ModalDirective;
+  @ViewChild('basicModalPersonalhoras') basicModalPersonalhoras: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
-  @ViewChild(ListUploadComponent) listUpload: ListUploadComponent;
-  @ViewChild(FormUploadComponent) formUpload: FormUploadComponent;
 
   record: Personalhoras;
-  recordpersonal: Personal;
-  semestreCat: Semestre[];
+  recordpersonal: Personal = {
+      id: 0,curp: '', rfc: '',  homoclave: '',
+      state: '', nombre: '', apellidopaterno: '', apellidomaterno:'',id_catestadocivil:0,
+      fechanacimiento: null, id_catestadosnaci: 0, id_catmunicipiosnaci: 0, id_catlocalidadesnaci: 0,
+      id_archivos_avatar:0,id_usuarios_sistema:0,numeemp:'',
+      telefono: '', email: '', emailoficial:'',observaciones:'',sexo:0,
+      id_catestadosresi: 0, id_catmunicipiosresi: 0, id_catlocalidadesresi: 0,
+      domicilio:'',colonia:'',cp:'',telefonomovil:'',numimss:'',numissste:'',otronombre:'', numotro:'',tipopension:'',
+      created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
+  };
+  recordsemestre: Semestre = {
+    id: 0,tipo: '',anio: 0,quincena: 0,qnainiciosemestre:'',qnafinsemestre: '',actual: 0,idCatquincenaIni: 0,
+    idCatquincenaFin: 0, idCatquincenaFininterinas: 0,permitemodificacion: 0,permitecargadeplantillas: 0,
+    created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0,state:''
+};
+
   catplantelesCat: Catplanteles[];
   catquincenaCat: Catquincena[];
   gruposclaseCat: Gruposclase[];
@@ -71,9 +83,6 @@ export class PersonalhorasFormComponent implements OnInit, OnDestroy {
   ) {
     this.elementModal = el.nativeElement;
 
-    this.semestreSvc.getCatalogo().subscribe(resp => {
-      this.semestreCat = resp;
-    });
     this.catquincenaSvc.getCatalogo().subscribe(resp => {
       this.catquincenaCat = resp;
     });
@@ -140,7 +149,6 @@ export class PersonalhorasFormComponent implements OnInit, OnDestroy {
     this.actionForm = accion;
     this.botonAccion = actionsButtonSave[accion];
     this.tituloForm = "Datos Sindicato - " + titulosModal[accion] + " registro";
-    this.formUpload.resetFile();
 
     //catalogo de planteles segun personal
     this.catplantelesSvc.getCatalogoSegunPersonal(idParent).subscribe(resp => {
@@ -150,10 +158,15 @@ export class PersonalhorasFormComponent implements OnInit, OnDestroy {
     this.personalSvc.getRecord(idParent).subscribe(resp => {
       this.recordpersonal = resp;
     });
+    this.semestreSvc.getRecord(idSemestre).subscribe(resp => {
+      this.recordsemestre = resp;
+    });
+    this.catplantelesSvc.getCatalogoSegunPersonal(idParent).subscribe(resp => {
+      this.catplantelesCat = resp;
+    });
 
     if (idItem == "0") {
       this.record = this.newRecord(idParent, idSemestre);
-      this.listUpload.showFiles(0);
     } else {
       //obtener el registro
       this.personalhorasformService.getRecord(idParent).subscribe(resp => {
@@ -162,12 +175,12 @@ export class PersonalhorasFormComponent implements OnInit, OnDestroy {
     }
 
     // console.log($('#modalTest').html()); poner el id a algun elemento para testear
-    this.basicModalDocsSindicato.show();
+    this.basicModalPersonalhoras.show();
   }
 
   // close modal
   close(): void {
-    this.basicModalDocsSindicato.hide();
+    this.basicModalPersonalhoras.hide();
     if (this.actionForm.toUpperCase() != "VER") {
       this.redrawEvent.emit(null);
     }

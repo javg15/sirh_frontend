@@ -16,6 +16,9 @@ import { NgSelect2Module } from 'ng-select2';
 
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 
+// Dropdowns Component
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+
 // Tabs Component
 import { TabsModule } from 'ngx-bootstrap/tabs';
 
@@ -34,7 +37,8 @@ const maskConfig: Partial<IConfig> = {
     SharedModule,
     NgxMaskModule.forRoot(maskConfig),
     TabsModule.forRoot(),
-    NgSelect2Module
+    NgSelect2Module,
+    BsDropdownModule.forRoot(),
   ],
   declarations: [
     PersonalAdminComponent,

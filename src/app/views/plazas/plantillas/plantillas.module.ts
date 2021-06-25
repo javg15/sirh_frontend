@@ -24,7 +24,6 @@ import { DataTablesModule } from 'angular-datatables';
 import { DatePipe } from '@angular/common'
 // Dropdowns Component
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { DropdownsComponent } from '../../buttons/dropdowns.component';
 
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import { NgSelect2Module } from 'ng-select2';
@@ -44,7 +43,6 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     TabsModule.forRoot(),
   ],
   declarations: [
-    DropdownsComponent,
     PlantillasAdminComponent,
     PlantillasFormComponent,
     PlantillasDocsAdminComponent,

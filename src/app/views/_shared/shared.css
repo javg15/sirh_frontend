@@ -27,6 +27,12 @@ table.dataTable td {
     border: 0px solid !important;
 }
 
+.dataTables_processing {
+    top: 0% !important;
+    background: #3a4248 !important;
+    color: #f2f8f8 !important;
+}
+
 
 /*autocomplete*/
 

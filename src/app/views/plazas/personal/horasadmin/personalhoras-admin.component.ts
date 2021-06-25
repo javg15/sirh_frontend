@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DataTablesResponse } from '../../../../classes/data-tables-response';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
+import {Semestre} from '../../../../_models';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
@@ -14,6 +15,7 @@ import { PersonalService } from '../../personal/services/personal.service';
 import { PersonalhorasAdminService } from '../services/personalhorasadmin.service';
 import { PersonalhorasFormService } from '../services/personalhorasform.service';
 import { environment } from '../../../../../environments/environment';
+import { SemestreService } from '../../../catalogos/semestre/services/semestre.service';
 
 declare var $: any;
 declare var jQuery: any;
@@ -66,6 +68,8 @@ export class PersonalhorasAdminComponent implements OnInit, OnDestroy {
   actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
 
+  semestreCat: Semestre[];
+
   record_id_personal: number;
   record_id_semestre: number;
 
@@ -80,10 +84,15 @@ export class PersonalhorasAdminComponent implements OnInit, OnDestroy {
     private personalhorasadminService: PersonalhorasAdminService,
     private personalhorasformSvc: PersonalhorasFormService,
     private personalSvc: PersonalService,
+    private semestreSvc: SemestreService,
     private el: ElementRef,
     private route: ActivatedRoute
   ) {
     this.elementModal = el.nativeElement;
+
+    this.semestreSvc.getCatalogo().subscribe(resp => {
+      this.semestreCat = resp;
+    });
   }
 
 
@@ -147,6 +156,7 @@ export class PersonalhorasAdminComponent implements OnInit, OnDestroy {
     this.botonAccion = actionsButtonSave[accion];
     this.record_id_personal = parseInt(idItem);
 
+
     // console.log($('#modalTest').html()); poner el id a algun elemento para testear
     this.basicModalDocs.show();
 
@@ -165,13 +175,18 @@ export class PersonalhorasAdminComponent implements OnInit, OnDestroy {
   //Sub formulario
   openModal(tipo: string, id: string, accion: string, idItem: number, idParent: number, idSemestre: number) {
 
-    switch (tipo.toLowerCase()) {
-      case "01":
-        this.personalhorasformSvc.open(id, accion, idItem, idParent, idSemestre);
-        break;
-      default:
-        this.personalhorasformSvc.open(id, accion, idItem, idParent, idSemestre);
-        break
+    if(this.record_id_semestre>0){
+      switch (tipo.toLowerCase()) {
+        case "01":
+          this.personalhorasformSvc.open(id, accion, idItem, idParent, idSemestre);
+          break;
+        default:
+          this.personalhorasformSvc.open(id, accion, idItem, idParent, idSemestre);
+          break
+      }
+    }
+    else{
+      this.validSummary.generateErrorMessagesFromServer({record_id_semestre: "Para continuar debe elgegir un 'semestre' a trabajar"});
     }
   }
 
@@ -201,4 +216,8 @@ export class PersonalhorasAdminComponent implements OnInit, OnDestroy {
     );
   }
 
+  onSemestreChange(valor: any) {
+    this.record_id_semestre = parseInt(valor);
+    this.reDraw();
+  }
 }

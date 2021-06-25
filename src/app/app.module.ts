@@ -42,7 +42,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
 
 // Import 3rd party components
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts';
 import { HomeComponent } from './home/home.component';
@@ -50,6 +49,10 @@ import { ProfileComponent } from './profile/profile.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
 import { BoardUserComponent } from './board-user/board-user.component';
+
+// Dropdowns Component
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { DropdownsComponent } from './views/buttons/dropdowns.component';
 
 @NgModule({
   imports: [
@@ -66,9 +69,11 @@ import { BoardUserComponent } from './board-user/board-user.component';
     TabsModule.forRoot(),
     ChartsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BsDropdownModule.forRoot(),
   ],
   declarations: [
+    DropdownsComponent,
     AppComponent,
     ...APP_CONTAINERS,
     P404Component,

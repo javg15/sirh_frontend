@@ -1,4 +1,4 @@
-<div bsModal #basicModalDocsSindicato="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+<div bsModal #basicModalPersonalhoras="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-full-height modal-right" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -20,13 +20,13 @@
                         <div class="form-group col-sm-8">
                             <div class="form-group">
                                 <label for="nombre">Nombre</label>
-                                <!--<input type="text" name="Nombre" disabled="disabled" [value]="recordpersonal.nombre + ' ' + recordpersonal.apellidopaterno + ' ' + recordpersonal.apellidomaterno" class="form-control" />-->
+                                <input type="text" name="Nombre" disabled="disabled" [value]="recordpersonal.nombre + ' ' + recordpersonal.apellidopaterno + ' ' + recordpersonal.apellidomaterno" class="form-control" />
                             </div>
                         </div>
                         <div class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="semestre">Semestre</label>
-                                <input type="text" name="Semestre" disabled="disabled" [value]="semestreCat.anio + ' ' + semestreCat.tipo" class="form-control" />
+                                <input type="text" name="Semestre" disabled="disabled" [value]="recordsemestre.anio + ' ' + recordsemestre.tipo" class="form-control" />
                             </div>
                         </div>
                     </div>
