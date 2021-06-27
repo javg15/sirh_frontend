@@ -70,8 +70,8 @@ export class PersonalhorasAdminComponent implements OnInit, OnDestroy {
 
   semestreCat: Semestre[];
 
-  record_id_personal: number;
-  record_id_semestre: number;
+  record_id_personal: number=0;
+  record_id_semestre: number=0;
 
   private elementModal: any;
   @ViewChild('basicModalDocs') basicModalDocs: ModalDirective;
@@ -93,6 +93,7 @@ export class PersonalhorasAdminComponent implements OnInit, OnDestroy {
     this.semestreSvc.getCatalogo().subscribe(resp => {
       this.semestreCat = resp;
     });
+
   }
 
 
@@ -137,7 +138,7 @@ export class PersonalhorasAdminComponent implements OnInit, OnDestroy {
         },
       },
       columns: this.headersAdmin,
-      columnDefs: [{ "visible": false, "targets": [0, 1, 2] },
+      columnDefs: [{ "visible": false, "targets": [0, 1] },
       { "width": "20%", "targets": [4] }]//ID, tipo
     };
 
@@ -155,8 +156,12 @@ export class PersonalhorasAdminComponent implements OnInit, OnDestroy {
     this.actionForm = accion;
     this.botonAccion = actionsButtonSave[accion];
     this.record_id_personal = parseInt(idItem);
+    this.record_id_semestre=0;
+    if(this.semestreCat.length>0){
+      this.record_id_semestre=this.semestreCat[this.semestreCat.length-1].id;
+    }
 
-
+    this.reDraw();
     // console.log($('#modalTest').html()); poner el id a algun elemento para testear
     this.basicModalDocs.show();
 

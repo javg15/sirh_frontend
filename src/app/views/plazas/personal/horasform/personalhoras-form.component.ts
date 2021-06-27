@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, Eve
 import { ActivatedRoute } from '@angular/router';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Personalhoras, Personal, Semestre, Catplanteles, Catquincena, Gruposclase, Materiasclase } from '../../../../_models';
+import { Personalhoras, Personal, Semestre, Catplanteles, Catquincena, Gruposclase, Materiasclase, Catestatushora, Catnombramientos, Cattipohorasdocente } from '../../../../_models';
 import { Archivos } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
@@ -13,10 +13,11 @@ import { PersonalhorasFormService } from '../services/personalhorasform.service'
 import { CatquincenaService } from '../../../catalogos/catquincena/services/catquincena.service';
 import { GruposclaseService } from '../../../catalogos/gruposclase/services/gruposclase.service';
 import { MateriasclaseService } from '../../../catalogos/materiasclase/services/materiasclase.service';
-import { ListUploadComponent } from '../../../_shared/upload/list-upload.component';
-import { FormUploadComponent } from '../../../_shared/upload/form-upload.component';
 import { SemestreService } from '../../../catalogos/semestre/services/semestre.service';
 import { CatplantelesService } from '../../../catalogos/catplanteles/services/catplanteles.service';
+import { CatestatushoraService } from '../../../catalogos/catestatushora/services/catestatushora.service';
+import { CatnombramientosService } from '../../../catalogos/catnombramientos/services/catnombramientos.service';
+import { CattipohorasdocenteService } from '../../../catalogos/cattipohorasdocente/services/cattipohorasdocente.service';
 import { PersonalService } from '../services/personal.service';
 
 
@@ -67,6 +68,12 @@ export class PersonalhorasFormComponent implements OnInit, OnDestroy {
   catquincenaCat: Catquincena[];
   gruposclaseCat: Gruposclase[];
   materiasclaseCat: Materiasclase[];
+  catestatushoraCat: Catestatushora[];
+  catnombramientosCat: Catnombramientos[];
+  cattipohorasdocenteCat: Cattipohorasdocente[];
+  record_id_personal:number;
+  record_id_semestre:number;
+
   keywordSearch = 'full_name';
   isLoadingSearch: boolean;
   //recordJsonTipodoc1:any={UltimoGradodeEstudios:0,AreadeCarrera:0,Carrera:0,Estatus:0};
@@ -79,21 +86,30 @@ export class PersonalhorasFormComponent implements OnInit, OnDestroy {
     private catplantelesSvc: CatplantelesService,
     private gruposclaseSvc: GruposclaseService,
     private materiasclaseSvc: MateriasclaseService,
+    private catestatushoraSvc: CatestatushoraService,
+    private catnombramientosSvc: CatnombramientosService,
+    private cattipohorasdocenteSvc: CattipohorasdocenteService,
     private el: ElementRef,
   ) {
     this.elementModal = el.nativeElement;
 
-    this.catquincenaSvc.getCatalogo().subscribe(resp => {
-      this.catquincenaCat = resp;
-    });
 
+    this.catestatushoraSvc.getCatalogo().subscribe(resp => {
+      this.catestatushoraCat = resp;
+    });
+    this.catnombramientosSvc.getCatalogo().subscribe(resp => {
+      this.catnombramientosCat = resp;
+    });
+    this.cattipohorasdocenteSvc.getCatalogo().subscribe(resp => {
+      this.cattipohorasdocenteCat = resp;
+    });
   }
 
   newRecord(idParent: number, idSemestre: number): Personalhoras {
     return {
-      id: 0, id_personal: idParent, cantidad: 0, id_plazas: 0, id_horasclase: 0,
-      id_cattipohorasmateria: 0, id_catnombramientos: 0, id_semestre: idSemestre,
-      id_catestatushora: 0, id_catquincena_ini: 0, id_catquincena_fin: 0,
+      id: 0, id_personal: idParent, cantidad: 0, id_catplanteles: 0, id_gruposclase: 0,id_materiasclase: 0,
+      id_cattipohorasmateria: 1, id_catnombramientos: 0, id_semestre: idSemestre,
+      id_catestatushora: 0, id_catquincena_ini: 0, id_catquincena_fin: 0, horassueltas:0, id_cattipohorasdocente:0,
       state: '', created_at: new Date(), updated_at: new Date(), id_usuarios_r: 0
     };
   }
@@ -149,7 +165,8 @@ export class PersonalhorasFormComponent implements OnInit, OnDestroy {
     this.actionForm = accion;
     this.botonAccion = actionsButtonSave[accion];
     this.tituloForm = "Datos Sindicato - " + titulosModal[accion] + " registro";
-
+    this.record_id_personal=idParent;
+    this.record_id_semestre=idSemestre;
     //catalogo de planteles segun personal
     this.catplantelesSvc.getCatalogoSegunPersonal(idParent).subscribe(resp => {
       this.catplantelesCat = resp;
@@ -190,14 +207,32 @@ export class PersonalhorasFormComponent implements OnInit, OnDestroy {
   get diagnosticValidate() { return JSON.stringify(this.record); }
 
   onSelectPlantel(valor: any) {
-    this.gruposclaseSvc.getCatalogoSegunPlantel(valor, this.record.id_semestre).subscribe(resp => {
+    this.record.id_catplanteles=valor;
+    this.gruposclaseSvc.getCatalogoConHorasDisponiblesSegunPlantel(valor).subscribe(resp => {
       this.gruposclaseCat = resp;
     });
   }
 
   onSelectGruposclase(valor: any) {
-    this.materiasclaseSvc.getCatalogoSegunGrupo(valor).subscribe(resp => {
+    this.materiasclaseSvc.getCatalogoConHorasDisponiblesSegunGrupo(this.record.id_catplanteles, valor).subscribe(resp => {
       this.materiasclaseCat = resp;
     });
+  }
+
+  onSelectMateriasclase(valor: any) {
+    this.record.cantidad=this.materiasclaseCat.find(a=>a.id==valor).horasdisponibles;
+  }
+
+  onSelectNombramiento(id_catnombramientos){
+    if(id_catnombramientos==2 || id_catnombramientos==3){
+      this.catquincenaSvc.getCatalogoSegunSemestre(this.record_id_semestre).subscribe(resp => {
+        this.catquincenaCat = resp;
+      });
+    }
+    else{
+      this.catquincenaSvc.getCatalogo().subscribe(resp => {
+        this.catquincenaCat = resp;
+      });
+    }
   }
 }

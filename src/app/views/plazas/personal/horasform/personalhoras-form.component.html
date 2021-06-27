@@ -33,38 +33,37 @@
                     <div class="row">
                         <div class="form-group col-sm-4">
                             <div class="form-group">
-                                <label for="record_plantel">Plantel</label>
-                                <ng-select2 [(ngModel)]="record_plantel_id" [data]="catplantelesCat" [allowClear]="true" allowClear="true" width="100%" name="Plantel" (valueChanged)="onSelectPlantel($event)">
+                                <label for="id_catplanteles">Plantel</label>
+                                <ng-select2 [(ngModel)]="record.id_catplanteles" [data]="catplantelesCat" [allowClear]="true" allowClear="true" width="100%" name="Plantel" (valueChanged)="onSelectPlantel($event)">
                                 </ng-select2>
                             </div>
                         </div>
 
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-2">
                             <div class="form-group">
-                                <label for="record_gruposclase_id">Grupo</label>
-                                <ng-select2 [(ngModel)]="record_gruposclase_id" [data]="gruposclaseCat" [allowClear]="true" allowClear="true" width="100%" name="Grupo" (valueChanged)="onSelectGruposclase($event)">
+                                <label for="id_gruposclase">Grupo</label>
+                                <ng-select2 [(ngModel)]="record.id_gruposclase" [data]="gruposclaseCat" [allowClear]="true" allowClear="true" width="100%" name="Grupo" (valueChanged)="onSelectGruposclase($event)">
                                 </ng-select2>
                             </div>
                         </div>
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="id_materiasclase">Materia</label>
-                                <ng-select2 [(ngModel)]="id_materiasclase" [data]="materiasclaseCat" [allowClear]="true" allowClear="true" width="100%" name="Grupo" (valueChanged)="onSelectMateriasclase($event)">
+                                <ng-select2 [(ngModel)]="record.id_materiasclase" [data]="materiasclaseCat" [allowClear]="true" allowClear="true" width="100%" name="Grupo" (valueChanged)="onSelectMateriasclase($event)">
                                 </ng-select2>
                                 <!--<select id="selectPlantel" class="form-control" [(ngModel)]="record.id_categorias" name="Categorías">
                   <option *ngFor="let col of categoriasCat" [value]="col.id">{{ col.clave + " - " + (col.denominacion!=null?col.denominacion:".") }}</option>
                 </select>-->
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="cantidad">Cantidad</label>
-                                <input type="text" [(ngModel)]="record.cantidad" class="form-control" name="Cantidad">
+                                <input type="text" [(ngModel)]="record.cantidad" class="form-control" name="Cantidad" disabled="disabled">
                             </div>
                         </div>
-
+                    </div>
+                    <div class="row">
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="id_catestatushora">Estatus</label>
@@ -75,20 +74,46 @@
                         </div>
                         <div class="form-group col-sm-3">
                             <div class="form-group">
+                                <label for="id_catnombramientos">Nombramiento</label>
+                                <select class="form-control" [(ngModel)]="record.id_catnombramientos" name="Nombramiento" (change)="onSelectNombramiento($event.target.value)">
+                                <option *ngFor="let col of catnombramientosCat" [value]="col.id">{{ col.descripcion }}</option>
+                              </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
                                 <label for="id_catquincena_ini">Quincena inicial</label>
                                 <ng-select2 [(ngModel)]="record.id_catquincena_ini" [data]="catquincenaCat" [allowClear]="true" allowClear="true" width="100%" name="Quincena inicial">
                                 </ng-select2>
                             </div>
                         </div>
-                        <div class="form-group col-sm-3">
+                        <!--<div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="id_catquincena_fin">Quincena final</label>
                                 <ng-select2 [(ngModel)]="record.id_catquincena_fin" [data]="catquincenaCat" [allowClear]="true" allowClear="true" width="100%" name="Quincena final">
                                 </ng-select2>
                             </div>
+                        </div>-->
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="horassueltas">¿Horas sueltas?</label>
+                                <select class="form-control" [(ngModel)]="record.horassueltas" name="¿Horas sueltas?">
+                                  <option value="0">No</option>
+                                  <option value="1">Sí</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div *ngIf="record.horassueltas==1" class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="id_cattipohorasdocente">Tipo de horas</label>
+                                <select class="form-control" [(ngModel)]="record.id_cattipohorasdocente" name="Tipo de horas">
+                            <option *ngFor="let col of cattipohorasdocenteCat" [value]="col.id">{{ col.tipohora }}</option>
+                          </select>
+                            </div>
                         </div>
                     </div>
-
 
                     <div class="row">
                         &nbsp;

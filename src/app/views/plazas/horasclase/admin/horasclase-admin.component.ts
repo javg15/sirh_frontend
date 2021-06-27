@@ -56,7 +56,7 @@ export class HorasclaseAdminComponent implements OnInit {
 
       this.dtOptions = {
         pagingType: 'full_numbers',
-        pageLength: 50,
+        pageLength: 10,
         serverSide: true,
         processing: true,
         //destroy : true,

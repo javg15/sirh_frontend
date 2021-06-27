@@ -67,6 +67,11 @@ export class CatquincenaService {
       , httpOptions);
   }
 
+  public getCatalogoSegunSemestre(id_semestre): Observable<any> {
+    return this.http.post(this.API_URL + '/catquincena/getCatalogoSegunSemestre',
+      { id_semestre }
+      , httpOptions);
+  }
 
   // array de modales
   public add(modal: any) {

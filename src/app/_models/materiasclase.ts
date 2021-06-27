@@ -17,6 +17,8 @@ export default interface Materiasclase {
 
   estatus: string | null;
 
+  horasdisponibles: number | null; //temporal
+
   /*tipo2: string | null;
 
   tiposemestre: string | null;
@@ -108,6 +110,8 @@ export interface MateriasclaseInitializer {
   tipo?: string;
 
   estatus?: string;
+
+  horasdisponibles?: number; //temporal
 
   tipo2?: string;
 

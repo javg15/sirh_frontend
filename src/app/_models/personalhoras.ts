@@ -8,7 +8,11 @@ export default interface Personalhoras {
 
   id_personal: number | null;
 
-  id_plazas: number | null;
+  id_catplanteles: number | null;
+
+  id_gruposclase: number | null;
+
+  id_materiasclase: number | null;
 
   cantidad: number | null;
 
@@ -24,6 +28,10 @@ export default interface Personalhoras {
 
   id_catquincena_fin: number | null;
 
+  horassueltas: number | null;
+
+  id_cattipohorasdocente: number | null;
+
   id_usuarios_r: number;
 
   state: string;
@@ -32,7 +40,6 @@ export default interface Personalhoras {
 
   updated_at: Date | null;
 
-  id_horasclase: number | null;
 }
 
 export interface PersonalhorasInitializer {
@@ -44,7 +51,11 @@ export interface PersonalhorasInitializer {
 
   id_personal?: number;
 
-  id_plazas?: number;
+  id_catplanteles?: number;
+
+  id_gruposclase?: number;
+
+  id_materiasclase?: number;
 
   cantidad?: number;
 
@@ -60,6 +71,10 @@ export interface PersonalhorasInitializer {
 
   id_catquincena_fin?: number;
 
+  horassueltas?: number;
+
+  id_cattipohorasdocente?: number;
+
   /** Default value: 0 */
   id_usuarios_r?: number;
 
@@ -70,5 +85,4 @@ export interface PersonalhorasInitializer {
 
   updated_at?: Date;
 
-  id_horasclase?: number;
 }

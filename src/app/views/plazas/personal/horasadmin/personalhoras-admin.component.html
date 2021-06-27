@@ -64,7 +64,7 @@
                                                 </td>
                                             </div>
                                             <ng-template #elseBlock>
-                                                <ng-container *ngIf="col!='id';else elseBlock2">
+                                                <ng-container *ngIf="col!='id' && col!='clavetipohorasmateria';else elseBlock2">
                                                     <td>
                                                         <div [innerHtml]="member[col]"></div>
                                                     </td>

@@ -65,6 +65,11 @@ export class GruposclaseService {
       , httpOptions);
   }
 
+  public getCatalogoConHorasDisponiblesSegunPlantel(id_catplanteles): Observable<any> {
+    return this.http.post(this.API_URL + '/gruposclase/getCatalogoConHorasDisponiblesSegunPlantel',
+      { id_catplanteles }
+      , httpOptions);
+  }
 
   // array de modales
   public add(modal: any) {
