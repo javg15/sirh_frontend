@@ -66,6 +66,7 @@ export class PlantillasAdminComponent implements OnInit {
   categoriasCat:Categorias[];
   keywordSearch = 'full_name';
   isLoadingSearch:boolean;
+  esInicio:boolean=true;
   /* En el constructor creamos el objeto plazasService,
   de la clase HttpConnectService, que contiene el servicio mencionado,
   y estará disponible en toda la clase de este componente.
@@ -79,6 +80,7 @@ export class PlantillasAdminComponent implements OnInit {
   ) {
     this.catplantillasSvc.getCatalogo().subscribe(resp => {
       this.catplantillasCat = resp;
+      this.esInicio=false; //si ya se cargó el catalogo, entonces, ya paso la carga inicial
     });
     this.catplantelesSvc.getCatalogo().subscribe(resp => {
       this.catplantelesCat = resp;
@@ -168,7 +170,6 @@ export class PlantillasAdminComponent implements OnInit {
   }
 
   reDraw(datosBusqueda: any = null): void {
-
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
       if(datosBusqueda!=null){
         this.dtOptionsAdicional.datosBusqueda = datosBusqueda;
@@ -192,21 +193,33 @@ export class PlantillasAdminComponent implements OnInit {
       this.record.id_personal,
       (this.tipoDocumento==null?0:this.tipoDocumento),
       (this.id_categoria==null?0:this.id_categoria),
-    ]
-    this.reDraw();
+    ];
+
+    //si no es la carga inicial
+    if(!(this.esInicio && this.dtOptionsAdicional.fkeyvalue[0]==0
+      && this.dtOptionsAdicional.fkeyvalue[1]==0
+      && this.dtOptionsAdicional.fkeyvalue[2]==0
+      && this.dtOptionsAdicional.fkeyvalue[3]==0
+      && this.dtOptionsAdicional.fkeyvalue[4]==0))
+      {
+        this.reDraw();
+      }
   }
 
   onSelectPlantel(select_plantel){
     this.record.id_catplanteles=select_plantel;
-    this.onClickBuscar();
+    if(select_plantel!=0)
+      this.onClickBuscar();
   }
   onSelectPlantilla(select_plantilla){
     this.record.id_catplantillas=select_plantilla;
-    this.onClickBuscar();
+    if(select_plantilla!=0)
+      this.onClickBuscar();
   }
   onSelectCategorias(val){
     this.id_categoria = val;
-    this.onClickBuscar();
+    if(val!=0)
+      this.onClickBuscar();
   }
   /*********************
    autocomplete id_personal
@@ -227,11 +240,13 @@ export class PlantillasAdminComponent implements OnInit {
   onSelectIdPersonal(val: any) {
     let items=val["full_name"].split(" -- ");
     this.record.id_personal=parseInt(items[2]);
-    this.onClickBuscar();
+    if(this.record.id_personal!=0)
+      this.onClickBuscar();
   }
 
   onSelectDocumentos(val: any){
     this.tipoDocumento = val;
-    this.onClickBuscar();
+    if(this.tipoDocumento!=0)
+      this.onClickBuscar();
   }
 }

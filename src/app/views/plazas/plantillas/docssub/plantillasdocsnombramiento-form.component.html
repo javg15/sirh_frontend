@@ -128,9 +128,16 @@
                                         <input type="date" [(ngModel)]="record.fechaexpedicion" class="form-control" name="Fecha de expedición del documento">
                                     </div>
                                 </div>
+                                <div *ngIf="tipo=='licencia' && record_catplantillas.id==2" class="form-group col-sm-4">
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-secondary" (click)="openModal('custompersonalhorasadmin','editar',record.id_plantillaspersonal)">
+                                        <div><span>Editar horas</span></div>
+                                      </button>
+                                    </div>
+                                </div>
                             </div>
                         </tab>
-                        <tab *ngIf="tipo=='nombramiento'" heading="Adicionales">
+                        <tab *ngIf="tipo=='licencia'" heading="Adicionales">
                             <div class="row">
                                 <div class="form-group col-sm-4">
                                     <div class="form-group">
@@ -235,3 +242,5 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
+<app-personalhoras-admin id="custompersonalhorasadmin" (redrawEvent)="reDraw($event)">
+</app-personalhoras-admin>

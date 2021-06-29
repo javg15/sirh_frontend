@@ -186,8 +186,12 @@ export class PersonalhorasFormComponent implements OnInit, OnDestroy {
       this.record = this.newRecord(idParent, idSemestre);
     } else {
       //obtener el registro
-      this.personalhorasformService.getRecord(idParent).subscribe(resp => {
+      this.personalhorasformService.getRecord(idItem).subscribe(async resp => {
         this.record = resp;
+        await this.onSelectPlantel(resp.id_catplanteles);
+        await this.onSelectGruposclase(resp.id_gruposclase);
+        this.record = resp;
+
       });
     }
 
@@ -208,13 +212,13 @@ export class PersonalhorasFormComponent implements OnInit, OnDestroy {
 
   onSelectPlantel(valor: any) {
     this.record.id_catplanteles=valor;
-    this.gruposclaseSvc.getCatalogoConHorasDisponiblesSegunPlantel(valor).subscribe(resp => {
+    this.gruposclaseSvc.getCatalogoConHorasDisponiblesSegunPlantel(valor,this.record.id).subscribe(resp => {
       this.gruposclaseCat = resp;
     });
   }
 
   onSelectGruposclase(valor: any) {
-    this.materiasclaseSvc.getCatalogoConHorasDisponiblesSegunGrupo(this.record.id_catplanteles, valor).subscribe(resp => {
+    this.materiasclaseSvc.getCatalogoConHorasDisponiblesSegunGrupo(this.record.id_catplanteles, valor,this.record.id).subscribe(resp => {
       this.materiasclaseCat = resp;
     });
   }

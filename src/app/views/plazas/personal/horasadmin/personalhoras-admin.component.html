@@ -20,7 +20,13 @@
                             <ng-select2 [(ngModel)]="record_id_semestre" [data]="semestreCat" (valueChanged)='onSemestreChange($event)' [allowClear]="true" allowClear="true" width="100%" name="Semestre">
                             </ng-select2>
                         </div>
-                        <div class="form-group col-sm-4"></div>
+                        <div class="form-group col-sm-4">
+                            <label for="record_state">Estatus de registro</label>
+                            <select class="form-control" [(ngModel)]="record_state" name="Estatus de registro" (change)="onCatestatusChange($event.target.value)">
+                              <option value="A" selected="selected">Vigentes</option>
+                              <option value="AD">Historial</option>
+                            </select>
+                        </div>
                         <div class="form-group col-sm-4">
                             <form class="form-inline my-2 my-lg-0">
                                 <div class="btn-group" dropdown>
@@ -48,9 +54,9 @@
                                                 <!--<td><img src="assets/{{ member[col] }}" width="50" /></td>-->
                                                 <td>
                                                     <div *ngFor="let boton of member[col].split(',')" style="display: contents;">
-                                                        <button *ngIf="boton=='ver' || (boton=='editar' )" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="openModal(member.clavetipohorasmateria,'custom-' + member.clavetipohorasmateria,'ver',member.id,record_id_personal,record_id_semestre)">
-                                                        <i class="fa fa-search"></i>
-                                                    </button>
+                                                        <button *ngIf="boton=='ver'" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="openModal(member.clavetipohorasmateria,'custom-' + member.clavetipohorasmateria,'ver',member.id,record_id_personal,record_id_semestre)">
+                                                            <i class="fa fa-search"></i>
+                                                        </button>
 
                                                         <button *ngIf="boton=='editar' " class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal(member.clavetipohorasmateria,'custom-' + member.clavetipohorasmateria,'editar',member.id,record_id_personal,record_id_semestre)">
                                                           <i class="fa fa-edit"></i>

@@ -61,9 +61,9 @@ export class MateriasclaseService {
       , httpOptions);
   }
 
-  public getCatalogoConHorasDisponiblesSegunGrupo(id_catplanteles:any, id_gruposclase:any): Observable<any> {
+  public getCatalogoConHorasDisponiblesSegunGrupo(id_catplanteles:any, id_gruposclase:any,id_personalhoras:any): Observable<any> {
     return this.http.post(this.API_URL + '/materiasclase/getCatalogoConHorasDisponiblesSegunGrupo',
-      { id_catplanteles, id_gruposclase }
+      { id_catplanteles, id_gruposclase,id_personalhoras }
       , httpOptions);
   }
 

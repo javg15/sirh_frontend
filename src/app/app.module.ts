@@ -70,7 +70,6 @@ import { DropdownsComponent } from './views/buttons/dropdowns.component';
     ChartsModule,
     FormsModule,
     HttpClientModule,
-    BsDropdownModule.forRoot(),
   ],
   declarations: [
     DropdownsComponent,

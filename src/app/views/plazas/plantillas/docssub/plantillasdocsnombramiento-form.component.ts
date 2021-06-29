@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Plantillasdocsnombramiento,Personal,Categorias,Plantillaspersonal,Catestatusplaza,
     Plazas,Categoriasdetalle,Catquincena, Catfuncionprimaria,Catfuncionsecundaria,Catesquemapago,
-    Cattiposemestre, Catplanteles,Catcentrostrabajo } from '../../../../_models';
+    Cattiposemestre, Catplanteles,Catcentrostrabajo,Catplantillas } from '../../../../_models';
 //import { Archivos } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
@@ -28,6 +28,7 @@ import { CatzonageograficaService } from '../../../catalogos/catzonageografica/s
 //import { ArchivosService } from '../../../catalogos/archivos/services/archivos.service';
 import { PlantillasdocsNombramientoService } from '../services/plantillasdocsnombramiento.service';
 import { PlantillasService } from '../services/plantillas.service';
+import { CatplantillasService } from '../../../catalogos/catplantillas/services/catplantillas.service';
 import { CatestatusplazaService } from '../../../catalogos/catestatusplaza/services/catestatusplaza.service';
 import { ListUploadComponent } from '../../../_shared/upload/list-upload.component';
 import { FormUploadComponent } from '../../../_shared/upload/form-upload.component';
@@ -69,6 +70,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
 
   record: Plantillasdocsnombramiento;
   record_plantillaspersonal:Plantillaspersonal;
+  record_catplantillas:Catplantillas;
   record_titular:String;
   //recordFile:Archivos;
   keywordSearch = 'full_name';
@@ -94,6 +96,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   tipo:string;
   varAsignarHoras:boolean;
   varAsignarHorasSemestres:boolean;
+  seRevisoCargaHoraria:boolean=true;
   //recordJsonTipodoc1:any={UltimoGradodeEstudios:0,AreadeCarrera:0,Carrera:0,Estatus:0};
 
   constructor(private isLoadingService: IsLoadingService,
@@ -113,6 +116,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       private catcentrostrabajoSvc: CatcentrostrabajoService,
       private catzonaeconomicaSvc: CatzonaeconomicaService,
       private catzonageograficaSvc: CatzonageograficaService,
+      private catplantillasSvc: CatplantillasService,
     private el: ElementRef,
     //private archivosSvc:ArchivosService,
     public datepipe: DatePipe
@@ -178,36 +182,40 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
 
       this.validSummary.resetErrorMessages(admin);
 
-      await this.isLoadingService.add(
-      this.plantillasdocsnombramientoService.setRecord(this.record,this.actionForm).subscribe(async resp => {
-        if (resp.hasOwnProperty('error')) {
-          this.validSummary.generateErrorMessagesFromServer(resp.message);
-        }
-        else if(resp.message=="success"){
-          if(this.actionForm.toUpperCase()=="NUEVO") this.actionForm="editar";
-          this.record.id=resp.id;
-
-          //actualizar el registro de la tabla archivos
-          if(this.record.id_archivos>0){
-              /*this.recordFile={id:this.record.id_archivos,
-                  tabla:"plantillasdocsnombramiento",
-                  id_tabla:this.record.id,
-                  tipo: null,  nombre:  null,  datos: null,  id_usuarios_r: 0,
-                  state: '',  created_at: null,   updated_at: null
-                };
-
-              await this.isLoadingService.add(
-              this.archivosSvc.setRecordReferencia(this.recordFile,this.actionForm).subscribe(resp => {
-                this.successModal.show();
-                setTimeout(()=>{ this.successModal.hide(); }, 2000)
-              }),{ key: 'loading' });*/
+      if(!this.seRevisoCargaHoraria)
+        this.validSummary.generateErrorMessagesFromServer({carga_horaria: "Debe revisar la carga horaria para verificar que materias se registrarán como licencia"});
+      else{
+        await this.isLoadingService.add(
+        this.plantillasdocsnombramientoService.setRecord(this.record,this.actionForm).subscribe(async resp => {
+          if (resp.hasOwnProperty('error')) {
+            this.validSummary.generateErrorMessagesFromServer(resp.message);
           }
-          else{
-            this.successModal.show();
-            setTimeout(()=>{ this.successModal.hide(); }, 2000)
+          else if(resp.message=="success"){
+            if(this.actionForm.toUpperCase()=="NUEVO") this.actionForm="editar";
+            this.record.id=resp.id;
+
+            //actualizar el registro de la tabla archivos
+            if(this.record.id_archivos>0){
+                /*this.recordFile={id:this.record.id_archivos,
+                    tabla:"plantillasdocsnombramiento",
+                    id_tabla:this.record.id,
+                    tipo: null,  nombre:  null,  datos: null,  id_usuarios_r: 0,
+                    state: '',  created_at: null,   updated_at: null
+                  };
+
+                await this.isLoadingService.add(
+                this.archivosSvc.setRecordReferencia(this.recordFile,this.actionForm).subscribe(resp => {
+                  this.successModal.show();
+                  setTimeout(()=>{ this.successModal.hide(); }, 2000)
+                }),{ key: 'loading' });*/
+            }
+            else{
+              this.successModal.show();
+              setTimeout(()=>{ this.successModal.hide(); }, 2000)
+            }
           }
-        }
-      }),{ key: 'loading' });
+        }),{ key: 'loading' });
+      }
     }
   }
 
@@ -239,6 +247,15 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
           this.catplantelesSvc.getCatalogo().subscribe(resp => {
             this.catplantelesCat = resp;
             this.txtid_catplanteles.nativeElement.value=resp.find(x=>x.id==this.record.id_catplanteles).ubicacion;
+          });
+
+          this.catplantillasSvc.getRecord(this.record_plantillaspersonal.id_catplantillas).subscribe(resp => {
+            this.record_catplantillas=resp;
+            //marca si se debe revisar la carga horaria
+            if(this.record_catplantillas.id==2 && this.tipo=='licencia')
+              this.seRevisoCargaHoraria=false;
+            else
+              this.seRevisoCargaHoraria=true;
           });
 
           this.onSelectPlantel(this.record.id_catplanteles);
@@ -404,5 +421,15 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
         this.txtzonageografica.nativeElement.value=resp.descripcion;
       })
     });
+  }
+
+  //modal licenciamiento
+  openModal(id: string, accion: string, idItem: number) {
+    this.seRevisoCargaHoraria=true;
+    this.personalSvc.open(id, accion, this.record_plantillaspersonal.id_personal);
+  }
+
+  closeModal(id: string) {
+    this.personalSvc.close(id);
   }
 }

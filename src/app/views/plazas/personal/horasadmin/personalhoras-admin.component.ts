@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DataTablesResponse } from '../../../../classes/data-tables-response';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
-import {Semestre} from '../../../../_models';
+import {Semestre,Catestatushora} from '../../../../_models';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
@@ -55,7 +55,8 @@ export class PersonalhorasAdminComponent implements OnInit, OnDestroy {
     , raw: 0
     , fkey: 'id_personal,id_semestre'
     , fkeyvalue: [0, 0]
-    , modo: 0
+    , modo: 22
+    , state:"A"
   };
 
   NumberOfMembers = 0;
@@ -70,6 +71,7 @@ export class PersonalhorasAdminComponent implements OnInit, OnDestroy {
 
   semestreCat: Semestre[];
 
+
   record_id_personal: number=0;
   record_id_semestre: number=0;
 
@@ -83,7 +85,6 @@ export class PersonalhorasAdminComponent implements OnInit, OnDestroy {
   constructor(private personalService: PersonalService,
     private personalhorasadminService: PersonalhorasAdminService,
     private personalhorasformSvc: PersonalhorasFormService,
-    private personalSvc: PersonalService,
     private semestreSvc: SemestreService,
     private el: ElementRef,
     private route: ActivatedRoute
@@ -93,7 +94,6 @@ export class PersonalhorasAdminComponent implements OnInit, OnDestroy {
     this.semestreSvc.getCatalogo().subscribe(resp => {
       this.semestreCat = resp;
     });
-
   }
 
 
@@ -157,6 +157,7 @@ export class PersonalhorasAdminComponent implements OnInit, OnDestroy {
     this.botonAccion = actionsButtonSave[accion];
     this.record_id_personal = parseInt(idItem);
     this.record_id_semestre=0;
+    this.dtOptionsAdicional.state="A";
     if(this.semestreCat.length>0){
       this.record_id_semestre=this.semestreCat[this.semestreCat.length-1].id;
     }
@@ -223,6 +224,11 @@ export class PersonalhorasAdminComponent implements OnInit, OnDestroy {
 
   onSemestreChange(valor: any) {
     this.record_id_semestre = parseInt(valor);
+    this.reDraw();
+  }
+
+  onCatestatusChange(state:any){
+    this.dtOptionsAdicional.state = state;
     this.reDraw();
   }
 }

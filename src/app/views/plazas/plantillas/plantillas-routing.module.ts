@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+/*import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { PlantillasAdminComponent } from './admin/plantillas-admin.component';
@@ -93,3 +93,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class PlantillasRoutingModule {}
+*/

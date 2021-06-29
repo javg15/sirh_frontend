@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
+/*import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
-import { SharedModule } from '../../_shared/shared.module';
 
-import { PlantillasRoutingModule } from './plantillas-routing.module';
+import { PlazasStartModule } from '../plazasstart.module';
+//import { PlantillasRoutingModule } from './plantillas-routing.module';
 import { PlantillasService } from './services/plantillas.service';
-import { PlantillasAdminComponent } from './admin/plantillas-admin.component';
+/*import { PlantillasAdminComponent } from './admin/plantillas-admin.component';
 import { PlantillasFormComponent } from './form/plantillas-form.component';
 import { PlantillasDocsAdminComponent } from './docs/plantillasdocs-admin.component';
 import { PlantillasDocsFormComponent } from './docssub/plantillasdocs-form.component';
@@ -32,18 +32,19 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 @NgModule({
   imports: [
     CommonModule,
-    PlantillasRoutingModule,
+    //PlantillasRoutingModule,
     FormsModule,
     DataTablesModule,
     ModalModule.forRoot(),
-    SharedModule,
+    //SharedModule,
     AutocompleteLibModule,
     NgSelect2Module,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
+    PlazasStartModule
   ],
   declarations: [
-    PlantillasAdminComponent,
+    /*PlantillasAdminComponent,
     PlantillasFormComponent,
     PlantillasDocsAdminComponent,
     PlantillasDocsFormComponent,
@@ -62,4 +63,4 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
   exports:[
   ]
 })
-export class PlantillasModule { }
+export class PlantillasModule { }*/
