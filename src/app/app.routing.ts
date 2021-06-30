@@ -23,7 +23,7 @@ import { AuthGuard } from './_guards/auth.guard';
 
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+
   /*{ path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },*/
   { path: 'profile', component: ProfileComponent },
@@ -74,6 +74,7 @@ const routes: Routes = [
             title: 'Register Page'
           }
       },
+      { path: 'home', loadChildren: () => import('./views/home/home.module').then(m => m.HomeModule) },
       {
         path: 'base',
         loadChildren: () => import('./views/base/base.module').then(m => m.BaseModule)

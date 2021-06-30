@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
         this.isLoginFailed = false;
         this.isLoggedIn = true;
         this.roles = this.tokenStorage.getUser().roles;
-        this.router.navigate(['dashboard']);
+        this.router.navigate(['home']);
         //this.reloadPage();
       },
       err => {
@@ -61,6 +61,6 @@ export class LoginComponent implements OnInit {
   }
 
   inicio(): void {
-    this.router.navigate(['dashboard']);
+    this.router.navigate(['home']);
   }
 }

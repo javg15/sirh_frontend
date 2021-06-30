@@ -48,6 +48,13 @@ export class PersonalService {
       , httpOptions);
   }
 
+  public getRecordSegunUsuario(id_usuario: any): Observable<any> {
+    return this.http.post(this.API_URL + '/personal/getRecordSegunUsuario',
+      { id_usuario }
+      , httpOptions);
+  }
+
+
   public getRecordSegunCURP(curp: any): Observable<any> {
     return this.http.post(this.API_URL + '/personal/getRecordSegunCURP',
       { curp }

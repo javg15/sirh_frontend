@@ -5,6 +5,7 @@ import { ArchivosService } from '../../views/catalogos/archivos/services/archivo
 import { Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 
+
 @Component({
   selector: 'app-default',
   templateUrl: './default-layout.component.html'
@@ -14,6 +15,8 @@ export class DefaultLayoutComponent {
   public navItems = navItems;
 
   usuario:any=this.tokenStorage.getUser();
+  images=[1,1,1,1,1,1];
+  imageDefault:boolean=false;
   imageAvatar:any;
   imageAvatar1:any;imageAvatar2:any;imageAvatar3:any;
   imageAvatar4:any;imageAvatar5:any;imageAvatar6:any;
@@ -23,7 +26,15 @@ export class DefaultLayoutComponent {
       private router: Router,
       private _sanitizer: DomSanitizer,
     ) {
-      this.archivoSvc.getAvatar(this.usuario.id).subscribe(resp => {
+      //this.imageAvatar = 'http://sigaa.cobaev.edu.mx/festival/fotos/personal/'+this.usuario.username+'.jpg';
+      this.imageAvatar1=(this.usuario.username.length<10?'http://sigaa.cobaev.edu.mx/festival/fotos/personal/'+this.usuario.username+'.JPG':'transform('+this.usuario.username+')')
+      this.imageAvatar2=(this.usuario.username.length<10?'http://sigaa.cobaev.edu.mx/festival/fotos/personal/'+this.usuario.username+'.jpg':'transform('+this.usuario.username+')')
+      this.imageAvatar3=(this.usuario.username.length<10?'http://sigaa.cobaev.edu.mx/festival/fotos/personal/'+this.usuario.username+'.PNG':'transform('+this.usuario.username+')')
+      this.imageAvatar4=(this.usuario.username.length<10?'http://sigaa.cobaev.edu.mx/festival/fotos/personal/'+this.usuario.username+'.png':'transform('+this.usuario.username+')')
+      this.imageAvatar5=(this.usuario.username.length<10?'http://sigaa.cobaev.edu.mx/festival/fotos/personal/'+this.usuario.username+'.JPEG':'transform('+this.usuario.username+')')
+      this.imageAvatar6=(this.usuario.username.length<10?'http://sigaa.cobaev.edu.mx/festival/fotos/personal/'+this.usuario.username+'.jpeg':'transform('+this.usuario.username+')')
+
+      /*this.archivoSvc.getAvatar(this.usuario.id).subscribe(resp => {
         resp.username="02338";
         this.imageAvatar1=(resp.username.length<10?'http://sigaa.cobaev.edu.mx/festival/fotos/personal/'+resp.username+'.JPG':'transform('+resp.username+')')
         this.imageAvatar2=(resp.username.length<10?'http://sigaa.cobaev.edu.mx/festival/fotos/personal/'+resp.username+'.jpg':'transform('+resp.username+')')
@@ -33,13 +44,12 @@ export class DefaultLayoutComponent {
         this.imageAvatar6=(resp.username.length<10?'http://sigaa.cobaev.edu.mx/festival/fotos/personal/'+resp.username+'.jpeg':'transform('+resp.username+')')
 
         /*this.imageAvatar = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
-                 + resp[0]["datos"]);*/
+                 + resp[0]["datos"]);*
         this.imageAvatar = 'http://sigaa.cobaev.edu.mx/festival/fotos/personal/02338.jpg';
       },
       error => {
         this.imageAvatar='http://sigaa.cobaev.edu.mx/festival/fotos/personal/02338.jpg';
-      }
-      );
+      });*/
   }
 
 
@@ -51,5 +61,12 @@ export class DefaultLayoutComponent {
     this.tokenStorage.signOut();
 
     //this.router.navigate(['/login']);
+  }
+
+  onErrorImage(i){
+    this.images[i]=0;
+    if(this.images[0]==0 && this.images[1]==0 && this.images[2]==0
+      && this.images[3]==0 && this.images[4]==0 && this.images[5]==0)
+      this.imageDefault=true;
   }
 }
