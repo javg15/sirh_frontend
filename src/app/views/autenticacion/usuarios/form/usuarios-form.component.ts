@@ -1,16 +1,20 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { UsuariosService } from '../services/usuarios.service';
-import { UsuarioszonasService } from '../../../autenticacion/usuarioszonas/services/usuarioszonas.service';
-import { CatzonageograficaService } from '../../../catalogos/catzonageografica/services/catzonageografica.service';
+
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Usuarios,  Catestados, Catmunicipios, Catlocalidades, Catestadocivil,Catzonageografica } from '../../../../_models';
+import { Usuarios,  Personal,Catzonageografica, Permgrupos } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 import { Archivos } from '../../../../_models';
 import { ArchivosService } from '../../../catalogos/archivos/services/archivos.service';
+import { UsuariosService } from '../services/usuarios.service';
+import { UsuarioszonasService } from '../../../autenticacion/usuarioszonas/services/usuarioszonas.service';
+import { CatzonageograficaService } from '../../../catalogos/catzonageografica/services/catzonageografica.service';
+import { PermgruposService } from '../../../autenticacion/permgrupos/services/permgrupos.service';
+import { PersonalService } from '../../../plazas/personal/services/personal.service';
 
+import { AutocompleteComponent } from 'angular-ng-autocomplete';
 import { ListUploadComponent } from '../../../_shared/upload/list-upload.component';
 import { FormUploadComponent } from '../../../_shared/upload/form-upload.component';
 
@@ -33,6 +37,7 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
   tituloForm: string;
 
   private elementModal: any;
+  @ViewChild('id_personal') id_personal:AutocompleteComponent;
   @ViewChild('basicModal') basicModal: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
@@ -44,29 +49,36 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
   pass:String="";
   passActual:String="";
   recordFile:Archivos;
-  catestadosCat:Catestados[];
-  catmunicipiosCat:Catmunicipios[];
-  catlocalidadesCat: Catlocalidades[];
-  catestadocivilCat: Catestadocivil[];
   catzonageograficaCat:Catzonageografica[];
+  permgruposCat:Permgrupos[];
+  personalCat:Personal[];
+  record_id_personal:number=0;
+  isLoadingSearch:boolean;
+  keywordSearch = 'full_name';
+  //se usa en el html
   dropdownSettings = {
     singleSelection: false,
-                                  text:"",
-                                  selectAllText:'Todas',
-                                  unSelectAllText:'Ninguna',
-                                  enableSearchFilter: false,
-                                  classes:"myclass custom-class"
+    text:"",
+    selectAllText:'Todas',
+    unSelectAllText:'Ninguna',
+    enableSearchFilter: false,
+    classes:"myclass custom-class"
   };
 
   constructor(private isLoadingService: IsLoadingService,
       private usuariosService: UsuariosService, private el: ElementRef,
       private archivosSvc:ArchivosService,
       private catzonageograficaSvc: CatzonageograficaService,
-      private usuarioszonasSvc:UsuarioszonasService
+      private permgruposSvc: PermgruposService,
+      private usuarioszonasSvc:UsuarioszonasService,
+      private personalSvc: PersonalService,
       ) {
       this.elementModal = el.nativeElement;
       this.catzonageograficaSvc.getCatalogo().subscribe(resp => {
         this.catzonageograficaCat = resp;
+      });
+      this.permgruposSvc.getCatalogo().subscribe(resp => {
+        this.permgruposCat = resp;
       });
   }
 
@@ -109,7 +121,7 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
       this.validSummary.resetErrorMessages(form);
 
       await this.isLoadingService.add(
-      this.usuariosService.setPerfil(this.record,this.actionForm,this.passConfirm,this.passActual,0).subscribe(async resp => {
+      this.usuariosService.setPerfil(this.record,this.actionForm,this.passConfirm,this.passActual,0,this.record_id_personal).subscribe(async resp => {
         if (resp.hasOwnProperty('error')) {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
         }
@@ -151,6 +163,7 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
     this.tituloForm=titulosModal[accion] + " registro";
+    this.passConfirm="";
 
     if(idItem=="0"){
       this.record =this.newRecord();
@@ -180,4 +193,33 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
 
   // log contenido de objeto en formulario
   get diagnosticValidate() { return JSON.stringify(this.record); }
+
+  onClickBuscar() {
+    if(this.id_personal.query=="") this.record_id_personal=0;
+    if(this.record_id_personal>0)
+      this.record.username=this.personalCat.find(a=>a.id==this.record_id_personal).numeemp;
+    else
+      this.record.username="";
+  }
+  /*********************
+   autocomplete id_personal
+   *********************/
+   onChangeSearchIdPersonal(val: string) {
+    this.isLoadingSearch = true;
+    this.personalSvc.getCatalogoSegunBusqueda(val).subscribe(resp => {
+      this.personalCat = resp;
+      this.isLoadingSearch = false;
+    });
+  }
+
+  onCleared(){
+    this.record_id_personal=0;
+    this.onClickBuscar();
+  }
+
+  onSelectIdPersonal(val: any) {
+    let items=val["full_name"].split(" -- ");
+    this.record_id_personal=parseInt(items[2]);
+    this.onClickBuscar();
+  }
 }

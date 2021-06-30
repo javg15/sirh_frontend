@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { PersonalAdminComponent } from './personal/admin/personal-admin.component';
-import { PersonalFormComponent } from './personal/form/personal-form.component';
-import { PersonalhorasAdminComponent } from './personal/horasadmin/personalhoras-admin.component';
-import { PersonalhorasFormComponent } from './personal/horasform/personalhoras-form.component';
-import { PersonalIniService } from './personal/services/personal.ini.service';
-import { PersonalhorasAdminIniService } from './personal/services/personalhorasadmin.ini.service';
+import { PersonalhorasAdminComponent } from './personalhoras/admin/personalhoras-admin.component';
+import { HorasasignacionAdminComponent } from './personalhoras/horasadmin/horasasignacion-admin.component';
+import { HorasasignacionFormComponent } from './personalhoras/horasform/horasasignacion-form.component';
+import { PersonalhorasIniService } from './personalhoras/services/personalhoras.ini.service';
+import { HorasasignacionAdminIniService } from './personalhoras/services/horasasignacionadmin.ini.service';
 
 import { PlantillasAdminComponent } from './plantillas/admin/plantillas-admin.component';
 import { PlantillasFormComponent } from './plantillas/form/plantillas-form.component';
@@ -23,43 +22,36 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Personas'
+      title: 'Asignación de horas'
     },
     children: [
       {
-        path: 'personal',
+        path: 'personalhoras',
         redirectTo: 'admin'
       },
       {
         path: 'admin',
-        component: PersonalAdminComponent,
+        component: PersonalhorasAdminComponent,
         data: {
-          title: 'Personas'
+          title: 'Carga horaria'
         },
         resolve: {
-          userdata: PersonalIniService,
-          userdataHoras: PersonalhorasAdminIniService,
+          userdata: PersonalhorasIniService,
+          userdataHoras: HorasasignacionAdminIniService,
         }
       },
       {
         path: 'form',
-        component: PersonalFormComponent,
+        component: HorasasignacionFormComponent,
         data: {
-          title: 'Personas'
+          title: 'Carga horaria'
         }
       },
       {
         path: 'horas',
-        component: PersonalhorasAdminComponent,
+        component: HorasasignacionAdminComponent,
         data: {
-          title: 'Horas asignadas'
-        },
-      },
-      {
-        path: 'horasform',
-        component: PersonalhorasFormComponent,
-        data: {
-          title: 'Horas asignadas'
+          title: 'Carga horaria'
         },
       },
       {
@@ -75,7 +67,7 @@ const routes: Routes = [
         resolve: {
           userdata: PlantillasIniService,
           userdataDocs: PlantillasdocsIniService,
-          userdataHoras: PersonalhorasAdminIniService,
+          userdataHoras: HorasasignacionAdminIniService,
         }
       },
       {

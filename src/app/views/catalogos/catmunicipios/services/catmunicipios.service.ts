@@ -37,7 +37,7 @@ export class CatmunicipiosService {
       }, 200)
     })
   }
-  /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
+
   public getCatalogo(id_region): Observable<any> {
     return this.http.post(this.API_URL + '/catmunicipios/getCatalogo',
       { id_region }

@@ -37,7 +37,7 @@ export class CatestatusplazaService {
       }, 200)
     })
   }
-  /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
+
   public getCatalogo(tipo:number=0): Observable<any> {
     return this.http.post(this.API_URL + '/catestatusplaza/getCatalogo',
       { tipo }

@@ -12,7 +12,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class PersonalhorasFormService {
+export class HorasasignacionFormService {
   public API_URL = environment.APIS_URL;
   private modals: any[] = [];
 
@@ -47,9 +47,9 @@ export class PersonalhorasFormService {
     this.modals = this.modals.filter(x => x.id !== id);
   }
 
-  public open(id: string, accion: string, idItem: number, idParent: number, idSemestre: number) {
+  public open(id: string, accion: string, idItem: number, idPersonal: number, idSemestre: number, idPlantel:number) {
     let modal: any = this.modals.filter(x => x.id === id)[0];
-    modal.open(idItem, accion, idParent, idSemestre);
+    modal.open(idItem, accion, idPersonal, idSemestre, idPlantel);
   }
 
   public close(id: string) {

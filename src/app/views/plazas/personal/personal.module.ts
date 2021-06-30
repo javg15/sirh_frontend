@@ -1,17 +1,15 @@
-/*import { NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
+import { SharedModule } from '../../_shared/shared.module';
 
-import { PlazasStartModule } from '../plazasstart.module';
 import { PersonalService } from './services/personal.service';
-/*import { PersonalRoutingModule } from './personal-routing.module';
+import { PersonalRoutingModule } from './personal-routing.module';
 
 import { PersonalAdminComponent } from './admin/personal-admin.component';
 import { PersonalFormComponent } from './form/personal-form.component';
-import { PersonalhorasAdminComponent } from './horasadmin/personalhoras-admin.component';
-import { PersonalhorasFormComponent } from './horasform/personalhoras-form.component';
 import { DataTablesModule } from 'angular-datatables';
 import { NgSelect2Module } from 'ng-select2';
 
@@ -31,7 +29,7 @@ const maskConfig: Partial<IConfig> = {
 @NgModule({
   imports: [
     CommonModule,
-    //PersonalRoutingModule,
+    PersonalRoutingModule,
     FormsModule,
     DataTablesModule,
     ModalModule.forRoot(),
@@ -40,13 +38,11 @@ const maskConfig: Partial<IConfig> = {
     NgSelect2Module,
     BsDropdownModule.forRoot(),
     AutocompleteLibModule,
-    PlazasStartModule
+    SharedModule
   ],
   declarations: [
-    /*PersonalAdminComponent,
+    PersonalAdminComponent,
     PersonalFormComponent,
-    PersonalhorasAdminComponent,
-    PersonalhorasFormComponent,
   ],
   providers: [
     PersonalService
@@ -55,4 +51,4 @@ const maskConfig: Partial<IConfig> = {
   ]
 })
 export class PersonalModule { }
-*/
+

@@ -12,6 +12,7 @@ import { actionsButtonSave, titulosModal } from '../../../../../environments/env
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 import { PersonalService } from '../../personal/services/personal.service';
+import { PersonalhorasService } from '../../personalhoras/services/personalhoras.service';
 import { PlazasService } from '../../plazas/services/plazas.service';
 import { CategoriasService } from '../../../catalogos/categorias/services/categorias.service';
 import { CategoriasdetalleService } from '../../../catalogos/categorias/services/categoriasdetalle.service';
@@ -102,6 +103,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   constructor(private isLoadingService: IsLoadingService,
       private plantillasdocsnombramientoService: PlantillasdocsNombramientoService,
       private personalSvc: PersonalService,
+      private personalhorasSvc: PersonalhorasService,
       private categoriasSvc: CategoriasService,
       private plantillasSvc: PlantillasService,
       private catestatusplazaSvc: CatestatusplazaService,
@@ -426,10 +428,10 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   //modal licenciamiento
   openModal(id: string, accion: string, idItem: number) {
     this.seRevisoCargaHoraria=true;
-    this.personalSvc.open(id, accion, this.record_plantillaspersonal.id_personal);
+    this.personalhorasSvc.open(id, accion, this.record_plantillaspersonal.id_personal,0,0);
   }
 
   closeModal(id: string) {
-    this.personalSvc.close(id);
+    this.personalhorasSvc.close(id);
   }
 }

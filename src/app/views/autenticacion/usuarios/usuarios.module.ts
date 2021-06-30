@@ -16,7 +16,7 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 
 // Tabs Component
 import { TabsModule } from 'ngx-bootstrap/tabs';
-
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 
 @NgModule({
   imports: [
@@ -27,7 +27,8 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     ModalModule.forRoot(),
     SharedModule,
     TabsModule.forRoot(),
-    AngularMultiSelectModule
+    AngularMultiSelectModule,
+    AutocompleteLibModule,
   ],
   declarations: [
     UsuariosAdminComponent,

@@ -9,7 +9,7 @@ import { actionsButtonSave, titulosModal } from '../../../../../environments/env
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 
-import { PersonalhorasFormService } from '../services/personalhorasform.service';
+import { HorasasignacionFormService } from '../services/horasasignacionform.service';
 import { CatquincenaService } from '../../../catalogos/catquincena/services/catquincena.service';
 import { GruposclaseService } from '../../../catalogos/gruposclase/services/gruposclase.service';
 import { MateriasclaseService } from '../../../catalogos/materiasclase/services/materiasclase.service';
@@ -18,32 +18,32 @@ import { CatplantelesService } from '../../../catalogos/catplanteles/services/ca
 import { CatestatushoraService } from '../../../catalogos/catestatushora/services/catestatushora.service';
 import { CatnombramientosService } from '../../../catalogos/catnombramientos/services/catnombramientos.service';
 import { CattipohorasdocenteService } from '../../../catalogos/cattipohorasdocente/services/cattipohorasdocente.service';
-import { PersonalService } from '../services/personal.service';
+import { PersonalService } from '../../personal/services/personal.service';
 
 
 declare var $: any;
 declare var jQuery: any;
 
 @Component({
-  selector: 'app-personalhoras-form',
-  templateUrl: './personalhoras-form.component.html',
-  styleUrls: ['./personalhoras-form.component.css']
+  selector: 'app-horasasignacion-form',
+  templateUrl: './horasasignacion-form.component.html',
+  styleUrls: ['./horasasignacion-form.component.css']
 })
 
-export class PersonalhorasFormComponent implements OnInit, OnDestroy {
+export class HorasasignacionFormComponent implements OnInit, OnDestroy {
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
   @Input() id: string; //idModal
   @Input() botonAccion: string; //texto del boton según acción
   @Output() redrawEvent = new EventEmitter<any>();
 
-  nombreModulo = 'Personalhoras';
+  nombreModulo = 'Horasasignacion';
 
   actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
 
   private elementModal: any;
 
-  @ViewChild('basicModalPersonalhoras') basicModalPersonalhoras: ModalDirective;
+  @ViewChild('basicModalHorasasignacion') basicModalHorasasignacion: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
 
@@ -73,13 +73,15 @@ export class PersonalhorasFormComponent implements OnInit, OnDestroy {
   cattipohorasdocenteCat: Cattipohorasdocente[];
   record_id_personal:number;
   record_id_semestre:number;
+  record_id_plantel:number;
 
+  esPlantelDesdeParametro:boolean=false;
   keywordSearch = 'full_name';
   isLoadingSearch: boolean;
   //recordJsonTipodoc1:any={UltimoGradodeEstudios:0,AreadeCarrera:0,Carrera:0,Estatus:0};
 
   constructor(private isLoadingService: IsLoadingService,
-    private personalhorasformService: PersonalhorasFormService,
+    private horasasignacionformService: HorasasignacionFormService,
     private personalSvc: PersonalService,
     private semestreSvc: SemestreService,
     private catquincenaSvc: CatquincenaService,
@@ -125,7 +127,7 @@ export class PersonalhorasFormComponent implements OnInit, OnDestroy {
       return;
     }
     // add self (this modal instance) to the modal service so it's accessible from controllers
-    modal.personalhorasformService.add(modal);
+    modal.horasasignacionformService.add(modal);
 
     //loading
     this.userFormIsPending = this.isLoadingService.isLoading$({ key: 'loading' });
@@ -133,7 +135,7 @@ export class PersonalhorasFormComponent implements OnInit, OnDestroy {
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-    this.personalhorasformService.remove(this.id); //idModal
+    this.horasasignacionformService.remove(this.id); //idModal
     this.elementModal.remove();
   }
 
@@ -145,7 +147,7 @@ export class PersonalhorasFormComponent implements OnInit, OnDestroy {
       this.validSummary.resetErrorMessages(admin);
 
       await this.isLoadingService.add(
-        this.personalhorasformService.setRecord(this.record, this.actionForm).subscribe(async resp => {
+        this.horasasignacionformService.setRecord(this.record, this.actionForm).subscribe(async resp => {
           if (resp.hasOwnProperty('error')) {
             this.validSummary.generateErrorMessagesFromServer(resp.message);
           }
@@ -161,32 +163,32 @@ export class PersonalhorasFormComponent implements OnInit, OnDestroy {
   }
 
   // open modal
-  open(idItem: string, accion: string, idParent: number, idSemestre: number): void {
+  open(idItem: string, accion: string, idPersonal: number, idSemestre: number, idPlantel:number): void {
     this.actionForm = accion;
     this.botonAccion = actionsButtonSave[accion];
-    this.tituloForm = "Datos Sindicato - " + titulosModal[accion] + " registro";
-    this.record_id_personal=idParent;
+    this.tituloForm = "Carga horaria - " + titulosModal[accion] + " registro";
+    this.record_id_personal=idPersonal;
     this.record_id_semestre=idSemestre;
-    //catalogo de planteles segun personal
-    this.catplantelesSvc.getCatalogoSegunPersonal(idParent).subscribe(resp => {
-      this.catplantelesCat = resp;
-    });
+    this.record_id_plantel=idPlantel;
 
-    this.personalSvc.getRecord(idParent).subscribe(resp => {
+    this.esPlantelDesdeParametro=(idPlantel>0);
+
+    this.personalSvc.getRecord(idPersonal).subscribe(resp => {
       this.recordpersonal = resp;
     });
     this.semestreSvc.getRecord(idSemestre).subscribe(resp => {
       this.recordsemestre = resp;
     });
-    this.catplantelesSvc.getCatalogoSegunPersonal(idParent).subscribe(resp => {
+    this.catplantelesSvc.getCatalogoSegunPersonal(idPersonal).subscribe(resp => {
       this.catplantelesCat = resp;
     });
 
     if (idItem == "0") {
-      this.record = this.newRecord(idParent, idSemestre);
+      this.record = this.newRecord(idPersonal, idSemestre);
+      this.record.id_catplanteles=idPlantel;
     } else {
       //obtener el registro
-      this.personalhorasformService.getRecord(idItem).subscribe(async resp => {
+      this.horasasignacionformService.getRecord(idItem).subscribe(async resp => {
         this.record = resp;
         await this.onSelectPlantel(resp.id_catplanteles);
         await this.onSelectGruposclase(resp.id_gruposclase);
@@ -196,12 +198,12 @@ export class PersonalhorasFormComponent implements OnInit, OnDestroy {
     }
 
     // console.log($('#modalTest').html()); poner el id a algun elemento para testear
-    this.basicModalPersonalhoras.show();
+    this.basicModalHorasasignacion.show();
   }
 
   // close modal
   close(): void {
-    this.basicModalPersonalhoras.hide();
+    this.basicModalHorasasignacion.hide();
     if (this.actionForm.toUpperCase() != "VER") {
       this.redrawEvent.emit(null);
     }

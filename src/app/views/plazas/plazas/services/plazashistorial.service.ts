@@ -42,7 +42,7 @@ export class PlazashistorialService {
     })
   }
 
-  /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
+
   public getHistorial(dataTablesParameters): Observable<any> {
     return this.http.post(this.API_URL + '/plazas/getHistorial',
       { dataTablesParameters }

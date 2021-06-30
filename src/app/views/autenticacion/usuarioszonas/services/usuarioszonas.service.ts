@@ -37,7 +37,7 @@ export class UsuarioszonasService {
       }, 200)
     })
   }
-  /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
+
 
   /* El siguiente método lee los datos de un registro seleccionado para edición. */
   public getRecord(id: any): Observable<any> {

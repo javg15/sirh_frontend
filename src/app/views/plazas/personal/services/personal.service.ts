@@ -54,7 +54,7 @@ export class PersonalService {
       , httpOptions);
   }
 
-  /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
+
   public getCatalogoSegunBusqueda(query): Observable<any> {
     return this.http.post(this.API_URL + '/personal/getCatalogoSegunBusqueda',
       { query }

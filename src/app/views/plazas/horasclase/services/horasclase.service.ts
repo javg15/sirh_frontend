@@ -39,7 +39,7 @@ export class HorasclaseService {
       }, 200)
     })
   }
-  /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
+
   public getCatalogo(): Observable<any> {
     return this.http.post(this.API_URL + '/horasclase/getCatalogo',
       {  }

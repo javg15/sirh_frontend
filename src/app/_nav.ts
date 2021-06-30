@@ -43,10 +43,14 @@ export const navItems: INavData[] = [
         url: '/plazas/horasclase',
         //icon: 'icon-puzzle'
       },
-
       {
         name: 'Personas',
         url: '/plazas/personal',
+        //icon: 'icon-puzzle'
+      },
+      {
+        name: 'Carga horaria',
+        url: '/plazas/personalhoras',
         //icon: 'icon-puzzle'
       },
       {

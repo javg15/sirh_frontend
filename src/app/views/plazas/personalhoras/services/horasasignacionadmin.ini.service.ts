@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { take, map } from 'rxjs/operators';
 
-import { PersonalhorasAdminService } from './personalhorasadmin.service';
+import { HorasasignacionAdminService } from './horasasignacionadmin.service';
 import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class PersonalhorasAdminIniService implements Resolve<Observable<any>>{
+export class HorasasignacionAdminIniService implements Resolve<Observable<any>>{
 
-  constructor(private ds: PersonalhorasAdminService) { }
+  constructor(private ds: HorasasignacionAdminService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return this.ds.getHeaders().pipe(

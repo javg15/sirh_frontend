@@ -6,10 +6,9 @@ import { SharedModule } from '../_shared/shared.module';
 
 import { PlazasStartRoutingModule } from './plazasstart-routing.module';
 
-import { PersonalAdminComponent } from './personal/admin/personal-admin.component';
-import { PersonalFormComponent } from './personal/form/personal-form.component';
-import { PersonalhorasAdminComponent } from './personal/horasadmin/personalhoras-admin.component';
-import { PersonalhorasFormComponent } from './personal/horasform/personalhoras-form.component';
+import { PersonalhorasAdminComponent } from './personalhoras/admin/personalhoras-admin.component';
+import { HorasasignacionAdminComponent } from './personalhoras/horasadmin/horasasignacion-admin.component';
+import { HorasasignacionFormComponent } from './personalhoras/horasform/horasasignacion-form.component';
 import { PlantillasAdminComponent } from './plantillas/admin/plantillas-admin.component';
 import { PlantillasFormComponent } from './plantillas/form/plantillas-form.component';
 import { PlantillasDocsAdminComponent } from './plantillas/docs/plantillasdocs-admin.component';
@@ -55,10 +54,9 @@ import { DatePipe } from '@angular/common'
     SharedModule,
   ],
   declarations: [
-    PersonalAdminComponent,
-    PersonalFormComponent,
     PersonalhorasAdminComponent,
-    PersonalhorasFormComponent,
+    HorasasignacionAdminComponent,
+    HorasasignacionFormComponent,
     PlantillasAdminComponent,
     PlantillasFormComponent,
     PlantillasDocsAdminComponent,
@@ -76,10 +74,9 @@ import { DatePipe } from '@angular/common'
     DatePipe
   ],
   exports: [
-    PersonalAdminComponent,
-    PersonalFormComponent,
     PersonalhorasAdminComponent,
-    PersonalhorasFormComponent,
+    HorasasignacionAdminComponent,
+    HorasasignacionFormComponent,
     PlantillasAdminComponent,
     PlantillasFormComponent,
     PlantillasDocsAdminComponent,

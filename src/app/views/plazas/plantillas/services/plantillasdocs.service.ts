@@ -41,14 +41,14 @@ export class PlantillasdocsService {
       }, 200)
     })
   }
-  /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
+
   public getCatalogo(id_region): Observable<any> {
     return this.http.post(this.API_URL + '/plantillaspersonaldocs/getCatalogo',
       { id_region }
       , httpOptions);
   }
 
-  /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
+
   public getAdmin(dataTablesParameters): Observable<any> {
     return this.http.post(this.API_URL + '/plantillaspersonaldocs/getAdmin',
       { dataTablesParameters }

@@ -48,7 +48,7 @@ export class UsuariosService {
       , httpOptions);
   }
 
-  /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
+
   public getCatalogoSegunBusqueda(query): Observable<any> {
     return this.http.post(this.API_URL + '/user/getCatalogoSegunBusqueda',
       { query }
@@ -64,14 +64,14 @@ export class UsuariosService {
   }
 
   /* Actualiza datos del perfil del usuario en actividad. */
-  public setPerfil(dataPack, actionForm, passConfirm, passActual, onlypass): Observable<any> {
+  public setPerfil(dataPack, actionForm, passConfirm, passActual, onlypass,id_personal): Observable<any> {
 
     return this.http.post(this.API_URL + '/user/setPerfil',
-      { dataPack, actionForm, passConfirm, passActual, onlypass }
+      { dataPack, actionForm, passConfirm, passActual, onlypass,id_personal }
       , httpOptions);
   }
 
-  /* Devuelve el ID y Descripcion de la tabla, comunmente usado para los SELECT */
+
   public getCatalogo(): Observable<any> {
     return this.http.post(this.API_URL + '/user/getCatalogo',
       {}

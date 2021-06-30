@@ -11,9 +11,9 @@ import { ValidationSummaryComponent } from '../../../_shared/validation/validati
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
-import { PersonalService } from '../../personal/services/personal.service';
-import { PersonalhorasAdminService } from '../services/personalhorasadmin.service';
-import { PersonalhorasFormService } from '../services/personalhorasform.service';
+import { PersonalhorasService } from '../../personalhoras/services/personalhoras.service';
+import { HorasasignacionAdminService } from '../services/horasasignacionadmin.service';
+import { HorasasignacionFormService } from '../services/horasasignacionform.service';
 import { environment } from '../../../../../environments/environment';
 import { SemestreService } from '../../../catalogos/semestre/services/semestre.service';
 
@@ -21,12 +21,12 @@ declare var $: any;
 declare var jQuery: any;
 
 @Component({
-  selector: 'app-personalhoras-admin',
-  templateUrl: './personalhoras-admin.component.html',
-  styleUrls: ['./personalhoras-admin.component.css']
+  selector: 'app-horasasignacion-admin',
+  templateUrl: './horasasignacion-admin.component.html',
+  styleUrls: ['./horasasignacion-admin.component.css']
 })
 
-export class PersonalhorasAdminComponent implements OnInit, OnDestroy {
+export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
 
   @Input() dtOptions: DataTables.Settings = {};
@@ -53,8 +53,8 @@ export class PersonalhorasAdminComponent implements OnInit, OnDestroy {
   private dtOptionsAdicional = {
     datosBusqueda: { campo: 0, operador: 0, valor: '' }
     , raw: 0
-    , fkey: 'id_personal,id_semestre'
-    , fkeyvalue: [0, 0]
+    , fkey: 'id_personal,id_semestre,id_catplanteles'
+    , fkeyvalue: [0, 0, 0]
     , modo: 22
     , state:"A"
   };
@@ -62,7 +62,7 @@ export class PersonalhorasAdminComponent implements OnInit, OnDestroy {
   NumberOfMembers = 0;
   API_URL = environment.APIS_URL;
 
-  nombreModulo = 'PersonalhorasAdmin';
+  nombreModulo = 'HorasasignacionAdmin';
 
   headersAdmin: any;
 
@@ -74,6 +74,8 @@ export class PersonalhorasAdminComponent implements OnInit, OnDestroy {
 
   record_id_personal: number=0;
   record_id_semestre: number=0;
+  record_id_catplanteles: number=0;
+  esSemestreDesdeParametro:boolean=false;
 
   private elementModal: any;
   @ViewChild('basicModalDocs') basicModalDocs: ModalDirective;
@@ -82,9 +84,9 @@ export class PersonalhorasAdminComponent implements OnInit, OnDestroy {
 
   cattipoCat: any[];
 
-  constructor(private personalService: PersonalService,
-    private personalhorasadminService: PersonalhorasAdminService,
-    private personalhorasformSvc: PersonalhorasFormService,
+  constructor(private personalhorasService: PersonalhorasService,
+    private horasasignacionadminService: HorasasignacionAdminService,
+    private horasasignacionformSvc: HorasasignacionFormService,
     private semestreSvc: SemestreService,
     private el: ElementRef,
     private route: ActivatedRoute
@@ -107,7 +109,7 @@ export class PersonalhorasAdminComponent implements OnInit, OnDestroy {
       return;
     }
     // add self (this modal instance) to the modal service so it's accessible from controllers
-    modal.personalService.add(modal);
+    modal.personalhorasService.add(modal);
 
     //subtabla datatable
     this.headersAdmin = this.route.snapshot.data.userdataHoras; // get data from resolver
@@ -146,22 +148,26 @@ export class PersonalhorasAdminComponent implements OnInit, OnDestroy {
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-    this.personalService.remove(this.id); //idModal
+    this.personalhorasService.remove(this.id); //idModal
     this.elementModal.remove();
   }
 
 
   // open modal
-  open(idItem: string, accion: string): void {
+  open(id_personal: number, accion: string,id_catplanteles:number,id_semestre:number): void {
     this.actionForm = accion;
     this.botonAccion = actionsButtonSave[accion];
-    this.record_id_personal = parseInt(idItem);
-    this.record_id_semestre=0;
+    this.record_id_personal = id_personal;
+    this.record_id_semestre=id_semestre;
+    this.record_id_catplanteles=id_catplanteles;
     this.dtOptionsAdicional.state="A";
-    if(this.semestreCat.length>0){
-      this.record_id_semestre=this.semestreCat[this.semestreCat.length-1].id;
-    }
 
+    this.esSemestreDesdeParametro=(id_catplanteles>0);
+    if(id_catplanteles==0){
+      if(this.semestreCat.length>0){
+        this.record_id_semestre=this.semestreCat[this.semestreCat.length-1].id;
+      }
+    }
     this.reDraw();
     // console.log($('#modalTest').html()); poner el id a algun elemento para testear
     this.basicModalDocs.show();
@@ -179,15 +185,15 @@ export class PersonalhorasAdminComponent implements OnInit, OnDestroy {
 
 
   //Sub formulario
-  openModal(tipo: string, id: string, accion: string, idItem: number, idParent: number, idSemestre: number) {
+  openModal(tipo: string, id: string, accion: string, idItem: number, idPersonal: number, idSemestre: number, idPlantel: number) {
 
     if(this.record_id_semestre>0){
       switch (tipo.toLowerCase()) {
         case "01":
-          this.personalhorasformSvc.open(id, accion, idItem, idParent, idSemestre);
+          this.horasasignacionformSvc.open(id, accion, idItem, idPersonal, idSemestre, idPlantel);
           break;
         default:
-          this.personalhorasformSvc.open(id, accion, idItem, idParent, idSemestre);
+          this.horasasignacionformSvc.open(id, accion, idItem, idPersonal, idSemestre, idPlantel);
           break
       }
     }
@@ -197,24 +203,24 @@ export class PersonalhorasAdminComponent implements OnInit, OnDestroy {
   }
 
   closeModal(id: string) {
-    this.personalhorasadminService.close(id);
+    this.horasasignacionadminService.close(id);
   }
 
   reDraw(): void {
 
 
     this.dtOptionsAdicional.raw++;
-    this.dtOptionsAdicional.fkeyvalue = [this.record_id_personal, this.record_id_semestre];
+    this.dtOptionsAdicional.fkeyvalue = [this.record_id_personal, this.record_id_semestre, this.record_id_catplanteles];
     //this.dtOptionsAdicional.fkeyvalue=this.record_id_personal;
     this.dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
 
-    this.personalhorasadminService.getAdmin(this.dataTablesParameters).subscribe(resp => {
+    this.horasasignacionadminService.getAdmin(this.dataTablesParameters).subscribe(resp => {
 
       this.ColumnNames = resp.columnNames;
       this.Members = resp.data;
       this.NumberOfMembers = resp.data.length;
       $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
-      //$('#tblPersonalhorasAdmin').dataTable({searching: false, paging: false, info: false});
+      //$('#tblHorasasignacionAdmin').dataTable({searching: false, paging: false, info: false});
       if (this.NumberOfMembers > 0) {
         $('.dataTables_empty').css('display', 'none');
       }

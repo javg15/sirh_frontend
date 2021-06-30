@@ -1,4 +1,4 @@
-/*import { PersonalModule } from './personal.module';
+import { PersonalModule } from './personal.module';
 
 describe('PersonalModule', () => {
   let personalModule: PersonalModule;
@@ -11,4 +11,4 @@ describe('PersonalModule', () => {
     expect(personalModule).toBeTruthy();
   });
 });
-*/
+
