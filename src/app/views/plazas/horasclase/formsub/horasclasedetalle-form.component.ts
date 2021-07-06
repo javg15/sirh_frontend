@@ -4,8 +4,8 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Horasclasedetalle, Categorias } from '../../../../_models';
-import { CategoriasService } from '../../../catalogos/categorias/services/categorias.service';
+import { Horasclasedetalle, Cattipohorasdocente } from '../../../../_models';
+import { CattipohorasdocenteService } from '../../../catalogos/cattipohorasdocente/services/cattipohorasdocente.service';
 
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
@@ -46,22 +46,22 @@ export class HorasclasedetalleFormComponent implements OnInit, OnDestroy {
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
 
   record: Horasclasedetalle;
-  categoriasCat:Categorias[];
+  cattipohorasdocenteCat:Cattipohorasdocente[];
 
   constructor(private isLoadingService: IsLoadingService,
     private el: ElementRef,
-    private categoriasSvc: CategoriasService,
+    private CattipohorasdocenteSvc: CattipohorasdocenteService,
     private horasclasedetalleService: HorasclasedetalleService
       ) {
       this.elementModal = el.nativeElement;
-      this.categoriasSvc.getCatalogoDocentes().subscribe(resp => {
-        this.categoriasCat = resp;
+      this.CattipohorasdocenteSvc.getCatalogo().subscribe(resp => {
+        this.cattipohorasdocenteCat = resp;
       });
   }
 
   newRecord(idParent:number): Horasclasedetalle {
     return {
-      id: 0,  id_horasclase:idParent, id_categorias:0, fecha_ini:null, fecha_fin:null,
+      id: 0,  id_horasclase:idParent, id_cattipohorasdocente:0, fecha_ini:null, fecha_fin:null,id_categorias:0,
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }
