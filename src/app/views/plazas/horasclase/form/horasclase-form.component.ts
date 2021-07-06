@@ -8,10 +8,8 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Horasclase, Catquincena,Gruposclase, Semestre,Catplanteles,Materiasclase,Cattipohorasdocente } from '../../../../_models';
-import { CatquincenaService } from '../../../catalogos/catquincena/services/catquincena.service';
+import { Horasclase, Gruposclase,Catplanteles,Materiasclase,Cattipohorasdocente } from '../../../../_models';
 import { GruposclaseService } from '../../../catalogos/gruposclase/services/gruposclase.service';
-import { SemestreService } from '../../../catalogos/semestre/services/semestre.service';
 import { MateriasclaseService } from '../../../catalogos/materiasclase/services/materiasclase.service';
 import { CatplantelesService } from '../../../catalogos/catplanteles/services/catplanteles.service';
 import { CattipohorasdocenteService } from '../../../catalogos/cattipohorasdocente/services/cattipohorasdocente.service';
@@ -76,8 +74,6 @@ export class HorasclaseFormComponent implements OnInit, OnDestroy {
 
   record: Horasclase;
   gruposclaseCat:Gruposclase[];
-  semestreCat:Semestre[];
-  catquincenaCat:Catquincena[];
   catmateriasclaseCat:Materiasclase[];
   catplantelesCat:Catplanteles[];
   cattipohorasdocenteCat:Cattipohorasdocente[];
@@ -86,8 +82,6 @@ export class HorasclaseFormComponent implements OnInit, OnDestroy {
       private horasclaseService: HorasclaseService, private el: ElementRef,
       private horasclasedetalleService: HorasclasedetalleService,
     private gruposclaseSvc: GruposclaseService,
-    private semestreSvc: SemestreService,
-    private catquincenaSvc: CatquincenaService,
     private materiasclaseSvc: MateriasclaseService,
     private catplantelesSvc: CatplantelesService,
     private cattipohorasdocenteSvc: CattipohorasdocenteService,
@@ -97,12 +91,7 @@ export class HorasclaseFormComponent implements OnInit, OnDestroy {
       this.gruposclaseSvc.getCatalogo().subscribe(resp => {
         this.gruposclaseCat = resp;
       });
-      this.semestreSvc.getCatalogo().subscribe(resp => {
-        this.semestreCat = resp;
-      });
-      this.catquincenaSvc.getCatalogo().subscribe(resp => {
-        this.catquincenaCat = resp;
-      });
+
       this.materiasclaseSvc.getCatalogo().subscribe(resp => {
         this.catmateriasclaseCat = resp;
       });
@@ -117,8 +106,8 @@ export class HorasclaseFormComponent implements OnInit, OnDestroy {
 
   newRecord(): Horasclase {
     return {
-      id: 0,  id_catplanteles: 0, id_materiasclase:0, horas: 0, horaestatus:0,id_gruposclase:0, id_semestre_ini:0,
-      id_catquincena_fin:0,id_catquincena_ini:0,id_cattipohorasdocente:0,frenteagrupo:0,
+      id: 0,  id_catplanteles: 0, id_materiasclase:0, horas: 0, horaestatus:0,id_gruposclase:0,
+      id_cattipohorasdocente:0,frenteagrupo:0,id_cattiposemestre:0,
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }

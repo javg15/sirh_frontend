@@ -16,6 +16,12 @@ export default interface Horasclasedetalle {
 
   id_cattipohorasdocente: number | null;
 
+  id_semestre_ini: number | null;
+
+  id_catquincena_ini: number | null;
+
+  id_catquincena_fin: number | null;
+
   id_usuarios_r: number;
 
   state: string;
@@ -41,6 +47,12 @@ export interface HorasclasedetalleInitializer {
   fecha_fin?: Date;
 
   id_cattipohorasdocente?: number;
+
+  id_semestre_ini?: number;
+
+  id_catquincena_ini?: number;
+
+  id_catquincena_fin?: number;
 
   /** Default value: 0 */
   id_usuarios_r?: number;

@@ -16,15 +16,11 @@ export default interface Horasclase {
 
   id_gruposclase: number | null;
 
-  id_semestre_ini: number | null;
-
-  id_catquincena_ini: number | null;
-
-  id_catquincena_fin: number | null;
-
   frenteagrupo: number | null;
 
   id_cattipohorasdocente: number | null;
+
+  id_cattiposemestre: number | null;
 
   id_usuarios_r: number;
 
@@ -52,13 +48,9 @@ export interface HorasclaseInitializer {
 
   id_gruposclase?: number;
 
-  id_semestre_ini?: number;
-
-  id_catquincena_ini?: number;
-
-  id_catquincena_fin?: number;
-
   id_cattipohorasdocente?: number;
+
+  id_cattiposemestre?: number;
 
   frenteagrupo?: number;
 

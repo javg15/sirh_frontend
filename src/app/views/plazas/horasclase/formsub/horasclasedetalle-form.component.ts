@@ -4,8 +4,10 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Horasclasedetalle, Cattipohorasdocente } from '../../../../_models';
+import { Horasclasedetalle, Cattipohorasdocente,Catquincena,Semestre } from '../../../../_models';
 import { CattipohorasdocenteService } from '../../../catalogos/cattipohorasdocente/services/cattipohorasdocente.service';
+import { SemestreService } from '../../../catalogos/semestre/services/semestre.service';
+import { CatquincenaService } from '../../../catalogos/catquincena/services/catquincena.service';
 
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
@@ -47,21 +49,34 @@ export class HorasclasedetalleFormComponent implements OnInit, OnDestroy {
 
   record: Horasclasedetalle;
   cattipohorasdocenteCat:Cattipohorasdocente[];
+  semestreCat:Semestre[];
+  catquincenaCat:Catquincena[];
+
 
   constructor(private isLoadingService: IsLoadingService,
     private el: ElementRef,
     private CattipohorasdocenteSvc: CattipohorasdocenteService,
-    private horasclasedetalleService: HorasclasedetalleService
+    private horasclasedetalleService: HorasclasedetalleService,
+    private semestreSvc: SemestreService,
+    private catquincenaSvc: CatquincenaService,
+
       ) {
       this.elementModal = el.nativeElement;
       this.CattipohorasdocenteSvc.getCatalogo().subscribe(resp => {
         this.cattipohorasdocenteCat = resp;
+      });
+      this.semestreSvc.getCatalogo().subscribe(resp => {
+        this.semestreCat = resp;
+      });
+      this.catquincenaSvc.getCatalogo().subscribe(resp => {
+        this.catquincenaCat = resp;
       });
   }
 
   newRecord(idParent:number): Horasclasedetalle {
     return {
       id: 0,  id_horasclase:idParent, id_cattipohorasdocente:0, fecha_ini:null, fecha_fin:null,id_categorias:0,
+      id_semestre_ini:0,id_catquincena_ini:0,id_catquincena_fin:0,
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }
