@@ -8,8 +8,8 @@ import Categoriasdetalle, { CategoriasdetalleInitializer, CategoriasdetalleId } 
 import Categoriaspercepciones, { CategoriaspercepcionesInitializer, CategoriaspercepcionesId } from './categoriaspercepciones';
 import Categoriastabular, { CategoriastabularInitializer, } from './categoriastabular';
 import Catestadocivil, { CatestadocivilInitializer, } from './catestadocivil';
-import Catestados, { CatestadosInitializer } from './Catestados';
-import Catbajamotivo, { CatbajamotivoInitializer } from './Catbajamotivo';
+import Catestados, { CatestadosInitializer } from './catestados';
+import Catbajamotivo, { CatbajamotivoInitializer } from './catbajamotivo';
 import Catestatusplaza, { CatestatusplazaInitializer, CatestatusplazaId } from './catestatusplaza';
 import Catfuentef, { CatfuentefInitializer, CatfuentefId } from './catfuentef';
 import Catfuncionprimaria, { CatfuncionprimariaInitializer } from './catfuncionprimaria';

@@ -16,7 +16,7 @@
                         <input type="hidden" [(ngModel)]="record.id_horasclase" class="form-control" name="Código">
                     </div>
                     <div class="row">
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="id_cattipohorasdocente">Tipo de hora</label>
                                 <ng-select2 [(ngModel)]="record.id_cattipohorasdocente" [data]="cattipohorasdocenteCat" [allowClear]="true" allowClear="true" width="100%" name="Tipo de hora">
@@ -28,7 +28,7 @@
                         </div>
 
 
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="id_semestre_ini">Semestre de inicio</label>
                                 <ng-select2 [(ngModel)]="record.id_semestre_ini" [data]="semestreCat" [allowClear]="true" allowClear="true" width="100%" name="Semestre de inicio">
