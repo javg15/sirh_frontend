@@ -94,7 +94,7 @@ export class CatzonageograficaFormComponent implements OnInit, OnDestroy {
   open(idItem: string, accion: string):  void {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
-    this.tituloForm=titulosModal[accion] + " registro";
+    this.tituloForm="Zona geográfica - " +titulosModal[accion] + " registro";
 
     if(idItem=="0"){
       this.record =this.newRecord();

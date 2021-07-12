@@ -117,6 +117,26 @@ export const navItems: INavData[] = [
         //icon: 'icon-puzzle'
       },
       {
+        name: 'Semestres',
+        url: '/catalogos/semestre',
+        //icon: 'icon-puzzle'
+      },
+      {
+        name: 'Quincenas',
+        url: '/catalogos/catquincena',
+        //icon: 'icon-puzzle'
+      },
+      {
+        name: 'Grupos',
+        url: '/catalogos/gruposclase',
+        //icon: 'icon-puzzle'
+      },
+      {
+        name: 'Materias',
+        url: '/catalogos/materiasclase',
+        //icon: 'icon-puzzle'
+      },
+      {
         name: 'Usuarios',
         url: '/autenticacion/usuarios',
         //icon: 'icon-puzzle'

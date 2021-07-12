@@ -26,11 +26,11 @@ export default interface Semestre {
 
   actual: number | null;
 
-  idCatquincenaIni: number | null;
+  id_catquincena_ini: number | null;
 
-  idCatquincenaFin: number | null;
+  id_catquincena_fin: number | null;
 
-  idCatquincenaFininterinas: number | null;
+  id_catquincena_fininterinas: number | null;
 
   permitemodificacion: number | null;
 
@@ -66,11 +66,11 @@ export interface SemestreInitializer {
 
   actual?: number;
 
-  idCatquincenaIni?: number;
+  id_catquincena_ini?: number;
 
-  idCatquincenaFin?: number;
+  id_catquincena_fin?: number;
 
-  idCatquincenaFininterinas?: number;
+  id_catquincena_fininterinas?: number;
 
   permitemodificacion?: number;
 

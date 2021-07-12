@@ -149,6 +149,22 @@ const routes: Routes = [
         loadChildren: () => import('./views/catalogos/catestatusplaza/catestatusplaza.module').then(m => m.CatestatusplazaModule)
       },
       {
+        path: 'catalogos/semestre',
+        loadChildren: () => import('./views/catalogos/semestre/semestre.module').then(m => m.SemestreModule)
+      },
+      {
+        path: 'catalogos/catquincena',
+        loadChildren: () => import('./views/catalogos/catquincena/catquincena.module').then(m => m.CatquincenaModule)
+      },
+      {
+        path: 'catalogos/gruposclase',
+        loadChildren: () => import('./views/catalogos/gruposclase/gruposclase.module').then(m => m.GruposclaseModule)
+      },
+      {
+        path: 'catalogos/materiasclase',
+        loadChildren: () => import('./views/catalogos/materiasclase/materiasclase.module').then(m => m.MateriasclaseModule)
+      },
+      {
         path: 'plazas/plazas',
         loadChildren: () => import('./views/plazas/plazas/plazas.module').then(m => m.PlazasModule)
       },

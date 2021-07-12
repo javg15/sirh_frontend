@@ -59,8 +59,8 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
       created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
   };
   recordsemestre: Semestre = {
-    id: 0,tipo: '',anio: 0,quincena: 0,qnainiciosemestre:'',qnafinsemestre: '',actual: 0,idCatquincenaIni: 0,
-    idCatquincenaFin: 0, idCatquincenaFininterinas: 0,permitemodificacion: 0,permitecargadeplantillas: 0,
+    id: 0,tipo: '',anio: 0,quincena: 0,qnainiciosemestre:'',qnafinsemestre: '',actual: 0,id_catquincena_ini: 0,
+    id_catquincena_fin: 0, id_catquincena_fininterinas: 0,permitemodificacion: 0,permitecargadeplantillas: 0,
     created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0,state:''
 };
 

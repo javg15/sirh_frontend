@@ -162,7 +162,7 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
   open(idItem: string, accion: string):  void {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
-    this.tituloForm=titulosModal[accion] + " registro";
+    this.tituloForm="Usuarios - " +titulosModal[accion] + " registro";
     this.passConfirm="";
 
     if(idItem=="0"){

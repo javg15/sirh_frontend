@@ -1,24 +1,25 @@
-import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { CatlocalidadesService } from '../services/catlocalidades.service';
+import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter  } from '@angular/core';
+import { SemestreService } from '../services/semestre.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Catlocalidades } from '../../../../_models';
-import { CatmunicipiosService } from '../../catmunicipios/services/catmunicipios.service';
-import { Catmunicipios } from '../../../../_models';
+import { Semestre } from '../../../../_models';
+import { CatquincenaService } from '../../catquincena/services/catquincena.service';
+import { Catquincena } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../../src/environments/environment';
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
+import * as moment from 'moment';
 
 declare var $: any;
 declare var jQuery: any;
 
 @Component({
-  selector: 'app-catlocalidades-form',
-  templateUrl: './catlocalidades-form.component.html',
-  styleUrls: ['./catlocalidades-form.component.css']
+  selector: 'app-semestre-form',
+  templateUrl: './semestre-form.component.html',
+  styleUrls: ['./semestre-form.component.css']
 })
 
-export class CatlocalidadesFormComponent implements OnInit, OnDestroy {
+export class SemestreFormComponent implements OnInit, OnDestroy {
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
   @Input() id: string; //idModal
   @Input() botonAccion: string; //texto del boton según acción
@@ -31,24 +32,29 @@ export class CatlocalidadesFormComponent implements OnInit, OnDestroy {
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
 
-  record: Catlocalidades;
-  catlocalidadesCat:Catlocalidades[];
-  catmunicipiosCat:Catmunicipios[];
+  record: Semestre;
+  catquincenaCat:Catquincena[];
+  anioCat:any[]=[];
+
 
   constructor(private isLoadingService: IsLoadingService,
-      private catlocalidadesService: CatlocalidadesService, private el: ElementRef,
-    private catmunicipiosSvc: CatmunicipiosService,
+      private semestreService: SemestreService, private el: ElementRef,
+    private catquincenaSvc: CatquincenaService,
       ) {
       this.elementModal = el.nativeElement;
-      this.catmunicipiosSvc.getCatalogo(0).subscribe(resp => {
-        this.catmunicipiosCat = resp;
+      this.catquincenaSvc.getCatalogo().subscribe(resp => {
+        this.catquincenaCat = resp;
       });
+      for(let i=moment().year(); i>=2000;i--)
+        this.anioCat.push({anio:i})
   }
 
-  newRecord(): Catlocalidades {
+  newRecord(): Semestre {
     return {
-      id: 0,  clave: 0, descripcion: '', state: '', created_at: new Date(),  updated_at: new Date(),
-      id_usuarios_r: 0, id_catmunicipios: 0,ambito:''
+      id: 0,  tipo: '', anio: 0, quincena: 0, qnainiciosemestre: '',  qnafinsemestre: '',
+      actual: 0, id_catquincena_ini: 0,  id_catquincena_fin: 0, id_catquincena_fininterinas: 0,
+      permitemodificacion: 0, permitecargadeplantillas: 0,
+      state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }
   ngOnInit(): void {
@@ -63,7 +69,7 @@ export class CatlocalidadesFormComponent implements OnInit, OnDestroy {
           return;
       }
       // add self (this modal instance) to the modal service so it's accessible from controllers
-      modal.catlocalidadesService.add(modal);
+      modal.semestreService.add(modal);
 
       //loading
       this.userFormIsPending =this.isLoadingService.isLoading$({ key: 'loading' });
@@ -71,7 +77,7 @@ export class CatlocalidadesFormComponent implements OnInit, OnDestroy {
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-      this.catlocalidadesService.remove(this.id); //idModal
+      this.semestreService.remove(this.id); //idModal
       this.elementModal.remove();
   }
 
@@ -82,7 +88,7 @@ export class CatlocalidadesFormComponent implements OnInit, OnDestroy {
       this.validSummary.resetErrorMessages(form);
 
       await this.isLoadingService.add(
-      this.catlocalidadesService.setRecord(this.record,this.actionForm).subscribe(resp => {
+      this.semestreService.setRecord(this.record,this.actionForm).subscribe(resp => {
         if (resp.hasOwnProperty('error')) {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
         }
@@ -100,12 +106,12 @@ export class CatlocalidadesFormComponent implements OnInit, OnDestroy {
   open(idItem: string, accion: string):  void {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
-    this.tituloForm="Localidades - " +titulosModal[accion] + " registro";
+    this.tituloForm="Semestre - " +titulosModal[accion] + " registro";
 
     if(idItem=="0"){
       this.record =this.newRecord();
     } else {
-    this.catlocalidadesService.getRecord(idItem).subscribe(resp => {
+    this.semestreService.getRecord(idItem).subscribe(resp => {
       this.record = resp;
     });
   }
@@ -124,4 +130,27 @@ export class CatlocalidadesFormComponent implements OnInit, OnDestroy {
 
   // log contenido de objeto en formulario
   get diagnosticValidate() { return JSON.stringify(this.record); }
+
+  onSelectTipo(valor){
+
+    if(this.record.anio>0 && valor!="-"){
+      if(valor=="A"){
+        this.record.id_catquincena_ini=this.catquincenaCat.find(a=>a.anio==this.record.anio && a.quincena==3).id;
+        this.record.id_catquincena_fin=this.catquincenaCat.find(a=>a.anio==this.record.anio && a.quincena==14).id;
+        this.record.id_catquincena_fininterinas=this.catquincenaCat.find(a=>a.anio==this.record.anio && a.quincena==13).id;
+      }
+      else if(valor=="B"){
+        let aniomas=parseInt(this.record.anio.toString())+1;
+        this.record.id_catquincena_ini=this.catquincenaCat.find(a=>a.anio==this.record.anio && a.quincena==15).id;
+        this.record.id_catquincena_fin=this.catquincenaCat.find(a=>a.anio==aniomas && a.quincena==2).id;
+        this.record.id_catquincena_fininterinas=this.catquincenaCat.find(a=>a.anio==aniomas && a.quincena==1).id;
+      }
+      else{
+        this.record.id_catquincena_ini=0;this.record.id_catquincena_fin=0;this.record.id_catquincena_fininterinas=0;
+      }
+    }
+    else{
+      this.record.id_catquincena_ini=0;this.record.id_catquincena_fin=0;this.record.id_catquincena_fininterinas=0;
+    }
+  }
 }

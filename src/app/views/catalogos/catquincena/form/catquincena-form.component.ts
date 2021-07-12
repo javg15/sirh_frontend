@@ -1,24 +1,23 @@
-import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { CatlocalidadesService } from '../services/catlocalidades.service';
+import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter  } from '@angular/core';
+import { CatquincenaService } from '../services/catquincena.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Catlocalidades } from '../../../../_models';
-import { CatmunicipiosService } from '../../catmunicipios/services/catmunicipios.service';
-import { Catmunicipios } from '../../../../_models';
+import { Catquincena } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../../src/environments/environment';
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
+import * as moment from 'moment';
 
 declare var $: any;
 declare var jQuery: any;
 
 @Component({
-  selector: 'app-catlocalidades-form',
-  templateUrl: './catlocalidades-form.component.html',
-  styleUrls: ['./catlocalidades-form.component.css']
+  selector: 'app-catquincena-form',
+  templateUrl: './catquincena-form.component.html',
+  styleUrls: ['./catquincena-form.component.css']
 })
 
-export class CatlocalidadesFormComponent implements OnInit, OnDestroy {
+export class CatquincenaFormComponent implements OnInit, OnDestroy {
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
   @Input() id: string; //idModal
   @Input() botonAccion: string; //texto del boton según acción
@@ -31,24 +30,30 @@ export class CatlocalidadesFormComponent implements OnInit, OnDestroy {
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
 
-  record: Catlocalidades;
-  catlocalidadesCat:Catlocalidades[];
-  catmunicipiosCat:Catmunicipios[];
+  record: Catquincena;
+  quincenaCat:any[]=[];
+  anioCat:any[]=[];
+  bimestreCat:any[]=[];
 
   constructor(private isLoadingService: IsLoadingService,
-      private catlocalidadesService: CatlocalidadesService, private el: ElementRef,
-    private catmunicipiosSvc: CatmunicipiosService,
+      private catquincenaService: CatquincenaService, private el: ElementRef,
       ) {
       this.elementModal = el.nativeElement;
-      this.catmunicipiosSvc.getCatalogo(0).subscribe(resp => {
-        this.catmunicipiosCat = resp;
-      });
+      for(let i=moment().year(); i>=2000;i--)
+        this.anioCat.push({anio:i})
+      for(let i=1; i<=24;i++)
+        this.quincenaCat.push({quincena:i})
+      for(let i=1; i<=6;i++)
+        this.bimestreCat.push({bimestre:i})
   }
 
-  newRecord(): Catlocalidades {
+  newRecord(): Catquincena {
     return {
-      id: 0,  clave: 0, descripcion: '', state: '', created_at: new Date(),  updated_at: new Date(),
-      id_usuarios_r: 0, id_catmunicipios: 0,ambito:''
+      id: 0,  anio: 0, quincena: 0, fechainicio: new Date(), fechafin: new Date(),
+      adicional: 0, idestatusquincena: 0, periodovacacional: '', fechadepago: '',
+      observaciones: '', fechacierre: '', observaciones2: '', bimestre: 0, aplicarajusteispt: 0,
+      pagoderetroactividad: 0, liberadaparaportaladmvo: '', permiteabcderecibos: '',
+      state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }
   ngOnInit(): void {
@@ -63,7 +68,7 @@ export class CatlocalidadesFormComponent implements OnInit, OnDestroy {
           return;
       }
       // add self (this modal instance) to the modal service so it's accessible from controllers
-      modal.catlocalidadesService.add(modal);
+      modal.catquincenaService.add(modal);
 
       //loading
       this.userFormIsPending =this.isLoadingService.isLoading$({ key: 'loading' });
@@ -71,7 +76,7 @@ export class CatlocalidadesFormComponent implements OnInit, OnDestroy {
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-      this.catlocalidadesService.remove(this.id); //idModal
+      this.catquincenaService.remove(this.id); //idModal
       this.elementModal.remove();
   }
 
@@ -82,7 +87,7 @@ export class CatlocalidadesFormComponent implements OnInit, OnDestroy {
       this.validSummary.resetErrorMessages(form);
 
       await this.isLoadingService.add(
-      this.catlocalidadesService.setRecord(this.record,this.actionForm).subscribe(resp => {
+      this.catquincenaService.setRecord(this.record,this.actionForm).subscribe(resp => {
         if (resp.hasOwnProperty('error')) {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
         }
@@ -100,12 +105,12 @@ export class CatlocalidadesFormComponent implements OnInit, OnDestroy {
   open(idItem: string, accion: string):  void {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
-    this.tituloForm="Localidades - " +titulosModal[accion] + " registro";
+    this.tituloForm="Quincena - " +titulosModal[accion] + " registro";
 
     if(idItem=="0"){
       this.record =this.newRecord();
     } else {
-    this.catlocalidadesService.getRecord(idItem).subscribe(resp => {
+    this.catquincenaService.getRecord(idItem).subscribe(resp => {
       this.record = resp;
     });
   }
