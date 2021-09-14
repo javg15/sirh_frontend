@@ -5,6 +5,7 @@ import { PlazasAdminComponent } from './admin/plazas-admin.component';
 import { PlazasFormComponent } from './form/plazas-form.component';
 import { PlazasIniService } from './services/plazas.ini.service';
 import { PlazasHistorialIniService } from './services/plazashistorial.ini.service';
+import { PlazasHistorialNominaIniService } from './services/plazashistorialnomina.ini.service';
 
 const routes: Routes = [
   {
@@ -26,6 +27,7 @@ const routes: Routes = [
         resolve: {
           userdata: PlazasIniService,
           userdataHistorial: PlazasHistorialIniService,
+          userdataHistorialNomina:PlazasHistorialNominaIniService
         }
       },
       {
