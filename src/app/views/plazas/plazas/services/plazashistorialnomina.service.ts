@@ -44,7 +44,7 @@ export class PlazashistorialnominaService {
 
 
   public getHistorial(dataTablesParameters): Observable<any> {
-    return this.http.post(this.API_URL + '/plazas/getHistorialNomina',
+    return this.http.post(this.API_URL + '/plazas/getHistorial',
       { dataTablesParameters }
       , httpOptions);
   }
