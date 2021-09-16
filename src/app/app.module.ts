@@ -54,7 +54,7 @@ import { BoardUserComponent } from './board-user/board-user.component';
 
 // Dropdowns Component
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { DropdownsComponent } from './views/buttons/dropdowns.component';
+
 
 @NgModule({
   imports: [
@@ -74,7 +74,6 @@ import { DropdownsComponent } from './views/buttons/dropdowns.component';
     HttpClientModule,
   ],
   declarations: [
-    DropdownsComponent,
     AppComponent,
     ...APP_CONTAINERS,
     P404Component,
