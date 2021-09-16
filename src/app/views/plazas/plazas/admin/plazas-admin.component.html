@@ -16,17 +16,20 @@
                                         <!--<td><img src="assets/{{ member[col] }}" width="50" /></td>-->
                                         <td>
                                             <div *ngFor="let boton of member[col].split(',')" style="display: contents;">
-                                                <button *ngIf="boton=='ver'" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','ver',member.id)">
+                                                <button *ngIf="boton=='ver'" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" title="Ver" (click)="openModal('custom-modal-1','ver',member.id)">
                                                   <i class="fa fa-search"></i>
                                               </button>
-                                                <button *ngIf="boton=='editar'" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','editar',member.id)">
+                                                <button *ngIf="boton=='editar'" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" title="Editar" (click)="openModal('custom-modal-1','editar',member.id)">
                                                   <i class="fa fa-edit"></i>
                                               </button>
-                                                <button *ngIf="boton=='eliminar'" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','eliminar',member.id)">
+                                                <button *ngIf="boton=='eliminar'" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" title="Eliminar" (click)="openModal('custom-modal-1','eliminar',member.id)">
                                                   <i class="fa fa-trash"></i>
                                               </button>
-                                                <button *ngIf="boton=='historial'" class="btn btn-brand btn-sm mr-1 btn-stack-overflow" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-2','historial',member.id)">
+                                                <button *ngIf="boton=='historial'" class="btn btn-brand btn-sm mr-1 btn-stack-overflow" style="margin-bottom: 4px" type="button" title="Historial" (click)="openModal('custom-modal-2','historial',member.id)">
                                                 <i class="fa fa-stack-overflow"></i>
+                                            </button>
+                                                <button *ngIf="boton=='historialnomina'" class="btn btn-brand btn-sm mr-1 btn-tumblr" style="margin-bottom: 4px" type="button" title="Historial de Nómina" (click)="openModal('custom-modal-3','historialnomina',member.id)">
+                                              <i class="fa fa-history"></i>
                                             </button>
                                             </div>
                                         </td>
@@ -58,6 +61,9 @@
 <app-plazas-historial id="custom-modal-2">
     <!--<input type="hidden" [(ngModel)]="idItem" />-->
 </app-plazas-historial>
+<app-plazas-historialnomina id="custom-modal-3">
+    <!--<input type="hidden" [(ngModel)]="idItem" />-->
+</app-plazas-historialnomina>
 
 <div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">

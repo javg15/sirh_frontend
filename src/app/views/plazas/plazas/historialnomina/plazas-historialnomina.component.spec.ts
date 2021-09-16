@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PlazasHistorialComponent } from './plazas-historial.component';
+import { PlazasHistorialNominaComponent } from './plazas-historialnomina.component';
 
 describe('PlantillasDocsComponent', () => {
-  let component: PlazasHistorialComponent;
-  let fixture: ComponentFixture<PlazasHistorialComponent>;
+  let component: PlazasHistorialNominaComponent;
+  let fixture: ComponentFixture<PlazasHistorialNominaComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PlazasHistorialComponent ]
+      declarations: [ PlazasHistorialNominaComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PlazasHistorialComponent);
+    fixture = TestBed.createComponent(PlazasHistorialNominaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
