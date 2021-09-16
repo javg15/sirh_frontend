@@ -29,7 +29,7 @@ export class PlazashistorialnominaService {
       setTimeout(()=>{
         this.http.post<DataTablesResponse>(
           // this.API_URL + '/a6b_apis/read_records_dt.php',
-          this.API_URL + '/plazas/getHistorialNomina',
+          this.API_URL + '/plazas/getHistorial',
           {dataTablesParameters:{solocabeceras:1,opcionesAdicionales:{raw:0}}}, {}
         ).subscribe(resp => {
             if(resp.data.length>0)
