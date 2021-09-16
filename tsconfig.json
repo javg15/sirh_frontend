@@ -16,7 +16,6 @@
     "lib": [
       "esnext",
       "dom"
-    ],
-    "noEmitOnError": true,
+    ]
   }
 }
