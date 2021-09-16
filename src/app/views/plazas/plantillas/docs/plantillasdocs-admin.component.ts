@@ -164,7 +164,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
 
         this.record_tipodoc=parseInt(tipoDocumento);
 
-        this.reDraw();
+        this.reDraw(null);
 
         // console.log($('#modalTest').html()); poner el id a algun elemento para testear
         this.basicModalDocs.show();
@@ -219,7 +219,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     this.plantillasdocsService.close(id);
   }
 
-  reDraw(): void {
+  reDraw(parametro:any): void {
 
 
     this.dtOptionsAdicional.raw++;

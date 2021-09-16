@@ -195,11 +195,11 @@ export class HorasclaseFormComponent implements OnInit, OnDestroy {
 
     if(idItem=="0"){
         this.record =this.newRecord();
-        this.reDraw();
+        this.reDraw(null);
     } else {
       this.horasclaseService.getRecord(idItem).subscribe(resp => {
         this.record = resp;
-        this.reDraw();
+        this.reDraw(null);
       });
     }
 
@@ -228,7 +228,7 @@ export class HorasclaseFormComponent implements OnInit, OnDestroy {
     this.horasclasedetalleService.close(id);
   }
 
-  reDraw(): void {
+  reDraw(parametro:any): void {
 
 
     this.dtOptionsAdicional.raw++;

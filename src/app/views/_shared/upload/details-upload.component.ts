@@ -12,7 +12,7 @@ import { environment } from '../../../../../src/environments/environment';
 export class DetailsUploadComponent implements OnInit {
   public API_URL = environment.APIS_URL;
 
-  @Input() fileUpload: string;
+  @Input() fileUpload: any;
 
   constructor(private uploadFileSvc:UploadFileService) { }
 

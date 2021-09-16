@@ -168,7 +168,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
         this.record_id_semestre=this.semestreCat[this.semestreCat.length-1].id;
       }
     }
-    this.reDraw();
+    this.reDraw(null);
     // console.log($('#modalTest').html()); poner el id a algun elemento para testear
     this.basicModalDocs.show();
 
@@ -206,7 +206,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
     this.horasasignacionadminService.close(id);
   }
 
-  reDraw(): void {
+  reDraw(parametro:any): void {
 
 
     this.dtOptionsAdicional.raw++;
@@ -230,11 +230,11 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
 
   onSemestreChange(valor: any) {
     this.record_id_semestre = parseInt(valor);
-    this.reDraw();
+    this.reDraw(null);
   }
 
   onCatestatusChange(state:any){
     this.dtOptionsAdicional.state = state;
-    this.reDraw();
+    this.reDraw(null);
   }
 }
