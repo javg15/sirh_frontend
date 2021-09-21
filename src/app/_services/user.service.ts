@@ -18,6 +18,13 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+  /* El siguiente método lee los datos de un registro seleccionado para edición. */
+  public getMenu(id: any): Observable<any> {
+    return this.http.post(this.API_URL + '/user/getMenu',
+      { id }
+      , httpOptions);
+  }
+
 /*
   getPublicContent(): Observable<any> {
     return this.http.get(this.API_URL + 'all', { responseType: 'text' });

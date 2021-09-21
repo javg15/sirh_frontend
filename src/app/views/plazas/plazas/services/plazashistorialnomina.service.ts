@@ -29,11 +29,11 @@ export class PlazashistorialnominaService {
       setTimeout(()=>{
         this.http.post<DataTablesResponse>(
           // this.API_URL + '/a6b_apis/read_records_dt.php',
-          this.API_URL + '/plazas/getHistorial',
-          {dataTablesParameters:{solocabeceras:1,opcionesAdicionales:{raw:0}}}, {}
+          this.API_URL + '/plazas/getHistorialNomina',
+          {id_personal:0}, {}
         ).subscribe(resp => {
-            if(resp.data.length>0)
-              o.next(JSON.parse(resp.data[0].cabeceras));
+            if(resp["cabeceras"].length>0)
+              o.next(resp["cabeceras"]);
             else{
               o.next(JSON.parse('[{"data":"id","name":"a_id","title":"ID"}]'))
             }
@@ -43,9 +43,9 @@ export class PlazashistorialnominaService {
   }
 
 
-  public getHistorial(dataTablesParameters): Observable<any> {
-    return this.http.post(this.API_URL + '/plazas/getHistorial',
-      { dataTablesParameters }
+  public getHistorial(id_personal): Observable<any> {
+    return this.http.post(this.API_URL + '/plazas/getHistorialNomina',
+      { id_personal }
       , httpOptions);
   }
 

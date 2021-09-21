@@ -1,10 +1,11 @@
 import {Component} from '@angular/core';
-import { navItems } from '../../_nav';
+//import { navItems } from '../../_nav';
 import { TokenStorageService } from '../../_services/token-storage.service';
 import { ArchivosService } from '../../views/catalogos/archivos/services/archivos.service';
 import { Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
-
+import { UserService } from '../../_services/user.service';
+import { INavData } from '@coreui/angular';
 
 @Component({
   selector: 'app-default',
@@ -12,7 +13,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class DefaultLayoutComponent {
   public sidebarMinimized = false;
-  public navItems = navItems;
+  public navItems : INavData[]=[];// navItems;
 
   usuario:any=this.tokenStorage.getUser();
   images=[1,1,1,1,1,1];
@@ -23,9 +24,14 @@ export class DefaultLayoutComponent {
 
   constructor(private tokenStorage: TokenStorageService,
       private archivoSvc: ArchivosService,
+      private userSvc: UserService,
       private router: Router,
       private _sanitizer: DomSanitizer,
     ) {
+      this.userSvc.getMenu(this.usuario.id).subscribe(resp => {
+        this.navItems = resp;
+      });
+
       //this.imageAvatar = 'http://sigaa.cobaev.edu.mx/festival/fotos/personal/'+this.usuario.username+'.jpg';
       this.imageAvatar1=(this.usuario.username.length<10?'http://sigaa.cobaev.edu.mx/festival/fotos/personal/'+this.usuario.username+'.JPG':'transform('+this.usuario.username+')')
       this.imageAvatar2=(this.usuario.username.length<10?'http://sigaa.cobaev.edu.mx/festival/fotos/personal/'+this.usuario.username+'.jpg':'transform('+this.usuario.username+')')
