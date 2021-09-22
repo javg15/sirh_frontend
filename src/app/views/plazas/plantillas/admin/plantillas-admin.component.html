@@ -92,6 +92,9 @@
                                                 <button *ngIf="boton=='documentacion'" title="Documentación" class="btn btn-brand btn-sm mr-1 btn-xing" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-2','editar',member.id,0,0,tipoDocumento)">
                                             <i class="fa fa-file"></i>
                                           </button>
+                                                <button *ngIf="boton=='historial'" class="btn btn-brand btn-sm mr-1 btn-stack-overflow" style="margin-bottom: 4px" type="button" title="Historial" (click)="openModal('custom-modal-3','historial',member.id)">
+                                            <i class="fa fa-stack-overflow"></i>
+                                        </button>
                                                 <button *ngIf="boton=='actualizar'" title="Actualizar" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','actualizar',member.id,0,0,0)">
                                             <i class="fa fa-exchange"></i>
                                         </button>
@@ -126,6 +129,11 @@
 <app-plantillasdocs-admin id="custom-modal-2" (redrawEvent)="reDraw($event)">
     <!--<input type="hidden" [(ngModel)]="idItem" />-->
 </app-plantillasdocs-admin>
+
+<app-plantillas-historialnomina id="custom-modal-3">
+    <!--<input type="hidden" [(ngModel)]="idItem" />-->
+</app-plantillas-historialnomina>
+
 
 <div bsModal #largeModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">

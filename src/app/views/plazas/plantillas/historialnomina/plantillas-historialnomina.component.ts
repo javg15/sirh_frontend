@@ -10,20 +10,20 @@ import { ValidationSummaryComponent } from '../../../_shared/validation/validati
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
-import { PlazasService } from '../services/plazas.service';
-import { PlazashistorialnominaService } from '../services/plazashistorialnomina.service';
+import { PlantillasService } from '../services/plantillas.service';
+import { PlantillashistorialnominaService } from '../services/plantillashistorialnomina.service';
 import { environment } from '../../../../../environments/environment';
 
 declare var $: any;
 declare var jQuery: any;
 
 @Component({
-  selector: 'app-plazas-historialnomina',
-  templateUrl: './plazas-historialnomina.component.html',
-  styleUrls: ['./plazas-historialnomina.component.css']
+  selector: 'app-plantillas-historialnomina',
+  templateUrl: './plantillas-historialnomina.component.html',
+  styleUrls: ['./plantillas-historialnomina.component.css']
 })
 
-export class PlazasHistorialNominaComponent implements OnInit, OnDestroy {
+export class PlantillasHistorialNominaComponent implements OnInit, OnDestroy {
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
 
   @Input() dtOptions: any = {};
@@ -49,13 +49,13 @@ export class PlazasHistorialNominaComponent implements OnInit, OnDestroy {
   };
   private dtOptionsAdicional = {
     raw:0
-    ,id_plazas:0
+    ,id_personal:0
   };
 
   NumberOfMembers = 0;
   API_URL = environment.APIS_URL;
 
-  nombreModulo = 'Plazashistorialnomina';
+  nombreModulo = 'Plantillashistorialnomina';
 
 
   actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
@@ -63,7 +63,7 @@ export class PlazasHistorialNominaComponent implements OnInit, OnDestroy {
 
   headersAdmin: any;
 
-  record_id_plazas:number;
+  record_id_personal:number;
 
 
   private elementModal: any;
@@ -74,8 +74,8 @@ export class PlazasHistorialNominaComponent implements OnInit, OnDestroy {
   cattipoCat:any[];
 
   constructor(
-    private plazashistorialnominaService: PlazashistorialnominaService,
-    private plazasSvc: PlazasService,
+    private plantillashistorialnominaService: PlantillashistorialnominaService,
+    private plantillasSvc: PlantillasService,
     private el: ElementRef,
     private route: ActivatedRoute
       ) {
@@ -93,7 +93,7 @@ export class PlazasHistorialNominaComponent implements OnInit, OnDestroy {
         return;
     }
     // add self (this modal instance) to the modal service so it's accessible from controllers
-    modal.plazasSvc.add(modal);
+    modal.plantillasSvc.add(modal);
 
     //subtabla datatable
     this.headersAdmin = this.route.snapshot.data.userdataHistorialNomina; // get data from resolver
@@ -157,7 +157,7 @@ export class PlazasHistorialNominaComponent implements OnInit, OnDestroy {
 
               //insert
               let rows=[]; let abc=['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O']
-              $("#tblPlazashistorialnomina tbody tr").each(function(i,v){
+              $("#tblPlantillashistorialnomina tbody tr").each(function(i,v){
                   let row=[];
                   $(v).find("td").each(function(ih,vh){
                     row.push({ k: abc[ih+1], v: $(vh).html() });
@@ -191,7 +191,7 @@ export class PlazasHistorialNominaComponent implements OnInit, OnDestroy {
 
                   $(win.document.body).find('h1').html($('#custom-modal-2 #myModalLabel').html())
                   $(win.document.body).find('h1')
-                  $(win.document.body).find('tbody').html($("#tblPlazashistorialnomina tbody").html())
+                  $(win.document.body).find('tbody').html($("#tblPlantillashistorialnomina tbody").html())
                   $(win.document.body).find('thead th:first').remove()
 
                   /*var innerHtmlData = //'<img src="http://datatables.net/media/images/logo-fade.png" style="position:absolute; top:0; left:0;">'
@@ -202,7 +202,7 @@ export class PlazasHistorialNominaComponent implements OnInit, OnDestroy {
                           + '<th>RFC</th><th>Personal</th><th>Nombramiento</th><th>Expedición</th><th>Inicio</th><th>Fin</th>'
                       + '</tr></thead>'
                     + '<tbody>'
-                      + $("#tblPlazashistorialnomina tbody").html()
+                      + $("#tblPlantillashistorialnomina tbody").html()
                     + '</tbody>'
                     + '</table><div></div>'
 
@@ -227,14 +227,14 @@ export class PlazasHistorialNominaComponent implements OnInit, OnDestroy {
         },
       },
       columns: this.headersAdmin,
-      columnDefs:[{"visible": false, "targets": [0]}]//ID, tipo
+      //columnDefs:[{"visible": false, "targets": [0]}]//ID, tipo
     };
 
   }
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-      this.plazasSvc.remove(this.id); //idModal
+      this.plantillasSvc.remove(this.id); //idModal
       this.elementModal.remove();
   }
 
@@ -243,9 +243,9 @@ export class PlazasHistorialNominaComponent implements OnInit, OnDestroy {
   open(idItem: string, accion: string):  void {
     this.actionForm=accion;
 
-    this.plazasSvc.getClave(idItem).subscribe(resp => {
-      this.tituloForm="HistorialNomina de plaza - " + (resp[0].clave);
-      this.record_id_plazas=parseInt(idItem);
+    this.plantillasSvc.getRecordPersonal(idItem).subscribe(resp => {
+      this.tituloForm="Historial de Nomina - " + (resp.nombre + " " + resp.apellidopaterno+ " " + resp.apellidomaterno);
+      this.record_id_personal=parseInt(resp.id);
 
       this.reDraw();
 
@@ -261,11 +261,11 @@ export class PlazasHistorialNominaComponent implements OnInit, OnDestroy {
 
   reDraw(): void {
     this.dtOptionsAdicional.raw++;
-    this.dtOptionsAdicional.id_plazas=this.record_id_plazas;
-    //this.dtOptionsAdicional.fkeyvalue=this.record_id_plazas;
+    this.dtOptionsAdicional.id_personal=this.record_id_personal;
+    //this.dtOptionsAdicional.fkeyvalue=this.record_id_plantillas;
     this.dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
 
-    this.plazashistorialnominaService.getHistorial(this.dataTablesParameters).subscribe(resp => {
+    this.plantillashistorialnominaService.getHistorial(this.dataTablesParameters).subscribe(resp => {
 
       this.ColumnNames = resp.columnNames;
       this.Members = resp.data;

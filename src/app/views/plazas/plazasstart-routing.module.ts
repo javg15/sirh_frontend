@@ -17,6 +17,7 @@ import { PlantillasDocsBajaFormComponent } from './plantillas/docssub/plantillas
 import { PlantillasDocsFamiliaresFormComponent } from './plantillas/docssub/plantillasdocsfamiliares-form.component';
 import { PlantillasIniService } from './plantillas/services/plantillas.ini.service';
 import { PlantillasdocsIniService } from './plantillas/services/plantillasdocs.ini.service';
+import { PlantillasHistorialNominaIniService } from './plantillas/services/plantillashistorialnomina.ini.service';
 
 const routes: Routes = [
   {
@@ -68,6 +69,7 @@ const routes: Routes = [
           userdata: PlantillasIniService,
           userdataDocs: PlantillasdocsIniService,
           userdataHoras: HorasasignacionAdminIniService,
+          userdataHistorialNomina:PlantillasHistorialNominaIniService
         }
       },
       {

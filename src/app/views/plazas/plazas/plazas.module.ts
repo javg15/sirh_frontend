@@ -10,7 +10,7 @@ import { PlazasService } from './services/plazas.service';
 import { PlazasAdminComponent } from './admin/plazas-admin.component';
 import { PlazasFormComponent } from './form/plazas-form.component';
 import { PlazasHistorialComponent } from './historial/plazas-historial.component';
-import { PlazasHistorialNominaComponent } from './historialnomina/plazas-historialnomina.component';
+
 import { DataTablesModule } from 'angular-datatables';
 import { NgSelect2Module } from 'ng-select2';
 
@@ -28,7 +28,7 @@ import { NgSelect2Module } from 'ng-select2';
     PlazasAdminComponent,
     PlazasFormComponent,
     PlazasHistorialComponent,
-    PlazasHistorialNominaComponent
+
   ],
   providers: [
     PlazasService

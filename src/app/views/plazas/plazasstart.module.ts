@@ -19,6 +19,7 @@ import { PlantillasDocsBajaFormComponent } from './plantillas/docssub/plantillas
 import { PlantillasDocsFamiliaresFormComponent } from './plantillas/docssub/plantillasdocsfamiliares-form.component';
 import { PlantillasDocsSindicatoFormComponent } from './plantillas/docssub/plantillasdocssindicato-form.component';
 import { PlantillasDocsLicenciasFormComponent } from './plantillas/docssub/plantillasdocslicencias-form.component';
+import { PlantillasHistorialNominaComponent } from './plantillas/historialnomina/plantillas-historialnomina.component';
 import { DataTablesModule } from 'angular-datatables';
 import { NgSelect2Module } from 'ng-select2';
 
@@ -67,6 +68,7 @@ import { DatePipe } from '@angular/common'
     PlantillasDocsFamiliaresFormComponent,
     PlantillasDocsSindicatoFormComponent,
     PlantillasDocsLicenciasFormComponent,
+    PlantillasHistorialNominaComponent,
     ReplacePipe
   ],
   providers: [
