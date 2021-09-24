@@ -115,12 +115,12 @@ export class PlantillasDocsFormComponent implements OnInit, OnDestroy {
 
               this.archivosSvc.setRecordReferencia(this.recordFile,this.actionForm).subscribe(resp => {
                 this.successModal.show();
-                setTimeout(()=>{ this.successModal.hide(); }, 2000)
+                setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
               });
           }
           else{
             this.successModal.show();
-            setTimeout(()=>{ this.successModal.hide(); }, 2000)
+            setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
           }
 
 

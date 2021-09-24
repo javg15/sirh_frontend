@@ -34,6 +34,8 @@ import { CatestatusplazaService } from '../../../catalogos/catestatusplaza/servi
 import { ListUploadComponent } from '../../../_shared/upload/list-upload.component';
 import { FormUploadComponent } from '../../../_shared/upload/form-upload.component';
 import { AutocompleteComponent } from 'angular-ng-autocomplete';
+import { ClipboardService } from 'ngx-clipboard'
+
 import * as moment from 'moment';
 
 declare var $: any;
@@ -119,6 +121,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       private catzonaeconomicaSvc: CatzonaeconomicaService,
       private catzonageograficaSvc: CatzonageograficaService,
       private catplantillasSvc: CatplantillasService,
+      private clipboardService: ClipboardService,
     private el: ElementRef,
     //private archivosSvc:ArchivosService,
     public datepipe: DatePipe
@@ -208,12 +211,12 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
                 await this.isLoadingService.add(
                 this.archivosSvc.setRecordReferencia(this.recordFile,this.actionForm).subscribe(resp => {
                   this.successModal.show();
-                  setTimeout(()=>{ this.successModal.hide(); }, 2000)
+                  setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
                 }),{ key: 'loading' });*/
             }
             else{
               this.successModal.show();
-              setTimeout(()=>{ this.successModal.hide(); }, 2000)
+              setTimeout(()=>{ this.successModal.hide(); this.basicModalDocsNombramiento.hide(); }, 2000)
             }
           }
         }),{ key: 'loading' });
@@ -288,6 +291,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
 
           this.onSelectTipoNombramiento(this.record.id_catestatusplaza);
           this.onSelectCategorias(this.record.id_categorias);
+          this.onSelectPlantel(this.record.id_catplanteles,this.record.id_catcentrostrabajo);
           this.plazasSvc.getPlazaSegunPersonal(this.record.id_personal_titular).subscribe(resp => {
             this.plazaOcupadaTitular=resp[0].clave;
           });
@@ -352,9 +356,21 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       this.esnombramiento=(tipoNombramiento.esnombramiento==1);
 
       if(this.esnombramiento){
-        this.categoriasSvc.getCatalogoDisponibleEnPlantilla(this.record_plantillaspersonal.id_catplanteles,this.record.id_plazas,this.record_plantillaspersonal.id_catplantillas).subscribe(resp => {
-          this.categoriasCat = resp;
-        });
+        //si se esta editando o consultando se agrega el registro de la categoria almacenada, esto debido a que la funcion
+        //getCatalogoDisponibleEnPlantilla ya no regresa la categoria registrada
+        if(this.actionForm.toUpperCase()!=="NUEVO" && this.record.id_categorias>0){
+          this.categoriasSvc.getRecordParaCombo(this.record.id_categorias).subscribe(respCat => {
+            this.categoriasSvc.getCatalogoDisponibleEnPlantilla(this.record_plantillaspersonal.id_catplanteles,this.record.id_plazas,this.record_plantillaspersonal.id_catplantillas).subscribe(resp => {
+              this.categoriasCat = resp;
+              this.categoriasCat.push(respCat[0])
+            });
+          });
+        }
+        else{
+          this.categoriasSvc.getCatalogoDisponibleEnPlantilla(this.record_plantillaspersonal.id_catplanteles,this.record.id_plazas,this.record_plantillaspersonal.id_catplantillas).subscribe(resp => {
+            this.categoriasCat = resp;
+          });
+        }
       }
       else{
         if(this.record.fechaini!=null){
@@ -392,10 +408,10 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
     });
   }
 
-  onSelectPlantel(select_plantel) {
+  onSelectPlantel(select_plantel,id_catcentrostrabajo:any=0) {
     //let clave=$("#selectPlantel option:selected").text().split("-")[0];
     //this.record.id_catplanteles=select_plantel;
-    this.record.id_catcentrostrabajo=0;
+    this.record.id_catcentrostrabajo=id_catcentrostrabajo;
     this.catcentrostrabajoCat=[];
 
     this.catcentrostrabajoSvc.getCatalogoSegunPlantel(this.record.id_catplanteles).subscribe(resp => {
@@ -433,5 +449,12 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
 
   closeModal(id: string) {
     this.personalhorasSvc.close(id);
+  }
+
+  CopiarPlaza(){
+    let copyText=this.plazasCat.find(a=>a.id==this.record.id_plazas)["text"];
+    console.log("copyText=>",copyText)
+    this.clipboardService.copy(copyText)
+    
   }
 }

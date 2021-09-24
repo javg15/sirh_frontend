@@ -19,7 +19,7 @@
                         <div class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="id_catplanteles">Plantel</label>
-                                <ng-select2 id="selectPlantel" [(ngModel)]="record.id_catplanteles" [data]="catplantelesCat" [allowClear]="true" allowClear="true" width="100%" name="Plantel" (valueChanged)="onSelectPlantel($event)">
+                                <ng-select2 id="selectPlantel" [(ngModel)]="record.id_catplanteles" [data]="catplantelesCat" [allowClear]="true" width="100%" name="Plantel" (valueChanged)="onSelectPlantel($event)">
                                 </ng-select2>
                                 <!--<select id="selectPlantel" class="form-control" [(ngModel)]="record.id_catplanteles" name="Plantel" (change)="onSelectPlantel($event.target)">
                               <option *ngFor="let col of catplantelesCat" [value]="col.id">{{ col.clave + " - " + (col.descripcion!=null?col.descripcion:".") + " - " + col.ubicacion }}</option>
@@ -37,7 +37,7 @@
                         <div class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="id_categorias">Categorías</label>
-                                <ng-select2 [(ngModel)]="record.id_categorias" [data]="categoriasCat" [allowClear]="true" allowClear="true" width="100%" name="Categorías" (valueChanged)="onSelectCategoria($event)">
+                                <ng-select2 [(ngModel)]="record.id_categorias" [data]="categoriasCat" [allowClear]="true" width="100%" name="Categorías" (valueChanged)="onSelectCategoria($event)">
                                 </ng-select2>
                                 <!--<select id="selectPlantel" class="form-control" [(ngModel)]="record.id_categorias" name="Categorías">
                                   <option *ngFor="let col of categoriasCat" [value]="col.id">{{ col.clave + " - " + (col.denominacion!=null?col.denominacion:".") }}</option>
@@ -57,7 +57,7 @@
                         <!--<div class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="id_catplantelescobro">Plantel de cobro</label>
-                                <ng-select2 [(ngModel)]="record.id_catplantelescobro" [data]="catplantelesCat" [allowClear]="true" allowClear="true" width="100%" name="Plantel de cobro">
+                                <ng-select2 [(ngModel)]="record.id_catplantelescobro" [data]="catplantelesCat" [allowClear]="true" width="100%" name="Plantel de cobro">
                                 </ng-select2>
                                 !--<select class="form-control" [(ngModel)]="record.id_catplantelescobro" name="Plantel de cobro">
                               <option *ngFor="let col of catplantelesCat" [value]="col.id">{{ col.descripcion }}</option>
@@ -88,14 +88,14 @@
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="id_catquincena_ini">Quincena inicio</label>
-                                <ng-select2 [(ngModel)]="record.id_catquincena_ini" [data]="catquincenaCat" [allowClear]="true" allowClear="true" width="100%" name="Quincena inicio">
+                                <ng-select2 [(ngModel)]="record.id_catquincena_ini" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena inicio">
                                 </ng-select2>
                             </div>
                         </div>
                         <!--<div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="id_catquincena_fin">Quincena término</label>
-                                <ng-select2 [(ngModel)]="id_catquincena_fin" [data]="catquincenaCat" [allowClear]="true" allowClear="true" width="100%" name="Quincena término">
+                                <ng-select2 [(ngModel)]="id_catquincena_fin" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena término">
                                 </ng-select2>
                             </div>
                         </div>-->

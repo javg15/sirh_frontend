@@ -74,10 +74,15 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
   record_id_personal:number;
   record_id_semestre:number;
   record_id_plantel:number;
+  record_personaltitular:Personal[];
+  record_personaltitular_nombre:string;
 
   esPlantelDesdeParametro:boolean=false;
   keywordSearch = 'full_name';
   isLoadingSearch: boolean;
+  esinterina: boolean=false;
+  record_titular:any;
+  
   //recordJsonTipodoc1:any={UltimoGradodeEstudios:0,AreadeCarrera:0,Carrera:0,Estatus:0};
 
   constructor(private isLoadingService: IsLoadingService,
@@ -146,19 +151,24 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
       this.validSummary.resetErrorMessages(admin);
 
-      await this.isLoadingService.add(
-        this.horasasignacionformService.setRecord(this.record, this.actionForm).subscribe(async resp => {
-          if (resp.hasOwnProperty('error')) {
-            this.validSummary.generateErrorMessagesFromServer(resp.message);
-          }
-          else if (resp.message == "success") {
-            if (this.actionForm.toUpperCase() == "NUEVO") this.actionForm = "editar";
-            this.record.id = resp.id;
+      if(this.record.id_catnombramientos==2 && this.record_personaltitular.length==0){
+        this.validSummary.generateErrorMessagesFromServer({Titular: "No existe un profesor con esta materia en Licencia"});
+      }
+      else{
+        await this.isLoadingService.add(
+          this.horasasignacionformService.setRecord(this.record, this.actionForm).subscribe(async resp => {
+            if (resp.hasOwnProperty('error')) {
+              this.validSummary.generateErrorMessagesFromServer(resp.message);
+            }
+            else if (resp.message == "success") {
+              if (this.actionForm.toUpperCase() == "NUEVO") this.actionForm = "editar";
+              this.record.id = resp.id;
 
-            this.successModal.show();
-            setTimeout(() => { this.successModal.hide(); }, 2000)
-          }
-        }), { key: 'loading' });
+              this.successModal.show();
+              setTimeout(() => { this.successModal.hide(); }, 2000)
+            }
+          }), { key: 'loading' });
+        }
     }
   }
 
@@ -214,13 +224,21 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
   onSelectPlantel(valor: any) {
     this.record.id_catplanteles=valor;
-    this.gruposclaseSvc.getCatalogoConHorasDisponiblesSegunPlantel(valor,this.record.id).subscribe(resp => {
+    let id_cattiposemestre=0;
+    if(this.recordsemestre.tipo=="A") id_cattiposemestre=1
+    if(this.recordsemestre.tipo=="B") id_cattiposemestre=2
+    if(this.recordsemestre.tipo=="A,B") id_cattiposemestre=3
+    this.gruposclaseSvc.getCatalogoConHorasDisponiblesSegunPlantel(valor,this.record.id,this.recordsemestre.tipo,this.record_id_semestre,id_cattiposemestre).subscribe(resp => {
       this.gruposclaseCat = resp;
     });
   }
 
   onSelectGruposclase(valor: any) {
-    this.materiasclaseSvc.getCatalogoConHorasDisponiblesSegunGrupo(this.record.id_catplanteles, valor,this.record.id).subscribe(resp => {
+    let id_cattiposemestre=0;
+    if(this.recordsemestre.tipo=="A") id_cattiposemestre=1
+    if(this.recordsemestre.tipo=="B") id_cattiposemestre=2
+    if(this.recordsemestre.tipo=="A,B") id_cattiposemestre=3
+    this.materiasclaseSvc.getCatalogoConHorasDisponiblesSegunGrupo(this.record.id_catplanteles, valor,this.record.id,this.record_id_semestre,id_cattiposemestre).subscribe(resp => {
       this.materiasclaseCat = resp;
     });
   }
@@ -230,10 +248,24 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
   }
 
   onSelectNombramiento(id_catnombramientos){
+    this.record_personaltitular=[];
+    this.esinterina=false;
     if(id_catnombramientos==2 || id_catnombramientos==3){
       this.catquincenaSvc.getCatalogoSegunSemestre(this.record_id_semestre).subscribe(resp => {
         this.catquincenaCat = resp;
       });
+      //interinato
+      if(id_catnombramientos==2){
+        this.esinterina=true;
+        this.horasasignacionformService.getRecordTitularEnLicencia(this.record.id_catplanteles,this.record.id_gruposclase,this.record.id_materiasclase,this.record.id_semestre).subscribe(resp => {
+          this.record_personaltitular = resp;
+          this.record_personaltitular_nombre="";
+          console.log("resp=>",resp)
+          if(resp.length>0){
+            this.record_personaltitular_nombre=this.record_personaltitular["nombre"];
+          }
+        });
+      }
     }
     else{
       this.catquincenaSvc.getCatalogo().subscribe(resp => {
@@ -241,4 +273,5 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
       });
     }
   }
+
 }

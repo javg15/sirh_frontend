@@ -67,6 +67,13 @@ export class CategoriasService {
       , httpOptions);
   }
 
+  /** Devuelve el registro con formato para select2 (incluye text) */
+  public getRecordParaCombo(id_categoria): Observable<any> {
+    return this.http.post(this.API_URL + '/categorias/getRecordParaCombo',
+      { id_categoria }
+      , httpOptions);
+  }
+  
 
   /* El siguiente método lee los datos de un registro seleccionado para edición. */
   public getRecord(id: any): Observable<any> {

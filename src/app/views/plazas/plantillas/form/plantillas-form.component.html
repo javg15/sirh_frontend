@@ -20,14 +20,14 @@
                         <div class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="id_catplanteles">Plantel</label>
-                                <ng-select2 [(ngModel)]="record.id_catplanteles" [data]="catplantelesCat" (valueChanged)='onCatplantelesChange($event)' [allowClear]="true" allowClear="true" width="100%" name="Plantel" [disabled]="actionForm=='nuevo' || actionForm=='actualizar' || actionForm=='editar'?false:true">
+                                <ng-select2 [(ngModel)]="record.id_catplanteles" [data]="catplantelesCat" (valueChanged)='onCatplantelesChange($event)' [allowClear]="true" width="100%" name="Plantel" [disabled]="actionForm=='nuevo' || actionForm=='actualizar' || actionForm=='editar'?false:true">
                                 </ng-select2>
                             </div>
                         </div>
                         <div class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="id_catplantillas">Plantilla</label>
-                                <ng-select2 [(ngModel)]="record.id_catplantillas" [data]="catplantillasCat" (valueChanged)='onCatplanillasChange($event)' [allowClear]="true" allowClear="true" width="100%" name="Plantilla" [disabled]="actionForm=='nuevo' || actionForm=='actualizar' || actionForm=='editar'?false:true">
+                                <ng-select2 [(ngModel)]="record.id_catplantillas" [data]="catplantillasCat" (valueChanged)='onCatplanillasChange($event)' [allowClear]="true" width="100%" name="Plantilla" [disabled]="actionForm=='nuevo' || actionForm=='actualizar' || actionForm=='editar'?false:true">
                                 </ng-select2>
                             </div>
                         </div>
@@ -72,7 +72,7 @@
                         <div *ngIf="actionForm=='actualizar'?true:false" class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="record_id_catquincena">Desactivar en quincena</label>
-                                <ng-select2 [(ngModel)]="record_id_catquincena" [data]="catquincenaCat" [allowClear]="true" allowClear="true" width="100%" name="Desactivar en quincena">
+                                <ng-select2 [(ngModel)]="record_id_catquincena" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Desactivar en quincena">
                                 </ng-select2>
                             </div>
                         </div>

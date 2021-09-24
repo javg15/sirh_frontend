@@ -122,12 +122,12 @@ export class PlantillasDocsSindicatoFormComponent implements OnInit, OnDestroy {
               await this.isLoadingService.add(
               this.archivosSvc.setRecordReferencia(this.recordFile,this.actionForm).subscribe(resp => {
                 this.successModal.show();
-                setTimeout(()=>{ this.successModal.hide(); }, 2000)
+                setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
               }),{ key: 'loading' });
           }
           else{
             this.successModal.show();
-            setTimeout(()=>{ this.successModal.hide(); }, 2000)
+            setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
           }
         }
       }),{ key: 'loading' });

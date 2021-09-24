@@ -36,7 +36,7 @@
                                 <div class="form-group col-sm-4">
                                     <div class="form-group">
                                         <label for="id_catquincena_ini">Quincena de inicio</label>
-                                        <ng-select2 [(ngModel)]="record.id_catquincena_ini" [data]="catquincenaCat" [allowClear]="true" allowClear="true" width="100%" name="Quincena de inicio">
+                                        <ng-select2 [(ngModel)]="record.id_catquincena_ini" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena de inicio">
                                         </ng-select2>
                                     </div>
                                 </div>
@@ -44,7 +44,7 @@
                                 <div *ngIf="convigencia==true" class="form-group col-sm-4">
                                     <div class="form-group">
                                         <label for="id_catquincena_fin">Quincena de término</label>
-                                        <ng-select2 [(ngModel)]="record.id_catquincena_fin" [data]="catquincenaCat" [allowClear]="true" allowClear="true" width="100%" name="Quincena de término">
+                                        <ng-select2 [(ngModel)]="record.id_catquincena_fin" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena de término">
                                         </ng-select2>
                                     </div>
                                 </div>
@@ -53,15 +53,19 @@
                                 <div *ngIf="esnombramiento==true" class="form-group col-sm-4">
                                     <div class="form-group">
                                         <label for="id_categorias">Categorías</label>
-                                        <ng-select2 [(ngModel)]="record.id_categorias" [data]="categoriasCat" [allowClear]="true" allowClear="true" width="100%" name="Categorías" (valueChanged)="onSelectCategorias($event)">
+                                        <ng-select2 [(ngModel)]="record.id_categorias" [data]="categoriasCat" [allowClear]="true" width="100%" name="Categorías" (valueChanged)="onSelectCategorias($event)">
                                         </ng-select2>
+                                        
                                     </div>
                                 </div>
                                 <div *ngIf="esnombramiento==true" class="form-group col-sm-4">
                                     <div class="form-group">
                                         <label for="id_plazas">Plazas</label>
-                                        <ng-select2 [(ngModel)]="record.id_plazas" [data]="plazasCat" [allowClear]="true" allowClear="true" width="100%" name="Plazas">
+                                        <ng-select2 [(ngModel)]="record.id_plazas" [data]="plazasCat" [allowClear]="true" width="100%" name="Plazas">
                                         </ng-select2>
+                                        <button class="btn btn-brand btn-sm mr-1 btn-secondary" style="margin-bottom: 4px" type="button" (click)="CopiarPlaza()">
+                                            <i class="fa fa-copy"></i>
+                                        </button>
                                         <!--<select id="selectPlantel" class="form-control" [(ngModel)]="record.id_categorias" name="Categorías">
                             <option *ngFor="let col of categoriasCat" [value]="col.id">{{ col.clave + " - " + (col.denominacion!=null?col.denominacion:".") }}</option>
                           </select>-->
@@ -143,7 +147,7 @@
                                     <div class="form-group">
                                         <label for="id_catplanteles">Plantel</label>
                                         <input #txtid_catplanteles type="text" class="form-control" name="Plantel" disabled="disabled">
-                                        <!--<ng-select2 [(ngModel)]="record.id_catplanteles" [data]="catplantelesCat" [allowClear]="true" allowClear="true" width="100%" disabled="disabled">
+                                        <!--<ng-select2 [(ngModel)]="record.id_catplanteles" [data]="catplantelesCat" [allowClear]="true" width="100%" disabled="disabled">
                                         </ng-select2>-->
                                     </div>
                                 </div>

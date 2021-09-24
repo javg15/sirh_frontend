@@ -95,7 +95,7 @@ export class CatquincenaFormComponent implements OnInit, OnDestroy {
           if(this.actionForm.toUpperCase()=="NUEVO") this.actionForm="editar";
           this.record.id=resp.id;
           this.successModal.show();
-          setTimeout(()=>{ this.successModal.hide(); }, 2000)
+          setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
         }
       }),{ key: 'loading' });
     }

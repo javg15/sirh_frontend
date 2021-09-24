@@ -64,11 +64,16 @@ export class PlantillasHistorialNominaComponent implements OnInit, OnDestroy {
   headersAdmin: any;
 
   record_id_personal:number;
-
+  record_detalle:any={"descempfuncion":"","nombrect":"","descplantelfisica":"","descplantelplaza":"",
+      "desctiponomina":"","desccategoria":"","siglassindicato":"","desctipoemp":"",
+      "tratarcomobase":0,"interinopuro":0,"nomemptitular":"",
+      "nombrefuncionpri":"","nombrefuncionsec":"","qnaini":"","qnafin":"",
+      "descmotgralbaja":"","tiposemestre":"","descesquemapago":""
+    };
 
   private elementModal: any;
   @ViewChild('basicModalDocs') basicModalDocs: ModalDirective;
-  @ViewChild('successModal') public successModal: ModalDirective;
+  @ViewChild('detalleModal') public detalleModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
 
   cattipoCat:any[];
@@ -244,7 +249,7 @@ export class PlantillasHistorialNominaComponent implements OnInit, OnDestroy {
     this.actionForm=accion;
 
     this.plantillasSvc.getRecordPersonal(idItem).subscribe(resp => {
-      this.tituloForm="Historial de Nomina - " + (resp.nombre + " " + resp.apellidopaterno+ " " + resp.apellidomaterno);
+      this.tituloForm="Historial - " + resp.rfc + " " + (resp.nombre + " " + resp.apellidopaterno+ " " + resp.apellidomaterno);
       this.record_id_personal=parseInt(resp.id);
 
       this.reDraw();
@@ -278,4 +283,32 @@ export class PlantillasHistorialNominaComponent implements OnInit, OnDestroy {
     });
   }
 
+  //abrir modal detalle
+  openDetalle(idx): void {
+    this.record_detalle={
+      "descempfuncion":this.Members[idx]["descempfuncion"]
+      ,"nombrect":this.Members[idx]["nombrect"]
+      ,"descplantelfisica":this.Members[idx]["descplantelfisica"]
+      ,"descplantelplaza":this.Members[idx]["descplantelplaza"]
+      ,"desctiponomina":this.Members[idx]["desctiponomina"]
+      ,"desccategoria":this.Members[idx]["desccategoria"]
+      ,"siglassindicato":this.Members[idx]["siglassindicato"]
+      ,"desctipoemp":this.Members[idx]["desctipoemp"]
+      ,"tratarcomobase":(this.Members[idx]["tratarcomobase"]==1?"SÍ":"NO")
+      ,"interinopuro":(this.Members[idx]["interinopuro"]==1?"SÍ":"NO")
+      ,"nomemptitular":(this.Members[idx]["nomemptitular"]==null?"SIN DEFINIR":this.Members[idx]["nomemptitular"])
+      ,"nombrefuncionpri":this.Members[idx]["nombrefuncionpri"]
+      ,"nombrefuncionsec":this.Members[idx]["nombrefuncionsec"]
+      ,"qnaini":this.Members[idx]["qnaini"]
+      ,"qnafin":this.Members[idx]["qnafin"]
+      ,"descmotgralbaja":this.Members[idx]["descmotgralbaja"]
+      ,"tiposemestre":this.Members[idx]["tiposemestre"]
+      ,"descesquemapago":this.Members[idx]["descesquemapago"]
+  };
+    this.detalleModal.show();
+  }
+
+  closeDetalle():void{
+    this.detalleModal.hide();
+  }
 }

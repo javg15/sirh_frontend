@@ -68,7 +68,6 @@ export class CatcentrostrabajoService {
       , httpOptions);
   }
 
-
   // array de modales
   public add(modal: any) {
     this.modals.push(modal);
