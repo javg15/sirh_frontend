@@ -21,7 +21,7 @@ declare var jQuery: any;
 @Component({
   selector: 'app-personalhoras-admin',
   templateUrl: './personalhoras-admin.component.html',
-
+  styleUrls: ['./personalhoras-admin.component.css']
 })
 
 

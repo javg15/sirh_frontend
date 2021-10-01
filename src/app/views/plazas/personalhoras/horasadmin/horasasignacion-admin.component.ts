@@ -141,7 +141,8 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
       },
       columns: this.headersAdmin,
       columnDefs: [{ "visible": false, "targets": [0, 1] },
-      { "width": "20%", "targets": [4] }]//ID, tipo
+      { "width": "20%", "targets": [4],} // no ejecuta la alineación, entonces, se fuerza en el css
+      ]//ID, tipo
     };
 
   }
