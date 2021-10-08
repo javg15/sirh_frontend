@@ -67,6 +67,14 @@ export class CategoriasService {
       , httpOptions);
   }
 
+  /* Devuelve las categorias vigentes, segun plantilla*/
+  public getCatalogoVigenteEnPlantilla(id_catplantillas): Observable<any> {
+    return this.http.post(this.API_URL + '/categorias/getCatalogoVigenteEnPlantilla',
+      { id_catplantillas }
+      , httpOptions);
+  }
+  
+
   /** Devuelve el registro con formato para select2 (incluye text) */
   public getRecordParaCombo(id_categoria): Observable<any> {
     return this.http.post(this.API_URL + '/categorias/getRecordParaCombo',

@@ -92,9 +92,11 @@ export class PlazasService {
       , httpOptions);
   }
 
-
-
-
+  public getCatalogoVigenteSegunCategoria(id_categorias: any, id_catplantillas:any): Observable<any> {
+    return this.http.post(this.API_URL + '/plazas/getCatalogoVigenteSegunCategoria',
+      { id_categorias, id_catplantillas }
+      , httpOptions);
+  }
 
   public getListado(url, id_catplanteles = 0, id_cattiponomina = 0, id_categorias = 0, id_catestatusplaza = 0) {
     let params = new HttpParams().set("id_catplanteles", (id_catplanteles == null ? 0 : id_catplanteles).toString())

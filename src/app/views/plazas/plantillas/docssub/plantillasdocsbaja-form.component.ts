@@ -3,7 +3,8 @@ import { DatePipe } from '@angular/common'
 import { ActivatedRoute } from '@angular/router';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Plantillasdocsnombramiento,Plantillaspersonal,Catquincena, Catbajamotivo } from '../../../../_models';
+import { Plantillasdocsnombramiento,Plantillaspersonal,Catquincena, Catbajamotivo,
+  Categorias,Plazas } from '../../../../_models';
 //import { Archivos } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
@@ -19,6 +20,8 @@ import { CatbajamotivoService } from '../../../catalogos/catbajamotivo/services/
 import { ListUploadComponent } from '../../../_shared/upload/list-upload.component';
 import { FormUploadComponent } from '../../../_shared/upload/form-upload.component';
 import { AutocompleteComponent } from 'angular-ng-autocomplete';
+import { PlazasService } from '../../plazas/services/plazas.service';
+import { CategoriasService } from '../../../catalogos/categorias/services/categorias.service';
 
 declare var $: any;
 declare var jQuery: any;
@@ -57,12 +60,16 @@ export class PlantillasDocsBajaFormComponent implements OnInit, OnDestroy {
   isLoadingSearch:boolean;
   catquincenaCat:Catquincena[];
   catbajamotivoCat:Catbajamotivo[];
+  categoriasCat:Categorias[];
+  plazasCat:Plazas[];
 
   constructor(private isLoadingService: IsLoadingService,
       private plantillasdocsbajaService: PlantillasdocsBajaService,
       private plantillasSvc: PlantillasService,
       private catbajamotivoSvc: CatbajamotivoService,
       private catquincenaSvc: CatquincenaService,
+      private plazasSvc: PlazasService,
+      private categoriasSvc: CategoriasService,
     private el: ElementRef,
     //private archivosSvc:ArchivosService,
     public datepipe: DatePipe
@@ -152,6 +159,12 @@ export class PlantillasDocsBajaFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  onSelectCategorias(valor:any){
+      this.plazasSvc.getCatalogoVigenteSegunCategoria(valor,this.record.id_plantillaspersonal).subscribe(resp => {
+        this.plazasCat = resp;
+      });
+  }
+
   // open modal
   async open(idItem: string, accion: string,idParent:number):  Promise<void> {
     this.actionForm=accion;
@@ -168,12 +181,28 @@ export class PlantillasDocsBajaFormComponent implements OnInit, OnDestroy {
         //obtener el plantel de la plantilla
         this.plantillasSvc.getRecord(this.record.id_plantillaspersonal).subscribe(resp => {
           this.record_plantillaspersonal=resp;
+
+          //para el caso de licenciamiento/baja, se debe elegir la categoria
+          this.categoriasSvc.getCatalogoVigenteEnPlantilla(this.record.id_plantillaspersonal).subscribe(resp => {
+            this.categoriasCat = resp;
+          });
         });
     } else {
       //obtener el registro
       this.plantillasdocsbajaService.getRecord(idItem).subscribe(resp => {
         this.record = resp;
         //this.listUpload.showFiles(this.record.id_archivos);
+
+        //para el caso de licenciamiento/baja, se debe elegir la categoria
+        this.categoriasSvc.getRecordParaCombo(this.record.id_categorias).subscribe(respCat => {
+          this.categoriasSvc.getCatalogoVigenteEnPlantilla(this.record.id_plantillaspersonal).subscribe(resp => {
+            this.categoriasCat = resp;
+            //si se esta editando o consultando se agrega el registro de la categoria almacenada, esto debido a que la funcion
+            //getCatalogoVigenteEnPlantilla ya no regresa la categoria registrada
+            this.categoriasCat.push(respCat[0])
+            this.onSelectCategorias(respCat[0].id)
+          });
+        });
       });
     }
 
@@ -182,6 +211,7 @@ export class PlantillasDocsBajaFormComponent implements OnInit, OnDestroy {
     // console.log($('#modalTest').html()); poner el id a algun elemento para testear
     this.basicModalDocsBaja.show();
   }
+
 
   //Archivo cargado
   onLoadedFile(idFile:number){
@@ -199,5 +229,6 @@ export class PlantillasDocsBajaFormComponent implements OnInit, OnDestroy {
 
   // log contenido de objeto en adminulario
   get diagnosticValidate() { return JSON.stringify(this.record); }
+
 
 }

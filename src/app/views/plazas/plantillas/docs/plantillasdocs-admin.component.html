@@ -70,6 +70,9 @@
                                                         <button *ngIf="boton=='eliminar' && irecord==0" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo_documento,'custom-' + member.tipo_documento,'eliminar',member.id)">
                                                               <i class="fa fa-trash"></i>
                                                           </button>
+                                                          <button *ngIf="boton=='actualizar'" title="Actualizar" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="actualizarfin(member.id)">
+                                                            <i class="fa fa-exchange"></i>
+                                                        </button>
                                                     </div>
                                                 </td>
                                             </div>

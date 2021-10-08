@@ -277,8 +277,20 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
         //obtener el plantel de la plantilla
         this.plantillasSvc.getRecord(this.record.id_plantillaspersonal).subscribe(resp => {
           this.record_plantillaspersonal=resp;
-          
-          this.onSelectCategorias(this.record.id_categorias);
+          this.record.id_catplanteles=this.record_plantillaspersonal.id_catplanteles; // se asigna aquí, porque es de solo lectura y viene desde la plantilla
+
+          //para el caso de licenciamiento/baja, se debe elegir la categoria
+          this.categoriasSvc.getRecordParaCombo(this.record.id_categorias).subscribe(respCat => {
+            this.categoriasSvc.getCatalogoVigenteEnPlantilla(this.record.id_plantillaspersonal).subscribe(resp => {
+              this.categoriasCat = resp;
+              //si se esta editando o consultando se agrega el registro de la categoria almacenada, esto debido a que la funcion
+              //getCatalogoVigenteEnPlantilla ya no regresa la categoria registrada
+              this.categoriasCat.push(respCat[0])
+              this.onSelectCategorias(this.record.id_categorias)
+            });
+          });
+
+          //this.onSelectCategorias(this.record.id_categorias);
           this.onSelectPlantel(this.record.id_catplanteles,this.record.id_catcentrostrabajo);
           this.varAsignarHorasSemestres=(this.record_plantillaspersonal.id_catplantillas==4?true:false);
           this.onSelectTipoNombramiento(this.record.id_catestatusplaza);
@@ -388,6 +400,11 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
           let fechafin =this.datepipe.transform(this.record.fechafin, 'yyyy-MM-dd');
           setTimeout(()=>{ $('#txtFechafin').val(fechafin) }, 100)
         }
+
+        //para el caso de licenciamiento/baja, se debe elegir la categoria
+        this.categoriasSvc.getCatalogoVigenteEnPlantilla(this.record.id_plantillaspersonal).subscribe(resp => {
+          this.categoriasCat = resp;
+        });
       }
     }
   }
@@ -409,9 +426,14 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
 
     });
 
-    this.plazasSvc.getCatalogoDisponibleSegunCategoria(valor,this.record.id_plazas,this.record.id_catplanteles).subscribe(resp => {
-      this.plazasCat = resp;
-    });
+    if(this.esnombramiento)
+      this.plazasSvc.getCatalogoDisponibleSegunCategoria(valor,this.record.id_plazas,this.record.id_catplanteles).subscribe(resp => {
+        this.plazasCat = resp;
+      });
+    else //es baja/licenciamiento
+      this.plazasSvc.getCatalogoVigenteSegunCategoria(valor,this.record.id_plantillaspersonal).subscribe(resp => {
+        this.plazasCat = resp;
+      });
   }
 
   onSelectPlantel(select_plantel,id_catcentrostrabajo:any=0) {

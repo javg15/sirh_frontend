@@ -151,6 +151,12 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
       this.elementModal.remove();
   }
 
+  actualizarfin(id_plantillasdocsnombramiento){
+    this.plantillasdocsService.setActualizarFin(id_plantillasdocsnombramiento).subscribe(resp => {
+      this.reDraw(null);
+    });
+    
+  }
 
   // open modal
   open(idItem: string, accion: string,idCatplanteles:string,idCatplantillas:string,tipoDocumento:string):  void {

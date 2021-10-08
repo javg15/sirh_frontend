@@ -70,6 +70,14 @@ export class PlantillasdocsService {
       , httpOptions);
   }
 
+  /* Actualiza la fecha de inicio del movimiento anterior. */
+  public setActualizarFin(id_plantillasdocsnombramiento): Observable<any> {
+    return this.http.post(this.API_URL + '/plantillaspersonaldocs/setActualizarFin',
+      { id_plantillasdocsnombramiento }
+      , httpOptions);
+  }
+
+
 // array de modales
   public add(modal: any) {
         this.modals.push(modal);

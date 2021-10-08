@@ -50,7 +50,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div *ngIf="esnombramiento==true" class="form-group col-sm-4">
+                                <div  class="form-group col-sm-4">
                                     <div class="form-group">
                                         <label for="id_categorias">Categorías</label>
                                         <ng-select2 [(ngModel)]="record.id_categorias" [data]="categoriasCat" [allowClear]="true" width="100%" name="Categorías" (valueChanged)="onSelectCategorias($event)">
@@ -58,12 +58,12 @@
                                         
                                     </div>
                                 </div>
-                                <div *ngIf="esnombramiento==true" class="form-group col-sm-4">
+                                <div  class="form-group col-sm-5">
                                     <div class="form-group">
                                         <label for="id_plazas">Plazas</label>
                                         <ng-select2 [(ngModel)]="record.id_plazas" [data]="plazasCat" [allowClear]="true" width="100%" name="Plazas">
                                         </ng-select2>
-                                        <button class="btn btn-brand btn-sm mr-1 btn-secondary" style="margin-bottom: 4px" type="button" (click)="CopiarPlaza()">
+                                        <button class="btn btn-brand btn-sm mr-1 btn-secondary" style="margin-bottom: 4px" type="button" title="Copiar texto" (click)="CopiarPlaza()">
                                             <i class="fa fa-copy"></i>
                                         </button>
                                         <!--<select id="selectPlantel" class="form-control" [(ngModel)]="record.id_categorias" name="Categorías">
@@ -71,7 +71,7 @@
                           </select>-->
                                     </div>
                                 </div>
-                                <div *ngIf="varAsignarHoras==true && varAsignarHorasSemestres==false" class="form-group col-sm-4">
+                                <div *ngIf="varAsignarHoras==true && varAsignarHorasSemestres==false" class="form-group col-sm-3">
                                     <div class="form-group">
                                         <label for="horas">Horas asignadas</label>
                                         <input type="text" [(ngModel)]="record.horas" class="form-control" name="Horas asignadas">
