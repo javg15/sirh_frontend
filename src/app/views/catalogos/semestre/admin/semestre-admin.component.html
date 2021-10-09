@@ -4,7 +4,7 @@
             <!--<app-search-admin id="search-admin-1" [nombreModulo]="nombreModulo" (buscarEvent)="reDraw($event)">
             </app-search-admin>-->
 
-            <app-header-admin id="header-admin-1" [nombreModulo]="nombreModulo" (agregarEvent)="openModal('custom-modal-1','nuevo',0)">
+            <app-header-admin id="header-admin-1" [nombreModulo]="nombreModulo" (agregarEvent)="openModal('custom-modal-1','nuevo',0)" [tituloBotonAdicional]="tituloBotonAdicional" (adicionalEvent)="actualizarCatalogo()" >
             </app-header-admin>
             <div class="row">
                 <div class="col-md-12 mx-auto">
@@ -19,13 +19,13 @@
                                                 <button *ngIf="boton=='ver'" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','ver',member.id)">
                                                   <i class="fa fa-search"></i>
                                               </button>
-                                                <button *ngIf="boton=='editar'" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','editar',member.id)">
+                                                <!--<button *ngIf="boton=='editar'" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','editar',member.id)">
                                                   <i class="fa fa-edit"></i>
                                               </button>
                                                 <button *ngIf="boton=='eliminar'" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','eliminar',member.id)">
                                                   <i class="fa fa-trash"></i>
                                               </button>
-
+                                            -->
                                             </div>
                                         </td>
                                     </div>
@@ -53,3 +53,21 @@
 <app-semestre-form id="custom-modal-1" (redrawEvent)="reDraw($event)">
     <!--<input type="hidden" [(ngModel)]="idItem" />-->
 </app-semestre-form>
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-success" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">&nbsp;</h5>
+            </div>
+            <div class="modal-body">
+                <p>Acción realizada satisfactoriamente</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="successModal.hide()">Cerrar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

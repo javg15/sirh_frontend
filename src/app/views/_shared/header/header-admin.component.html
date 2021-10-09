@@ -9,7 +9,7 @@
                 <option value = "{{ col.state }}">{{ col.idesc }}</option>
               </ng-container>
             </select>-->
-
+            <button *ngIf="tituloBotonAdicional!=''" class="btn btn-primary my-2 my-sm-0" (click)="onClickAdicional()">{{tituloBotonAdicional}}</button> &nbsp;
             <button *ngIf="tituloBotonReporte!=''" class="btn btn-primary my-2 my-sm-0" (click)="onClickReporte()">{{tituloBotonReporte}}</button> &nbsp;
             <button class="btn btn-success my-2 my-sm-0" (click)="onClickAgregar()">Agregar</button>
         </form>

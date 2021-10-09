@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import { DataTablesResponse } from '../../../../classes/data-tables-response';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
@@ -24,6 +24,7 @@ export class SemestreAdminComponent implements OnInit {
   /* El decorador @ViewChild recibe la clase DataTableDirective, para luego poder
   crear el dtElement que represente la tabla que estamos creando. */
   @ViewChild(DataTableDirective)
+  @ViewChild('successModal') public successModal: ModalDirective;
   dtElement: DataTableDirective;
   dtInstance: Promise<DataTables.Api>;
   dtTrigger: Subject<DataTableDirective> = new Subject();
@@ -37,6 +38,7 @@ export class SemestreAdminComponent implements OnInit {
   private dtOptionsAdicional = { datosBusqueda: {campo: 0, operador: 0, valor: ''},raw:0};
 
   nombreModulo = 'Semestre';
+  tituloBotonAdicional='Actualizar catálogo'
 
   headersAdmin: any;
 
@@ -141,6 +143,13 @@ export class SemestreAdminComponent implements OnInit {
       else{
         dtInstance.clear().draw(false); // viene de form, solo actualiza la vista actual (current page)
       }
+    });
+  }
+
+  actualizarCatalogo():void{
+    this.semestreService.setUpdateFromWebService().subscribe(resp => {
+      this.successModal.show();
+          setTimeout(()=>{ this.successModal.hide(); }, 2000)
     });
   }
 }

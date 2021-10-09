@@ -52,6 +52,13 @@ export class SemestreService {
       , httpOptions);
   }
 
+  /**Actualiza desde servicio web */
+  public setUpdateFromWebService(): Observable<any> {
+    return this.http.post(this.API_URL + '/semestre/setUpdateFromWebService',
+      {  }
+      , httpOptions);
+  }
+  
 
 
 
