@@ -154,7 +154,6 @@ export class CatquincenaAdminComponent implements OnInit {
     this.loadingActualizar=true;
 
     this.semestreSvc.getActual().subscribe(resp => {
-      console.log("resp=>",resp.id)
       this.catquincenaService.setUpdateFromWebService(resp.id).subscribe(resp => {
         this.successModal.show();
             setTimeout(()=>{ this.successModal.hide(); this.loadingActualizar=false}, 2000)
