@@ -13,7 +13,9 @@ export class HeaderAdminComponent implements OnInit {
   @Input() nombreModulo: string;
   @Input() tituloBotonReporte: string="";
   @Input() tituloBotonAdicional: string="";
-  
+  @Input() tituloBotonAgregar: string="Agregar";
+  @Input() loadingActualizar: boolean=false;
+
   @Output() agregarEvent = new EventEmitter<any>();
   @Output() reporteEvent = new EventEmitter<any>();
   @Output() adicionalEvent = new EventEmitter<any>();

@@ -4,7 +4,8 @@
             <!--<app-search-admin id="search-admin-1" [nombreModulo]="nombreModulo" (buscarEvent)="reDraw($event)">
             </app-search-admin>-->
 
-            <app-header-admin id="header-admin-1" [nombreModulo]="nombreModulo" (agregarEvent)="openModal('custom-modal-1', 'nuevo', 0)">
+            <app-header-admin id="header-admin-1" [tituloBotonAgregar]="tituloBotonAgregar" [nombreModulo]="nombreModulo" (agregarEvent)="openModal('custom-modal-1','nuevo',0)" [tituloBotonAdicional]="tituloBotonAdicional" (adicionalEvent)="actualizarCatalogo()"
+                [loadingActualizar]="loadingActualizar">
             </app-header-admin>
             <div class="row">
                 <div class="col-md-12 mx-auto">
@@ -59,3 +60,21 @@
 <app-catquincena-form id="custom-modal-1" (redrawEvent)="reDraw($event)">
     <!--<input type="hidden" [(ngModel)]="idItem" />-->
 </app-catquincena-form>
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-success" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">&nbsp;</h5>
+            </div>
+            <div class="modal-body">
+                <p>Acción realizada satisfactoriamente</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="successModal.hide()">Cerrar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

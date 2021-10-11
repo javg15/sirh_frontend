@@ -36,9 +36,10 @@ export class SemestreAdminComponent implements OnInit {
   API_URL = environment.APIS_URL;
 
   private dtOptionsAdicional = { datosBusqueda: {campo: 0, operador: 0, valor: ''},raw:0};
-
   nombreModulo = 'Semestre';
   tituloBotonAdicional='Actualizar catálogo'
+  tituloBotonAgregar="";
+  loadingActualizar:boolean;
 
   headersAdmin: any;
 
@@ -147,9 +148,10 @@ export class SemestreAdminComponent implements OnInit {
   }
 
   actualizarCatalogo():void{
+    this.loadingActualizar=true;
     this.semestreService.setUpdateFromWebService().subscribe(resp => {
       this.successModal.show();
-          setTimeout(()=>{ this.successModal.hide(); }, 2000)
+          setTimeout(()=>{ this.successModal.hide(); this.loadingActualizar=false}, 2000)
     });
   }
 }

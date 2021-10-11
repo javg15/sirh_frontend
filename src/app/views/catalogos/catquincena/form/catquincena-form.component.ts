@@ -50,8 +50,8 @@ export class CatquincenaFormComponent implements OnInit, OnDestroy {
   newRecord(): Catquincena {
     return {
       id: 0,  anio: 0, quincena: 0, fechainicio: new Date(), fechafin: new Date(),
-      adicional: 0, idestatusquincena: 0, periodovacacional: '', fechadepago: '',
-      observaciones: '', fechacierre: '', observaciones2: '', bimestre: 0, aplicarajusteispt: 0,
+      adicional: 0, id_catestatusquincena: 0, periodovacacional: '', fechadepago: new Date(),
+      observaciones: '', fechacierre: new Date(), observaciones2: '', bimestre: 0, aplicarajusteispt: 0,
       pagoderetroactividad: 0, liberadaparaportaladmvo: '', permiteabcderecibos: '',
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };

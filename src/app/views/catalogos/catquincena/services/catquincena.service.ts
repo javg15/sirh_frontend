@@ -52,8 +52,12 @@ export class CatquincenaService {
       , httpOptions);
   }
 
+  public setUpdateFromWebService(id_semestre): Observable<any> {
 
-
+    return this.http.post(this.API_URL + '/catquincena/setUpdateFromWebService',
+      { id_semestre }
+      , httpOptions);
+  }
 
   public getCatalogo(): Observable<any> {
     return this.http.post(this.API_URL + '/catquincena/getCatalogo',

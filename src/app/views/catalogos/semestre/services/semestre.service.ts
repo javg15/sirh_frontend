@@ -44,6 +44,14 @@ export class SemestreService {
       , httpOptions);
   }
 
+  /** Obtiene el semestre actual */
+  public getActual(): Observable<any> {
+    return this.http.post(this.API_URL + '/semestre/getActual',
+      {  }
+      , httpOptions);
+  }
+
+
   /* El siguiente método graba un registro nuevo, o uno editado. */
   public setRecord(dataPack, actionForm): Observable<any> {
 
@@ -58,7 +66,7 @@ export class SemestreService {
       {  }
       , httpOptions);
   }
-  
+
 
 
 

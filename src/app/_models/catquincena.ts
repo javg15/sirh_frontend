@@ -24,15 +24,15 @@ export default interface Catquincena {
 
   adicional: number | null;
 
-  idestatusquincena: number | null;
+  id_catestatusquincena: number | null;
 
   periodovacacional: string | null;
 
-  fechadepago: string | null;
+  fechadepago: Date | null;
 
   observaciones: string | null;
 
-  fechacierre: string | null;
+  fechacierre: Date | null;
 
   observaciones2: string | null;
 
@@ -74,15 +74,15 @@ export interface CatquincenaInitializer {
 
   adicional?: number;
 
-  idestatusquincena?: number;
+  id_catestatusquincena?: number;
 
   periodovacacional?: string;
 
-  fechadepago?: string;
+  fechadepago?: Date;
 
   observaciones?: string;
 
-  fechacierre?: string;
+  fechacierre?: Date;
 
   observaciones2?: string;
 

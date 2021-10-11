@@ -1,12 +1,12 @@
 import { Component, OnInit, Input, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import { DataTablesResponse } from '../../../../classes/data-tables-response';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 
 import { CatquincenaService } from '../services/catquincena.service';
-
+import { SemestreService } from '../../semestre/services/semestre.service';
 import { environment } from '../../../../../../src/environments/environment';
 
 declare var $: any;
@@ -24,6 +24,7 @@ export class CatquincenaAdminComponent implements OnInit {
   /* El decorador @ViewChild recibe la clase DataTableDirective, para luego poder
   crear el dtElement que represente la tabla que estamos creando. */
   @ViewChild(DataTableDirective)
+  @ViewChild('successModal') public successModal: ModalDirective;
   dtElement: DataTableDirective;
   dtInstance: Promise<DataTables.Api>;
   dtTrigger: Subject<DataTableDirective> = new Subject();
@@ -37,6 +38,9 @@ export class CatquincenaAdminComponent implements OnInit {
   private dtOptionsAdicional = { datosBusqueda: {campo: 0, operador: 0, valor: ''},raw:0};
 
   nombreModulo = 'Catquincena';
+  tituloBotonAdicional='Actualizar catálogo'
+  tituloBotonAgregar="";
+  loadingActualizar:boolean;
 
   headersAdmin: any;
 
@@ -45,7 +49,9 @@ export class CatquincenaAdminComponent implements OnInit {
   y estará disponible en toda la clase de este componente.
   El objeto es private, porque no se usará fuera de este componente. */
   constructor(
-    private catquincenaService: CatquincenaService,private route: ActivatedRoute
+    private catquincenaService: CatquincenaService,
+    private semestreSvc: SemestreService,
+    private route: ActivatedRoute
   ) {
 
   }
@@ -141,6 +147,18 @@ export class CatquincenaAdminComponent implements OnInit {
       else{
         dtInstance.clear().draw(false); // viene de form, solo actualiza la vista actual (current page)
       }
+    });
+  }
+
+  actualizarCatalogo():void{
+    this.loadingActualizar=true;
+
+    this.semestreSvc.getActual().subscribe(resp => {
+      console.log("resp=>",resp.id)
+      this.catquincenaService.setUpdateFromWebService(resp.id).subscribe(resp => {
+        this.successModal.show();
+            setTimeout(()=>{ this.successModal.hide(); this.loadingActualizar=false}, 2000)
+      });
     });
   }
 }
