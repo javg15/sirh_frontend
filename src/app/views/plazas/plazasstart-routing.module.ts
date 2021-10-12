@@ -1,24 +1,24 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { PersonalhorasAdminComponent } from './personalhoras/admin/personalhoras-admin.component';
-import { HorasasignacionAdminComponent } from './personalhoras/horasadmin/horasasignacion-admin.component';
-import { HorasasignacionFormComponent } from './personalhoras/horasform/horasasignacion-form.component';
-import { PersonalhorasIniService } from './personalhoras/services/personalhoras.ini.service';
-import { HorasasignacionAdminIniService } from './personalhoras/services/horasasignacionadmin.ini.service';
-import { HorasasignacionFormIniService } from './personalhoras/services/horasasignacionform.ini.service';
+import { PersonalhorasAdminComponent } from './empleados/personalhoras/admin/personalhoras-admin.component';
+import { HorasasignacionAdminComponent } from './empleados/personalhoras/horasadmin/horasasignacion-admin.component';
+import { HorasasignacionFormComponent } from './empleados/personalhoras/horasform/horasasignacion-form.component';
+import { PersonalhorasIniService } from './empleados/personalhoras/services/personalhoras.ini.service';
+import { HorasasignacionAdminIniService } from './empleados/personalhoras/services/horasasignacionadmin.ini.service';
+import { HorasasignacionFormIniService } from './empleados/personalhoras/services/horasasignacionform.ini.service';
 
-import { PlantillasAdminComponent } from './plantillas/admin/plantillas-admin.component';
-import { PlantillasFormComponent } from './plantillas/form/plantillas-form.component';
-import { PlantillasDocsAdminComponent } from './plantillas/docs/plantillasdocs-admin.component';
-import { PlantillasDocsFormComponent } from './plantillas/docssub/plantillasdocs-form.component';
-import { PlantillasDocsProfesionalFormComponent } from './plantillas/docssub/plantillasdocsprofesional-form.component';
-import { PlantillasDocsNombramientoFormComponent } from './plantillas/docssub/plantillasdocsnombramiento-form.component';
-import { PlantillasDocsBajaFormComponent } from './plantillas/docssub/plantillasdocsbaja-form.component';
-import { PlantillasDocsFamiliaresFormComponent } from './plantillas/docssub/plantillasdocsfamiliares-form.component';
-import { PlantillasIniService } from './plantillas/services/plantillas.ini.service';
-import { PlantillasdocsIniService } from './plantillas/services/plantillasdocs.ini.service';
-import { PlantillasHistorialNominaIniService } from './plantillas/services/plantillashistorialnomina.ini.service';
+import { PlantillasAdminComponent } from './empleados/plantillas/admin/plantillas-admin.component';
+import { PlantillasFormComponent } from './empleados/plantillas/form/plantillas-form.component';
+import { PlantillasDocsAdminComponent } from './empleados/plantillas/docs/plantillasdocs-admin.component';
+import { PlantillasDocsFormComponent } from './empleados/plantillas/docssub/plantillasdocs-form.component';
+import { PlantillasDocsProfesionalFormComponent } from './empleados/plantillas/docssub/plantillasdocsprofesional-form.component';
+import { PlantillasDocsNombramientoFormComponent } from './empleados/plantillas/docssub/plantillasdocsnombramiento-form.component';
+import { PlantillasDocsBajaFormComponent } from './empleados/plantillas/docssub/plantillasdocsbaja-form.component';
+import { PlantillasDocsFamiliaresFormComponent } from './empleados/plantillas/docssub/plantillasdocsfamiliares-form.component';
+import { PlantillasIniService } from './empleados/plantillas/services/plantillas.ini.service';
+import { PlantillasdocsIniService } from './empleados/plantillas/services/plantillasdocs.ini.service';
+import { PlantillasHistorialNominaIniService } from './empleados/plantillas/services/plantillashistorialnomina.ini.service';
 
 const routes: Routes = [
   {
@@ -28,7 +28,7 @@ const routes: Routes = [
     },
     children: [
       {
-        path: 'personalhoras',
+        path: 'empleados/personalhoras',
         redirectTo: 'admin'
       },
       {
@@ -60,7 +60,7 @@ const routes: Routes = [
         },
       },
       {
-        path: 'plantillas',
+        path: 'empleados/plantillas',
         redirectTo: 'adminplantillas'
       },
       {

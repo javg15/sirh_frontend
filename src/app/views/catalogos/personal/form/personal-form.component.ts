@@ -47,16 +47,15 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
 
   record: Personal;
   recordFile:Archivos;
-  catestadosNaciCat:Catestados[];
+  catestadosCat:Catestados[];
   catmunicipiosNaciCat:Catmunicipios[];
   catlocalidadesNaciCat: Catlocalidades[];
-  catestadosResiCat:Catestados[];
   catmunicipiosResiCat:Catmunicipios[];
   catlocalidadesResiCat: Catlocalidades[];
   catestadocivilCat: Catestadocivil[];
   usuariosCat:Usuarios[];
 
-  existeSegunCURP:boolean=true;
+  existeSegunCURP:boolean=false;
 
   public customPatterns = { '0': { pattern: new RegExp('\[a-zA-Z\\u00C0-\\u00FF \]')} };
 
@@ -71,7 +70,7 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
       ) {
       this.elementModal = el.nativeElement;
       this.catestadosSvc.getCatalogo().subscribe(resp => {
-        this.catestadosNaciCat = resp;
+        this.catestadosCat = resp;
       });
       this.catestadocivilSvc.getCatalogo().subscribe(resp => {
         this.catestadocivilCat = resp;
@@ -208,7 +207,7 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
         this.onSelectSexo(this.record.sexo);
 
         let estado=curp.toString().substring(11,13);
-        this.record.id_catestadosnaci=this.catestadosNaciCat.find(a=>a.clave_curp==estado).id;
+        this.record.id_catestadosnaci=this.catestadosCat.find(a=>a.clave_curp==estado).id;
         this.onSelectEntidadNaci(this.record.id_catestadosnaci);
       }
     });

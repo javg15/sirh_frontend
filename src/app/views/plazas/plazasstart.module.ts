@@ -6,20 +6,20 @@ import { SharedModule } from '../_shared/shared.module';
 
 import { PlazasStartRoutingModule } from './plazasstart-routing.module';
 
-import { PersonalhorasAdminComponent } from './personalhoras/admin/personalhoras-admin.component';
-import { HorasasignacionAdminComponent } from './personalhoras/horasadmin/horasasignacion-admin.component';
-import { HorasasignacionFormComponent } from './personalhoras/horasform/horasasignacion-form.component';
-import { PlantillasAdminComponent } from './plantillas/admin/plantillas-admin.component';
-import { PlantillasFormComponent } from './plantillas/form/plantillas-form.component';
-import { PlantillasDocsAdminComponent } from './plantillas/docs/plantillasdocs-admin.component';
-import { PlantillasDocsFormComponent } from './plantillas/docssub/plantillasdocs-form.component';
-import { PlantillasDocsProfesionalFormComponent } from './plantillas/docssub/plantillasdocsprofesional-form.component';
-import { PlantillasDocsNombramientoFormComponent } from './plantillas/docssub/plantillasdocsnombramiento-form.component';
-import { PlantillasDocsBajaFormComponent } from './plantillas/docssub/plantillasdocsbaja-form.component';
-import { PlantillasDocsFamiliaresFormComponent } from './plantillas/docssub/plantillasdocsfamiliares-form.component';
-import { PlantillasDocsSindicatoFormComponent } from './plantillas/docssub/plantillasdocssindicato-form.component';
-import { PlantillasDocsLicenciasFormComponent } from './plantillas/docssub/plantillasdocslicencias-form.component';
-import { PlantillasHistorialNominaComponent } from './plantillas/historialnomina/plantillas-historialnomina.component';
+import { PersonalhorasAdminComponent } from './empleados/personalhoras/admin/personalhoras-admin.component';
+import { HorasasignacionAdminComponent } from './empleados/personalhoras/horasadmin/horasasignacion-admin.component';
+import { HorasasignacionFormComponent } from './empleados/personalhoras/horasform/horasasignacion-form.component';
+import { PlantillasAdminComponent } from './empleados/plantillas/admin/plantillas-admin.component';
+import { PlantillasFormComponent } from './empleados/plantillas/form/plantillas-form.component';
+import { PlantillasDocsAdminComponent } from './empleados/plantillas/docs/plantillasdocs-admin.component';
+import { PlantillasDocsFormComponent } from './empleados/plantillas/docssub/plantillasdocs-form.component';
+import { PlantillasDocsProfesionalFormComponent } from './empleados/plantillas/docssub/plantillasdocsprofesional-form.component';
+import { PlantillasDocsNombramientoFormComponent } from './empleados/plantillas/docssub/plantillasdocsnombramiento-form.component';
+import { PlantillasDocsBajaFormComponent } from './empleados/plantillas/docssub/plantillasdocsbaja-form.component';
+import { PlantillasDocsFamiliaresFormComponent } from './empleados/plantillas/docssub/plantillasdocsfamiliares-form.component';
+import { PlantillasDocsSindicatoFormComponent } from './empleados/plantillas/docssub/plantillasdocssindicato-form.component';
+import { PlantillasDocsLicenciasFormComponent } from './empleados/plantillas/docssub/plantillasdocslicencias-form.component';
+import { PlantillasHistorialNominaComponent } from './empleados/plantillas/historialnomina/plantillas-historialnomina.component';
 import { DataTablesModule } from 'angular-datatables';
 import { NgSelect2Module } from 'ng-select2';
 

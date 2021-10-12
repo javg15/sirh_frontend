@@ -74,7 +74,7 @@
                                     <div class="form-group">
                                         <label for="id_catestadosnaci">Entidad de nacimiento</label>
                                         <select class="form-control" [(ngModel)]="record.id_catestadosnaci" name="Entidad de nacimiento" (change)="onSelectEntidadNaci($event.target.value)" disabled="disabled">
-                              <option *ngFor="let col of catestadosNaciCat" [value]="col.id">{{ col.descripcion }}</option>
+                              <option *ngFor="let col of catestadosCat" [value]="col.id">{{ col.descripcion }}</option>
                             </select>
                                     </div>
                                 </div>
@@ -146,7 +146,7 @@
                                     <div class="form-group">
                                         <label for="id_catestadosresi">Entidad de residencia</label>
                                         <select class="form-control" [(ngModel)]="record.id_catestadosresi" name="Entidad de residencia" (change)="onSelectEntidadResi($event.target.value)">
-                          <option *ngFor="let col of catestadosResiCat" [value]="col.id">{{ col.descripcion }}</option>
+                          <option *ngFor="let col of catestadosCat" [value]="col.id">{{ col.descripcion }}</option>
                         </select>
                                     </div>
                                 </div>
