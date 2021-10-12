@@ -24,8 +24,8 @@
                         <div class="form-group col-sm-4">
                             <label for="record_state">Estatus de registro</label>
                             <select class="form-control" name="Estatus de registro" (change)="onCatestatusChange($event.target.value)">
-                              <option value="A" selected="selected">Vigentes</option>
-                              <option value="AD">Historial</option>
+                              <option value="1" selected="selected">Vigentes</option> <!--solo sin fecha fin-->
+                              <option value="1|2|3|4|5|6">Historial</option> <!--todas-->
                             </select>
                         </div>
                         <div class="form-group col-sm-4">
@@ -62,28 +62,76 @@
                                                         <button *ngIf="boton=='editar' " class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal(member.clavetipohorasmateria,'custom-' + member.clavetipohorasmateria,'editar',member.id,record_id_personal,record_id_semestre,record_id_catplanteles)">
                                                           <i class="fa fa-edit"></i>
                                                       </button>
-                                                        <button *ngIf="boton=='eliminar' " class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal(member.clavetipohorasmateria,'custom-' + member.clavetipohorasmateria,'eliminar',member.id,record_id_personal,record_id_semestre,record_id_catplanteles)">
+                                                        <button *ngIf="boton=='eliminar' && member.en_activo==1 " class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal(member.clavetipohorasmateria,'custom-' + member.clavetipohorasmateria,'eliminar',member.id,record_id_personal,record_id_semestre,record_id_catplanteles)">
                                                           <i class="fa fa-trash"></i>
                                                       </button>
-
-
                                                     </div>
                                                 </td>
                                             </div>
                                             <ng-template #elseBlock>
-                                                <ng-container *ngIf="col!='id' && col!='clavetipohorasmateria';else elseBlock2">
+                                                <ng-container *ngIf="col=='plantel';else elseBlock2">
+                                                    <td>
+                                                        <div [title]="member.descplantel" [innerHtml]="member[col]"></div>
+                                                    </td>
+                                                </ng-container>
+                                            </ng-template>
+                                            <ng-template #elseBlock2>
+                                                <ng-container *ngIf="col=='tipo';else elseBlock3">
+                                                    <td>
+                                                        <div [title]="member.desctipo" [innerHtml]="member[col]"></div>
+                                                    </td>
+                                                </ng-container>
+                                            </ng-template>
+                                            <ng-template #elseBlock3>
+                                                <ng-container *ngIf="col=='estatus';else elseBlock4">
+                                                    <td>
+                                                        <div [title]="member.descestatus" [innerHtml]="member[col]"></div>
+                                                    </td>
+                                                </ng-container>
+                                            </ng-template>
+                                            <ng-template #elseBlock4>
+                                                <ng-container *ngIf="col=='nomb';else elseBlock5">
+                                                    <td>
+                                                        <div [title]="member.descnombramiento" [innerHtml]="member[col]"></div>
+                                                    </td>
+                                                </ng-container>
+                                            </ng-template>
+                                            <ng-template #elseBlock5>
+                                                <ng-container *ngIf="col!='id'
+                                                && col!='descplantel'
+                                                && col!='desctipo'
+                                                && col!='descestatus'
+                                                && col!='descnombramiento' && col!='en_activo';else elseBlock6">
                                                     <td>
                                                         <div [innerHtml]="member[col]"></div>
                                                     </td>
                                                 </ng-container>
                                             </ng-template>
-                                            <ng-template #elseBlock2></ng-template>
+                                            <ng-template #elseBlock6></ng-template>
                                         </ng-container>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-
+                    <div class="row">
+                        &nbsp;
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-8">
+                            <table datatable class="table table-striped table-bordered row-border hover">
+                                <tr>
+                                    <th>Total horas</th>
+                                    <th>Nombramiento</th>
+                                    <th>Quincena de referencia</th>
+                                </tr>
+                                <tr *ngFor="let row of tblResumenRows; index as i">
+                                    <td>{{ row.cantidad }}</td>
+                                    <td>{{ row.nombramiento }}</td>
+                                    <td>{{ row.quincena_fin }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
                     <div class="row">
                         &nbsp;
                     </div>

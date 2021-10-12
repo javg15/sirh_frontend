@@ -16,7 +16,7 @@
                         <input type="hidden" [(ngModel)]="record.id" class="form-control" name="ID">
                     </div>
                     <div class="row">
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="descripcion">Año</label>
                                 <select class="form-control" [(ngModel)]="record.anio" name="Año">
@@ -34,9 +34,9 @@
                         </div>
                         <div class="form-group col-sm-3">
                             <div class="form-group">
-                                <label for="bimestre">Bimestre</label>
-                                <select class="form-control" [(ngModel)]="record.bimestre" name="Bimestre">
-                                <option *ngFor="let col of bimestreCat" [value]="col.bimestre">{{ col.bimestre }}</option>
+                                <label for="bimestre">Estatus</label>
+                                <select class="form-control" [(ngModel)]="record.id_catestatusquincena" name="Bimestre">
+                                <option *ngFor="let col of catestatusquincenaCat" [value]="col.id">{{ col.descripcion }}</option>
                               </select>
                             </div>
                         </div>

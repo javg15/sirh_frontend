@@ -11,7 +11,7 @@ import { ValidationSummaryComponent } from '../../../_shared/validation/validati
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
-import { PersonalService } from '../../personal/services/personal.service';
+import { PersonalService } from '../../../catalogos/personal/services/personal.service';
 import { PlantillasdocsService } from '../services/plantillasdocs.service';
 import { PlantillasdocsProfesionalService } from '../services/plantillasdocsprofesional.service';
 import { PlantillasdocsNombramientoService } from '../services/plantillasdocsnombramiento.service';
@@ -155,7 +155,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     this.plantillasdocsService.setActualizarFin(id_plantillasdocsnombramiento).subscribe(resp => {
       this.reDraw(null);
     });
-    
+
   }
 
   // open modal

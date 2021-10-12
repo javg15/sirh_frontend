@@ -14,7 +14,7 @@ import { ValidationSummaryComponent } from '../../../_shared/validation/validati
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
-import { PersonalService } from '../../personal/services/personal.service';
+import { PersonalService } from '../../../catalogos/personal/services/personal.service';
 import { AutocompleteComponent } from 'angular-ng-autocomplete';
 
 import { environment } from '../../../../../environments/environment';

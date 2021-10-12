@@ -17,6 +17,7 @@ import Catfuncionsecundaria, { CatfuncionsecundariaInitializer } from './catfunc
 import Cattiposemestre, { CattiposemestreInitializer } from './cattiposemestre';
 import Catesquemapago, { CatesquemapagoInitializer } from './catesquemapago';
 import Catestatushora, { CatestatushoraInitializer } from './catestatushora';
+import Catestatusquincena, { CatestatusquincenaInitializer } from './catestatusquincena';
 import Cattipohorasmateria, { CattipohorasmateriaInitializer } from './cattipohorasmateria';
 import Catnombramientos, { CatnombramientosInitializer } from './catnombramientos';
 import Catlocalidades, { CatlocalidadesInitializer, CatlocalidadesId } from './catlocalidades';
@@ -83,6 +84,7 @@ type Model =
   | Catfuncionsecundaria
   | Catesquemapago
   | Catestatushora
+  | Catestatusquincena
   | Cattipohorasmateria
   | Catnombramientos
   | Cattiposemestre
@@ -150,6 +152,7 @@ interface ModelTypeMap {
   'catfuncionsecundaria': Catfuncionsecundaria;
   'catesquemapago': Catesquemapago;
   'catestatushora': Catestatushora;
+  'catestatusquincena': Catestatusquincena;
   'cattipohorasmateria': Cattipohorasmateria;
   'catnombramientos': Catnombramientos;
   'cattiposemestre': Cattiposemestre;
@@ -303,6 +306,7 @@ type Initializer =
   | CatfuncionsecundariaInitializer
   | CatesquemapagoInitializer
   | CatestatushoraInitializer
+  | CatestatusquincenaInitializer
   | CattipohorasmateriaInitializer
   | CatnombramientosInitializer
   | CattiposemestreInitializer
@@ -370,6 +374,7 @@ interface InitializerTypeMap {
   'catfuncionsecundaria': CatfuncionsecundariaInitializer;
   'catesquemapago': CatesquemapagoInitializer;
   'catestatushora': CatestatushoraInitializer;
+  'catestatusquincena': CatestatusquincenaInitializer;
   'cattipohorasmateria': CattipohorasmateriaInitializer;
   'catnombramientos': CatnombramientosInitializer;
   'cattiposemestre': CattiposemestreInitializer;

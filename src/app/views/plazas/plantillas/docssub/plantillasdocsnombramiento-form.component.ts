@@ -11,7 +11,7 @@ import { ValidationSummaryComponent } from '../../../_shared/validation/validati
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
-import { PersonalService } from '../../personal/services/personal.service';
+import { PersonalService } from '../../../catalogos/personal/services/personal.service';
 import { PersonalhorasService } from '../../personalhoras/services/personalhoras.service';
 import { PlazasService } from '../../plazas/services/plazas.service';
 import { CategoriasService } from '../../../catalogos/categorias/services/categorias.service';
@@ -75,6 +75,8 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   record_plantillaspersonal:Plantillaspersonal;
   record_catplantillas:Catplantillas;
   record_titular:String;
+  record_disponibles_horas:number;
+  record_disponibles_horasb:number;
   //recordFile:Archivos;
   keywordSearch = 'full_name';
   isLoadingSearch:boolean;
@@ -264,7 +266,8 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
           });
 
           this.onSelectPlantel(this.record.id_catplanteles);
-          this.varAsignarHorasSemestres=(this.record_plantillaspersonal.id_catplantillas==4?true:false);
+          //2=plantilla de docentes
+          this.varAsignarHorasSemestres=(this.record_plantillaspersonal.id_catplantillas==2?true:false);
 
           this.onSelectTipoNombramiento(this.record.id_catestatusplaza);
         });
@@ -286,13 +289,15 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
               //si se esta editando o consultando se agrega el registro de la categoria almacenada, esto debido a que la funcion
               //getCatalogoVigenteEnPlantilla ya no regresa la categoria registrada
               this.categoriasCat.push(respCat[0])
-              this.onSelectCategorias(this.record.id_categorias)
+              this.onSelectCategorias(this.record.id_categorias);
+              this.onSelectPlazas(this.record.id_plazas);
             });
           });
 
           //this.onSelectCategorias(this.record.id_categorias);
           this.onSelectPlantel(this.record.id_catplanteles,this.record.id_catcentrostrabajo);
-          this.varAsignarHorasSemestres=(this.record_plantillaspersonal.id_catplantillas==4?true:false);
+          //2=plantilla de docentes
+          this.varAsignarHorasSemestres=(this.record_plantillaspersonal.id_catplantillas==2?true:false);
           this.onSelectTipoNombramiento(this.record.id_catestatusplaza);
 
           this.plazasSvc.getPlazaSegunPersonal(this.record.id_personal_titular).subscribe(resp => {
@@ -305,11 +310,11 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
             if(resp.length>0)
               this.txtid_catplanteles.nativeElement.value=resp.find(x=>x.id==this.record.id_catplanteles).ubicacion;
           });
-  
+
           this.catplantillasSvc.getRecord(this.record_plantillaspersonal.id_catplantillas).subscribe(resp => {
             this.record_catplantillas=resp;
           });
-  
+
           if(this.record.id_personal_titular>0)//si es el titular
             this.personalSvc.getRecord(this.record.id_personal_titular).subscribe(resp => {
               this.record_titular = resp.nombre + " " + resp.apellidopaterno + " " + resp.apellidomaterno + " - " + resp.curp;
@@ -410,20 +415,14 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   }
 
   onSelectCategorias(valor:any){
-    if(this.varAsignarHorasSemestres && this.categoriasCat!=null){
-      this.record.horas=this.categoriasCat.find(a=>a.id==valor).horasasignadas;
-      this.record.horasb=this.categoriasCat.find(a=>a.id==valor).horasasignadas;
-    }
-
     this.categoriasdetalleSvc.getRecordSegunCategoria(valor).subscribe(resp => {
       this.varAsignarHoras=false;
       this.categoriasdetalleCat=resp;
-
+//si tiene detalle de horas la categoria
       if(this.categoriasdetalleCat.length>0){
         if(this.categoriasdetalleCat[0].totalhorasaut>0)
           this.varAsignarHoras=true;
       }
-
     });
 
     if(this.esnombramiento)
@@ -434,6 +433,15 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       this.plazasSvc.getCatalogoVigenteSegunCategoria(valor,this.record.id_plantillaspersonal).subscribe(resp => {
         this.plazasCat = resp;
       });
+  }
+
+  onSelectPlazas(valor:any){
+    if(this.varAsignarHorasSemestres && this.plazasCat!=null){
+      if(this.plazasCat.find(a=>a.id==valor)){
+        this.record_disponibles_horas=this.plazasCat.find(a=>a.id==valor).horas;
+        this.record_disponibles_horasb=this.plazasCat.find(a=>a.id==valor).horasb;
+      }
+    }
   }
 
   onSelectPlantel(select_plantel,id_catcentrostrabajo:any=0) {
@@ -481,8 +489,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
 
   CopiarPlaza(){
     let copyText=this.plazasCat.find(a=>a.id==this.record.id_plazas)["text"];
-    console.log("copyText=>",copyText)
     this.clipboardService.copy(copyText)
-    
+
   }
 }

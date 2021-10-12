@@ -169,8 +169,8 @@ const routes: Routes = [
         loadChildren: () => import('./views/plazas/horasclase/horasclase.module').then(m => m.HorasclaseModule)
       },
       {
-        path: 'plazas/personal',
-        loadChildren: () => import('./views/plazas/personal/personal.module').then(m => m.PersonalModule)
+        path: 'catalogos/personal',
+        loadChildren: () => import('./views/catalogos/personal/personal.module').then(m => m.PersonalModule)
       },
       /*{
         path: 'plazas/plantillas',

@@ -6,6 +6,7 @@ import { HorasasignacionAdminComponent } from './personalhoras/horasadmin/horasa
 import { HorasasignacionFormComponent } from './personalhoras/horasform/horasasignacion-form.component';
 import { PersonalhorasIniService } from './personalhoras/services/personalhoras.ini.service';
 import { HorasasignacionAdminIniService } from './personalhoras/services/horasasignacionadmin.ini.service';
+import { HorasasignacionFormIniService } from './personalhoras/services/horasasignacionform.ini.service';
 
 import { PlantillasAdminComponent } from './plantillas/admin/plantillas-admin.component';
 import { PlantillasFormComponent } from './plantillas/form/plantillas-form.component';
@@ -46,6 +47,9 @@ const routes: Routes = [
         component: HorasasignacionFormComponent,
         data: {
           title: 'Carga horaria'
+        },
+        resolve:{
+          dataHoraAsignacion:HorasasignacionFormIniService,
         }
       },
       {
@@ -69,7 +73,7 @@ const routes: Routes = [
           userdata: PlantillasIniService,
           userdataDocs: PlantillasdocsIniService,
           userdataHoras: HorasasignacionAdminIniService,
-          userdataHistorialNomina:PlantillasHistorialNominaIniService
+          userdataHistorialNomina:PlantillasHistorialNominaIniService,
         }
       },
       {

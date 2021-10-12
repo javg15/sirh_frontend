@@ -3,15 +3,19 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/r
 import { take, map } from 'rxjs/operators';
 
 import { HorasasignacionFormService } from './horasasignacionform.service';
+import { CatquincenaService } from '../../../catalogos/catquincena/services/catquincena.service';
 import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class HorasasignacionFormIniService implements Resolve<Observable<any>>{
 
-  constructor(private ds: HorasasignacionFormService) { }
+  constructor(private ds: HorasasignacionFormService,
+    private catquincenaSvc: CatquincenaService,) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    return null;
+    return this.catquincenaSvc.getQuincenaActiva().pipe(
+      map(dataHoraAsignacion => dataHoraAsignacion)
+    )
   }
 }

@@ -14,7 +14,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class CatquincenaService {
+export class CatestatusquincenaService {
   public API_URL = environment.APIS_URL;
   private modals: any[] = [];
 
@@ -29,7 +29,7 @@ export class CatquincenaService {
       setTimeout(() => {
         this.http.post<DataTablesResponse>(
           // this.API_URL + '/a6b_apis/read_records_dt.php',
-          this.API_URL + '/catquincena/getAdmin',
+          this.API_URL + '/catestatusquincena/getAdmin',
           { solocabeceras: 1, opcionesAdicionales: { raw: 0 } }, {}
         ).subscribe(resp => {
           o.next(JSON.parse(resp.data[0].cabeceras));
@@ -37,51 +37,30 @@ export class CatquincenaService {
       }, 200)
     })
   }
-  /* El siguiente método lee los datos de un registro seleccionado para edición. */
-  public getRecord(id: any): Observable<any> {
-    return this.http.post(this.API_URL + '/catquincena/getRecord',
-      { id }
-      , httpOptions);
-  }
-  public getQuincenaActiva(): Observable<any> {
-    return this.http.post(this.API_URL + '/catquincena/getQuincenaActiva',
-      {  }
-      , httpOptions);
-  }
-
-
-  /* El siguiente método graba un registro nuevo, o uno editado. */
-  public setRecord(dataPack, actionForm): Observable<any> {
-
-    return this.http.post(this.API_URL + '/catquincena/setRecord',
-      { dataPack, actionForm }
-      , httpOptions);
-  }
-
-  public setUpdateFromWebService(id_semestre): Observable<any> {
-
-    return this.http.post(this.API_URL + '/catquincena/setUpdateFromWebService',
-      { id_semestre }
-      , httpOptions);
-  }
 
   public getCatalogo(): Observable<any> {
-    return this.http.post(this.API_URL + '/catquincena/getCatalogo',
+    return this.http.post(this.API_URL + '/catestatusquincena/getCatalogo',
       {}
       , httpOptions);
   }
 
-  public getCatalogoSegunAnio(anio): Observable<any> {
-    return this.http.post(this.API_URL + '/catquincena/getCatalogoSegunAnio',
-      { anio }
+
+  /* El siguiente método lee los datos de un registro seleccionado para edición. */
+  public getRecord(id: any): Observable<any> {
+    return this.http.post(this.API_URL + '/catestatusquincena/getRecord',
+      { id }
       , httpOptions);
   }
 
-  public getCatalogoSegunSemestre(id_semestre): Observable<any> {
-    return this.http.post(this.API_URL + '/catquincena/getCatalogoSegunSemestre',
-      { id_semestre }
+  /* El siguiente método graba un registro nuevo, o uno editado. */
+  public setRecord(dataPack, actionForm): Observable<any> {
+
+    return this.http.post(this.API_URL + '/catestatusquincena/setRecord',
+      { dataPack, actionForm }
       , httpOptions);
   }
+
+
 
   // array de modales
   public add(modal: any) {

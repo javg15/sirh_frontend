@@ -18,7 +18,8 @@ import { CatplantelesService } from '../../../catalogos/catplanteles/services/ca
 import { CatestatushoraService } from '../../../catalogos/catestatushora/services/catestatushora.service';
 import { CatnombramientosService } from '../../../catalogos/catnombramientos/services/catnombramientos.service';
 import { CattipohorasdocenteService } from '../../../catalogos/cattipohorasdocente/services/cattipohorasdocente.service';
-import { PersonalService } from '../../personal/services/personal.service';
+import { PersonalService } from '../../../catalogos/personal/services/personal.service';
+import { relativeTimeThreshold } from 'moment';
 
 
 declare var $: any;
@@ -76,13 +77,15 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
   record_id_plantel:number;
   record_personaltitular:Personal[];
   record_personaltitular_nombre:string;
+  record_quincena_activa:Catquincena;
+  edicion_en_activo:boolean=true;
 
   esPlantelDesdeParametro:boolean=false;
   keywordSearch = 'full_name';
   isLoadingSearch: boolean;
   esinterina: boolean=false;
   record_titular:any;
-  
+
   //recordJsonTipodoc1:any={UltimoGradodeEstudios:0,AreadeCarrera:0,Carrera:0,Estatus:0};
 
   constructor(private isLoadingService: IsLoadingService,
@@ -97,6 +100,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
     private catnombramientosSvc: CatnombramientosService,
     private cattipohorasdocenteSvc: CattipohorasdocenteService,
     private el: ElementRef,
+    private route: ActivatedRoute
   ) {
     this.elementModal = el.nativeElement;
 
@@ -136,6 +140,9 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
     //loading
     this.userFormIsPending = this.isLoadingService.isLoading$({ key: 'loading' });
+
+    //quincena activa
+    //this.record_quincena_activa = this.route.snapshot.data.dataHoraAsignacion;
   }
 
   // remove self from modal service when directive is destroyed
@@ -196,14 +203,22 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
     if (idItem == "0") {
       this.record = this.newRecord(idPersonal, idSemestre);
       this.record.id_catplanteles=idPlantel;
+      this.edicion_en_activo=true;
     } else {
       //obtener el registro
-      this.horasasignacionformService.getRecord(idItem).subscribe(async resp => {
-        this.record = resp;
-        await this.onSelectPlantel(resp.id_catplanteles);
-        await this.onSelectGruposclase(resp.id_gruposclase);
-        this.record = resp;
+      this.catquincenaSvc.getQuincenaActiva().subscribe(async resp => {
+        //quincena activa
+        this.record_quincena_activa = resp;
+        this.horasasignacionformService.getRecord(idItem).subscribe(async resp => {
+          this.record = resp;
+          this.edicion_en_activo=true;
+          if(this.record_quincena_activa.id>this.record.id_catquincena_ini)
+            this.edicion_en_activo=false;//solo editar la quincena final
 
+           this.onSelectPlantel(resp.id_catplanteles);
+           this.onSelectGruposclase(resp.id_gruposclase);
+           this.onSelectNombramiento(resp.id_catnombramientos);
+        });
       });
     }
 

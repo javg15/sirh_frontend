@@ -50,18 +50,18 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div  class="form-group col-sm-4">
+                                <div class="form-group col-sm-4">
                                     <div class="form-group">
                                         <label for="id_categorias">Categorías</label>
                                         <ng-select2 [(ngModel)]="record.id_categorias" [data]="categoriasCat" [allowClear]="true" width="100%" name="Categorías" (valueChanged)="onSelectCategorias($event)">
                                         </ng-select2>
-                                        
+
                                     </div>
                                 </div>
-                                <div  class="form-group col-sm-5">
+                                <div class="form-group col-sm-5">
                                     <div class="form-group">
                                         <label for="id_plazas">Plazas</label>
-                                        <ng-select2 [(ngModel)]="record.id_plazas" [data]="plazasCat" [allowClear]="true" width="100%" name="Plazas">
+                                        <ng-select2 [(ngModel)]="record.id_plazas" [data]="plazasCat" [allowClear]="true" width="100%" name="Plazas" (valueChanged)="onSelectPlazas($event)">
                                         </ng-select2>
                                         <button class="btn btn-brand btn-sm mr-1 btn-secondary" style="margin-bottom: 4px" type="button" title="Copiar texto" (click)="CopiarPlaza()">
                                             <i class="fa fa-copy"></i>
@@ -82,13 +82,27 @@
                                 <div class="form-group col-sm-4">
                                     <div class="form-group">
                                         <label for="horasB">Semestre A (Feb - Jun)</label>
-                                        <input type="text" [(ngModel)]="record.horas" class="form-control" name="Semestre A" disabled>
+                                        <input type="text" [(ngModel)]="record.horas" class="form-control" name="Semestre A">
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-4">
                                     <div class="form-group">
                                         <label for="horasB">Semestre B (Jul - Ene)</label>
-                                        <input type="text" [(ngModel)]="record.horasb" class="form-control" name="Semestre B" disabled>
+                                        <input type="text" [(ngModel)]="record.horasb" class="form-control" name="Semestre B">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="varAsignarHorasSemestres==true">
+                                <div class="form-group col-sm-4">
+                                    <div class="form-group">
+                                        <label for="horasB">Disponibles Semestre A</label>
+                                        <input type="text" [(ngModel)]="record_disponibles_horas" class="form-control" name="Disponibles Semestre A" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <div class="form-group">
+                                        <label for="horasB">Disponibles Semestre B</label>
+                                        <input type="text" [(ngModel)]="record_disponibles_horasb" class="form-control" name="DisponiblesSemestre B" disabled>
                                     </div>
                                 </div>
                             </div>
@@ -246,5 +260,5 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
-<app-horasasignacion-admin id="customhorasasignacionadmin" >
+<app-horasasignacion-admin id="customhorasasignacionadmin">
 </app-horasasignacion-admin>

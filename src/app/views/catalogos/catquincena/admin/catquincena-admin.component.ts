@@ -20,14 +20,16 @@ declare var jQuery: any;
 
 
 export class CatquincenaAdminComponent implements OnInit {
+
   @Input() dtOptions: DataTables.Settings = {};
   /* El decorador @ViewChild recibe la clase DataTableDirective, para luego poder
   crear el dtElement que represente la tabla que estamos creando. */
   @ViewChild(DataTableDirective)
-  @ViewChild('successModal') public successModal: ModalDirective;
   dtElement: DataTableDirective;
   dtInstance: Promise<DataTables.Api>;
   dtTrigger: Subject<DataTableDirective> = new Subject();
+
+  @ViewChild('successModal') public successModal: ModalDirective;
 
   Members: any[];
   ColumnNames: string[];
@@ -110,9 +112,10 @@ export class CatquincenaAdminComponent implements OnInit {
             }
           );
         },
+
         columns: this.headersAdmin,
         columnDefs:[{"visible": false, "searchable": false, "targets": 0}
-                  ]
+                  ,{"width":"5%", "targets": 1}]
       };
 
   }

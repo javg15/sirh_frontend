@@ -53,10 +53,9 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
   private dtOptionsAdicional = {
     datosBusqueda: { campo: 0, operador: 0, valor: '' }
     , raw: 0
-    , fkey: 'id_personal,id_semestre,id_catplanteles'
-    , fkeyvalue: [0, 0, 0]
+    , fkey: 'id_personal,id_semestre,id_catplanteles,id_catnombramientos'
+    , fkeyvalue: [0, 0, 0, '1']
     , modo: 22
-    , state:"A"
   };
 
   NumberOfMembers = 0;
@@ -75,9 +74,12 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
   record_id_personal: number=0;
   record_id_semestre: number=0;
   record_id_catplanteles: number=0;
+  record_estatus: string='1';
   esSemestreDesdeParametro:boolean=false;
+  tblResumenRows:any=[];
 
   private elementModal: any;
+
   @ViewChild('basicModalDocs') basicModalDocs: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
@@ -140,8 +142,8 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
         },
       },
       columns: this.headersAdmin,
-      columnDefs: [{ "visible": false, "targets": [0, 1] },
-      { "width": "20%", "targets": [4],} // no ejecuta la alineación, entonces, se fuerza en el css
+      columnDefs: [{ "visible": false, "targets": [0, 1,2,3,4,5] },
+      { "width": "20%", "targets": [6,8],} // no ejecuta la alineación, entonces, se fuerza en el css
       ]//ID, tipo
     };
 
@@ -154,6 +156,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
   }
 
 
+
   // open modal
   open(id_personal: number, accion: string,id_catplanteles:number,id_semestre:number): void {
     this.actionForm = accion;
@@ -161,7 +164,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
     this.record_id_personal = id_personal;
     this.record_id_semestre=id_semestre;
     this.record_id_catplanteles=id_catplanteles;
-    this.dtOptionsAdicional.state="A";
+    this.record_estatus='1';
 
     this.esSemestreDesdeParametro=(id_catplanteles>0);
     if(id_catplanteles==0){
@@ -211,7 +214,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
 
 
     this.dtOptionsAdicional.raw++;
-    this.dtOptionsAdicional.fkeyvalue = [this.record_id_personal, this.record_id_semestre, this.record_id_catplanteles];
+    this.dtOptionsAdicional.fkeyvalue = [this.record_id_personal, this.record_id_semestre, this.record_id_catplanteles, this.record_estatus];
     //this.dtOptionsAdicional.fkeyvalue=this.record_id_personal;
     this.dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
 
@@ -225,6 +228,15 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
       if (this.NumberOfMembers > 0) {
         $('.dataTables_empty').css('display', 'none');
       }
+
+      //tabla resumen
+      this.horasasignacionadminService.getAdminResumen(this.record_id_personal, this.record_id_semestre).subscribe(resp => {
+        this.tblResumenRows=[];
+        if(resp.length>0)
+          this.tblResumenRows=resp[0].fn_horas_cuenta_resumen;
+
+      });
+
     }
     );
   }
@@ -234,8 +246,8 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
     this.reDraw(null);
   }
 
-  onCatestatusChange(state:any){
-    this.dtOptionsAdicional.state = state;
+  onCatestatusChange(estatus:any){
+    this.record_estatus = estatus;
     this.reDraw(null);
   }
 }

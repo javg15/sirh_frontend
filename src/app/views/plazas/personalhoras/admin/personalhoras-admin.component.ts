@@ -9,7 +9,7 @@ import { PersonalhorasService } from '../services/personalhoras.service';
 import { Personalhoras, Semestre, Catplanteles,Personal } from '../../../../_models';
 import { SemestreService } from '../../../catalogos/semestre/services/semestre.service';
 import { CatplantelesService } from '../../../catalogos/catplanteles/services/catplanteles.service';
-import { PersonalService } from '../../personal/services/personal.service';
+import { PersonalService } from '../../../catalogos/personal/services/personal.service';
 import { AutocompleteComponent } from 'angular-ng-autocomplete';
 
 import { environment } from '../../../../../environments/environment';
@@ -60,6 +60,7 @@ export class PersonalhorasAdminComponent implements OnInit {
   semestreCat:Semestre[];
   catplantelesCat:Catplanteles[];
   catpersonalCat:Personal[];
+  keywordSearch = 'full_name';
   esInicio:boolean=true;
   isLoadingSearch:boolean;
   headersAdmin: any;
@@ -225,7 +226,9 @@ export class PersonalhorasAdminComponent implements OnInit {
    *********************/
   onChangeSearchIdPersonal(val: string) {
     this.isLoadingSearch = true;
+
     this.personalSvc.getCatalogoSegunBusqueda(val).subscribe(resp => {
+      console.log("resp=>",resp)
       this.catpersonalCat = resp;
       this.isLoadingSearch = false;
     });

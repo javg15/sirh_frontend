@@ -1,8 +1,8 @@
 <div class="app-body">
     <main class="d-flex align-items-center">
         <div class="container">
-            <!--<app-search-admin id="search-admin-1" [nombreModulo]="nombreModulo" (buscarEvent)="reDraw($event)">
-            </app-search-admin>-->
+            <app-search-admin id="search-admin-1" [nombreModulo]="nombreModulo" (buscarEvent)="reDraw($event)">
+            </app-search-admin>
 
             <app-header-admin id="header-admin-1" [tituloBotonAgregar]="tituloBotonAgregar" [nombreModulo]="nombreModulo" (agregarEvent)="openModal('custom-modal-1','nuevo',0)" [tituloBotonAdicional]="tituloBotonAdicional" (adicionalEvent)="actualizarCatalogo()"
                 [loadingActualizar]="loadingActualizar">

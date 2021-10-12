@@ -5,7 +5,7 @@ import { TokenStorageService } from '../../_services/token-storage.service';
 import { Router } from '@angular/router';
 
 import { Personal } from '../../_models';
-import { PersonalService } from '../plazas/personal/services/personal.service';
+import { PersonalService } from '../catalogos/personal/services/personal.service';
 @Component({
   templateUrl: 'home.component.html'
 })

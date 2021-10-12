@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter  } from '@angular/core';
 import { CatquincenaService } from '../services/catquincena.service';
+import { CatestatusquincenaService } from '../../catestatusquincena/services/catestatusquincena.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Catquincena } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
@@ -33,18 +34,22 @@ export class CatquincenaFormComponent implements OnInit, OnDestroy {
   record: Catquincena;
   quincenaCat:any[]=[];
   anioCat:any[]=[];
-  bimestreCat:any[]=[];
+  catestatusquincenaCat:any[]=[];
 
   constructor(private isLoadingService: IsLoadingService,
-      private catquincenaService: CatquincenaService, private el: ElementRef,
+      private catquincenaService: CatquincenaService,
+      private catestatusquincenaSvc: CatestatusquincenaService,
+      private el: ElementRef,
       ) {
       this.elementModal = el.nativeElement;
       for(let i=moment().year(); i>=2000;i--)
         this.anioCat.push({anio:i})
       for(let i=1; i<=24;i++)
         this.quincenaCat.push({quincena:i})
-      for(let i=1; i<=6;i++)
-        this.bimestreCat.push({bimestre:i})
+
+      this.catestatusquincenaSvc.getCatalogo().subscribe(resp => {
+        this.catestatusquincenaCat = resp;
+      });
   }
 
   newRecord(): Catquincena {

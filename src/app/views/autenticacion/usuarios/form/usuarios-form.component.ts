@@ -12,7 +12,7 @@ import { UsuariosService } from '../services/usuarios.service';
 import { UsuarioszonasService } from '../../../autenticacion/usuarioszonas/services/usuarioszonas.service';
 import { CatzonageograficaService } from '../../../catalogos/catzonageografica/services/catzonageografica.service';
 import { PermgruposService } from '../../../autenticacion/permgrupos/services/permgrupos.service';
-import { PersonalService } from '../../../plazas/personal/services/personal.service';
+import { PersonalService } from '../../../catalogos/personal/services/personal.service';
 
 import { AutocompleteComponent } from 'angular-ng-autocomplete';
 import { ListUploadComponent } from '../../../_shared/upload/list-upload.component';

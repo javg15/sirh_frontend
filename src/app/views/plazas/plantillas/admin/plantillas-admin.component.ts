@@ -9,7 +9,7 @@ import { PlantillasService } from '../services/plantillas.service';
 import { Plantillaspersonal, Catplantillas, Catplanteles,Personal,Categorias } from '../../../../_models';
 import { CatplantillasService } from '../../../catalogos/catplantillas/services/catplantillas.service';
 import { CatplantelesService } from '../../../catalogos/catplanteles/services/catplanteles.service';
-import { PersonalService } from '../../personal/services/personal.service';
+import { PersonalService } from '../../../catalogos/personal/services/personal.service';
 import { CategoriasService } from '../../../catalogos/categorias/services/categorias.service';
 import { AutocompleteComponent } from 'angular-ng-autocomplete';
 

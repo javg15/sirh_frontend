@@ -43,14 +43,17 @@ export class HorasasignacionAdminService {
   }
 
 
-
-
   public getAdmin(dataTablesParameters): Observable<any> {
     return this.http.post(this.API_URL + '/personalhoras/getAdminSub',
       { dataTablesParameters }
       , httpOptions);
   }
 
+  public getAdminResumen(id_personal:number,id_semestre:number): Observable<any> {
+    return this.http.post(this.API_URL + '/personalhoras/getAdminSubResumen',
+      { id_personal, id_semestre}
+      , httpOptions);
+  }
 
 
   // array de modales
