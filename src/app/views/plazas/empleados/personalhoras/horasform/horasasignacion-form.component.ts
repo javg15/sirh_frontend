@@ -111,15 +111,13 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
     this.catnombramientosSvc.getCatalogo().subscribe(resp => {
       this.catnombramientosCat = resp;
     });
-    this.cattipohorasdocenteSvc.getCatalogo().subscribe(resp => {
-      this.cattipohorasdocenteCat = resp;
-    });
+
   }
 
   newRecord(idParent: number, idSemestre: number): Personalhoras {
     return {
       id: 0, id_personal: idParent, cantidad: 0, id_catplanteles: 0, id_gruposclase: 0,id_materiasclase: 0,
-      id_cattipohorasmateria: 1, id_catnombramientos: 0, id_semestre: idSemestre,
+      id_cattipohorasmateria: 1, id_catnombramientos: 0, id_semestre: idSemestre,frenteagrupo:0,
       id_catestatushora: 0, id_catquincena_ini: 0, id_catquincena_fin: 0, horassueltas:0, id_cattipohorasdocente:0,
       state: '', created_at: new Date(), updated_at: new Date(), id_usuarios_r: 0
     };
@@ -218,6 +216,9 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
            this.onSelectPlantel(resp.id_catplanteles);
            this.onSelectGruposclase(resp.id_gruposclase);
            this.onSelectNombramiento(resp.id_catnombramientos);
+           this.cattipohorasdocenteSvc.getCatalogoSegunMateria(resp.id_materiasclase).subscribe(resp => {
+            this.cattipohorasdocenteCat = resp;
+          });
         });
       });
     }
@@ -260,6 +261,9 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
   onSelectMateriasclase(valor: any) {
     this.record.cantidad=this.materiasclaseCat.find(a=>a.id==valor).horasdisponibles;
+    this.cattipohorasdocenteSvc.getCatalogoSegunMateria(valor).subscribe(resp => {
+     this.cattipohorasdocenteCat = resp;
+   });
   }
 
   onSelectNombramiento(id_catnombramientos){

@@ -264,6 +264,12 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
             else
               this.seRevisoCargaHoraria=true;
           });
+          //para el caso de licenciamiento/baja, se debe elegir la categoria
+          if(this.tipo=="licencia"){
+            this.categoriasSvc.getCatalogoVigenteEnPlantilla(this.record.id_plantillaspersonal).subscribe(resp => {
+              this.categoriasCat = resp;
+            });
+          }
 
           this.onSelectPlantel(this.record.id_catplanteles);
           //2=plantilla de docentes

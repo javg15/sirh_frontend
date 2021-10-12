@@ -52,12 +52,16 @@ export class CattipohorasdocenteService {
       , httpOptions);
   }
 
-
-
-
   public getCatalogo(): Observable<any> {
     return this.http.post(this.API_URL + '/cattipohorasdocente/getCatalogo',
       {}
+      , httpOptions);
+  }
+
+
+  public   getCatalogoSegunMateria(id_materiasclase): Observable<any> {
+    return this.http.post(this.API_URL + '/cattipohorasdocente/getCatalogoSegunMateria',
+      {id_materiasclase}
       , httpOptions);
   }
 

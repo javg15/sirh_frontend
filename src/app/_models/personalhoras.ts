@@ -40,6 +40,8 @@ export default interface Personalhoras {
 
   updated_at: Date | null;
 
+  frenteagrupo: number | null;
+
 }
 
 export interface PersonalhorasInitializer {
@@ -84,5 +86,7 @@ export interface PersonalhorasInitializer {
   created_at?: Date;
 
   updated_at?: Date;
+
+  frenteagrupo?: number;
 
 }

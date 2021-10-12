@@ -53,7 +53,7 @@ export class PersonalhorasAdminComponent implements OnInit {
 
   record:Personalhoras={
     id: 0, id_personal: 0, cantidad: 0, id_catplanteles: 0, id_gruposclase: 0,id_materiasclase: 0,
-      id_cattipohorasmateria: 1, id_catnombramientos: 0, id_semestre: 0,
+      id_cattipohorasmateria: 1, id_catnombramientos: 0, id_semestre: 0,frenteagrupo:0,
       id_catestatushora: 0, id_catquincena_ini: 0, id_catquincena_fin: 0, horassueltas:0, id_cattipohorasdocente:0,
       state: '', created_at: new Date(), updated_at: new Date(), id_usuarios_r: 0
   };

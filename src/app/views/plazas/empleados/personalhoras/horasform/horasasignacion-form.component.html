@@ -50,7 +50,7 @@
 
                             </div>
                         </div>
-                        <div class="form-group col-sm-3">
+                        <div class="form-group col-sm-7">
                             <div class="form-group">
                                 <label for="id_materiasclase">Materia</label>
                                 <select class="form-control" [(ngModel)]="record.id_materiasclase" name="Materia" [disabled]="!edicion_en_activo" (change)="onSelectMateriasclase($event.target.value)">
@@ -122,8 +122,19 @@
                             <div class="form-group">
                                 <label for="id_cattipohorasdocente">Tipo de horas</label>
                                 <select class="form-control" [(ngModel)]="record.id_cattipohorasdocente" name="Tipo de horas">
-                            <option *ngFor="let col of cattipohorasdocenteCat" [value]="col.id">{{ col.tipohora }}</option>
+                            <option *ngFor="let col of cattipohorasdocenteCat" [value]="col.id">{{ col.text }}</option>
                           </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="frenteagrupo">¿Frente a grupo?</label>
+                                <select class="form-control" [(ngModel)]="record.frenteagrupo" name="¿Frente a grupo?" [disabled]="!edicion_en_activo">
+                              <option value="0">No</option>
+                              <option value="1">Sí</option>
+                            </select>
                             </div>
                         </div>
                     </div>
