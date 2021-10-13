@@ -21,6 +21,7 @@
                                     <div class="form-group">
                                         <label for="id_catestatusplaza">Tipo de {{tipo}}</label>
                                         <select class="form-control" [(ngModel)]="record.id_catestatusplaza" name="Tipo de nombramiento" (change)="onSelectTipoNombramiento($event.target.value)">
+                                            <option value="0">---</option>
                                   <option *ngFor="let col of catestatusplazaCat" [value]="col.id">{{ col.descripcion }}</option>
                                 </select>
 
@@ -50,7 +51,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group col-sm-4">
+                                <div class="form-group col-sm-6">
                                     <div class="form-group">
                                         <label for="id_categorias">Categorías</label>
                                         <ng-select2 [(ngModel)]="record.id_categorias" [data]="categoriasCat" [allowClear]="true" width="100%" name="Categorías" (valueChanged)="onSelectCategorias($event)">
@@ -58,7 +59,7 @@
 
                                     </div>
                                 </div>
-                                <div class="form-group col-sm-5">
+                                <div class="form-group col-sm-6">
                                     <div class="form-group">
                                         <label for="id_plazas">Plazas</label>
                                         <ng-select2 [(ngModel)]="record.id_plazas" [data]="plazasCat" [allowClear]="true" width="100%" name="Plazas" (valueChanged)="onSelectPlazas($event)">
@@ -71,28 +72,22 @@
                           </select>-->
                                     </div>
                                 </div>
-                                <div *ngIf="varAsignarHoras==true && varAsignarHorasSemestres==false" class="form-group col-sm-3">
-                                    <div class="form-group">
-                                        <label for="horas">Horas asignadas</label>
-                                        <input type="text" [(ngModel)]="record.horas" class="form-control" name="Horas asignadas">
-                                    </div>
-                                </div>
                             </div>
-                            <div class="row" *ngIf="varAsignarHorasSemestres==true">
+                            <div class="row" *ngIf="varAsignarHorasPlazasPorJornada==true || varAsignarHorasPlazasPorHora==true">
                                 <div class="form-group col-sm-4">
                                     <div class="form-group">
-                                        <label for="horasB">Semestre A (Feb - Jun)</label>
-                                        <input type="text" [(ngModel)]="record.horas" class="form-control" name="Semestre A">
+                                        <label for="horasB">Semestre A</label>
+                                        <input type="text" [(ngModel)]="record.horas" class="form-control" name="Semestre A" [disabled]="varAsignarHorasPlazasPorJornada">
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-4">
                                     <div class="form-group">
-                                        <label for="horasB">Semestre B (Jul - Ene)</label>
-                                        <input type="text" [(ngModel)]="record.horasb" class="form-control" name="Semestre B">
+                                        <label for="horasB">Semestre B</label>
+                                        <input type="text" [(ngModel)]="record.horasb" class="form-control" name="Semestre B" [disabled]="varAsignarHorasPlazasPorJornada">
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" *ngIf="varAsignarHorasSemestres==true">
+                            <div class="row" *ngIf="varAsignarHorasPlazasPorHora==true">
                                 <div class="form-group col-sm-4">
                                     <div class="form-group">
                                         <label for="horasB">Disponibles Semestre A</label>

@@ -99,8 +99,8 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   esnombramiento:boolean;
   plazaOcupadaTitular:String;
   tipo:string;
-  varAsignarHoras:boolean;
-  varAsignarHorasSemestres:boolean;
+  varAsignarHorasPlazasPorJornada:boolean;
+  varAsignarHorasPlazasPorHora:boolean;
   seRevisoCargaHoraria:boolean=true; //se activa cuando se pica en el boton de editar carga horaria, por default tiene valor de true
   //recordJsonTipodoc1:any={UltimoGradodeEstudios:0,AreadeCarrera:0,Carrera:0,Estatus:0};
 
@@ -273,7 +273,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
 
           this.onSelectPlantel(this.record.id_catplanteles);
           //2=plantilla de docentes
-          this.varAsignarHorasSemestres=(this.record_plantillaspersonal.id_catplantillas==2?true:false);
+          //this.varAsignarHorasPlazasPorHora=(this.record_plantillaspersonal.id_catplantillas==2?true:false);
 
           this.onSelectTipoNombramiento(this.record.id_catestatusplaza);
         });
@@ -303,7 +303,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
           //this.onSelectCategorias(this.record.id_categorias);
           this.onSelectPlantel(this.record.id_catplanteles,this.record.id_catcentrostrabajo);
           //2=plantilla de docentes
-          this.varAsignarHorasSemestres=(this.record_plantillaspersonal.id_catplantillas==2?true:false);
+          //this.varAsignarHorasPlazasPorHora=(this.record_plantillaspersonal.id_catplantillas==2?true:false);
           this.onSelectTipoNombramiento(this.record.id_catestatusplaza);
 
           this.plazasSvc.getPlazaSegunPersonal(this.record.id_personal_titular).subscribe(resp => {
@@ -421,15 +421,42 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   }
 
   onSelectCategorias(valor:any){
-    this.categoriasdetalleSvc.getRecordSegunCategoria(valor).subscribe(resp => {
-      this.varAsignarHoras=false;
+    /*this.categoriasdetalleSvc.getRecordSegunCategoria(valor).subscribe(resp => {
+      this.varAsignarHorasPlazasPorJornada=false;
       this.categoriasdetalleCat=resp;
 //si tiene detalle de horas la categoria
       if(this.categoriasdetalleCat.length>0){
         if(this.categoriasdetalleCat[0].totalhorasaut>0)
-          this.varAsignarHoras=true;
+          this.varAsignarHorasPlazasPorJornada=true;
       }
-    });
+    });*/
+
+    //definir si asigna por semestre o por categorias
+    this.varAsignarHorasPlazasPorHora=false;this.varAsignarHorasPlazasPorJornada=false;
+    if(this.record_plantillaspersonal.id_catplantillas==2){
+      if(this.categoriasCat.find(a=>a.id==valor).horasasignadas>0)
+        this.varAsignarHorasPlazasPorJornada=true;
+      else
+        this.varAsignarHorasPlazasPorHora=true;
+    }
+
+    if(this.varAsignarHorasPlazasPorHora){//plazas por horas
+      //se especifican la cantidad de horas disponibles
+        this.record_disponibles_horas=this.categoriasCat.find(a=>a.id==valor)["horas"];
+        this.record_disponibles_horasb=this.categoriasCat.find(a=>a.id==valor)["horasb"];
+        if(this.record.id==0){ //cuando es registro nuevo, incializar variables
+          this.record.horas=0;
+          this.record.horasb=0;
+        }
+    }
+
+    if(this.varAsignarHorasPlazasPorJornada){//plazas por jornada
+      //se especifican la cantidad de horas asignadas como las disponibles
+        this.record.horas=this.categoriasCat.find(a=>a.id==valor).horasasignadas;
+        this.record.horasb=this.categoriasCat.find(a=>a.id==valor).horasasignadas;
+
+    }
+    
 
     if(this.esnombramiento)
       this.plazasSvc.getCatalogoDisponibleSegunCategoria(valor,this.record.id_plazas,this.record.id_catplanteles).subscribe(resp => {
@@ -442,12 +469,12 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   }
 
   onSelectPlazas(valor:any){
-    if(this.varAsignarHorasSemestres && this.plazasCat!=null){
+    /*if(this.varAsignarHorasPlazasPorHora && this.plazasCat!=null){
       if(this.plazasCat.find(a=>a.id==valor)){
         this.record_disponibles_horas=this.plazasCat.find(a=>a.id==valor).horas;
         this.record_disponibles_horasb=this.plazasCat.find(a=>a.id==valor).horasb;
       }
-    }
+    }*/
   }
 
   onSelectPlantel(select_plantel,id_catcentrostrabajo:any=0) {

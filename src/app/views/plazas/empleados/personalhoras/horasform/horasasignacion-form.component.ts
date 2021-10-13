@@ -170,7 +170,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
               this.record.id = resp.id;
 
               this.successModal.show();
-              setTimeout(() => { this.successModal.hide(); }, 2000)
+              setTimeout(() => { this.successModal.hide(); this.close();}, 2000)
             }
           }), { key: 'loading' });
         }
@@ -201,6 +201,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
     if (idItem == "0") {
       this.record = this.newRecord(idPersonal, idSemestre);
       this.record.id_catplanteles=idPlantel;
+      this.onSelectPlantel(idPlantel);
       this.edicion_en_activo=true;
     } else {
       //obtener el registro
