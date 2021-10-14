@@ -1,6 +1,6 @@
 <div bsModal #basicModalDocs="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-full-height modal-right" role="document">
-        <div class="modal-content">
+    <div class="modal-dialog modal-lg modal-full-height modal-left" role="document">
+        <div class="modal-content" style="width:900px">
             <div class="modal-header">
                 <h4 class="modal-title w-100" id="myModalLabel">{{ tituloForm }}</h4>
 
@@ -55,14 +55,14 @@
                                                 <!--<td><img src="assets/{{ member[col] }}" width="50" /></td>-->
                                                 <td>
                                                     <div *ngFor="let boton of member[col].split(',')" style="display: contents;">
-                                                        <button *ngIf="boton=='ver'" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="openModal(member.clavetipohorasmateria,'custom-' + member.clavetipohorasmateria,'ver',member.id,record_id_personal,record_id_semestre,record_id_catplanteles)">
+                                                        <button *ngIf="boton=='ver'" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo,'custom-' + member.tipo,'ver',member.id,record_id_personal,record_id_semestre,record_id_catplanteles)">
                                                             <i class="fa fa-search"></i>
                                                         </button>
 
-                                                        <button *ngIf="boton=='editar' " class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal(member.clavetipohorasmateria,'custom-' + member.clavetipohorasmateria,'editar',member.id,record_id_personal,record_id_semestre,record_id_catplanteles)">
+                                                        <button *ngIf="boton=='editar' " class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo,'custom-' + member.tipo,'editar',member.id,record_id_personal,record_id_semestre,record_id_catplanteles)">
                                                           <i class="fa fa-edit"></i>
                                                       </button>
-                                                        <button *ngIf="boton=='eliminar' && member.en_activo==1 " class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal(member.clavetipohorasmateria,'custom-' + member.clavetipohorasmateria,'eliminar',member.id,record_id_personal,record_id_semestre,record_id_catplanteles)">
+                                                        <button *ngIf="boton=='eliminar' && member.en_activo==1 " class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo,'custom-' + member.tipo,'eliminar',member.id,record_id_personal,record_id_semestre,record_id_catplanteles)">
                                                           <i class="fa fa-trash"></i>
                                                       </button>
                                                     </div>

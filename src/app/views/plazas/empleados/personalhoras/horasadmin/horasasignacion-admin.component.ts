@@ -5,7 +5,7 @@ import { DataTablesResponse } from '../../../../../classes/data-tables-response'
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import {Semestre,Catestatushora} from '../../../../../_models';
-
+import { PersonalService } from '../../../../catalogos/personal/services/personal.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { ValidationSummaryComponent } from '../../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../../environments/environment';
@@ -90,6 +90,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
     private horasasignacionadminService: HorasasignacionAdminService,
     private horasasignacionformSvc: HorasasignacionFormService,
     private semestreSvc: SemestreService,
+    private personalSvc: PersonalService,
     private el: ElementRef,
     private route: ActivatedRoute
   ) {
@@ -166,6 +167,10 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
     this.record_id_catplanteles=id_catplanteles;
     this.record_estatus='1';
 
+    this.personalSvc.getRecord(id_personal).subscribe(resp => {
+      this.tituloForm="Carga horaria - " + (resp.apellidopaterno + " " + resp.apellidomaterno + " " + resp.nombre);
+    });
+
     this.esSemestreDesdeParametro=(id_catplanteles>0);
     if(id_catplanteles==0){
       if(this.semestreCat.length>0){
@@ -190,7 +195,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
 
   //Sub formulario
   openModal(tipo: string, id: string, accion: string, idItem: number, idPersonal: number, idSemestre: number, idPlantel: number) {
-
+console.log("tipo=>",tipo)
     if(this.record_id_semestre>0){
       switch (tipo.toLowerCase()) {
         case "01":

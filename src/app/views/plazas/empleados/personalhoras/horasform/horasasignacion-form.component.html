@@ -1,6 +1,6 @@
 <div bsModal #basicModalHorasasignacion="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-full-height modal-right" role="document">
-        <div class="modal-content">
+    <div class="modal-dialog modal-lg modal-full-height modal-right"  role="document">
+        <div class="modal-content" >
             <div class="modal-header">
                 <h4 class="modal-title w-100" id="myModalLabel">{{ tituloForm }}</h4>
 
@@ -118,6 +118,8 @@
                                 </select>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
                         <div *ngIf="record.horassueltas==1" class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="id_cattipohorasdocente">Tipo de horas</label>
@@ -126,8 +128,6 @@
                           </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="frenteagrupo">¿Frente a grupo?</label>
