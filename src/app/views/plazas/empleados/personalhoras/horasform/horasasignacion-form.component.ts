@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { TokenStorageService } from '../../../../../_services/token-storage.service';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Personalhoras, Personal, Semestre, Catplanteles, Catquincena, Gruposclase, Materiasclase, Catestatushora, Catnombramientos, Cattipohorasdocente } from '../../../../../_models';
@@ -41,6 +42,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
   actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
+  usuario:any=this.tokenStorage.getUser();
 
   private elementModal: any;
 
@@ -89,7 +91,9 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
   //recordJsonTipodoc1:any={UltimoGradodeEstudios:0,AreadeCarrera:0,Carrera:0,Estatus:0};
 
-  constructor(private isLoadingService: IsLoadingService,
+  constructor(
+    private tokenStorage: TokenStorageService,
+    private isLoadingService: IsLoadingService,
     private horasasignacionformService: HorasasignacionFormService,
     private personalSvc: PersonalService,
     private semestreSvc: SemestreService,
@@ -198,7 +202,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
     this.catplantelesSvc.getCatalogoSegunPersonal(idPersonal).subscribe(resp => {
       this.catplantelesCat = resp;
     });
-    this.catplantelesSvc.getCatalogoSinAdmin().subscribe(resp => {
+    this.catplantelesSvc.getCatalogoSinAdmin(this.usuario.id).subscribe(resp => {
       this.catplantelesAplicacionCat = resp;
     });
 

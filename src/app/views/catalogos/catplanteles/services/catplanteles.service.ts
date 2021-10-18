@@ -60,9 +60,9 @@ export class CatplantelesService {
   }
 
 
-  public getCatalogoSinAdmin(): Observable<any> {
+  public getCatalogoSinAdmin(id_usuario:number): Observable<any> {
     return this.http.post(this.API_URL + '/catplanteles/getCatalogoSinAdmin',
-      {}
+      {id_usuario}
       , httpOptions);
   }
 
