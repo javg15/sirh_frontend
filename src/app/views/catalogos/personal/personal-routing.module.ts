@@ -20,7 +20,7 @@ const routes: Routes = [
         path: 'admin',
         component: PersonalAdminComponent,
         data: {
-          title: 'Personas'
+          title: 'Listado'
         },
         resolve: {
           userdata: PersonalIniService,

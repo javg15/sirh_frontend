@@ -24,7 +24,7 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Asignación de horas'
+      title: 'Empleados'
     },
     children: [
       {
@@ -56,7 +56,7 @@ const routes: Routes = [
         path: 'horas',
         component: HorasasignacionAdminComponent,
         data: {
-          title: 'Carga horaria'
+          title: 'Plantillas de personal'
         },
       },
       {
@@ -67,7 +67,7 @@ const routes: Routes = [
         path: 'adminplantillas',
         component: PlantillasAdminComponent,
         data: {
-          title: 'Plantillas'
+          title: 'Plantillas de personal'
         },
         resolve: {
           userdata: PlantillasIniService,
