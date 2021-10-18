@@ -218,7 +218,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
             }
             else{
               this.successModal.show();
-              setTimeout(()=>{ this.successModal.hide(); this.basicModalDocsNombramiento.hide(); }, 2000)
+              setTimeout(()=>{ this.successModal.hide(); this.close(); }, 2000)
             }
           }
         }),{ key: 'loading' });
@@ -456,7 +456,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
         this.record.horasb=this.categoriasCat.find(a=>a.id==valor).horasasignadas;
 
     }
-    
+
 
     if(this.esnombramiento)
       this.plazasSvc.getCatalogoDisponibleSegunCategoria(valor,this.record.id_plazas,this.record.id_catplanteles).subscribe(resp => {

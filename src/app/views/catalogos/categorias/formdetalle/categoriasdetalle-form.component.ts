@@ -157,7 +157,7 @@ export class CategoriasdetalleFormComponent implements OnInit, OnDestroy {
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-      this.categoriaspercepcionesService.remove(this.id); //idModal
+      this.categoriasdetalleService.remove(this.id); //idModal
       this.elementModal.remove();
   }
 
@@ -194,7 +194,7 @@ export class CategoriasdetalleFormComponent implements OnInit, OnDestroy {
     else
       this.record.totalplazaaut=0;
   }
-  // open modal
+  // open de este form
   open(idItem: string, accion: string,idParent:number):  void {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
@@ -240,7 +240,7 @@ export class CategoriasdetalleFormComponent implements OnInit, OnDestroy {
 
 
     this.dtOptionsAdicional.raw++;
-    console.log("this.record.id=>",this.record.id)
+
     this.dtOptionsAdicional.fkeyvalue=this.record.id;
     this.dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
 

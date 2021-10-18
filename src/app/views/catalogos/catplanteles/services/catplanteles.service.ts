@@ -60,13 +60,19 @@ export class CatplantelesService {
   }
 
 
-
+  public getCatalogoSinAdmin(): Observable<any> {
+    return this.http.post(this.API_URL + '/catplanteles/getCatalogoSinAdmin',
+      {}
+      , httpOptions);
+  }
 
   public getCatalogo(): Observable<any> {
     return this.http.post(this.API_URL + '/catplanteles/getCatalogo',
       {}
       , httpOptions);
   }
+
+
 
   // array de modales
   public add(modal: any) {

@@ -82,6 +82,8 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
   }
 
   newRecord(): Personal {
+    this.existeSegunCURP=false;
+
     return {
       id: 0,curp: '', rfc: '',  homoclave: '',
       state: '', nombre: '', apellidopaterno: '', apellidomaterno:'',id_catestadocivil:0,
@@ -92,6 +94,8 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
       domicilio:'',colonia:'',cp:'',telefonomovil:'',numimss:'',numissste:'',otronombre:'', numotro:'',tipopension:'',
       created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
+
+
   }
   ngOnInit(): void {
 
@@ -257,7 +261,7 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
     this.listUpload.showFiles(this.record.id_archivos_avatar);
   }
 
-  // open modal
+  // open de este form
   open(idItem: string, accion: string):  void {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
@@ -268,10 +272,10 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
     } else {
 
     this.personalService.getRecord(idItem).subscribe(async resp => {
-      await this.onSelectEntidadNaci(resp.id_catestadosnaci);
-      await this.onSelectMunicipioNaci(resp.id_catmunicipiosnaci);
-      await this.onSelectEntidadResi(resp.id_catestadosresi);
-      await this.onSelectMunicipioResi(resp.id_catmunicipiosresi);
+      this.onSelectEntidadNaci(resp.id_catestadosnaci);
+      this.onSelectMunicipioNaci(resp.id_catmunicipiosnaci);
+      this.onSelectEntidadResi(resp.id_catestadosresi);
+      this.onSelectMunicipioResi(resp.id_catmunicipiosresi);
       this.record = resp;
       this.listUpload.showFiles(this.record.id_archivos_avatar);
     });

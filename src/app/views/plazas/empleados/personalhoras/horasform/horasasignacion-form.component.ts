@@ -66,6 +66,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 };
 
   catplantelesCat: Catplanteles[];
+  catplantelesAplicacionCat: Catplanteles[];
   catquincenaCat: Catquincena[];
   gruposclaseCat: Gruposclase[];
   materiasclaseCat: Materiasclase[];
@@ -116,7 +117,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
   newRecord(idParent: number, idSemestre: number): Personalhoras {
     return {
-      id: 0, id_personal: idParent, cantidad: 0, id_catplanteles: 0, id_gruposclase: 0,id_materiasclase: 0,
+      id: 0, id_personal: idParent, cantidad: 0, id_catplanteles: 0, id_catplanteles_aplicacion:0, id_gruposclase: 0,id_materiasclase: 0,
       id_cattipohorasmateria: 1, id_catnombramientos: 0, id_semestre: idSemestre,frenteagrupo:0,
       id_catestatushora: 0, id_catquincena_ini: 0, id_catquincena_fin: 0, horassueltas:0, id_cattipohorasdocente:0,
       state: '', created_at: new Date(), updated_at: new Date(), id_usuarios_r: 0
@@ -197,10 +198,15 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
     this.catplantelesSvc.getCatalogoSegunPersonal(idPersonal).subscribe(resp => {
       this.catplantelesCat = resp;
     });
+    this.catplantelesSvc.getCatalogoSinAdmin().subscribe(resp => {
+      this.catplantelesAplicacionCat = resp;
+    });
+
 
     if (idItem == "0") {
       this.record = this.newRecord(idPersonal, idSemestre);
       this.record.id_catplanteles=idPlantel;
+      this.record.id_catplanteles_aplicacion=idPlantel;
       this.onSelectPlantel(idPlantel);
       this.edicion_en_activo=true;
     } else {
@@ -214,7 +220,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
           if(this.record_quincena_activa.id>this.record.id_catquincena_ini)
             this.edicion_en_activo=false;//solo editar la quincena final
 
-           this.onSelectPlantel(resp.id_catplanteles);
+           this.onSelectPlantel(resp.id_catplanteles_aplicacion);
            this.onSelectGruposclase(resp.id_gruposclase);
            this.onSelectNombramiento(resp.id_catnombramientos);
            this.cattipohorasdocenteSvc.getCatalogoSegunMateria(resp.id_materiasclase).subscribe(resp => {
@@ -240,7 +246,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
   get diagnosticValidate() { return JSON.stringify(this.record); }
 
   onSelectPlantel(valor: any) {
-    this.record.id_catplanteles=valor;
+    this.record.id_catplanteles_aplicacion=valor;
     let id_cattiposemestre=0;
     if(this.recordsemestre.tipo=="A") id_cattiposemestre=1
     if(this.recordsemestre.tipo=="B") id_cattiposemestre=2
@@ -255,7 +261,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
     if(this.recordsemestre.tipo=="A") id_cattiposemestre=1
     if(this.recordsemestre.tipo=="B") id_cattiposemestre=2
     if(this.recordsemestre.tipo=="A,B") id_cattiposemestre=3
-    this.materiasclaseSvc.getCatalogoConHorasDisponiblesSegunGrupo(this.record.id_catplanteles, valor,this.record.id,this.record_id_semestre,id_cattiposemestre).subscribe(resp => {
+    this.materiasclaseSvc.getCatalogoConHorasDisponiblesSegunGrupo(this.record.id_catplanteles_aplicacion, valor,this.record.id,this.record_id_semestre,id_cattiposemestre).subscribe(resp => {
       this.materiasclaseCat = resp;
     });
   }
@@ -277,7 +283,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
       //interinato
       if(id_catnombramientos==2){
         this.esinterina=true;
-        this.horasasignacionformService.getRecordTitularEnLicencia(this.record.id_catplanteles,this.record.id_gruposclase,this.record.id_materiasclase,this.record.id_semestre).subscribe(resp => {
+        this.horasasignacionformService.getRecordTitularEnLicencia(this.record.id_catplanteles_aplicacion,this.record.id_gruposclase,this.record.id_materiasclase,this.record.id_semestre).subscribe(resp => {
           this.record_personaltitular = resp;
           this.record_personaltitular_nombre="";
           console.log("resp=>",resp)

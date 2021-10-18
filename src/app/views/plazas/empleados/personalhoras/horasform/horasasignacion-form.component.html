@@ -1,6 +1,6 @@
 <div bsModal #basicModalHorasasignacion="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-full-height modal-right"  role="document">
-        <div class="modal-content" >
+    <div class="modal-dialog modal-lg modal-full-height modal-right" role="document">
+        <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title w-100" id="myModalLabel">{{ tituloForm }}</h4>
 
@@ -34,7 +34,14 @@
                         <div class="form-group col-sm-8">
                             <div class="form-group">
                                 <label for="id_catplanteles">Plantel</label>
-                                <ng-select2 [(ngModel)]="record.id_catplanteles" [data]="catplantelesCat" [allowClear]="true" width="100%" name="Plantel" (valueChanged)="onSelectPlantel($event)" [disabled]="esPlantelDesdeParametro">
+                                <ng-select2 [(ngModel)]="record.id_catplanteles" [data]="catplantelesCat" [allowClear]="true" width="100%" name="Plantel" [disabled]="esPlantelDesdeParametro">
+                                </ng-select2>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="id_catplanteles_aplicacion">Plantel (aplicación)</label>
+                                <ng-select2 [(ngModel)]="record.id_catplanteles_aplicacion" [data]="catplantelesAplicacionCat" [allowClear]="true" width="100%" name="Plantel (aplicación)" (valueChanged)="onSelectPlantel($event)">
                                 </ng-select2>
                             </div>
                         </div>

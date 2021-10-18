@@ -92,6 +92,12 @@ export class PlazasService {
       , httpOptions);
   }
 
+  public getBaseClave(id_personal: any, id_semestre): Observable<any> {
+    return this.http.post(this.API_URL + '/plazas/getBaseClave',
+      { id_personal, id_semestre }
+      , httpOptions);
+  }
+
   public getCatalogoVigenteSegunCategoria(id_categorias: any, id_catplantillas:any): Observable<any> {
     return this.http.post(this.API_URL + '/plazas/getCatalogoVigenteSegunCategoria',
       { id_categorias, id_catplantillas }

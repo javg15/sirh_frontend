@@ -98,7 +98,7 @@ export class CategoriastabularFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  // open modal
+  // open de este form
   open(idItem: string, accion: string):  void {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];

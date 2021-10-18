@@ -42,6 +42,8 @@ export default interface Personalhoras {
 
   frenteagrupo: number | null;
 
+  id_catplanteles_aplicacion: number;
+
 }
 
 export interface PersonalhorasInitializer {
@@ -88,5 +90,7 @@ export interface PersonalhorasInitializer {
   updated_at?: Date;
 
   frenteagrupo?: number;
+
+  id_catplanteles_aplicacion?: number;
 
 }

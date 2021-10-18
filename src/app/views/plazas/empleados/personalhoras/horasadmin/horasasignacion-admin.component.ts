@@ -12,6 +12,7 @@ import { actionsButtonSave, titulosModal } from '../../../../../../environments/
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../../_services/is-loading/is-loading.service';
 import { PersonalhorasService } from '../services/personalhoras.service';
+import { PlazasService } from '../../../plazas/services/plazas.service';
 import { HorasasignacionAdminService } from '../services/horasasignacionadmin.service';
 import { HorasasignacionFormService } from '../services/horasasignacionform.service';
 import { environment } from '../../../../../../environments/environment';
@@ -77,6 +78,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
   record_estatus: string='1';
   esSemestreDesdeParametro:boolean=false;
   tblResumenRows:any=[];
+  clavePlaza:string;
 
   private elementModal: any;
 
@@ -90,6 +92,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
     private horasasignacionadminService: HorasasignacionAdminService,
     private horasasignacionformSvc: HorasasignacionFormService,
     private semestreSvc: SemestreService,
+    private plazasSvc: PlazasService,
     private personalSvc: PersonalService,
     private el: ElementRef,
     private route: ActivatedRoute
@@ -169,6 +172,10 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
 
     this.personalSvc.getRecord(id_personal).subscribe(resp => {
       this.tituloForm="Carga horaria - " + (resp.apellidopaterno + " " + resp.apellidomaterno + " " + resp.nombre);
+    });
+
+    this.plazasSvc.getBaseClave(id_personal,id_semestre).subscribe(resp => {
+      this.clavePlaza=resp.clave;
     });
 
     this.esSemestreDesdeParametro=(id_catplanteles>0);
