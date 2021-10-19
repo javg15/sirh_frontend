@@ -155,7 +155,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0,
       id_catquincena_ini:0,id_catquincena_fin:0,id_catbajamotivo:0,id_catplanteles:0,
       id_catcentrostrabajo:0,id_catesquemapago:0,id_catfuncionprimaria:0,id_catfuncionsecundaria:0,
-      id_cattipoocupacion:0,id_cattiposemestre:0
+      id_cattipoocupacion:0,id_cattiposemestre:0,esplazabase:0
     };
   }
   ngOnInit(): void {
@@ -323,7 +323,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
 
           if(this.record.id_personal_titular>0)//si es el titular
             this.personalSvc.getRecord(this.record.id_personal_titular).subscribe(resp => {
-              this.record_titular = resp.nombre + " " + resp.apellidopaterno + " " + resp.apellidomaterno + " - " + resp.curp;
+              this.record_titular =resp.numeemp + " - " +  resp.nombre + " " + resp.apellidopaterno + " " + resp.apellidomaterno + " - " + resp.curp;
             });
         });
       });
@@ -458,14 +458,21 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
     }
 
 
-    if(this.esnombramiento)
-      this.plazasSvc.getCatalogoDisponibleSegunCategoria(valor,this.record.id_plazas,this.record.id_catplanteles).subscribe(resp => {
-        this.plazasCat = resp;
-      });
-    else //es baja/licenciamiento
-      this.plazasSvc.getCatalogoVigenteSegunCategoria(valor,this.record.id_plantillaspersonal).subscribe(resp => {
-        this.plazasCat = resp;
-      });
+    this.plazasSvc.getRecordParaCombo(this.record.id_plazas).subscribe(respCat => {//buscar el item registrado
+      if(this.esnombramiento)
+        this.plazasSvc.getCatalogoDisponibleSegunCategoria(valor,this.record.id_plazas,this.record.id_catplanteles).subscribe(resp => {
+          this.plazasCat = resp;
+          if(this.record.id_plazas>0)//agregar el item registrado, en visualización o edción
+            this.plazasCat.push(respCat[0])
+        });
+      else //es baja/licenciamiento
+        this.plazasSvc.getCatalogoVigenteSegunCategoria(valor,this.record.id_plantillaspersonal).subscribe(resp => {
+          this.plazasCat = resp;
+          if(this.record.id_plazas>0)//agregar el item registrado, en visualización o edción
+            this.plazasCat.push(respCat[0])
+        });
+    });
+
   }
 
   onSelectPlazas(valor:any){

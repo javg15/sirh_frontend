@@ -12,6 +12,7 @@ import { actionsButtonSave, titulosModal } from '../../../../../environments/env
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 import { PersonalService } from '../../../catalogos/personal/services/personal.service';
+import { PlazasService } from '../../../plazas/plazas/services/plazas.service';
 import { PlantillasdocsService } from '../services/plantillasdocs.service';
 import { PlantillasdocsProfesionalService } from '../services/plantillasdocsprofesional.service';
 import { PlantillasdocsNombramientoService } from '../services/plantillasdocsnombramiento.service';
@@ -74,6 +75,8 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   record_id_plantillaspersonal:number;
   record_id_catplanteles:number;
   record_tipodoc:number;
+  record_numeemp:string;
+  tblNombramientos:[];
 
   private elementModal: any;
   @ViewChild('basicModalDocs') basicModalDocs: ModalDirective;
@@ -91,6 +94,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     private plantillasdocssindicatoSvc: PlantillasdocsSindicatoService,
     private plantillasdocsbajaSvc: PlantillasdocsBajaService,
     private personalSvc: PersonalService,
+    private plazasSvc: PlazasService,
     private el: ElementRef,
     private route: ActivatedRoute
       ) {
@@ -165,10 +169,14 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     this.record_id_catplanteles=parseInt(idCatplanteles);
     this.plantillasService.getRecord(idItem).subscribe(resp => {
       this.personalSvc.getRecord(resp.id_personal).subscribe(resp => {
-        this.tituloForm="Documentación - " + (resp.apellidopaterno + " " + resp.apellidomaterno + " " + resp.nombre);
+        this.record_numeemp=resp.numeemp;
+        this.tituloForm="Documentación - " +resp.numeemp + " - " +  (resp.apellidopaterno + " " + resp.apellidomaterno + " " + resp.nombre);
         this.record_id_plantillaspersonal=parseInt(idItem);
 
         this.record_tipodoc=parseInt(tipoDocumento);
+        this.plazasSvc.getNombramientosVigentes(resp.id,0).subscribe(resp => {
+          this.tblNombramientos=resp;
+        });
 
         this.reDraw(null);
 

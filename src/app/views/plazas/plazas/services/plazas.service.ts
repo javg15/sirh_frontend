@@ -97,6 +97,18 @@ export class PlazasService {
       { id_personal, id_semestre }
       , httpOptions);
   }
+  public getNombramientosVigentes(id_personal: any, id_semestre): Observable<any> {
+    return this.http.post(this.API_URL + '/plazas/getNombramientosVigentes',
+      { id_personal, id_semestre }
+      , httpOptions);
+  }
+
+  public getRecordParaCombo(id_plazas): Observable<any> {
+    return this.http.post(this.API_URL + '/plazas/getRecordParaCombo',
+      { id_plazas }
+      , httpOptions);
+  }
+
 
   public getCatalogoVigenteSegunCategoria(id_categorias: any, id_catplantillas:any): Observable<any> {
     return this.http.post(this.API_URL + '/plazas/getCatalogoVigenteSegunCategoria',

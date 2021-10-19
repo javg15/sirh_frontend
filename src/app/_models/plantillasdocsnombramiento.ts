@@ -56,6 +56,8 @@ export default interface Plantillasdocsnombramiento {
 
   id_catesquemapago: number | null;
 
+  esplazabase: number | null;
+
 }
 
 export interface PlantillasdocsnombramientoInitializer {
@@ -119,4 +121,6 @@ export interface PlantillasdocsnombramientoInitializer {
 
   /** Default value: 0 */
   id_catesquemapago?: number;
+
+  esplazabase?: number;
 }

@@ -13,6 +13,7 @@ import { PlazasHistorialComponent } from './historial/plazas-historial.component
 
 import { DataTablesModule } from 'angular-datatables';
 import { NgSelect2Module } from 'ng-select2';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { NgSelect2Module } from 'ng-select2';
     DataTablesModule,
     ModalModule.forRoot(),
     SharedModule,
-    NgSelect2Module
+    NgSelect2Module,
+    TabsModule.forRoot(),
   ],
   declarations: [
     PlazasAdminComponent,

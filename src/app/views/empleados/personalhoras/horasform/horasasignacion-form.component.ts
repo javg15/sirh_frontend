@@ -225,18 +225,18 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
           if(this.record_quincena_activa.id>this.record.id_catquincena_ini)
             this.edicion_en_activo=false;//solo editar la quincena final
 
-          this.onSelectPlantel(resp.id_catplanteles_aplicacion);
-          this.onSelectGruposclase(resp.id_gruposclase);
-          this.onSelectNombramiento(resp.id_catnombramientos);
-          this.cattipohorasdocenteSvc.getCatalogoSegunMateria(resp.id_materiasclase).subscribe(resp => {
-          this.cattipohorasdocenteCat = resp;
-          });
-
           if(this.actionForm.toUpperCase()=="COPIAR"){
             this.actionForm="NUEVO";
             this.record.id=0;
             this.edicion_en_copiar=true;
           }
+
+          this.onSelectPlantel(resp.id_catplanteles_aplicacion);
+          this.onSelectGruposclase(resp.id_gruposclase);
+          this.onSelectNombramiento(resp.id_catnombramientos);
+          this.cattipohorasdocenteSvc.getCatalogoSegunMateria(resp.id_materiasclase).subscribe(resp => {
+            this.cattipohorasdocenteCat = resp;
+          });
         });
       });
     }
@@ -262,9 +262,17 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
     if(this.recordsemestre.tipo=="A") id_cattiposemestre=1
     if(this.recordsemestre.tipo=="B") id_cattiposemestre=2
     if(this.recordsemestre.tipo=="A,B") id_cattiposemestre=3
-    this.gruposclaseSvc.getCatalogoConHorasDisponiblesSegunPlantel(valor,this.record.id,this.recordsemestre.tipo,this.record_id_semestre,id_cattiposemestre).subscribe(resp => {
-      this.gruposclaseCat = resp;
-    });
+
+    if(!this.edicion_en_copiar)//si no es copia
+      this.gruposclaseSvc.getCatalogoConHorasDisponiblesSegunPlantel(valor,this.record.id,this.recordsemestre.tipo,this.record_id_semestre,id_cattiposemestre).subscribe(resp => {
+        this.gruposclaseCat = resp;
+      });
+    else
+      this.gruposclaseSvc.getCatalogoConHorasDisponiblesSegunCopia(valor,this.record.id,this.recordsemestre.tipo,this.record_id_semestre,id_cattiposemestre
+          ,this.record.id_materiasclase,this.record.id_catestatushora,this.record.id_cattipohorasdocente,this.record.id_personal).subscribe(resp => {
+        this.gruposclaseCat = resp;
+      });
+
   }
 
   onSelectGruposclase(valor: any) {

@@ -55,6 +55,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
   categoriasdetalleCat:any[];
   catquincenaCat:Catquincena[];
   varHorasAB:boolean;
+  esedicion:boolean;
 
   constructor(private isLoadingService: IsLoadingService,
       private plazasService: PlazasService, private el: ElementRef,
@@ -215,12 +216,13 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
   open(idItem: string, accion: string):  void {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
+    this.esedicion=false;
 
     if(idItem=="0"){
       this.record =this.newRecord();
       this.tituloForm="Plazas - " + titulosModal[accion] + " registro";
     } else {
-
+      this.esedicion=true;
       this.tituloForm="Plazas - " + titulosModal[accion] + " registro";
       this.plazasService.getRecord(idItem).subscribe(resp => {
         this.record = resp;

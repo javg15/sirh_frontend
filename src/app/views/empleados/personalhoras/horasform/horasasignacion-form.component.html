@@ -41,7 +41,7 @@
                         <div class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="id_catplanteles_aplicacion">Plantel (aplicación)</label>
-                                <ng-select2 [(ngModel)]="record.id_catplanteles_aplicacion" [data]="catplantelesAplicacionCat" [allowClear]="true" width="100%" name="Plantel (aplicación)" [disabled]="!edicion_en_activo && edicion_en_copiar" (valueChanged)="onSelectPlantel($event)">
+                                <ng-select2 [(ngModel)]="record.id_catplanteles_aplicacion" [data]="catplantelesAplicacionCat" [allowClear]="true" width="100%" name="Plantel (aplicación)" [disabled]="!edicion_en_activo" (valueChanged)="onSelectPlantel($event)">
                                 </ng-select2>
                             </div>
                         </div>
@@ -60,7 +60,7 @@
                         <div class="form-group col-sm-7">
                             <div class="form-group">
                                 <label for="id_materiasclase">Materia</label>
-                                <select class="form-control" [(ngModel)]="record.id_materiasclase" name="Materia" [disabled]="!edicion_en_activo && edicion_en_copiar" (change)="onSelectMateriasclase($event.target.value)">
+                                <select class="form-control" [(ngModel)]="record.id_materiasclase" name="Materia" [disabled]="!edicion_en_activo" (change)="onSelectMateriasclase($event.target.value)">
                                   <option value="">---</option>
                                   <option *ngFor="let col of materiasclaseCat" [value]="col.id">{{ col.text }}</option>
                                 </select>
@@ -80,7 +80,7 @@
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="id_catestatushora">Estatus</label>
-                                <select class="form-control" [(ngModel)]="record.id_catestatushora" name="Estatus" [disabled]="!edicion_en_activo && edicion_en_copiar">
+                                <select class="form-control" [(ngModel)]="record.id_catestatushora" name="Estatus" [disabled]="!edicion_en_activo">
                                   <option *ngFor="let col of catestatushoraCat" [value]="col.id">{{ col.descripcion }}</option>
                                 </select>
                             </div>
@@ -105,7 +105,7 @@
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="id_catquincena_ini">Quincena inicial</label>
-                                <ng-select2 [(ngModel)]="record.id_catquincena_ini" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena inicial" [disabled]="!edicion_en_activo && edicion_en_copiar">
+                                <ng-select2 [(ngModel)]="record.id_catquincena_ini" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena inicial" [disabled]="!edicion_en_activo">
                                 </ng-select2>
                             </div>
                         </div>
@@ -119,7 +119,7 @@
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="horassueltas">¿Horas sueltas?</label>
-                                <select class="form-control" [(ngModel)]="record.horassueltas" name="¿Horas sueltas?" [disabled]="!edicion_en_activo && edicion_en_copiar">
+                                <select class="form-control" [(ngModel)]="record.horassueltas" name="¿Horas sueltas?" [disabled]="!edicion_en_activo">
                                   <option value="0">No</option>
                                   <option value="1">Sí</option>
                                 </select>
@@ -138,7 +138,7 @@
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="frenteagrupo">¿Frente a grupo?</label>
-                                <select class="form-control" [(ngModel)]="record.frenteagrupo" name="¿Frente a grupo?" [disabled]="!edicion_en_activo && edicion_en_copiar">
+                                <select class="form-control" [(ngModel)]="record.frenteagrupo" name="¿Frente a grupo?" [disabled]="!edicion_en_activo">
                               <option value="0">No</option>
                               <option value="1">Sí</option>
                             </select>

@@ -78,7 +78,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
   record_estatus: string='1';
   esSemestreDesdeParametro:boolean=false;
   tblResumenRows:any=[];
-  clavePlaza:string;
+  tblNombramientos:[];
 
   private elementModal: any;
 
@@ -171,11 +171,11 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
     this.record_estatus='1';
 
     this.personalSvc.getRecord(id_personal).subscribe(resp => {
-      this.tituloForm="Carga horaria - " + (resp.apellidopaterno + " " + resp.apellidomaterno + " " + resp.nombre);
+      this.tituloForm="Carga horaria - " + resp.numeemp + " - " + (resp.apellidopaterno + " " + resp.apellidomaterno + " " + resp.nombre);
     });
 
-    this.plazasSvc.getBaseClave(id_personal,id_semestre).subscribe(resp => {
-      this.clavePlaza=resp.clave;
+    this.plazasSvc.getNombramientosVigentes(id_personal,id_semestre).subscribe(resp => {
+      this.tblNombramientos=resp;
     });
 
     this.esSemestreDesdeParametro=(id_catplanteles>0);

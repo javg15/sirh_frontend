@@ -228,7 +228,6 @@ export class PersonalhorasAdminComponent implements OnInit {
     this.isLoadingSearch = true;
 
     this.personalSvc.getCatalogoSegunBusqueda(val).subscribe(resp => {
-      console.log("resp=>",resp)
       this.catpersonalCat = resp;
       this.isLoadingSearch = false;
     });

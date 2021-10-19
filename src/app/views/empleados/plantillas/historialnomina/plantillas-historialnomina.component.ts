@@ -249,7 +249,7 @@ export class PlantillasHistorialNominaComponent implements OnInit, OnDestroy {
     this.actionForm=accion;
 
     this.plantillasSvc.getRecordPersonal(idItem).subscribe(resp => {
-      this.tituloForm="Historial - " + resp.rfc + " " + (resp.nombre + " " + resp.apellidopaterno+ " " + resp.apellidomaterno);
+      this.tituloForm="Historial - " + resp.numeemp + " - " +  resp.rfc + " " + (resp.nombre + " " + resp.apellidopaterno+ " " + resp.apellidomaterno);
       this.record_id_personal=parseInt(resp.id);
 
       this.reDraw();
