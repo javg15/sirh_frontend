@@ -1,0 +1,182 @@
+<div bsModal #basicModalHorasasignacion="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-full-height modal-right" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">{{ tituloForm }}</h4>
+
+                <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+                  <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #dataForm="ngForm" (ngSubmit)="submitAction(dataForm)">
+                    <input type="hidden" name="action" value="{{ actionForm }}">
+                    <div class="form-group">
+                        <input type="hidden" [(ngModel)]="record.id" class="form-control" name="ID">
+                        <input type="hidden" [(ngModel)]="record.id_personal" class="form-control" name="id_personal">
+                        <input type="hidden" [(ngModel)]="record.id_semestre" class="form-control" name="id_semestre">
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-8">
+                            <div class="form-group">
+                                <label for="nombre">Nombre</label>
+                                <input type="text" name="Nombre" disabled="disabled" [value]="recordpersonal.nombre + ' ' + recordpersonal.apellidopaterno + ' ' + recordpersonal.apellidomaterno" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="semestre">Semestre</label>
+                                <input type="text" name="Semestre" disabled="disabled" [value]="recordsemestre.anio + ' ' + recordsemestre.tipo" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-8">
+                            <div class="form-group">
+                                <label for="id_catplanteles">Plantel</label>
+                                <ng-select2 [(ngModel)]="record.id_catplanteles" [data]="catplantelesCat" [allowClear]="true" width="100%" name="Plantel" [disabled]="esPlantelDesdeParametro">
+                                </ng-select2>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="id_catplanteles_aplicacion">Plantel (aplicación)</label>
+                                <ng-select2 [(ngModel)]="record.id_catplanteles_aplicacion" [data]="catplantelesAplicacionCat" [allowClear]="true" width="100%" name="Plantel (aplicación)" [disabled]="!edicion_en_activo && edicion_en_copiar" (valueChanged)="onSelectPlantel($event)">
+                                </ng-select2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-2">
+                            <div class="form-group">
+                                <label for="id_gruposclase">Grupo</label>
+                                <select class="form-control" [(ngModel)]="record.id_gruposclase" name="Grupo" [disabled]="(!edicion_en_activo && !edicion_en_copiar)" (change)="onSelectGruposclase($event.target.value)">
+                                  <option value="">---</option>
+                                  <option *ngFor="let col of gruposclaseCat" [value]="col.id">{{ col.text }}</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-7">
+                            <div class="form-group">
+                                <label for="id_materiasclase">Materia</label>
+                                <select class="form-control" [(ngModel)]="record.id_materiasclase" name="Materia" [disabled]="!edicion_en_activo && edicion_en_copiar" (change)="onSelectMateriasclase($event.target.value)">
+                                  <option value="">---</option>
+                                  <option *ngFor="let col of materiasclaseCat" [value]="col.id">{{ col.text }}</option>
+                                </select>
+                                <!--<select id="selectPlantel" class="form-control" [(ngModel)]="record.id_categorias" name="Categorías">
+                  <option *ngFor="let col of categoriasCat" [value]="col.id">{{ col.clave + " - " + (col.denominacion!=null?col.denominacion:".") }}</option>
+                </select>-->
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="cantidad">Horas</label>
+                                <input type="text" [(ngModel)]="record.cantidad" class="form-control" name="Horas" disabled="disabled">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="id_catestatushora">Estatus</label>
+                                <select class="form-control" [(ngModel)]="record.id_catestatushora" name="Estatus" [disabled]="!edicion_en_activo && edicion_en_copiar">
+                                  <option *ngFor="let col of catestatushoraCat" [value]="col.id">{{ col.descripcion }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="id_catnombramientos">Nombramiento</label>
+                                <select class="form-control" [(ngModel)]="record.id_catnombramientos" name="Nombramiento" [disabled]="!edicion_en_activo" (change)="onSelectNombramiento($event.target.value)">
+                                  <option *ngFor="let col of catnombramientosCat" [value]="col.id">{{ col.descripcion }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div *ngIf="esinterina==true" class="form-group col-sm-8">
+                            <div class="form-group">
+                                <label for="Titular">Titular</label>
+                                <input type="text" name="Titular" disabled="disabled" [value]="record_personaltitular_nombre" class="form-control" />
+                                <input type="hidden" #id_personal_titular name="Titular" [value]="record_personaltitular.id" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="id_catquincena_ini">Quincena inicial</label>
+                                <ng-select2 [(ngModel)]="record.id_catquincena_ini" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena inicial" [disabled]="!edicion_en_activo && edicion_en_copiar">
+                                </ng-select2>
+                            </div>
+                        </div>
+                        <div *ngIf="record.id_catnombramientos!=1" class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="id_catquincena_fin">Quincena final</label>
+                                <ng-select2 [(ngModel)]="record.id_catquincena_fin" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena final">
+                                </ng-select2>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="horassueltas">¿Horas sueltas?</label>
+                                <select class="form-control" [(ngModel)]="record.horassueltas" name="¿Horas sueltas?" [disabled]="!edicion_en_activo && edicion_en_copiar">
+                                  <option value="0">No</option>
+                                  <option value="1">Sí</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div *ngIf="record.horassueltas==1" class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="id_cattipohorasdocente">Tipo de horas</label>
+                                <select class="form-control" [(ngModel)]="record.id_cattipohorasdocente" name="Tipo de horas">
+                            <option *ngFor="let col of cattipohorasdocenteCat" [value]="col.id">{{ col.text }}</option>
+                          </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="frenteagrupo">¿Frente a grupo?</label>
+                                <select class="form-control" [(ngModel)]="record.frenteagrupo" name="¿Frente a grupo?" [disabled]="!edicion_en_activo && edicion_en_copiar">
+                              <option value="0">No</option>
+                              <option value="1">Sí</option>
+                            </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        &nbsp;
+                    </div>
+                    <app-validation-summary [form]="dataForm"></app-validation-summary>
+                    <!-- [disabled]="!dataForm.form.valid" -->
+                    <button *ngIf="actionForm!=='ver'" type="submit" [disabled]='userFormIsPending | async' class="btn btn-primary">
+                      <div *ngIf="userFormIsPending | async; else elseBlock"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Procesando...</span></div>
+                      <ng-template #elseBlock>{{ botonAccion }}</ng-template>
+                    </button>
+                </form>
+            </div>
+            <!-- <h2>Diagnostic Info</h2>
+        <div [innerHtml]="diagnosticValidate"></div>-->
+        </div>
+    </div>
+</div>
+
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-success" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">&nbsp;</h5>
+            </div>
+            <div class="modal-body">
+                <p>Acción realizada satisfactoriamente</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="successModal.hide()">Cerrar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

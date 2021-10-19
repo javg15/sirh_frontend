@@ -64,7 +64,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: DefaultLayoutComponent,
     data: {
-      title: 'Home'
+      title: 'Inicio'
     },
     children: [
       {
@@ -172,13 +172,9 @@ const routes: Routes = [
         path: 'catalogos/personal',
         loadChildren: () => import('./views/catalogos/personal/personal.module').then(m => m.PersonalModule)
       },
-      /*{
-        path: 'plazas/plantillas',
-        loadChildren: () => import('./views/plazas/plazasstart.module').then(m => m.PlazasStartModule)
-      },*/
       {
-        path: 'plazas',
-        loadChildren: () => import('./views/plazas/plazasstart.module').then(m => m.PlazasStartModule)
+        path: 'empleados',
+        loadChildren: () => import('./views/empleados/empleadosstart.module').then(m => m.EmpleadosStartModule)
       },
       {
         path: 'usuarios/formdirect',
