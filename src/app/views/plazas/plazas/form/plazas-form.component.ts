@@ -168,7 +168,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
           this.txtplazasdisponibles.nativeElement.style.backgroundColor ="";
       });
 
-      if(!this.esedicion){//no calcular el consecutivo en la edicion
+      if(this.actionForm.toUpperCase()=="NUEVO"){//no calcular el consecutivo en la edicion
         this.plazasService.getConsecutivo(this.record.id_categorias).subscribe(resp => {
           this.record.consecutivo=resp;
         });
