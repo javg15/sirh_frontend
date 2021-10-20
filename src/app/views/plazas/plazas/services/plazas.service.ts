@@ -92,9 +92,9 @@ export class PlazasService {
       , httpOptions);
   }
 
-  public getCatalogoVigenteSegunCategoria(id_categorias: any, id_catplantillas:any): Observable<any> {
+  public getCatalogoVigenteSegunCategoria(id_categorias: any, id_plantillaspersonal:any): Observable<any> {
     return this.http.post(this.API_URL + '/plazas/getCatalogoVigenteSegunCategoria',
-      { id_categorias, id_catplantillas }
+      { id_categorias, id_plantillaspersonal }
       , httpOptions);
   }
 
