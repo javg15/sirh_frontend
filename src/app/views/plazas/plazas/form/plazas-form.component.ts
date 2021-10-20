@@ -56,6 +56,8 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
   catquincenaCat:Catquincena[];
   varHorasAB:boolean;
   esedicion:boolean;
+  escopiar:boolean;
+  edicion_en_copiar:boolean=false;
 
   constructor(private isLoadingService: IsLoadingService,
       private plazasService: PlazasService, private el: ElementRef,
@@ -165,9 +167,13 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
         else
           this.txtplazasdisponibles.nativeElement.style.backgroundColor ="";
       });
-      this.plazasService.getConsecutivo(this.record.id_categorias).subscribe(resp => {
-        this.record.consecutivo=resp;
-      });
+
+      if(!this.esedicion){//no calcular el consecutivo en la edicion
+        this.plazasService.getConsecutivo(this.record.id_categorias).subscribe(resp => {
+          this.record.consecutivo=resp;
+        });
+      }
+
       this.categoriasdetalleSvc.getCatalogo(this.record.id_categorias).subscribe(resp => {
         this.categoriasdetalleCat = resp;
         if(this.categoriasdetalleCat.length>0)//si solo existe un registro
@@ -217,6 +223,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
     this.esedicion=false;
+    this.edicion_en_copiar=false;
 
     if(idItem=="0"){
       this.record =this.newRecord();
@@ -226,6 +233,13 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
       this.tituloForm="Plazas - " + titulosModal[accion] + " registro";
       this.plazasService.getRecord(idItem).subscribe(resp => {
         this.record = resp;
+
+        if(this.actionForm.toUpperCase()=="COPIAR"){
+          this.actionForm="NUEVO";
+          this.record.id=0;
+          this.edicion_en_copiar=true;
+        }
+
         this.catcentrostrabajoSvc.getCatalogoSegunPlantel(this.record.id_catplanteles).subscribe(resp => {
           this.catcentrostrabajoCat = resp;
         });

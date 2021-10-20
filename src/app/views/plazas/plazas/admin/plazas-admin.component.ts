@@ -40,7 +40,9 @@ export class PlazasAdminComponent implements OnInit {
   NumberOfMembers = 0;
   API_URL = environment.APIS_URL;
 
-  private dtOptionsAdicional = { datosBusqueda: {campo: 0, operador: 0, valor: ''},raw:0};
+  private dtOptionsAdicional = { 
+    state:'AD',
+    datosBusqueda: {campo: 0, operador: 0, valor: ''},raw:0};
 
   nombreModulo = 'Plazas';
   tituloBotonReporte='Listado';

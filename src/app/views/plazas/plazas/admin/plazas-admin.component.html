@@ -22,14 +22,14 @@
                                                 <button *ngIf="boton=='editar'" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" title="Editar" (click)="openModal('custom-modal-1','editar',member.id)">
                                                   <i class="fa fa-edit"></i>
                                               </button>
-                                                <button *ngIf="boton=='eliminar'" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" title="Eliminar" (click)="openModal('custom-modal-1','eliminar',member.id)">
-                                                  <i class="fa fa-trash"></i>
-                                              </button>
+                                              <button *ngIf="boton=='copiar'" title="Copiar" class="btn btn-brand btn-sm mr-1 btn-xing" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','copiar',member.id)">
+                                                <i class="fa fa-copy"></i>
+                                            </button>
                                                 <button *ngIf="boton=='historial'" class="btn btn-brand btn-sm mr-1 btn-stack-overflow" style="margin-bottom: 4px" type="button" title="Historial" (click)="openModal('custom-modal-2','historial',member.id)">
                                                 <i class="fa fa-stack-overflow"></i>
                                             </button>
-                                                <button *ngIf="boton=='historialnomina'" class="btn btn-brand btn-sm mr-1 btn-tumblr" style="margin-bottom: 4px" type="button" title="Historial de Nómina" (click)="openModal('custom-modal-3','historialnomina',member.id)">
-                                              <i class="fa fa-history"></i>
+                                                <button *ngIf="boton=='desactivar'" class="btn btn-brand btn-sm mr-1 btn-tumblr" style="margin-bottom: 4px" type="button" title="Desactivar" (click)="openModal('custom-modal-1','desactivar',member.id)">
+                                              <i class="fa fa-stop"></i>
                                             </button>
                                             </div>
                                         </td>
