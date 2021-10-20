@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Plazas'
+      title: 'Plazas de jornada'
     },
     children: [
       {
@@ -22,7 +22,7 @@ const routes: Routes = [
         path: 'admin',
         component: PlazasAdminComponent,
         data: {
-          title: 'Plazas'
+          title: 'Listado'
         },
         resolve: {
           userdata: PlazasIniService,

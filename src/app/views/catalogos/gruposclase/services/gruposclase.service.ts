@@ -71,6 +71,15 @@ export class GruposclaseService {
       , httpOptions);
   }
 
+  public getCatalogoConHorasDisponiblesSegunCopia(id_catplanteles,id_personalhoras,tipo
+      ,id_semestre:any,id_cattiposemestre:any,id_materiasclase:any,id_catestatushora:any
+      ,id_cattipohorasdocente:any,id_personal:any): Observable<any> {
+    return this.http.post(this.API_URL + '/gruposclase/getCatalogoConHorasDisponiblesSegunCopia',
+      { id_catplanteles,id_personalhoras,tipo,id_semestre,id_cattiposemestre
+          ,id_materiasclase,id_catestatushora,id_cattipohorasdocente,id_personal }
+      , httpOptions);
+  }
+
   // array de modales
   public add(modal: any) {
     this.modals.push(modal);

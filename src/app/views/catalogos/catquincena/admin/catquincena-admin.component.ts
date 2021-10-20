@@ -63,7 +63,7 @@ export class CatquincenaAdminComponent implements OnInit {
 
       this.dtOptions = {
         pagingType: 'full_numbers',
-        pageLength: 50,
+        pageLength: 25,
         serverSide: true,
         processing: true,
         //destroy : true,

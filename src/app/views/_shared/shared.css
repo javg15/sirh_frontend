@@ -2,6 +2,10 @@
     display: inherit !important;
 }
 
+cui-breadcrumb a {
+    pointer-events: none;
+}
+
 .container,
 .container-fluid {
     width: 100%;

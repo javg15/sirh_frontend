@@ -9,7 +9,7 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Catplanteles'
+      title: 'Planteles'
     },
     children: [
       {
@@ -20,7 +20,7 @@ const routes: Routes = [
         path: 'admin',
         component: CatplantelesAdminComponent,
         data: {
-          title: 'Planteles'
+          title: 'Listado'
         },
         resolve: {
           userdata: CatplantelesIniService

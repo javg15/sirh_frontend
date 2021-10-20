@@ -22,52 +22,8 @@
                                 <ng-select2 id="selectPlantel" [(ngModel)]="record.id_catplanteles" [data]="catplantelesCat" [allowClear]="true" width="100%" name="Plantel" (valueChanged)="onSelectPlantel($event)">
                                 </ng-select2>
                                 <!--<select id="selectPlantel" class="form-control" [(ngModel)]="record.id_catplanteles" name="Plantel" (change)="onSelectPlantel($event.target)">
-                              <option *ngFor="let col of catplantelesCat" [value]="col.id">{{ col.clave + " - " + (col.descripcion!=null?col.descripcion:".") + " - " + col.ubicacion }}</option>
-                            </select>-->
-                            </div>
-                        </div>
-                        <!--<div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="id_catcentrostrabajo">Centro de trabajo</label>
-                                <select class="form-control" [(ngModel)]="record.id_catcentrostrabajo" name="Centro de trabajo">
-                            <option *ngFor="let col of catcentrostrabajoCat" [value]="col.id">{{ col.clave + " - " + col.descripcion }}</option>
-                          </select>
-                            </div>
-                        </div>-->
-                        <div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="id_categorias">Categorías</label>
-                                <ng-select2 [(ngModel)]="record.id_categorias" [data]="categoriasCat" [allowClear]="true" width="100%" name="Categorías" (valueChanged)="onSelectCategoria($event)">
-                                </ng-select2>
-                                <!--<select id="selectPlantel" class="form-control" [(ngModel)]="record.id_categorias" name="Categorías">
-                                  <option *ngFor="let col of categoriasCat" [value]="col.id">{{ col.clave + " - " + (col.denominacion!=null?col.denominacion:".") }}</option>
-                                </select>-->
-                            </div>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="id_categoriasdetalle">Código</label>
-                                <select id="selectPlantel" class="form-control" [(ngModel)]="record.id_categoriasdetalle" name="Código">
-                                <option *ngFor="let col of categoriasdetalleCat" [value]="col.id">{{ col.codigo + " - " + col.clave_ze }}</option>
-                              </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <!--<div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="id_catplantelescobro">Plantel de cobro</label>
-                                <ng-select2 [(ngModel)]="record.id_catplantelescobro" [data]="catplantelesCat" [allowClear]="true" width="100%" name="Plantel de cobro">
-                                </ng-select2>
-                                !--<select class="form-control" [(ngModel)]="record.id_catplantelescobro" name="Plantel de cobro">
-                              <option *ngFor="let col of catplantelesCat" [value]="col.id">{{ col.descripcion }}</option>
-                            </select>-
-                            </div>
-                        </div>-->
-                        <div class="form-group col-sm-3">
-                            <div class="form-group">
-                                <label for="zonageografica">Zona geográfica</label>
-                                <input #txtzonageografica type="text" class="form-control" name="Zona geográfica" disabled="disabled">
+                                <option *ngFor="let col of catplantelesCat" [value]="col.id">{{ col.clave + " - " + (col.descripcion!=null?col.descripcion:".") + " - " + col.ubicacion }}</option>
+                              </select>-->
                             </div>
                         </div>
                         <div class="form-group col-sm-3">
@@ -76,15 +32,40 @@
                                 <input #txtzonaeconomica type="text" class="form-control" name="Zona geográfica" disabled="disabled">
                             </div>
                         </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="id_categorias">Categorías</label>
+                                <ng-select2 [(ngModel)]="record.id_categorias" [data]="categoriasCat" [allowClear]="true" width="100%" name="Categorías" (valueChanged)="onSelectCategoria($event)">
+                                </ng-select2>
+                                <!--<select id="selectPlantel" class="form-control" [(ngModel)]="record.id_categorias" name="Categorías">
+                                <option *ngFor="let col of categoriasCat" [value]="col.id">{{ col.clave + " - " + (col.denominacion!=null?col.denominacion:".") }}</option>
+                              </select>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="id_categoriasdetalle">Código</label>
+                                <select id="selectPlantel" class="form-control" [(ngModel)]="record.id_categoriasdetalle" name="Código">
+                                    <option *ngFor="let col of categoriasdetalleCat" [value]="col.id">{{ col.codigo + " - " + col.clave_ze }}</option>
+                                  </select>
+                            </div>
+                        </div>
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="consecutivo">Consecutivo</label>
-                                <input type="text" [(ngModel)]="record.consecutivo" class="form-control" name="Consecutivo">
+                                <input type="text" [(ngModel)]="record.consecutivo" class="form-control" name="Consecutivo" [disabled]="esedicion">
                             </div>
                         </div>
-
                     </div>
                     <div class="row">
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="zonageografica">Zona geográfica</label>
+                                <input #txtzonageografica type="text" class="form-control" name="Zona geográfica" disabled="disabled">
+                            </div>
+                        </div>
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="id_catquincena_ini">Quincena inicio</label>
@@ -92,31 +73,17 @@
                                 </ng-select2>
                             </div>
                         </div>
-                        <!--<div class="form-group col-sm-3">
-                            <div class="form-group">
-                                <label for="id_catquincena_fin">Quincena término</label>
-                                <ng-select2 [(ngModel)]="id_catquincena_fin" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena término">
-                                </ng-select2>
-                            </div>
-                        </div>-->
                         <div class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="id_catestatusplaza">Estatus de plaza</label>
                                 <select class="form-control" [(ngModel)]="record.id_catestatusplaza" name="Estatus de plaza" ng-selected="record.id_catestatusplaza" disabled="disabled">
-                                  <option *ngFor="let col of catestatusplazaCat" [value]="col.id">{{ col.descripcion }}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group col-sm-3">
-                            <div class="form-group">
-                                <label for="estatus">¿Activa?</label>
-                                <select class="form-control" [(ngModel)]="record.estatus" name="¿Activa?">
-                                  <option value = "A">Activa</option>
-                                  <option value = "I">Inactiva</option>
-                                </select>
+                                      <option *ngFor="let col of catestatusplazaCat" [value]="col.id">{{ col.descripcion }}</option>
+                                    </select>
                             </div>
                         </div>
                     </div>
+
+
                     <div *ngIf="varHorasAB==true" class="row">
                         <div class="form-group col-sm-3">
                             <div class="form-group">
@@ -132,6 +99,15 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="estatus">¿Activa?</label>
+                                <select class="form-control" [(ngModel)]="record.estatus" name="¿Activa?">
+                                          <option value = "A">Activa</option>
+                                          <option value = "I">Inactiva</option>
+                                        </select>
+                            </div>
+                        </div>
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="plazasautorizadas">Autorizadas en zona</label>
@@ -150,18 +126,8 @@
                                 <input #txtplazasdisponibles type="text" class="form-control" name="Vacantes" disabled="disabled">
                             </div>
                         </div>
-                        <!--<div class="form-group col-sm-3">
-                            <div class="form-group">
-                                <label for="statussicodes">Estatus sindical</label>
-                                <select class="form-control" [(ngModel)]="record.statussicodes" name="Estatus sindical">
-                                <option value=""></option>
-                                <option value="SUIT">SUIT</option>
-                                <option value="SDET">SDET</option>
-                                <option value="LIBRE">LIBRE</option>
-                              </select>
-                            </div>
-                        </div>-->
                     </div>
+
                     <div class="row">
                         &nbsp;
                     </div>

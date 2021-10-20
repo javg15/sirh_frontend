@@ -9,7 +9,7 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Catzonageografica'
+      title: 'Zonas geográficas'
     },
     children: [
       {
@@ -20,7 +20,7 @@ const routes: Routes = [
         path: 'admin',
         component: CatzonageograficaAdminComponent,
         data: {
-          title: 'Zona geográfica'
+          title: 'Listado'
         },
         resolve: {
           userdata: CatzonageograficaIniService

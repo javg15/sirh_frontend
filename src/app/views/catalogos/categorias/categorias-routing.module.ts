@@ -15,7 +15,7 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Categorias'
+      title: 'Categorías'
     },
     children: [
       {
@@ -26,7 +26,7 @@ const routes: Routes = [
         path: 'admin',
         component: CategoriasAdminComponent,
         data: {
-          title: 'Categorías'
+          title: 'Listado'
         },
         resolve: {
           userdata: CategoriasIniService,

@@ -13,7 +13,7 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Horasclase'
+      title: 'Horas docentes'
     },
     children: [
       {
@@ -24,7 +24,7 @@ const routes: Routes = [
         path: 'admin',
         component: HorasclaseAdminComponent,
         data: {
-          title: 'Horas clase'
+          title: 'Listado'
         },
         resolve: {
           userdata: HorasclaseIniService,

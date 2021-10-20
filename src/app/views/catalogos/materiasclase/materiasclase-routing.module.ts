@@ -9,7 +9,7 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Materiasclase'
+      title: 'Materias'
     },
     children: [
       {
@@ -20,7 +20,7 @@ const routes: Routes = [
         path: 'admin',
         component: MateriasclaseAdminComponent,
         data: {
-          title: 'Estatus de plaza'
+          title: 'Listado'
         },
         resolve: {
           userdata: MateriasclaseIniService

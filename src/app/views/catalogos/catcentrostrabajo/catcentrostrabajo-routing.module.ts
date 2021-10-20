@@ -9,7 +9,7 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Catcentrostrabajo'
+      title: 'Centros de trabajo'
     },
     children: [
       {
@@ -20,7 +20,7 @@ const routes: Routes = [
         path: 'admin',
         component: CatcentrostrabajoAdminComponent,
         data: {
-          title: 'Centros de trabajo'
+          title: 'Listado'
         },
         resolve: {
           userdata: CatcentrostrabajoIniService
