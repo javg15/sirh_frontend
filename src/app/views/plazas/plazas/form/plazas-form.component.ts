@@ -55,9 +55,10 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
   categoriasdetalleCat:any[];
   catquincenaCat:Catquincena[];
   varHorasAB:boolean;
-  esedicion:boolean;
-  escopiar:boolean;
-  edicion_en_copiar:boolean=false;
+  editaconsecutivo:boolean;
+  permiteeditar:boolean;
+  record_id_plantillasdocsnombramiento_actual:number;
+  record_id_estatus:number;
 
   constructor(private isLoadingService: IsLoadingService,
       private plazasService: PlazasService, private el: ElementRef,
@@ -203,41 +204,63 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
     if(this.actionForm.toUpperCase()!=="VER"){
       this.validSummary.resetErrorMessages(form);
 
-      await this.isLoadingService.add(
-      this.plazasService.setRecord(this.record,this.actionForm).subscribe(resp => {
-        if (resp.hasOwnProperty('error')) {
-          this.validSummary.generateErrorMessagesFromServer(resp.message);
-        }
-        else if(resp.message=="success"){
-          if(this.actionForm.toUpperCase()=="NUEVO") this.actionForm="editar";
-          this.record.id=resp.id;
-          this.successModal.show();
-          setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
-        }
-      }),{ key: 'loading' });
+      if(//ya tiene un nombraminto en el historial
+        this.record_id_plantillasdocsnombramiento_actual!=0
+        //vacante,cancelada,nuevacreacion
+          && this.record_id_estatus!=1 && this.record_id_estatus!=7 && this.record_id_estatus!=8
+        //
+          && this.actionForm.toUpperCase()=="DESACTIVAR"
+          ) 
+        this.validSummary.generateErrorMessagesFromServer({Titular: "El registro no puede desactivarse debido a que el estatus actual de la plaza es diferente a VACANTE DEFINITIVA, NUEVA CREACIÓN O CANCELADA"});
+      
+      else{
+        await this.isLoadingService.add(
+          this.plazasService.setRecord(this.record,this.actionForm).subscribe(resp => {
+            if (resp.hasOwnProperty('error')) {
+              this.validSummary.generateErrorMessagesFromServer(resp.message);
+            }
+            else if(resp.message=="success"){
+              if(this.actionForm.toUpperCase()=="NUEVO") this.actionForm="editar";
+              this.record.id=resp.id;
+              this.successModal.show();
+              setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
+            }
+          }),{ key: 'loading' });
+      }
     }
   }
+  
 
   // open modal
-  open(idItem: string, accion: string):  void {
+  open(idItem: string, accion: string,id_plantillasdocsnombramiento_actual:number,id_estatus:number):  void {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
-    this.esedicion=false;
-    this.edicion_en_copiar=false;
+    this.editaconsecutivo=false;
+    this.permiteeditar=false;
+    this.record_id_plantillasdocsnombramiento_actual=id_plantillasdocsnombramiento_actual;
+    this.record_id_estatus=id_estatus;
 
     if(idItem=="0"){
       this.record =this.newRecord();
       this.tituloForm="Plazas - " + titulosModal[accion] + " registro";
+      this.permiteeditar=true;
     } else {
-      this.esedicion=true;
+      this.editaconsecutivo=true;
       this.tituloForm="Plazas - " + titulosModal[accion] + " registro";
       this.plazasService.getRecord(idItem).subscribe(resp => {
         this.record = resp;
+        //si aun no tiene una asignación 
+        if(id_plantillasdocsnombramiento_actual==0)
+          this.permiteeditar=true;
+        else if( id_estatus==1 || id_estatus==7 || id_estatus==8) //vacante,cancelada,nuevacreacion
+          this.permiteeditar=true;
+        else
+          this.permiteeditar=false;
 
         if(this.actionForm.toUpperCase()=="COPIAR"){
           this.actionForm="NUEVO";
           this.record.id=0;
-          this.edicion_en_copiar=true;
+          this.permiteeditar=true;
         }
 
         this.catcentrostrabajoSvc.getCatalogoSegunPlantel(this.record.id_catplanteles).subscribe(resp => {

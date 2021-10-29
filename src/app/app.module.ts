@@ -52,6 +52,7 @@ import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
 import { BoardUserComponent } from './board-user/board-user.component';
 
+
 // Dropdowns Component
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
@@ -72,6 +73,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     ChartsModule,
     FormsModule,
     HttpClientModule,
+    
   ],
   declarations: [
     AppComponent,

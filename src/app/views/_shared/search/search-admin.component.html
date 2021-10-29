@@ -10,7 +10,7 @@
         </div>
         <div class="card-body" (collapsed)="collapsed($event)" (expanded)="expanded($event)" [collapse]="isCollapsed">
             <div class="row" data-idx="0">
-                <div class="form-group col-sm-3">
+                <div class="form-group col-sm-2">
                     <label for="cmbSearchBuscaren">Buscar en:</label>
                     <select class="form-control" [(ngModel)]="selectedItemsCampos[0].id" (change)="onSelectCampos(0,$event.target.value)">
                       <ng-container *ngFor="let col of itemsCampos;index as i">
@@ -26,7 +26,7 @@
                       </ng-container>
                     </select>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     <div *ngIf="tipoEdicion[0]==0" class="form-group">
                         <label for="cmbSearchA">a:</label>
                         <input type="text" class="form-control" [(ngModel)]="valorBuscar[0]">
@@ -35,9 +35,8 @@
                         <label for="cmbSearchA">a:</label>
                         <div class="form-group col-sm-4">
                             <div class="form-group">
-                                <select class="form-control" [(ngModel)]="valorBuscar[0]" (change)="onSelectComboValor(0,$event.target.value)" style="width:auto;">
-                                  <option *ngFor="let col of comboCat[0]" [value]="col.id">{{ col.idesc }}</option>
-                                </select>
+                                <ng-select2 [(ngModel)]="valorBuscar[0]" [data]="comboCat[0]" [allowClear]="true" width="300px" (valueChanged)="onSelectComboValor(0,$event)">
+                                </ng-select2>
                             </div>
                         </div>
                     </div>
@@ -87,9 +86,8 @@
                         <label for="cmbSearchA">a:</label>
                         <div class="form-group col-sm-4">
                             <div class="form-group">
-                                <select class="form-control" [(ngModel)]="valorBuscar[1]" (change)="onSelectComboValor(1,$event.target.value)" style="width:auto;">
-                                <option *ngFor="let col of comboCat[1]" [value]="col.id">{{ col.idesc }}</option>
-                              </select>
+                              <ng-select2 [(ngModel)]="valorBuscar[1]" [data]="comboCat[1]" [allowClear]="true" width="200px" (valueChanged)="onSelectComboValor(1,$event)">
+                              </ng-select2>
                             </div>
                         </div>
                     </div>
@@ -121,9 +119,8 @@
                         <label for="cmbSearchA">a:</label>
                         <div class="form-group col-sm-4">
                             <div class="form-group">
-                                <select class="form-control" [(ngModel)]="valorBuscar[2]" (change)="onSelectComboValor(2,$event.target.value)" style="width:auto;">
-                                <option *ngFor="let col of comboCat[2]" [value]="col.id">{{ col.idesc }}</option>
-                              </select>
+                              <ng-select2 [(ngModel)]="valorBuscar[2]" [data]="comboCat[2]" [allowClear]="true" width="200px" (valueChanged)="onSelectComboValor(2,$event)">
+                              </ng-select2>
                             </div>
                         </div>
                     </div>
@@ -155,9 +152,8 @@
                         <label for="cmbSearchA">a:</label>
                         <div class="form-group col-sm-4">
                             <div class="form-group">
-                                <select class="form-control" [(ngModel)]="valorBuscar[3]" (change)="onSelectComboValor(3,$event.target.value)" style="width:auto;">
-                                <option *ngFor="let col of comboCat[3]" [value]="col.id">{{ col.idesc }}</option>
-                              </select>
+                              <ng-select2 [(ngModel)]="valorBuscar[3]" [data]="comboCat[3]" [allowClear]="true" width="200px" (valueChanged)="onSelectComboValor(3,$event)">
+                              </ng-select2>
                             </div>
                         </div>
                     </div>
@@ -189,9 +185,8 @@
                         <label for="cmbSearchA">a:</label>
                         <div class="form-group col-sm-4">
                             <div class="form-group">
-                                <select class="form-control" [(ngModel)]="valorBuscar[4]" (change)="onSelectComboValor(4,$event.target.value)" style="width:auto;">
-                                <option *ngFor="let col of comboCat[4]" [value]="col.id">{{ col.idesc }}</option>
-                              </select>
+                              <ng-select2 [(ngModel)]="valorBuscar[4]" [data]="comboCat[4]" [allowClear]="true" width="200px" (valueChanged)="onSelectComboValor(4,$event)">
+                              </ng-select2>
                             </div>
                         </div>
                     </div>

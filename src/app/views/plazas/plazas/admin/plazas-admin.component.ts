@@ -139,13 +139,13 @@ export class PlazasAdminComponent implements OnInit {
         },
 
         columns: this.headersAdmin,
-        columnDefs:[{"visible": false, "searchable": false, "targets": 0}
-                  ,{"width":"5%", "targets": 1}]
+        columnDefs:[{"visible": false, "searchable": false, "targets": [0,1,2]}
+                  ,{"width":"5%", "targets": 3}]
       };
 
   }
-  openModal(id: string, accion: string, idItem: number) {
-    this.plazasService.open(id, accion, idItem);
+  openModal(id: string, accion: string, idItem: number,id_plantillasdocsnombramiento_actual: number,id_estatus: number) {
+    this.plazasService.open(id, accion, idItem,id_plantillasdocsnombramiento_actual,id_estatus);
   }
 
   closeModal(id: string) {

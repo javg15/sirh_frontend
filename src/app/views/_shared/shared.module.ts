@@ -9,12 +9,14 @@ import { ValidationSummaryComponent } from './validation/validation-summary.comp
 import { DetailsUploadComponent } from './upload/details-upload.component';
 import { FormUploadComponent } from './upload/form-upload.component';
 import { ListUploadComponent } from './upload/list-upload.component';
+import { NgSelect2Module } from 'ng-select2';
 
 @NgModule({
   imports: [
     CommonModule,
     CollapseModule,
-    FormsModule
+    FormsModule,
+    NgSelect2Module
   ],
   declarations: [
     SearchAdminComponent,

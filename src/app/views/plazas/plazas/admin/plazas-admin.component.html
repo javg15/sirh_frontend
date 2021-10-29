@@ -4,7 +4,7 @@
             <app-search-admin id="search-admin-1" [nombreModulo]="nombreModulo" (buscarEvent)="reDraw($event)">
             </app-search-admin>
 
-            <app-header-admin id="header-admin-1" [nombreModulo]="nombreModulo" [tituloBotonReporte]="tituloBotonReporte" (agregarEvent)="openModal('custom-modal-1','nuevo',0)" (reporteEvent)="largeModal.show()">
+            <app-header-admin id="header-admin-1" [nombreModulo]="nombreModulo" [tituloBotonReporte]="tituloBotonReporte" (agregarEvent)="openModal('custom-modal-1','nuevo',0,0,0)" (reporteEvent)="largeModal.show()">
             </app-header-admin>
             <div class="row">
                 <div class="col-md-12 mx-auto">
@@ -16,26 +16,26 @@
                                         <!--<td><img src="assets/{{ member[col] }}" width="50" /></td>-->
                                         <td>
                                             <div *ngFor="let boton of member[col].split(',')" style="display: contents;">
-                                                <button *ngIf="boton=='ver'" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" title="Ver" (click)="openModal('custom-modal-1','ver',member.id)">
+                                                <button *ngIf="boton=='ver'" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" title="Ver" (click)="openModal('custom-modal-1','ver',member.id,member.id_plantillasdocsnombramiento_actual,member.id_estatus)">
                                                   <i class="fa fa-search"></i>
                                               </button>
-                                                <button *ngIf="boton=='editar'" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" title="Editar" (click)="openModal('custom-modal-1','editar',member.id)">
+                                                <button *ngIf="boton=='editar'" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" title="Editar" (click)="openModal('custom-modal-1','editar',member.id,member.id_plantillasdocsnombramiento_actual,member.id_estatus)">
                                                   <i class="fa fa-edit"></i>
                                               </button>
-                                              <button *ngIf="boton=='copiar'" title="Copiar" class="btn btn-brand btn-sm mr-1 btn-xing" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','copiar',member.id)">
+                                              <button *ngIf="boton=='copiar'" title="Copiar" class="btn btn-brand btn-sm mr-1 btn-xing" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','copiar',member.id,member.id_plantillasdocsnombramiento_actual,member.id_estatus)">
                                                 <i class="fa fa-copy"></i>
                                             </button>
-                                                <button *ngIf="boton=='historial'" class="btn btn-brand btn-sm mr-1 btn-stack-overflow" style="margin-bottom: 4px" type="button" title="Historial" (click)="openModal('custom-modal-2','historial',member.id)">
+                                                <button *ngIf="boton=='historial'" class="btn btn-brand btn-sm mr-1 btn-stack-overflow" style="margin-bottom: 4px" type="button" title="Historial" (click)="openModal('custom-modal-2','historial',member.id,member.id_plantillasdocsnombramiento_actual,member.id_estatus)">
                                                 <i class="fa fa-stack-overflow"></i>
                                             </button>
-                                                <button *ngIf="boton=='desactivar'" class="btn btn-brand btn-sm mr-1 btn-tumblr" style="margin-bottom: 4px" type="button" title="Desactivar" (click)="openModal('custom-modal-1','desactivar',member.id)">
+                                                <button *ngIf="boton=='desactivar'" class="btn btn-brand btn-sm mr-1 btn-tumblr" style="margin-bottom: 4px" type="button" title="Desactivar" (click)="openModal('custom-modal-1','desactivar',member.id,member.id_plantillasdocsnombramiento_actual,member.id_estatus)">
                                               <i class="fa fa-ban"></i>
                                             </button>
                                             </div>
                                         </td>
                                     </div>
                                     <ng-template #elseBlock>
-                                        <ng-container *ngIf="col!='id';else elseBlock2">
+                                        <ng-container *ngIf="col!='id' && col!='id_plantillasdocsnombramiento_actual' && col!='id_estatus';else elseBlock2">
                                             <td>{{ member[col] }}</td>
                                         </ng-container>
                                     </ng-template>

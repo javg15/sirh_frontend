@@ -138,9 +138,9 @@ export class PlazasService {
     this.modals = this.modals.filter(x => x.id !== id);
   }
 
-  public open(id: string, accion: string, idItem: number) {
+  public open(id: string, accion: string, idItem: number,id_plantillasdocsnombramiento_actual:number,id_estatus:number) {
     let modal: any = this.modals.filter(x => x.id === id)[0];
-    modal.open(idItem, accion);
+    modal.open(idItem, accion,id_plantillasdocsnombramiento_actual,id_estatus);
   }
 
   public close(id: string) {

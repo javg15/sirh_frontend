@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter} from '@angular/core';
 import { SearchService } from '../../../_services/search.service';
+import { NgSelect2Module } from 'ng-select2';
 
 
 declare var $: any;
@@ -40,11 +41,11 @@ export class SearchAdminComponent implements OnInit {
   valorBuscar: Array<string>= ['','','','',''];;
   cuentaVisibles:number=1;
 
-  comboCat:Array<Array<any>>=[[{id:"---------",idesc:"----------"}]
-                            ,[{id:"---------",idesc:"----------"}]
-                            ,[{id:"---------",idesc:"----------"}]
-                            ,[{id:"---------",idesc:"----------"}]
-                            ,[{id:"---------",idesc:"----------"}]];
+  comboCat:Array<Array<any>>=[[{id:"---------",text:"----------"}]
+                            ,[{id:"---------",text:"----------"}]
+                            ,[{id:"---------",text:"----------"}]
+                            ,[{id:"---------",text:"----------"}]
+                            ,[{id:"---------",text:"----------"}]];
 
   constructor(private searchService: SearchService) {
   }
