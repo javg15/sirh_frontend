@@ -5,8 +5,8 @@
                 <h4 class="modal-title w-100" id="myModalLabel">{{ tituloForm }}</h4>
 
                 <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
-                  <span aria-hidden="true">×</span>
-                </button>
+                <span aria-hidden="true">×</span>
+              </button>
             </div>
             <div class="modal-body">
                 <form #dataForm="ngForm" (ngSubmit)="submitAction(dataForm)">
@@ -21,17 +21,17 @@
                                     <div class="form-group">
                                         <label for="id_catestatusplaza">Tipo de {{tipo}}</label>
                                         <select class="form-control" [(ngModel)]="record.id_catestatusplaza" name="Tipo de nombramiento" (change)="onSelectTipoNombramiento($event.target.value)">
-                                            <option value="0">---</option>
-                                  <option *ngFor="let col of catestatusplazaCat" [value]="col.id">{{ col.descripcion }}</option>
-                                </select>
+                                          <option value="0">---</option>
+                                <option *ngFor="let col of catestatusplazaCat" [value]="col.id">{{ col.descripcion }}</option>
+                              </select>
 
                                         <!--<select class="form-control" [(ngModel)]="record.id_catestatusplaza" name="Tipo de nombramiento" (change)="onSelectTipoNombramiento($event.target.value)">
-                                  <option value="0"></option>
-                                  <option value="1">Titular</option>
-                                  <option value="2">Provisional</option>
-                                  <option value="3">Interino</option>
-                                  <option value="3">Interino sin Base</option>
-                                </select>-->
+                                <option value="0"></option>
+                                <option value="1">Titular</option>
+                                <option value="2">Provisional</option>
+                                <option value="3">Interino</option>
+                                <option value="3">Interino sin Base</option>
+                              </select>-->
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-4">
@@ -65,11 +65,11 @@
                                         <ng-select2 [(ngModel)]="record.id_plazas" [data]="plazasCat" [allowClear]="true" width="100%" name="Plazas" (valueChanged)="onSelectPlazas($event)">
                                         </ng-select2>
                                         <button class="btn btn-brand btn-sm mr-1 btn-secondary" style="margin-bottom: 4px" type="button" title="Copiar texto" (click)="CopiarPlaza()">
-                                            <i class="fa fa-copy"></i>
-                                        </button>
+                                          <i class="fa fa-copy"></i>
+                                      </button>
                                         <!--<select id="selectPlantel" class="form-control" [(ngModel)]="record.id_categorias" name="Categorías">
-                            <option *ngFor="let col of categoriasCat" [value]="col.id">{{ col.clave + " - " + (col.denominacion!=null?col.denominacion:".") }}</option>
-                          </select>-->
+                          <option *ngFor="let col of categoriasCat" [value]="col.id">{{ col.clave + " - " + (col.denominacion!=null?col.denominacion:".") }}</option>
+                        </select>-->
                                     </div>
                                 </div>
                             </div>
@@ -144,17 +144,17 @@
                                 <div *ngIf="tipo=='licencia' && record_catplantillas.id==2" class="form-group col-sm-4">
                                     <div class="form-group">
                                         <button type="button" class="btn btn-secondary" (click)="openModal('customhorasasignacionadmin','editar',record.id_plantillaspersonal)">
-                                        <div><span>Editar horas</span></div>
-                                      </button>
+                                      <div><span>Editar horas</span></div>
+                                    </button>
                                     </div>
                                 </div>
                                 <div *ngIf="tipo=='nombramiento'" class="form-group col-sm-3">
                                     <div class="form-group">
                                         <label for="esplazabase">¿Es plaza base?</label>
                                         <select class="form-control" [(ngModel)]="record.esplazabase" name="¿Es plaza base?">
-                                        <option value="0">No</option>
-                                        <option value="1">Sí</option>
-                                      </select>
+                                      <option value="0">No</option>
+                                      <option value="1">Sí</option>
+                                    </select>
                                     </div>
                                 </div>
 
@@ -165,17 +165,17 @@
                                 <div class="form-group col-sm-4">
                                     <div class="form-group">
                                         <label for="id_catplanteles">Plantel</label>
-                                        <input #txtid_catplanteles type="text" class="form-control" name="Plantel" disabled="disabled">
+                                        <input type="text" [(ngModel)]="record_plantel" class="form-control" name="Plantel" disabled="disabled">
                                         <!--<ng-select2 [(ngModel)]="record.id_catplanteles" [data]="catplantelesCat" [allowClear]="true" width="100%" disabled="disabled">
-                                        </ng-select2>-->
+                                      </ng-select2>-->
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-4">
                                     <div class="form-group">
                                         <label for="id_catcentrostrabajo">Centro de trabajo</label>
                                         <select class="form-control" [(ngModel)]="record.id_catcentrostrabajo" name="Centro de trabajo">
-                                          <option *ngFor="let col of catcentrostrabajoCat" [value]="col.id">{{ col.clave + " - " + col.descripcion }}</option>
-                                        </select>
+                                        <option *ngFor="let col of catcentrostrabajoCat" [value]="col.id">{{ col.clave + " - " + col.descripcion }}</option>
+                                      </select>
                                     </div>
                                 </div>
                             </div>
@@ -183,13 +183,13 @@
                                 <div class="form-group col-sm-3">
                                     <div class="form-group">
                                         <label for="zonageografica">Zona geográfica</label>
-                                        <input #txtzonageografica type="text" class="form-control" name="Zona geográfica" disabled="disabled">
+                                        <input type="text" [(ngModel)]="record_zonageografica" class="form-control" name="Zona geográfica" disabled="disabled">
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-3">
                                     <div class="form-group">
                                         <label for="zonageografica">Zona económica</label>
-                                        <input #txtzonaeconomica type="text" class="form-control" name="Zona geográfica" disabled="disabled">
+                                        <input type="text" [(ngModel)]="record_txtzonaeconomica" class="form-control" name="Zona geográfica" disabled="disabled">
                                     </div>
                                 </div>
                             </div>
@@ -198,16 +198,16 @@
                                     <div class="form-group">
                                         <label for="id_catfuncionprimaria">Función primaria</label>
                                         <select class="form-control" [(ngModel)]="record.id_catfuncionprimaria" name="Función primaria">
-                                        <option *ngFor="let col of catfuncionprimariaCat" [value]="col.id">{{ col.nombre }}</option>
-                                      </select>
+                                      <option *ngFor="let col of catfuncionprimariaCat" [value]="col.id">{{ col.nombre }}</option>
+                                    </select>
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-4">
                                     <div class="form-group">
                                         <label for="id_catfuncionsecundaria">Función secundaria</label>
                                         <select class="form-control" [(ngModel)]="record.id_catfuncionsecundaria" name="Función secundaria">
-                                      <option *ngFor="let col of catfuncionsecundariaCat" [value]="col.id">{{ col.nombre }}</option>
-                                    </select>
+                                    <option *ngFor="let col of catfuncionsecundariaCat" [value]="col.id">{{ col.nombre }}</option>
+                                  </select>
                                     </div>
                                 </div>
                             </div>
@@ -216,16 +216,16 @@
                                     <div class="form-group">
                                         <label for="id_cattiposemestre">Vigente en semestre(s)</label>
                                         <select class="form-control" [(ngModel)]="record.id_cattiposemestre" name="Vigente en semestre(s)">
-                                          <option *ngFor="let col of cattiposemestreCat" [value]="col.id">{{ col.descripcion }}</option>
-                                        </select>
+                                        <option *ngFor="let col of cattiposemestreCat" [value]="col.id">{{ col.descripcion }}</option>
+                                      </select>
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-4">
                                     <div class="form-group">
                                         <label for="id_catesquemapago">Esquema de pago</label>
                                         <select class="form-control" [(ngModel)]="record.id_catesquemapago" name="Esquema de pago">
-                                          <option *ngFor="let col of catesquemapagoCat" [value]="col.id">{{ col.descripcion }}</option>
-                                        </select>
+                                        <option *ngFor="let col of catesquemapagoCat" [value]="col.id">{{ col.descripcion }}</option>
+                                      </select>
                                     </div>
                                 </div>
                             </div>
@@ -237,13 +237,13 @@
                     <app-validation-summary [form]="dataForm"></app-validation-summary>
                     <!-- [disabled]="!dataForm.form.valid" -->
                     <button *ngIf="actionForm!=='ver'" type="submit" [disabled]='userFormIsPending | async' class="btn btn-primary">
-                      <div *ngIf="userFormIsPending | async; else elseBlock"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Procesando...</span></div>
-                      <ng-template #elseBlock>{{ botonAccion }}</ng-template>
-                    </button>
+                    <div *ngIf="userFormIsPending | async; else elseBlock"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Procesando...</span></div>
+                    <ng-template #elseBlock>{{ botonAccion }}</ng-template>
+                  </button>
                 </form>
             </div>
             <!-- <h2>Diagnostic Info</h2>
-        <div [innerHtml]="diagnosticValidate"></div>-->
+      <div [innerHtml]="diagnosticValidate"></div>-->
         </div>
     </div>
 </div>
