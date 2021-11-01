@@ -9,7 +9,7 @@ import { Plantillasdocsnombramiento,Personal,Categorias,Plantillaspersonal,Cates
 //import { Archivos } from '../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, zip } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 import { PersonalService } from '../../../catalogos/personal/services/personal.service';
 import { PersonalhorasService } from '../../personalhoras/services/personalhoras.service';
@@ -296,57 +296,52 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       //obtener el registro
       this.plantillasdocsnombramientoService.getRecord(idItem).pipe(
         mergeMap((registro) => {
-          this.record = registro;
-
-          return this.plantillasSvc.getRecord(this.record.id_plantillaspersonal).pipe(
+          return this.plantillasSvc.getRecord(registro.id_plantillaspersonal).pipe(
             // this pass all objects to the next observable in this chain
             map(plantilla => ({ plantilla,registro }))
           )
         }),
-        mergeMap(({ plantilla, registro }) => {
-
-          this.record_plantillaspersonal=plantilla;
-          this.record.id_catplanteles=this.record_plantillaspersonal.id_catplanteles; // se asigna aquí, porque es de solo lectura y viene desde la plantilla
-
-          return this.catplantelesSvc.getCatalogo().pipe(
-            // this pass all objects to the next observable in this chain
-            map(catplanteles => ({ catplanteles, plantilla, registro }))
-          )
-        }),
-        mergeMap(({ catplanteles, plantilla, registro }) => {
-          return this.catplantillasSvc.getRecord(plantilla.id_catplantillas).pipe(
-            // this pass all objects to the next observable in this chain
-            map(catplantillas => ({ catplantillas, catplanteles, plantilla, registro }))
-          )
-        }),
-        mergeMap(({ catplantillas, catplanteles, plantilla, registro }) => {
-          return this.categoriasSvc.getRecordParaCombo(registro.id_categorias).pipe(
-            // this pass all objects to the next observable in this chain
-            map(categoriasExtra => ({ categoriasExtra, catplantillas, catplanteles, plantilla, registro }))
-          )
-        }),
-        mergeMap(({ categoriasExtra, catplantillas, catplanteles, plantilla, registro }) => {
-          return this.categoriasSvc.getCatalogoVigenteEnPlantilla(registro.id_plantillaspersonal).pipe(
-            // this pass all objects to the next observable in this chain
-            map(categorias => ({ categorias, categoriasExtra, catplantillas, catplanteles, plantilla, registro }))
-          )
-        }),
-        mergeMap(({ categorias, categoriasExtra, catplantillas, catplanteles, plantilla, registro }) => {
-          return this.plazasSvc.getPlazaSegunPersonal(registro.id_personal_titular).pipe(
-            // this pass all objects to the next observable in this chain
-            map(plazas => ({ plazas, categorias, categoriasExtra, catplantillas, catplanteles, plantilla, registro }))
-          )
-        }),
-        mergeMap(({ plazas, categorias, categoriasExtra, catplantillas, catplanteles, plantilla, registro }) => {
-          return this.personalSvc.getRecord(registro.id_personal_titular).pipe(
-            // this pass all objects to the next observable in this chain
-            map(personal_titular => ({ personal_titular, plazas, categorias, categoriasExtra, catplantillas, catplanteles, plantilla, registro }))
-          )
-        })
       )
       .subscribe((data) => {
+        this.record = data.registro;
+        this.record_plantillaspersonal=data.plantilla;
+        this.record.id_catplanteles=data.plantilla.id_catplanteles; // se asigna aquí, porque es de solo lectura y viene desde la plantilla
 
-        this.categoriasCat = data.categorias;
+        /*const categorias$=this.categoriasSvc.getCatalogoVigenteEnPlantilla(data.registro.id_plantillaspersonal);
+        const categoriasExtra$=this.categoriasSvc.getRecordParaCombo(data.registro.id_categorias)*/
+        const plazas$=this.plazasSvc.getPlazaSegunPersonal(data.registro.id_personal_titular)
+        const plantillas$=this.catplantillasSvc.getRecord(data.plantilla.id_catplantillas)
+        const planteles$=this.catplantelesSvc.getCatalogo();
+        const personal_titular$=this.personalSvc.getRecord(data.registro.id_personal_titular)
+
+        let source$ = zip( plazas$, plantillas$, planteles$,personal_titular$);
+        source$.subscribe(([plazasInfo,plantillasInfo, plantelesInfo,personal_titularInfo]) =>{
+          /*this.categoriasCat = categoriasInfo
+          this.categoriasCat.push(categoriasExtraInfo)*/
+
+          if(plazasInfo.length>0)
+            this.plazaOcupadaTitular=plazasInfo[0].clave;
+          this.record_catplantillas=plantillasInfo;
+
+          this.catplantelesCat = plantelesInfo;
+
+          if(plantelesInfo.length>0)
+            this.record_plantel=plantelesInfo.find(x=>x.id==data.registro.id_catplanteles).ubicacion;
+
+          if(personal_titularInfo!=null)
+            this.record_titular =personal_titularInfo.numeemp + " - "
+              +  personal_titularInfo.nombre + " " + personal_titularInfo.apellidopaterno
+              + " " + personal_titularInfo.apellidomaterno + " - " + personal_titularInfo.curp;
+
+          this.onSelectCategorias(this.record.id_categorias);
+          this.onSelectPlazas(this.record.id_plazas);
+          this.onSelectPlantel(this.record.id_catplanteles,this.record.id_catcentrostrabajo);
+          this.onSelectTipoNombramiento(this.record.id_catestatusplaza);
+
+        });
+
+
+        /*this.categoriasCat = data.categorias;
         //si se esta editando o consultando se agrega el registro de la categoria almacenada, esto debido a que la funcion
         //getCatalogoVigenteEnPlantilla ya no regresa la categoria registrada
         this.categoriasCat.push(data.categoriasExtra[0])
@@ -364,12 +359,9 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
         if(data.personal_titular!=null)
           this.record_titular =data.personal_titular.numeemp + " - "
             +  data.personal_titular.nombre + " " + data.personal_titular.apellidopaterno
-            + " " + data.personal_titular.apellidomaterno + " - " + data.personal_titular.curp;
+            + " " + data.personal_titular.apellidomaterno + " - " + data.personal_titular.curp;*/
 
-        this.onSelectCategorias(this.record.id_categorias);
-        this.onSelectPlazas(this.record.id_plazas);
-        this.onSelectPlantel(this.record.id_catplanteles,this.record.id_catcentrostrabajo);
-        this.onSelectTipoNombramiento(this.record.id_catestatusplaza);
+
       })
 
     }
@@ -432,7 +424,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       if(this.esnombramiento){
         //si se esta editando o consultando se agrega el registro de la categoria almacenada, esto debido a que la funcion
         //getCatalogoDisponibleEnPlantilla ya no regresa la categoria registrada
-        if(this.actionForm.toUpperCase()!=="NUEVO" && this.record.id_categorias>0){
+        //if(this.actionForm.toUpperCase()!=="NUEVO" && this.record.id_categorias>0){
           this.categoriasSvc.getRecordParaCombo(this.record.id_categorias).pipe(
             mergeMap((registro) => {
               return this.categoriasSvc.getCatalogoDisponibleEnPlantilla(this.record_plantillaspersonal.id_catplanteles,this.record.id_plazas,this.record_plantillaspersonal.id_catplantillas).pipe(
@@ -442,14 +434,18 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
             }),
           ).subscribe((data)=>{
             this.categoriasCat = data.categorias;
-            this.categoriasCat.push(data.registro[0])
+            //agregar el elemento para cuando se esta editando o visualizando
+            //siempre y cuando no este ya en la lista
+            let busqueda=data.categorias.find(x=>x.id==data.registro[0].id);
+            if(this.actionForm.toUpperCase()!=="NUEVO" && (!busqueda || data.categorias.length==0) && data.registro[0])
+              this.categoriasCat.push(data.registro[0])
           })
-        }
+        /*}
         else{
           this.categoriasSvc.getCatalogoDisponibleEnPlantilla(this.record_plantillaspersonal.id_catplanteles,this.record.id_plazas,this.record_plantillaspersonal.id_catplantillas).subscribe(resp => {
             this.categoriasCat = resp;
           });
-        }
+        }*/
       }
       else{
         if(this.record.fechaini!=null){
@@ -462,10 +458,22 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
           setTimeout(()=>{ $('#txtFechafin').val(fechafin) }, 100)
         }
 
-        //para el caso de licenciamiento/baja, se debe elegir la categoria
-        this.categoriasSvc.getCatalogoVigenteEnPlantilla(this.record.id_plantillaspersonal).subscribe(resp => {
-          this.categoriasCat = resp;
-        });
+          //para el caso de licenciamiento/baja, se debe elegir la categoria
+          this.categoriasSvc.getRecordParaCombo(this.record.id_categorias).pipe(
+            mergeMap((registro) => {
+              return this.categoriasSvc.getCatalogoVigenteEnPlantilla(this.record.id_plantillaspersonal).pipe(
+                // this pass all objects to the next observable in this chain
+                map(categorias => ({ categorias,registro }))
+              )
+            }),
+          ).subscribe((data)=>{
+            this.categoriasCat = data.categorias;
+            //agregar el elemento para cuando se esta editando o visualizando
+            //siempre y cuando no este ya en la lista
+            let busqueda=data.categorias.find(x=>x.id==data.registro[0].id);
+            if(this.actionForm.toUpperCase()!=="NUEVO" && (!busqueda || data.categorias.length==0) && data.registro[0])
+              this.categoriasCat.push(data.registro[0])
+          })
       }
     }
   }
@@ -508,9 +516,27 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
     }
 
     if(this.esnombramiento){
-      this.plazasSvc.getCatalogoDisponibleSegunCategoria(valor,this.record.id_plazas,this.record.id_catplanteles).subscribe(resp => {
+      /*this.plazasSvc.getCatalogoDisponibleSegunCategoria(valor,this.record.id_plazas,this.record.id_catplanteles).subscribe(resp => {
         this.plazasCat = resp;
-      });
+      });*/
+      this.plazasSvc.getRecordParaCombo(this.record.id_plazas).pipe(
+        mergeMap((registro) => {
+          return this.plazasSvc.getCatalogoDisponibleSegunCategoria(valor,0,this.record.id_catplanteles).pipe(
+            // this pass all objects to the next observable in this chain
+            map(plazas => ({ plazas,registro }))
+          )
+        }),
+      ).subscribe((data)=>{
+        this.plazasCat = data.plazas;
+        //agregar el elemento para cuando se esta editando o visualizando
+        //siempre y cuando no este ya en la lista
+        let busqueda=data.plazas.find(x=>x.id==data.registro[0].id);
+        if(this.actionForm.toUpperCase()!=="NUEVO"
+          && (!busqueda || data.plazas.length==0)
+          && data.registro[0]
+          && data.registro[0].id_categorias==this.record.id_categorias)//dependiente
+          this.plazasCat.push(data.registro[0])
+      })
     }
     else{ //es baja/licenciamiento
       this.plazasSvc.getRecordParaCombo(this.record.id_plazas).pipe(
@@ -522,8 +548,14 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
         }),
       ).subscribe((data)=>{
         this.plazasCat = data.plazas;
-        //if(this.record.id_plazas>0)//agregar el item registrado, en visualización o edción
-        //  this.plazasCat.push(data.registro[0])
+        //agregar el elemento para cuando se esta editando o visualizando
+        //siempre y cuando no este ya en la lista
+        let busqueda=data.plazas.find(x=>x.id==data.registro[0].id);
+        if(this.actionForm.toUpperCase()!=="NUEVO"
+            && (!busqueda || data.plazas.length==0)
+            && data.registro[0]
+            && data.registro[0].id_categorias==this.record.id_categorias)//dependiente
+          this.plazasCat.push(data.registro[0])
       })
     }
   }
