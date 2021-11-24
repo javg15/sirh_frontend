@@ -67,6 +67,7 @@ export class PlantillasAdminComponent implements OnInit {
   catpersonalCat:Personal[];
   categoriasCat:Categorias[];
   catestatusplazaCat:Catestatusplaza[];
+  documentosCat:any=[];
   keywordSearch = 'full_name';
   isLoadingSearch:boolean;
   esInicio:boolean=true;
@@ -95,11 +96,24 @@ export class PlantillasAdminComponent implements OnInit {
     this.catestatusplazaSvc.getCatalogo().subscribe(resp => {
       this.catestatusplazaCat = resp;
     });
+    this.documentosCat.push({id:1,text:"Preparación profesional"});
+    this.documentosCat.push({id:2,text:"Nombramiento administrativo"});
+    this.documentosCat.push({id:10,text:"Licencia administrativa"});
+    this.documentosCat.push({id:12,text:"Baja administrativa"});
+    this.documentosCat.push({id:11,text:"Adhesión sindical"});
+    this.documentosCat.push({id:3,text:"Seguro institucional (Beneficiarios)"});
+    this.documentosCat.push({id:4,text:"Pensiones, juicios (Beneficiarios)"});
+    this.documentosCat.push({id:5,text:"Datos de familiares"});
+    this.documentosCat.push({id:6,text:"Permisos y licencias"});
+    this.documentosCat.push({id:7,text:"Cursos y actualizaciones"});
+    this.documentosCat.push({id:8,text:"Horario laboral"});
+    this.documentosCat.push({id:9,text:"Datos clínicos"});
+console.log("documentosCat=>",this.documentosCat)
   }
 
   ngOnInit(): void {
     this.headersAdmin = this.route.snapshot.data.userdata; // get data from resolver
-
+    
       this.dtOptions = {
         pagingType: 'full_numbers',
         pageLength: 10,
@@ -231,7 +245,8 @@ export class PlantillasAdminComponent implements OnInit {
   }
   onSelectCatestatusplaza(val){
     this.id_catestatusplaza = val;
-    this.onClickBuscar();
+    if(val!=0)
+      this.onClickBuscar();
   }
   /*********************
    autocomplete id_personal
