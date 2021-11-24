@@ -53,6 +53,7 @@
                     <div class="form-group">
                         <label for="id_catestatusplaza">Estatus de plaza</label>
                         <select class="form-control" [(ngModel)]="id_catestatusplaza" (change)="onSelectCatestatusplaza($event.target.value)">
+                            <option value = 0>--Todos--</option>
                             <ng-container *ngFor="let col of catestatusplazaCat;index as i">
                                 <option value = "{{ col.id }}">{{ col.descripcion }}</option>
                             </ng-container>
@@ -63,7 +64,7 @@
                     <div class="form-group">
                         <label for="tipoDocumento">Documento</label>
                         <select class="form-control" [(ngModel)]="tipoDocumento" (change)="onSelectDocumentos($event.target.value)">
-                          <option value = "0">Todo</option>
+                          <option value = "0">--Todos--</option>
                           <option value = "1">Preparación profesional</option>
                           <option value = "2">Nombramiento administrativo</option>
                           <option value = "10">Licencia administrativa</option>
