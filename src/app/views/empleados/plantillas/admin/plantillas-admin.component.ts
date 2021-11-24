@@ -231,8 +231,7 @@ export class PlantillasAdminComponent implements OnInit {
   }
   onSelectCatestatusplaza(val){
     this.id_catestatusplaza = val;
-    if(val!=0)
-      this.onClickBuscar();
+    this.onClickBuscar();
   }
   /*********************
    autocomplete id_personal
@@ -259,7 +258,6 @@ export class PlantillasAdminComponent implements OnInit {
 
   onSelectDocumentos(val: any){
     this.tipoDocumento = val;
-    if(this.tipoDocumento!=0)
-      this.onClickBuscar();
+    this.onClickBuscar();
   }
 }
