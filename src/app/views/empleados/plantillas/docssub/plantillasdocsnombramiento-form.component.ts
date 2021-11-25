@@ -269,6 +269,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
             //planteles
             this.catplantelesCat = data.catplanteles;
             this.record_plantel=data.catplanteles.find(x=>x.id==this.record.id_catplanteles).ubicacion;
+            this.onSelectPlantel(this.record_plantel,0) 
 
             //plantillas
             this.record_catplantillas=data.catplantillas;
