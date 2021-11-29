@@ -6,7 +6,7 @@ import { CatestadosService } from '../../catestados/services/catestados.service'
 import { Catestados } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../../src/environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, zip } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 
 declare var $: any;
@@ -40,9 +40,13 @@ export class CatmunicipiosFormComponent implements OnInit, OnDestroy {
     private catestadosSvc: CatestadosService,
       ) {
       this.elementModal = el.nativeElement;
-      this.catestadosSvc.getCatalogo().subscribe(resp => {
-        this.catestadosCat = resp;
+      const catestados$=this.catestadosSvc.getCatalogo()
+
+      let source$ = zip( catestados$);
+      source$.subscribe(([catestadosInfo]) =>{
+        this.catestadosCat = catestadosInfo;
       });
+
   }
 
   newRecord(): Catmunicipios {
