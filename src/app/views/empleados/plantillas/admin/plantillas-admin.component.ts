@@ -6,11 +6,12 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 
 import { PlantillasService } from '../services/plantillas.service';
-import { Plantillaspersonal, Catplantillas, Catplanteles,Personal,Categorias } from '../../../../_models';
+import { Plantillaspersonal, Catplantillas, Catplanteles,Personal,Categorias,Catestatusplaza } from '../../../../_models';
 import { CatplantillasService } from '../../../catalogos/catplantillas/services/catplantillas.service';
 import { CatplantelesService } from '../../../catalogos/catplanteles/services/catplanteles.service';
 import { PersonalService } from '../../../catalogos/personal/services/personal.service';
 import { CategoriasService } from '../../../catalogos/categorias/services/categorias.service';
+import {CatestatusplazaService}from '../../../catalogos/catestatusplaza/services/catestatusplaza.service';
 import { AutocompleteComponent } from 'angular-ng-autocomplete';
 
 
@@ -45,8 +46,8 @@ export class PlantillasAdminComponent implements OnInit {
   private dtOptionsAdicional = {
     datosBusqueda: {campo: 0, operador: 0, valor: ''},
     raw:0
-    ,fkey:'id_catplanteles,id_catplantillas,id_personal,tipoDocumento,id_categoria'
-    ,fkeyvalue:[0,0,0,0,0]
+    ,fkey:'id_catplanteles,id_catplantillas,id_personal,tipoDocumento,id_categoria,id_catestatusplaza'
+    ,fkeyvalue:[0,0,0,0,0,0]
     ,modo:22
   };
 
@@ -55,6 +56,7 @@ export class PlantillasAdminComponent implements OnInit {
   headersAdmin: any;
   tipoDocumento:number=0;
   id_categoria:number=0;
+  id_catestatusplaza:number=0;
   record:Plantillaspersonal={
       id: 0,  id_catplanteles: 0, id_personal:0, id_catplantillas: 0, consecutivo:'',id_usuarios_autoriza:0,
       fechaingreso:null, state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
@@ -64,6 +66,8 @@ export class PlantillasAdminComponent implements OnInit {
   catplantelesCat:Catplanteles[];
   catpersonalCat:Personal[];
   categoriasCat:Categorias[];
+  catestatusplazaCat:Catestatusplaza[];
+  documentosCat:any=[];
   keywordSearch = 'full_name';
   isLoadingSearch:boolean;
   esInicio:boolean=true;
@@ -76,7 +80,8 @@ export class PlantillasAdminComponent implements OnInit {
     private catplantillasSvc: CatplantillasService,
     private catplantelesSvc: CatplantelesService,
     private personalSvc: PersonalService,
-    private categoriasSvc: CategoriasService
+    private categoriasSvc: CategoriasService,
+    private catestatusplazaSvc:CatestatusplazaService
   ) {
     this.catplantillasSvc.getCatalogo().subscribe(resp => {
       this.catplantillasCat = resp;
@@ -88,11 +93,27 @@ export class PlantillasAdminComponent implements OnInit {
     this.categoriasSvc.getCatalogo().subscribe(resp => {
       this.categoriasCat = resp;
     });
+    this.catestatusplazaSvc.getCatalogo().subscribe(resp => {
+      this.catestatusplazaCat = resp;
+    });
+    this.documentosCat.push({id:1,text:"Preparación profesional"});
+    this.documentosCat.push({id:2,text:"Nombramiento administrativo"});
+    this.documentosCat.push({id:10,text:"Licencia administrativa"});
+    this.documentosCat.push({id:12,text:"Baja administrativa"});
+    this.documentosCat.push({id:11,text:"Adhesión sindical"});
+    this.documentosCat.push({id:3,text:"Seguro institucional (Beneficiarios)"});
+    this.documentosCat.push({id:4,text:"Pensiones, juicios (Beneficiarios)"});
+    this.documentosCat.push({id:5,text:"Datos de familiares"});
+    this.documentosCat.push({id:6,text:"Permisos y licencias"});
+    this.documentosCat.push({id:7,text:"Cursos y actualizaciones"});
+    this.documentosCat.push({id:8,text:"Horario laboral"});
+    this.documentosCat.push({id:9,text:"Datos clínicos"});
+console.log("documentosCat=>",this.documentosCat)
   }
 
   ngOnInit(): void {
     this.headersAdmin = this.route.snapshot.data.userdata; // get data from resolver
-
+    
       this.dtOptions = {
         pagingType: 'full_numbers',
         pageLength: 10,
@@ -193,6 +214,7 @@ export class PlantillasAdminComponent implements OnInit {
       this.record.id_personal,
       (this.tipoDocumento==null?0:this.tipoDocumento),
       (this.id_categoria==null?0:this.id_categoria),
+      (this.id_catestatusplaza==null?0:this.id_catestatusplaza),
     ];
 
     //si no es la carga inicial
@@ -221,6 +243,11 @@ export class PlantillasAdminComponent implements OnInit {
     if(val!=0)
       this.onClickBuscar();
   }
+  onSelectCatestatusplaza(val){
+    this.id_catestatusplaza = val;
+    if(val!=0)
+      this.onClickBuscar();
+  }
   /*********************
    autocomplete id_personal
    *********************/
@@ -246,7 +273,6 @@ export class PlantillasAdminComponent implements OnInit {
 
   onSelectDocumentos(val: any){
     this.tipoDocumento = val;
-    if(this.tipoDocumento!=0)
-      this.onClickBuscar();
+    this.onClickBuscar();
   }
 }
