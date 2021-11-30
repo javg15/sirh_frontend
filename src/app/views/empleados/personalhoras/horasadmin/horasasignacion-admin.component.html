@@ -92,28 +92,28 @@
                                             <ng-template #elseBlock>
                                                 <ng-container *ngIf="col=='plantel';else elseBlock2">
                                                     <td>
-                                                        <div [title]="member.descplantel" [innerHtml]="member[col]"></div>
+                                                        <div [title]="member.descplantel" [innerHtml]="member[col]" style="color:blue"></div>
                                                     </td>
                                                 </ng-container>
                                             </ng-template>
                                             <ng-template #elseBlock2>
                                                 <ng-container *ngIf="col=='tipo';else elseBlock3">
                                                     <td>
-                                                        <div [title]="member.desctipo" [innerHtml]="member[col]"></div>
+                                                        <div [title]="member.desctipo" [innerHtml]="member[col]" style="color:blue"></div>
                                                     </td>
                                                 </ng-container>
                                             </ng-template>
                                             <ng-template #elseBlock3>
                                                 <ng-container *ngIf="col=='estatus';else elseBlock4">
                                                     <td>
-                                                        <div [title]="member.descestatus" [innerHtml]="member[col]"></div>
+                                                        <div [title]="member.descestatus" [innerHtml]="member[col]" style="color:blue"></div>
                                                     </td>
                                                 </ng-container>
                                             </ng-template>
                                             <ng-template #elseBlock4>
                                                 <ng-container *ngIf="col=='nomb';else elseBlock5">
                                                     <td>
-                                                        <div [title]="member.descnombramiento" [innerHtml]="member[col]"></div>
+                                                        <div [title]="member.descnombramiento" [innerHtml]="member[col]" style="color:blue"></div>
                                                     </td>
                                                 </ng-container>
                                             </ng-template>

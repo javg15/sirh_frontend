@@ -10,16 +10,16 @@ import { actionsButtonSave, titulosModal } from '../../../../../environments/env
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 
-import { HorasasignacionFormService } from '../services/horasasignacionform.service';
-import { CatquincenaService } from '../../../catalogos/catquincena/services/catquincena.service';
-import { GruposclaseService } from '../../../catalogos/gruposclase/services/gruposclase.service';
-import { MateriasclaseService } from '../../../catalogos/materiasclase/services/materiasclase.service';
-import { SemestreService } from '../../../catalogos/semestre/services/semestre.service';
-import { CatplantelesService } from '../../../catalogos/catplanteles/services/catplanteles.service';
-import { CatestatushoraService } from '../../../catalogos/catestatushora/services/catestatushora.service';
-import { CatnombramientosService } from '../../../catalogos/catnombramientos/services/catnombramientos.service';
-import { CattipohorasdocenteService } from '../../../catalogos/cattipohorasdocente/services/cattipohorasdocente.service';
-import { PersonalService } from '../../../catalogos/personal/services/personal.service';
+import { PersonalexpedienteFormService } from '../services/personalexpedienteform.service';
+import { CatquincenaService } from '../../catquincena/services/catquincena.service';
+import { GruposclaseService } from '../../gruposclase/services/gruposclase.service';
+import { MateriasclaseService } from '../../materiasclase/services/materiasclase.service';
+import { SemestreService } from '../../semestre/services/semestre.service';
+import { CatplantelesService } from '../../catplanteles/services/catplanteles.service';
+import { CatestatushoraService } from '../../catestatushora/services/catestatushora.service';
+import { CatnombramientosService } from '../../catnombramientos/services/catnombramientos.service';
+import { CattipohorasdocenteService } from '../../cattipohorasdocente/services/cattipohorasdocente.service';
+import { PersonalService } from '../services/personal.service';
 import { relativeTimeThreshold } from 'moment';
 
 
@@ -27,18 +27,18 @@ declare var $: any;
 declare var jQuery: any;
 
 @Component({
-  selector: 'app-horasasignacion-form',
-  templateUrl: './horasasignacion-form.component.html',
-  styleUrls: ['./horasasignacion-form.component.css']
+  selector: 'app-personalexpediente-form',
+  templateUrl: './personalexpediente-form.component.html',
+  styleUrls: ['./personalexpediente-form.component.css']
 })
 
-export class HorasasignacionFormComponent implements OnInit, OnDestroy {
+export class PersonalexpedienteFormComponent implements OnInit, OnDestroy {
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
   @Input() id: string; //idModal
   @Input() botonAccion: string; //texto del boton según acción
   @Output() redrawEvent = new EventEmitter<any>();
 
-  nombreModulo = 'Horasasignacion';
+  nombreModulo = 'Personalexpediente';
 
   actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
@@ -46,7 +46,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
   private elementModal: any;
 
-  @ViewChild('basicModalHorasasignacion') basicModalHorasasignacion: ModalDirective;
+  @ViewChild('basicModalPersonalexpediente') basicModalPersonalexpediente: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
 
@@ -96,7 +96,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
   constructor(
     private tokenStorage: TokenStorageService,
     private isLoadingService: IsLoadingService,
-    private horasasignacionformService: HorasasignacionFormService,
+    private personalexpedienteformService: PersonalexpedienteFormService,
     private personalSvc: PersonalService,
     private semestreSvc: SemestreService,
     private catquincenaSvc: CatquincenaService,
@@ -141,7 +141,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
       return;
     }
     // add self (this modal instance) to the modal service so it's accessible from controllers
-    modal.horasasignacionformService.add(modal);
+    modal.personalexpedienteformService.add(modal);
 
     //loading
     this.userFormIsPending = this.isLoadingService.isLoading$({ key: 'loading' });
@@ -152,7 +152,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-    this.horasasignacionformService.remove(this.id); //idModal
+    this.personalexpedienteformService.remove(this.id); //idModal
     this.elementModal.remove();
   }
 
@@ -168,7 +168,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
       }
       else{
         await this.isLoadingService.add(
-          this.horasasignacionformService.setRecord(this.record, this.actionForm).subscribe(async resp => {
+          this.personalexpedienteformService.setRecord(this.record, this.actionForm).subscribe(async resp => {
             if (resp.hasOwnProperty('error')) {
               this.validSummary.generateErrorMessagesFromServer(resp.message);
             }
@@ -220,7 +220,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
       this.catquincenaSvc.getQuincenaActiva().subscribe(async resp => {
         //quincena activa
         this.record_quincena_activa = resp;
-        this.horasasignacionformService.getRecord(idItem).subscribe(async resp => {
+        this.personalexpedienteformService.getRecord(idItem).subscribe(async resp => {
           this.record = resp;
           this.edicion_en_activo=true;
           if(this.record_quincena_activa.id>this.record.id_catquincena_ini)
@@ -243,12 +243,12 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
     }
 
     // console.log($('#modalTest').html()); poner el id a algun elemento para testear
-    this.basicModalHorasasignacion.show();
+    this.basicModalPersonalexpediente.show();
   }
 
   // close modal
   close(): void {
-    this.basicModalHorasasignacion.hide();
+    this.basicModalPersonalexpediente.hide();
     if (this.actionForm.toUpperCase() != "VER") {
       this.redrawEvent.emit(null);
     }
@@ -303,7 +303,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
       //interinato
       if(id_catnombramientos==2){
         this.esinterina=true;
-        this.horasasignacionformService.getRecordTitularEnLicencia(this.record.id_catplanteles_aplicacion,this.record.id_gruposclase,this.record.id_materiasclase,this.record.id_semestre).subscribe(resp => {
+        this.personalexpedienteformService.getRecordTitularEnLicencia(this.record.id_catplanteles_aplicacion,this.record.id_gruposclase,this.record.id_materiasclase,this.record.id_semestre).subscribe(resp => {
           this.record_personaltitular = resp;
           this.record_personaltitular_nombre="";
           console.log("resp=>",resp)

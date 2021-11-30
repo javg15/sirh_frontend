@@ -34,6 +34,8 @@ export default interface Catcentrostrabajo {
   updated_at: Date | null;
 
   id_usuarios_r: number | null;
+
+  id_personal_analista: number | null;
 }
 
 export interface CatcentrostrabajoInitializer {
@@ -70,4 +72,6 @@ export interface CatcentrostrabajoInitializer {
   updated_at?: Date;
 
   id_usuarios_r?: number;
+
+  id_personal_analista?: number;
 }

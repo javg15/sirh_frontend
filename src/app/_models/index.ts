@@ -9,6 +9,8 @@ import Categoriaspercepciones, { CategoriaspercepcionesInitializer, Categoriaspe
 import Categoriastabular, { CategoriastabularInitializer, } from './categoriastabular';
 import Catestadocivil, { CatestadocivilInitializer, } from './catestadocivil';
 import Catestados, { CatestadosInitializer } from './catestados';
+import Catbancos, { CatbancosInitializer } from './catbancos';
+import Catdocumentos, { CatdocumentosInitializer } from './catdocumentos';
 import Catbajamotivo, { CatbajamotivoInitializer } from './catbajamotivo';
 import Catestatusplaza, { CatestatusplazaInitializer, CatestatusplazaId } from './catestatusplaza';
 import Catfuentef, { CatfuentefInitializer, CatfuentefId } from './catfuentef';
@@ -77,6 +79,8 @@ type Model =
   | Categoriastabular
   | Catestadocivil
   | Catestados
+  | Catbancos
+  | Catdocumentos
   | Catbajamotivo
   | Catestatusplaza
   | Catfuentef
@@ -145,6 +149,8 @@ interface ModelTypeMap {
   'categoriastabular': Categoriastabular;
   'catestadocivil': Catestadocivil;
   'catestados': Catestados;
+  'catbancos': Catbancos;
+  'catdocumentos': Catdocumentos;
   'catbajamotivo': Catbajamotivo;
   'catestatusplaza': Catestatusplaza;
   'catfuentef': Catfuentef;
@@ -299,6 +305,8 @@ type Initializer =
   | CategoriastabularInitializer
   | CatestadocivilInitializer
   | CatestadosInitializer
+  | CatbancosInitializer
+  | CatdocumentosInitializer
   | CatbajamotivoInitializer
   | CatestatusplazaInitializer
   | CatfuentefInitializer
@@ -367,6 +375,8 @@ interface InitializerTypeMap {
   'categoriastabular': CategoriastabularInitializer;
   'catestadocivil': CatestadocivilInitializer;
   'catestados': CatestadosInitializer;
+  'catbancos': CatbancosInitializer;
+  'catdocumentos': CatdocumentosInitializer;
   'catbajamotivo': CatbajamotivoInitializer;
   'catestatusplaza': CatestatusplazaInitializer;
   'catfuentef': CatfuentefInitializer;
@@ -436,6 +446,8 @@ export {
   Categoriastabular, CategoriastabularInitializer,
   Catestadocivil, CatestadocivilInitializer,
   Catestados, CatestadosInitializer,
+  Catbancos, CatbancosInitializer,
+  Catdocumentos, CatdocumentosInitializer,
   Catbajamotivo, CatbajamotivoInitializer,
   Catestatusplaza, CatestatusplazaInitializer, CatestatusplazaId,
   Catfuentef, CatfuentefInitializer, CatfuentefId,

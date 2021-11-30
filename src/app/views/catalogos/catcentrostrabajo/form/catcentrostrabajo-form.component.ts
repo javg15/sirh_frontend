@@ -3,11 +3,13 @@ import { CatcentrostrabajoService } from '../services/catcentrostrabajo.service'
 import { CatplantelesService } from '../../catplanteles/services/catplanteles.service';
 import { CattipocentrotrabajoService } from '../../cattipocentrotrabajo/services/cattipocentrotrabajo.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Catcentrostrabajo, Cattipocentrotrabajo, Catplanteles } from '../../../../_models';
+import { Catcentrostrabajo, Cattipocentrotrabajo, Catplanteles,Personal } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../../src/environments/environment';
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
+import { PersonalService } from '../../../catalogos/personal/services/personal.service';
+import { AutocompleteComponent } from 'angular-ng-autocomplete';
 
 declare var $: any;
 declare var jQuery: any;
@@ -27,6 +29,7 @@ export class CatcentrostrabajoFormComponent implements OnInit, OnDestroy {
   tituloForm: string;
 
   private elementModal: any;
+  @ViewChild('id_personal_analista') id_personal_analista:AutocompleteComponent;
   @ViewChild('basicModal') basicModal: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
@@ -34,11 +37,25 @@ export class CatcentrostrabajoFormComponent implements OnInit, OnDestroy {
   record: Catcentrostrabajo;
   catplantelesCat:Catplanteles[];
   cattipocentrotrabajoCat: Cattipocentrotrabajo[];
+  catpersonalCat:Personal[];
+  keywordSearch = 'full_name';
+  isLoadingSearch:boolean;
 
+  recordpersonalCat:Personal={id: 0,curp: '', rfc: '',  homoclave: '',
+      state: '', nombre: '', apellidopaterno: '', apellidomaterno:'',id_catestadocivil:0,
+      fechanacimiento: null, id_catestadosnaci: 0, id_catmunicipiosnaci: 0, id_catlocalidadesnaci: 0,
+      id_catestadosresi: 0, id_catmunicipiosresi: 0, id_catlocalidadesresi: 0,
+      id_archivos_avatar:0,id_usuarios_sistema:0,numeemp:'',
+      telefono: '', email: '', emailoficial:'',observaciones:'',sexo:0,
+      domicilio:'',colonia:'',cp:'',telefonomovil:'',numimss:'',numissste:'',otronombre:'', numotro:'',tipopension:'',
+      created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0,fechaingreso:null,primaantiguedad:0,
+      id_catbanco_deposito:0,cuentadeposito:''
+  };
 
   constructor(private isLoadingService: IsLoadingService,
       private catcentrostrabajoService: CatcentrostrabajoService, private el: ElementRef,
       private catplantelesSvc: CatplantelesService,
+      private personalSvc: PersonalService,
       private cattipocentrotrabajoSvc: CattipocentrotrabajoService
       ) {
       this.elementModal = el.nativeElement;
@@ -53,7 +70,8 @@ export class CatcentrostrabajoFormComponent implements OnInit, OnDestroy {
       id: 0,clave: 0,descripcion: '', zona: 0,  id_cattipoct: 0,
       state: '', id_catplanteles: 0, id_qnaini: 0, id_qnafin: 0,
       id_ctant: 0, titular: '', id_categoriaasoc: 0, ficticia: 0,
-      id_cattipoctpp: 0, created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
+      id_cattipoctpp: 0, created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0,
+      id_personal_analista: 0
     };
   }
   ngOnInit(): void {
@@ -107,6 +125,9 @@ export class CatcentrostrabajoFormComponent implements OnInit, OnDestroy {
   async submitAction(form) {
 
     if(this.actionForm.toUpperCase()!=="VER"){
+      if(this.id_personal_analista.query=="" && this.actionForm.toUpperCase()=="NUEVO")
+        this.record.id_personal_analista=0;
+
       this.validSummary.resetErrorMessages(form);
 
       await this.isLoadingService.add(
@@ -130,6 +151,9 @@ export class CatcentrostrabajoFormComponent implements OnInit, OnDestroy {
     this.botonAccion=actionsButtonSave[accion];
     this.tituloForm="Centros de trabajo - " +titulosModal[accion] + " registro";
 
+    //limpiar autocomplete
+    this.id_personal_analista.clear();this.id_personal_analista.close();
+
     if(idItem=="0"){
       this.record =this.newRecord();
     } else {
@@ -137,7 +161,13 @@ export class CatcentrostrabajoFormComponent implements OnInit, OnDestroy {
         this.cattipocentrotrabajoCat = resp;
         this.catcentrostrabajoService.getRecord(idItem).subscribe(resp => {
           this.record = resp;
+          //obtener el registro del personal relacionado
+          if(this.record.id_personal_analista>0)
+            this.personalSvc.getRecord(this.record.id_personal_analista).subscribe(resp => {
+              this.recordpersonalCat = resp;
+            });
         });
+
       });
 
   }
@@ -152,6 +182,29 @@ export class CatcentrostrabajoFormComponent implements OnInit, OnDestroy {
       if(this.actionForm.toUpperCase()!="VER"){
         this.redrawEvent.emit(null);
       }
+  }
+
+  /*********************
+   autocomplete id_personal_analista
+   *********************/
+   onChangeSearchIdPersonal(val: string) {
+    this.isLoadingSearch = true;
+    this.personalSvc.getCatalogoSegunBusqueda(val).subscribe(resp => {
+      this.catpersonalCat = resp;
+      this.isLoadingSearch = false;
+    });
+    // fetch remote data from here
+    // And reassign the 'data' which is binded to 'data' property.
+  }
+
+  onSelectIdPersonal(val: any) {
+    let items=val["full_name"].split(" -- ");
+    this.record.id_personal_analista=parseInt(items[2]);
+
+    //obtener el registro del personal relacionado
+    this.personalSvc.getRecord(this.record.id_personal_analista).subscribe(resp => {
+      this.recordpersonalCat = resp;
+    });
   }
 
   // log contenido de objeto en formulario

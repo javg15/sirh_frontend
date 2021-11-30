@@ -11,6 +11,7 @@ import { CatcentrostrabajoAdminComponent } from './admin/catcentrostrabajo-admin
 import { CatcentrostrabajoFormComponent } from './form/catcentrostrabajo-form.component';
 import { DataTablesModule } from 'angular-datatables';
 import { NgSelect2Module } from 'ng-select2';
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { NgSelect2Module } from 'ng-select2';
     DataTablesModule,
     ModalModule.forRoot(),
     SharedModule,
-    NgSelect2Module
+    NgSelect2Module,
+    AutocompleteLibModule,
   ],
   declarations: [
     CatcentrostrabajoAdminComponent,

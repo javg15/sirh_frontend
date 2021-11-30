@@ -4,9 +4,10 @@ import { CatestadosService } from '../../../catalogos/catestados/services/catest
 import { CatmunicipiosService } from '../../../catalogos/catmunicipios/services/catmunicipios.service';
 import { CatlocalidadesService } from '../../../catalogos/catlocalidades/services/catlocalidades.service';
 import { CatestadocivilService } from '../../../catalogos/catestadocivil/services/catestadocivil.service';
+import { CatbancosService } from '../../../catalogos/catbancos/services/catbancos.service';
 import { UsuariosService } from '../../../autenticacion/usuarios/services/usuarios.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Personal,  Catestados, Catmunicipios, Catlocalidades, Catestadocivil, Usuarios } from '../../../../_models';
+import { Personal,  Catestados, Catmunicipios, Catlocalidades, Catestadocivil, Usuarios, Catbancos } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
@@ -53,7 +54,12 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
   catmunicipiosResiCat:Catmunicipios[];
   catlocalidadesResiCat: Catlocalidades[];
   catestadocivilCat: Catestadocivil[];
+  catbancosCat: Catbancos[];
   usuariosCat:Usuarios[];
+  recordantiguedad_catquincena_ingreso:number;
+  recordantiguedad_anios:number;
+  recordantiguedad_meses:number;
+  recordantiguedad_dias:number;
 
   existeSegunCURP:boolean=false;
 
@@ -65,6 +71,7 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
       private catmunicipiosSvc: CatmunicipiosService,
       private catlocalidadesSvc: CatlocalidadesService,
       private catestadocivilSvc: CatestadocivilService,
+      private catbancosSvc: CatbancosService,
       private usuariosSvc: UsuariosService,
       private archivosSvc:ArchivosService,
       ) {
@@ -74,6 +81,9 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
       });
       this.catestadocivilSvc.getCatalogo().subscribe(resp => {
         this.catestadocivilCat = resp;
+      });
+      this.catbancosSvc.getCatalogo().subscribe(resp => {
+        this.catbancosCat = resp;
       });
       this.usuariosSvc.getCatalogo().subscribe(resp => {
         this.usuariosCat = resp;
@@ -92,7 +102,8 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
       telefono: '', email: '', emailoficial:'',observaciones:'',sexo:0,
       id_catestadosresi: 0, id_catmunicipiosresi: 0, id_catlocalidadesresi: 0,
       domicilio:'',colonia:'',cp:'',telefonomovil:'',numimss:'',numissste:'',otronombre:'', numotro:'',tipopension:'',
-      created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
+      created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0,fechaingreso:null,primaantiguedad:0,
+      id_catbanco_deposito:0,cuentadeposito:''
     };
 
 
@@ -215,6 +226,18 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
         this.onSelectEntidadNaci(this.record.id_catestadosnaci);
       }
     });
+  }
+
+  onChangeFechaIngreso(fechaIngreso){
+
+    this.personalService.getRecordAntiguedad(fechaIngreso).subscribe(resp => {
+      this.recordantiguedad_catquincena_ingreso=resp.quincena;
+      this.recordantiguedad_anios=resp.anios;
+      this.recordantiguedad_meses=resp.meses;
+      this.recordantiguedad_dias=resp.dias;
+
+    });
+
   }
 
   async submitAction(form) {

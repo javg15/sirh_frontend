@@ -66,6 +66,14 @@ export default interface Personal {
   created_at: Date | null;
 
   updated_at: Date | null;
+
+  fechaingreso: Date;
+
+  primaantiguedad: number;
+
+  id_catbanco_deposito: number | null;
+
+  cuentadeposito:string | null
 }
 
 export interface PersonalInitializer {
@@ -126,4 +134,12 @@ export interface PersonalInitializer {
   created_at?: Date;
 
   updated_at?: Date;
+
+  fechaingreso?: Date;
+
+  primaantiguedad?: number;
+
+  id_catbanco_deposito?: number;
+
+  cuentadeposito?:string
 }
