@@ -1,5 +1,11 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { DataTablesResponse } from '../../../../classes/data-tables-response';
+import { DataTableDirective } from 'angular-datatables';
+import { Subject } from 'rxjs';
+
 import { PersonalService } from '../services/personal.service';
+import { PersonalexpedienteFormService } from '../services/personalexpedienteform.service';
 import { CatestadosService } from '../../../catalogos/catestados/services/catestados.service';
 import { CatmunicipiosService } from '../../../catalogos/catmunicipios/services/catmunicipios.service';
 import { CatlocalidadesService } from '../../../catalogos/catlocalidades/services/catlocalidades.service';
@@ -31,6 +37,7 @@ declare var jQuery: any;
 export class PersonalFormComponent implements OnInit, OnDestroy {
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
 
+  @Input() dtOptions: DataTables.Settings = {};
   @Input() id: string; //idModal
   @Input() botonAccion: string; //texto del boton según acción
   @Output() redrawEvent = new EventEmitter<any>();
@@ -43,8 +50,33 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
   @ViewChild(ListUploadComponent) listUpload: ListUploadComponent;
   @ViewChild(FormUploadComponent) formUpload: FormUploadComponent;
-
   @ViewChild('input_action') input_action:ElementRef;
+
+  @ViewChild(DataTableDirective)
+  dtElement: DataTableDirective;
+  dtInstance: Promise<DataTables.Api>;
+  dtTrigger: Subject<DataTableDirective> = new Subject();
+
+  Members: any[];
+  ColumnNames: string[];
+
+  private dataTablesParameters = {
+    draw: 1, length: 100, opcionesAdicionales: {},
+    order: [{ column: 0, dir: "asc" }],
+    search: { value: "", regex: false },
+    start: 0
+  };
+  private dtOptionsAdicional = {
+    datosBusqueda: { campo: 0, operador: 0, valor: '' }
+    , raw: 0
+    , fkey: 'id_personal'
+    , fkeyvalue: [0, 0, 0, '1']
+    , modo: 22
+  };
+
+  headersAdmin: any;
+
+  NumberOfMembers = 0;
 
   record: Personal;
   recordFile:Archivos;
@@ -74,6 +106,8 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
       private catbancosSvc: CatbancosService,
       private usuariosSvc: UsuariosService,
       private archivosSvc:ArchivosService,
+      private personalexpedienteformSvc: PersonalexpedienteFormService,
+      private route: ActivatedRoute
       ) {
       this.elementModal = el.nativeElement;
       this.catestadosSvc.getCatalogo().subscribe(resp => {
@@ -124,6 +158,39 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
 
       //loading
       this.userFormIsPending =this.isLoadingService.isLoading$({ key: 'loading' });
+
+      //subtabla datatable
+    this.headersAdmin = this.route.snapshot.data.userdataExpediente; // get data from resolver
+
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      paging: false,
+      //pageLength: 50,
+      //serverSide: true,
+      //processing: true,
+      ordering: false,
+      destroy: true,
+      searching: false,
+      info: false,
+      language: {
+        emptyTable: '',
+        zeroRecords: 'No hay coincidencias',
+        lengthMenu: 'Mostrar _MENU_ elementos',
+        search: 'Buscar:',
+        info: 'De _START_ a _END_ de _TOTAL_ elementos',
+        infoEmpty: 'De 0 a 0 de 0 elementos',
+        infoFiltered: '(filtrados de _MAX_ elementos totales)',
+        paginate: {
+          first: 'Prim.',
+          last: 'Últ.',
+          next: 'Sig.',
+          previous: 'Ant.'
+        },
+      },
+      columns: this.headersAdmin,
+      columnDefs:[{"visible": false, "targets": [0]},
+                {"width": "20%", "targets": [1]}]//ID, tipo
+    };
   }
 
   // remove self from modal service when directive is destroyed
@@ -304,6 +371,7 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
     });
   }
 
+  this.reDraw(null);
     // console.log($('#modalTest').html()); poner el id a algun elemento para testear
     this.basicModal.show();
   }
@@ -314,6 +382,35 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
       if(this.actionForm.toUpperCase()!="VER"){
         this.redrawEvent.emit(null);
       }
+  }
+
+  //Sub formulario
+  openModal(id: string, accion: string, idItem: number, idPersonal:number) {
+    this.personalexpedienteformSvc.open(id, accion, idItem, idPersonal);
+  }
+
+  closeModal(id: string) {
+    this.personalexpedienteformSvc.close(id);
+  }
+
+  reDraw(parametro:any): void {
+    this.dtOptionsAdicional.raw++;
+    this.dtOptionsAdicional.fkeyvalue = [this.record.id];
+    //this.dtOptionsAdicional.fkeyvalue=this.record_id_personal;
+    this.dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
+
+    this.personalexpedienteformSvc.getAdmin(this.dataTablesParameters).subscribe(resp => {
+
+      this.ColumnNames = resp.columnNames;
+      this.Members = resp.data;
+      this.NumberOfMembers = resp.data.length;
+      $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
+      //$('#tblHorasasignacionAdmin').dataTable({searching: false, paging: false, info: false});
+      if (this.NumberOfMembers > 0) {
+        $('.dataTables_empty').css('display', 'none');
+      }
+    }
+    );
   }
 
   // log contenido de objeto en formulario

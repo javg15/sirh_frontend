@@ -53,6 +53,7 @@ import Permgrupos, { PermgruposInitializer, PermgruposId } from './permgrupos';
 import Permgruposmodulos, { PermgruposmodulosInitializer, PermgruposmodulosId } from './permgruposmodulos';
 import Permusuariosmodulos, { PermusuariosmodulosInitializer, PermusuariosmodulosId } from './permusuariosmodulos';
 import Personal, { PersonalInitializer, } from './personal';
+import Personalexpediente, { PersonalexpedienteInitializer, } from './personalexpediente';
 import Personalhoras, { PersonalhorasInitializer, } from './personalhoras';
 import Plantillasdocsfamiliares, { PlantillasdocsfamiliaresInitializer, PlantillasdocsfamiliaresId } from './plantillasdocsfamiliares';
 import Plantillasdocslicencias, { PlantillasdocslicenciasInitializer, PlantillasdocslicenciasId } from './plantillasdocslicencias';
@@ -123,6 +124,7 @@ type Model =
   | Permgruposmodulos
   | Permusuariosmodulos
   | Personal
+  | Personalexpediente
   | Personalhoras
   | Plantillasdocsfamiliares
   | Plantillasdocslicencias
@@ -193,6 +195,7 @@ interface ModelTypeMap {
   'permgruposmodulos': Permgruposmodulos;
   'permusuariosmodulos': Permusuariosmodulos;
   'personal': Personal;
+  'personalexpediente': Personalexpediente;
   'personalhoras': Personalhoras;
   'plantillasdocsfamiliares': Plantillasdocsfamiliares;
   'plantillasdocslicencias': Plantillasdocslicencias;
@@ -419,6 +422,7 @@ interface InitializerTypeMap {
   'permgruposmodulos': PermgruposmodulosInitializer;
   'permusuariosmodulos': PermusuariosmodulosInitializer;
   'personal': PersonalInitializer;
+  'personalexpediente': PersonalexpedienteInitializer;
   'personalhoras': PersonalhorasInitializer;
   'plantillasdocsfamiliares': PlantillasdocsfamiliaresInitializer;
   'plantillasdocslicencias': PlantillasdocslicenciasInitializer;
@@ -489,6 +493,7 @@ export {
   Permgruposmodulos, PermgruposmodulosInitializer, PermgruposmodulosId,
   Permusuariosmodulos, PermusuariosmodulosInitializer, PermusuariosmodulosId,
   Personal, PersonalInitializer,
+  Personalexpediente, PersonalexpedienteInitializer,
   Personalhoras, PersonalhorasInitializer,
   Plantillasdocsfamiliares, PlantillasdocsfamiliaresInitializer, PlantillasdocsfamiliaresId,
   Plantillasdocslicencias, PlantillasdocslicenciasInitializer, PlantillasdocslicenciasId,

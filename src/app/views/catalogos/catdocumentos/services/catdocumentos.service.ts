@@ -29,7 +29,7 @@ export class CatdocumentosService {
       setTimeout(() => {
         this.http.post<DataTablesResponse>(
           // this.API_URL + '/a6b_apis/read_records_dt.php',
-          this.API_URL + '/catbancos/getAdmin',
+          this.API_URL + '/catdocumentos/getAdmin',
           { solocabeceras: 1, opcionesAdicionales: { raw: 0 } }, {}
         ).subscribe(resp => {
           o.next(JSON.parse(resp.data[0].cabeceras));
@@ -39,14 +39,14 @@ export class CatdocumentosService {
   }
 
   public getCatalogo(): Observable<any> {
-    return this.http.post(this.API_URL + '/catbancos/getCatalogo',
+    return this.http.post(this.API_URL + '/catdocumentos/getCatalogo',
       {}
       , httpOptions);
   }
 
   /* El siguiente método lee los datos de un registro seleccionado para edición. */
   public getRecord(id: any): Observable<any> {
-    return this.http.post(this.API_URL + '/catbancos/getRecord',
+    return this.http.post(this.API_URL + '/catdocumentos/getRecord',
       { id }
       , httpOptions);
   }
@@ -54,7 +54,7 @@ export class CatdocumentosService {
   /* El siguiente método graba un registro nuevo, o uno editado. */
   public setRecord(dataPack, actionForm): Observable<any> {
 
-    return this.http.post(this.API_URL + '/catbancos/setRecord',
+    return this.http.post(this.API_URL + '/catdocumentos/setRecord',
       { dataPack, actionForm }
       , httpOptions);
   }

@@ -10,11 +10,11 @@ import { Observable } from 'rxjs';
 })
 export class PersonalexpedienteFormIniService implements Resolve<Observable<any>>{
 
-  constructor(private ds: PersonalexpedienteFormService,
-    private catquincenaSvc: CatquincenaService,) { }
+  constructor(private ds: PersonalexpedienteFormService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    return this.catquincenaSvc.getQuincenaActiva().pipe(
+    return this.ds.getHeaders().pipe(
+      take(1),
       map(dataHoraAsignacion => dataHoraAsignacion)
     )
   }

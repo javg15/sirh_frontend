@@ -10,6 +10,7 @@ import { PersonalRoutingModule } from './personal-routing.module';
 
 import { PersonalAdminComponent } from './admin/personal-admin.component';
 import { PersonalFormComponent } from './form/personal-form.component';
+import { PersonalexpedienteFormComponent } from './formexpediente/personalexpediente-form.component';
 import { DataTablesModule } from 'angular-datatables';
 import { NgSelect2Module } from 'ng-select2';
 
@@ -43,6 +44,7 @@ const maskConfig: Partial<IConfig> = {
   declarations: [
     PersonalAdminComponent,
     PersonalFormComponent,
+    PersonalexpedienteFormComponent
   ],
   providers: [
     PersonalService

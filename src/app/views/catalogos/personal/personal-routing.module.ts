@@ -3,7 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { PersonalAdminComponent } from './admin/personal-admin.component';
 import { PersonalFormComponent } from './form/personal-form.component';
+import { PersonalexpedienteFormComponent } from './formexpediente/personalexpediente-form.component';
 import { PersonalIniService } from './services/personal.ini.service';
+import { PersonalexpedienteFormIniService } from './services/personalexpedienteform.ini.service';
 
 const routes: Routes = [
   {
@@ -24,6 +26,7 @@ const routes: Routes = [
         },
         resolve: {
           userdata: PersonalIniService,
+          userdataExpediente:PersonalexpedienteFormIniService,
         }
       },
       {
@@ -31,7 +34,17 @@ const routes: Routes = [
         component: PersonalFormComponent,
         data: {
           title: 'Personas'
+        },
+        resolve: {
+
         }
+      },
+      {
+        path: 'formexpediente',
+        component: PersonalexpedienteFormComponent,
+        data: {
+          title: 'Personas'
+        },
       },
     ]
   }
