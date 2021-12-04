@@ -116,7 +116,7 @@ export class PlantillasDocsLicenciasFormComponent implements OnInit, OnDestroy {
           if(this.record.id_archivos>0){
               this.recordFile={id:this.record.id_archivos,
                   tabla:"plantillasdocslicencias",
-                  id_tabla:this.record.id,
+                  id_tabla:this.record.id,ruta:"",
                   tipo: null,  nombre:  null,  datos: null,  id_usuarios_r: 0,
                   state: '',  created_at: null,   updated_at: null
                 };

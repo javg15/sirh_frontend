@@ -9,6 +9,9 @@ import { ValidationSummaryComponent } from './validation/validation-summary.comp
 import { DetailsUploadComponent } from './upload/details-upload.component';
 import { FormUploadComponent } from './upload/form-upload.component';
 import { ListUploadComponent } from './upload/list-upload.component';
+import { DetailsUploadFisicoComponent } from './upload_fisico/details-uploadFisico.component';
+import { FormUploadFisicoComponent } from './upload_fisico/form-uploadFisico.component';
+import { ListUploadFisicoComponent } from './upload_fisico/list-uploadFisico.component';
 import { NgSelect2Module } from 'ng-select2';
 
 @NgModule({
@@ -25,7 +28,10 @@ import { NgSelect2Module } from 'ng-select2';
     ValidationSummaryComponent,
     FormUploadComponent,
     ListUploadComponent,
-    DetailsUploadComponent
+    DetailsUploadComponent,
+    FormUploadFisicoComponent,
+    ListUploadFisicoComponent,
+    DetailsUploadFisicoComponent
   ],
   providers: [
 
@@ -37,6 +43,9 @@ import { NgSelect2Module } from 'ng-select2';
     FormUploadComponent,
     ListUploadComponent,
     DetailsUploadComponent,
+    FormUploadFisicoComponent,
+    ListUploadFisicoComponent,
+    DetailsUploadFisicoComponent,
     CommonModule
   ]
 })

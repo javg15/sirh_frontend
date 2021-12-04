@@ -3,23 +3,18 @@ import { ActivatedRoute } from '@angular/router';
 import { TokenStorageService } from '../../../../_services/token-storage.service';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Personalhoras, Personal, Semestre, Catplanteles, Catquincena, Gruposclase, Materiasclase, Catestatushora, Catnombramientos, Cattipohorasdocente } from '../../../../_models';
+import { Personalexpediente, Catdocumentos } from '../../../../_models';
 import { Archivos } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 
+import { ArchivosService } from '../../../catalogos/archivos/services/archivos.service';
 import { PersonalexpedienteFormService } from '../services/personalexpedienteform.service';
-import { CatquincenaService } from '../../catquincena/services/catquincena.service';
-import { GruposclaseService } from '../../gruposclase/services/gruposclase.service';
-import { MateriasclaseService } from '../../materiasclase/services/materiasclase.service';
-import { SemestreService } from '../../semestre/services/semestre.service';
-import { CatplantelesService } from '../../catplanteles/services/catplanteles.service';
-import { CatestatushoraService } from '../../catestatushora/services/catestatushora.service';
-import { CatnombramientosService } from '../../catnombramientos/services/catnombramientos.service';
-import { CattipohorasdocenteService } from '../../cattipohorasdocente/services/cattipohorasdocente.service';
-import { PersonalService } from '../services/personal.service';
+import { CatdocumentosService } from '../../../catalogos/catdocumentos/services/catdocumentos.service';
+import { ListUploadFisicoComponent } from '../../../_shared/upload_fisico/list-uploadFisico.component';
+import { FormUploadFisicoComponent } from '../../../_shared/upload_fisico/form-uploadFisico.component';
 import { relativeTimeThreshold } from 'moment';
 
 
@@ -42,54 +37,23 @@ export class PersonalexpedienteFormComponent implements OnInit, OnDestroy {
 
   actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
-  usuario:any=this.tokenStorage.getUser();
-
+  
   private elementModal: any;
 
   @ViewChild('basicModalPersonalexpediente') basicModalPersonalexpediente: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
+  @ViewChild(ListUploadFisicoComponent) listUpload: ListUploadFisicoComponent;
+  @ViewChild(FormUploadFisicoComponent) formUpload: FormUploadFisicoComponent;
 
-  record: Personalhoras;
-  recordpersonal: Personal = {
-      id: 0,curp: '', rfc: '',  homoclave: '',
-      state: '', nombre: '', apellidopaterno: '', apellidomaterno:'',id_catestadocivil:0,
-      fechanacimiento: null, id_catestadosnaci: 0, id_catmunicipiosnaci: 0, id_catlocalidadesnaci: 0,
-      id_archivos_avatar:0,id_usuarios_sistema:0,numeemp:'',
-      telefono: '', email: '', emailoficial:'',observaciones:'',sexo:0,
-      id_catestadosresi: 0, id_catmunicipiosresi: 0, id_catlocalidadesresi: 0,
-      domicilio:'',colonia:'',cp:'',telefonomovil:'',numimss:'',numissste:'',otronombre:'', numotro:'',tipopension:'',
-      created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0,fechaingreso:null,primaantiguedad:0,
-      id_catbanco_deposito:0,cuentadeposito:''
-  };
-  recordsemestre: Semestre = {
-    id: 0,tipo: '',anio: 0,quincena: 0,qnainiciosemestre:'',qnafinsemestre: '',actual: 0,id_catquincena_ini: 0,
-    id_catquincena_fin: 0, id_catquincena_fininterinas: 0,permitemodificacion: 0,permitecargadeplantillas: 0,
-    created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0,state:''
-};
 
-  catplantelesCat: Catplanteles[];
-  catplantelesAplicacionCat: Catplanteles[];
-  catquincenaCat: Catquincena[];
-  gruposclaseCat: Gruposclase[];
-  materiasclaseCat: Materiasclase[];
-  catestatushoraCat: Catestatushora[];
-  catnombramientosCat: Catnombramientos[];
-  cattipohorasdocenteCat: Cattipohorasdocente[];
-  record_id_personal:number;
-  record_id_semestre:number;
-  record_id_plantel:number;
-  record_personaltitular:Personal[];
-  record_personaltitular_nombre:string;
-  record_quincena_activa:Catquincena;
-  edicion_en_activo:boolean=true;
-  edicion_en_copiar:boolean=false;
-
-  esPlantelDesdeParametro:boolean=false;
+  record: Personalexpediente;
+  recordFile:Archivos;
+  catdocumentosCat: Catdocumentos[];
   keywordSearch = 'full_name';
   isLoadingSearch: boolean;
   esinterina: boolean=false;
-  record_titular:any;
+
 
   //recordJsonTipodoc1:any={UltimoGradodeEstudios:0,AreadeCarrera:0,Carrera:0,Estatus:0};
 
@@ -97,35 +61,22 @@ export class PersonalexpedienteFormComponent implements OnInit, OnDestroy {
     private tokenStorage: TokenStorageService,
     private isLoadingService: IsLoadingService,
     private personalexpedienteformService: PersonalexpedienteFormService,
-    private personalSvc: PersonalService,
-    private semestreSvc: SemestreService,
-    private catquincenaSvc: CatquincenaService,
-    private catplantelesSvc: CatplantelesService,
-    private gruposclaseSvc: GruposclaseService,
-    private materiasclaseSvc: MateriasclaseService,
-    private catestatushoraSvc: CatestatushoraService,
-    private catnombramientosSvc: CatnombramientosService,
-    private cattipohorasdocenteSvc: CattipohorasdocenteService,
+    private catdocumentosSvc: CatdocumentosService,
     private el: ElementRef,
+    private archivosSvc:ArchivosService,
     private route: ActivatedRoute
   ) {
     this.elementModal = el.nativeElement;
 
-
-    this.catestatushoraSvc.getCatalogo().subscribe(resp => {
-      this.catestatushoraCat = resp;
+    this.catdocumentosSvc.getCatalogo().subscribe(resp => {
+      this.catdocumentosCat = resp;
     });
-    this.catnombramientosSvc.getCatalogo().subscribe(resp => {
-      this.catnombramientosCat = resp;
-    });
-
   }
 
-  newRecord(idParent: number, idSemestre: number): Personalhoras {
+  newRecord(idParent: number, idSemestre: number): Personalexpediente {
     return {
-      id: 0, id_personal: idParent, cantidad: 0, id_catplanteles: 0, id_catplanteles_aplicacion:0, id_gruposclase: 0,id_materiasclase: 0,
-      id_cattipohorasmateria: 1, id_catnombramientos: 0, id_semestre: idSemestre,frenteagrupo:0,
-      id_catestatushora: 0, id_catquincena_ini: 0, id_catquincena_fin: 0, horassueltas:0, id_cattipohorasdocente:0,
+      id: 0, id_personal: idParent, id_catdocumentos: 0, id_archivos: 0,
+      observaciones:"",
       state: '', created_at: new Date(), updated_at: new Date(), id_usuarios_r: 0
     };
   }
@@ -163,10 +114,7 @@ export class PersonalexpedienteFormComponent implements OnInit, OnDestroy {
 
       this.validSummary.resetErrorMessages(admin);
 
-      if(this.record.id_catnombramientos==2 && this.record_personaltitular.length==0){
-        this.validSummary.generateErrorMessagesFromServer({Titular: "No existe un profesor con esta materia en Licencia"});
-      }
-      else{
+      
         await this.isLoadingService.add(
           this.personalexpedienteformService.setRecord(this.record, this.actionForm).subscribe(async resp => {
             if (resp.hasOwnProperty('error')) {
@@ -176,69 +124,51 @@ export class PersonalexpedienteFormComponent implements OnInit, OnDestroy {
               if (this.actionForm.toUpperCase() == "NUEVO") this.actionForm = "editar";
               this.record.id = resp.id;
 
-              this.successModal.show();
-              setTimeout(() => { this.successModal.hide(); this.close();}, 2000)
+              //actualizar el registro de la tabla archivos
+              //id_archivos ya tomó el valor desde el evento onLoadedFile
+              if(this.record.id_archivos>0){
+                this.recordFile={id:this.record.id_archivos,
+                    tabla:"personalexpediente",
+                    id_tabla:this.record.id,ruta:"personal/expediente",
+                    tipo: null,  nombre:  null,  datos: null,  id_usuarios_r: 0,
+                    state: '',  created_at: null,   updated_at: null
+                  };
+
+                await this.isLoadingService.add(
+                this.archivosSvc.setRecordReferencia(this.recordFile,this.actionForm).subscribe(resp => {
+                  this.successModal.show();
+                  setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
+                }),{ key: 'loading' });
+              }
+              else{
+                this.successModal.show();
+                setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
+              }
             }
           }), { key: 'loading' });
-        }
+        
     }
+  }
+
+  //Archivo cargado
+  onLoadedFile(idFile:number){
+    this.record.id_archivos=idFile;
+    this.listUpload.showFiles(this.record.id_archivos);
   }
 
   // open modal
   open(idItem: string, accion: string, idPersonal: number, idSemestre: number, idPlantel:number): void {
     this.actionForm = accion;
     this.botonAccion = actionsButtonSave[accion];
-    this.tituloForm = "Carga horaria - " + titulosModal[accion] + " registro";
-    this.record_id_personal=idPersonal;
-    this.record_id_semestre=idSemestre;
-    this.record_id_plantel=idPlantel;
+    this.tituloForm = "Expediente de personal - " + titulosModal[accion] + " registro";
 
-    this.esPlantelDesdeParametro=(idPlantel>0);
-
-    this.personalSvc.getRecord(idPersonal).subscribe(resp => {
-      this.recordpersonal = resp;
-    });
-    this.semestreSvc.getRecord(idSemestre).subscribe(resp => {
-      this.recordsemestre = resp;
-    });
-    this.catplantelesSvc.getCatalogoSegunPersonal(idPersonal).subscribe(resp => {
-      this.catplantelesCat = resp;
-    });
-    this.catplantelesSvc.getCatalogoSinAdmin(this.usuario.id).subscribe(resp => {
-      this.catplantelesAplicacionCat = resp;
-    });
-
-    this.edicion_en_copiar=false;
     if (idItem == "0") {
       this.record = this.newRecord(idPersonal, idSemestre);
-      this.record.id_catplanteles=idPlantel;
-      this.record.id_catplanteles_aplicacion=idPlantel;
-      this.onSelectPlantel(idPlantel);
-      this.edicion_en_activo=true;
     } else {
       //obtener el registro
-      this.catquincenaSvc.getQuincenaActiva().subscribe(async resp => {
-        //quincena activa
-        this.record_quincena_activa = resp;
         this.personalexpedienteformService.getRecord(idItem).subscribe(async resp => {
           this.record = resp;
-          this.edicion_en_activo=true;
-          if(this.record_quincena_activa.id>this.record.id_catquincena_ini)
-            this.edicion_en_activo=false;//solo editar la quincena final
-
-          if(this.actionForm.toUpperCase()=="COPIAR"){
-            this.actionForm="NUEVO";
-            this.record.id=0;
-            this.edicion_en_copiar=true;
-          }
-
-          this.onSelectPlantel(resp.id_catplanteles_aplicacion);
-          this.onSelectGruposclase(resp.id_gruposclase);
-          this.onSelectNombramiento(resp.id_catnombramientos);
-          this.cattipohorasdocenteSvc.getCatalogoSegunMateria(resp.id_materiasclase).subscribe(resp => {
-            this.cattipohorasdocenteCat = resp;
-          });
-        });
+          this.listUpload.showFiles(this.record.id_archivos);
       });
     }
 
@@ -257,67 +187,6 @@ export class PersonalexpedienteFormComponent implements OnInit, OnDestroy {
   // log contenido de objeto en adminulario
   get diagnosticValidate() { return JSON.stringify(this.record); }
 
-  onSelectPlantel(valor: any) {
-    this.record.id_catplanteles_aplicacion=valor;
-    let id_cattiposemestre=0;
-    if(this.recordsemestre.tipo=="A") id_cattiposemestre=1
-    if(this.recordsemestre.tipo=="B") id_cattiposemestre=2
-    if(this.recordsemestre.tipo=="A,B") id_cattiposemestre=3
 
-    if(!this.edicion_en_copiar)//si no es copia
-      this.gruposclaseSvc.getCatalogoConHorasDisponiblesSegunPlantel(valor,this.record.id,this.recordsemestre.tipo,this.record_id_semestre,id_cattiposemestre).subscribe(resp => {
-        this.gruposclaseCat = resp;
-      });
-    else
-      this.gruposclaseSvc.getCatalogoConHorasDisponiblesSegunCopia(valor,this.record.id,this.recordsemestre.tipo,this.record_id_semestre,id_cattiposemestre
-          ,this.record.id_materiasclase,this.record.id_catestatushora,this.record.id_cattipohorasdocente,this.record.id_personal).subscribe(resp => {
-        this.gruposclaseCat = resp;
-      });
-
-  }
-
-  onSelectGruposclase(valor: any) {
-    let id_cattiposemestre=0;
-    if(this.recordsemestre.tipo=="A") id_cattiposemestre=1
-    if(this.recordsemestre.tipo=="B") id_cattiposemestre=2
-    if(this.recordsemestre.tipo=="A,B") id_cattiposemestre=3
-    this.materiasclaseSvc.getCatalogoConHorasDisponiblesSegunGrupo(this.record.id_catplanteles_aplicacion, valor,this.record.id,this.record_id_semestre,id_cattiposemestre).subscribe(resp => {
-      this.materiasclaseCat = resp;
-    });
-  }
-
-  onSelectMateriasclase(valor: any) {
-    this.record.cantidad=this.materiasclaseCat.find(a=>a.id==valor).horasdisponibles;
-    this.cattipohorasdocenteSvc.getCatalogoSegunMateria(valor).subscribe(resp => {
-     this.cattipohorasdocenteCat = resp;
-   });
-  }
-
-  onSelectNombramiento(id_catnombramientos){
-    this.record_personaltitular=[];
-    this.esinterina=false;
-    if(id_catnombramientos==2 || id_catnombramientos==3){//interino o provisional
-      this.catquincenaSvc.getCatalogoSegunSemestre(this.record_id_semestre).subscribe(resp => {
-        this.catquincenaCat = resp;
-      });
-      //interinato
-      if(id_catnombramientos==2){
-        this.esinterina=true;
-        this.personalexpedienteformService.getRecordTitularEnLicencia(this.record.id_catplanteles_aplicacion,this.record.id_gruposclase,this.record.id_materiasclase,this.record.id_semestre).subscribe(resp => {
-          this.record_personaltitular = resp;
-          this.record_personaltitular_nombre="";
-          console.log("resp=>",resp)
-          if(resp.length>0){
-            this.record_personaltitular_nombre=this.record_personaltitular["nombre"];
-          }
-        });
-      }
-    }
-    else{
-      this.catquincenaSvc.getCatalogo().subscribe(resp => {
-        this.catquincenaCat = resp;
-      });
-    }
-  }
 
 }

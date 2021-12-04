@@ -14,6 +14,8 @@ export default interface Archivos {
 
   datos: File | null;
 
+  ruta: string | null;
+
   id_usuarios_r: number;
 
   state: string;
