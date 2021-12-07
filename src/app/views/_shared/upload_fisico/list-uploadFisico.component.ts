@@ -18,9 +18,10 @@ export class ListUploadFisicoComponent implements OnInit {
     this.showFiles(0);
   }
 
-  showFiles(id_documento:number) {//enable: boolean
-    if(id_documento>0){
-      this.fileUploads = this.uploadFisicoService.listFile(id_documento);
+  showFiles(id_archivos:number) {//enable: boolean
+
+    if(id_archivos>0){
+      this.fileUploads = this.uploadFisicoService.listFile(id_archivos);
     }
     else
       this.fileUploads=null;

@@ -328,14 +328,14 @@
                                                         <!--<td><img src="assets/{{ member[col] }}" width="50" /></td>-->
                                                         <td>
                                                             <div *ngFor="let boton of member[col].split(',')" style="display: contents;">
-                                                                <button *ngIf="boton=='ver' || (boton=='editar' && irecord>0)" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo_documento,'custom-expediente','ver',member.id,member.id_plantillaspersonal)">
+                                                                <button *ngIf="boton=='ver' " class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="openModal('custom-expediente', 'ver', member.id, record.id)">
                                                                   <i class="fa fa-search"></i>
                                                               </button>
 
-                                                                <button *ngIf="boton=='editar' && irecord==0" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo_documento,'custom-expediente','editar',member.id,member.id_plantillaspersonal)">
+                                                                <button *ngIf="boton=='editar'" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal('custom-expediente', 'editar', member.id, record.id)">
                                                                     <i class="fa fa-edit"></i>
                                                                 </button>
-                                                                <button *ngIf="boton=='eliminar' && irecord==0" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo_documento,'custom-expediente','eliminar',member.id)">
+                                                                <button *ngIf="boton=='eliminar'" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal('custom-expediente', 'eliminar', member.id, record.id)">
                                                                     <i class="fa fa-trash"></i>
                                                                 </button>
 
@@ -364,7 +364,7 @@
                                     </ng-select2>
                                 </div>
                             </div>
-                            <div class="row">
+                            <!--<div class="row">
                                 <div class="form-group col-sm-4">
                                     <label for="archivo">Archivo .jpg .png (fotografía)  </label>
                                     <form-upload (onLoaded)="onLoadedFile($event)" [actionForm]="actionForm" [idFile]="record.id_archivos_avatar"></form-upload>
@@ -373,7 +373,7 @@
 
                                     <list-upload></list-upload>
                                 </div>
-                            </div>
+                            </div>-->
                         </tab>
                     </tabset>
                     <div class="row">

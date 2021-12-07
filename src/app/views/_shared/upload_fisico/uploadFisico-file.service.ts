@@ -31,7 +31,7 @@ export class UploadFisicoFileService {
   }
 
   listFile(id): Observable<any> {
-    return this.http.get(this.API_URL + '/documentos/info/' + id);
+    return this.http.get(this.API_URL + '/archivos/info/' + id);
   }
 
   //getFile(id): Observable<any> {
@@ -40,7 +40,7 @@ export class UploadFisicoFileService {
     let re = /\//g;//reemplazar diagonal
     ruta=ruta.replace(re, "!");
 
-    this.http.get(this.API_URL + '/archivos/' + ruta, {responseType: 'blob'})
+    this.http.get(this.API_URL + '/archivos/df/' + ruta, {responseType: 'blob'})
     .subscribe( data => {
 
       //var file = new Blob([data], {type: tipo});

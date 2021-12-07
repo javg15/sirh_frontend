@@ -1,4 +1,4 @@
-<div bsModal #basicModalPersonalexpediente="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+<div bsModal #basicModal="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-full-height modal-right" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -14,33 +14,27 @@
                     <div class="form-group">
                         <input type="hidden" [(ngModel)]="record.id" class="form-control" name="ID">
                     </div>
-                    <div class="row">
-                        <div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="id_catdocumentos">Tipo de documento</label>
-                                <ng-select2 [(ngModel)]="record.id_catdocumentos" [data]="catdocumentosCat" [allowClear]="true" width="100%" name="Tipo de documento">
-                                </ng-select2>
+                    <!-- Nav tabs -->
+                    <tabset>
+                        <tab heading="Datos">
+                            <div class="row">
+                                <div class="form-group col-sm-4">
+                                    <div class="form-group">
+                                        <label for="idesc">Rol de usuario</label>
+                                        <input type="text" [(ngModel)]="record.idesc" class="form-control" name="Rol de usuario">
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="observaciones">Observaciones</label>
-                                <textarea [(ngModel)]="record.observaciones" rows="5" cols="50" class="form-control" name="Observaciones">
-                                </textarea>
+                        </tab>
+                        <tab heading="Permisos">
+                            <div class="row">
+                                <div class="form-group col-sm-4">
+                                    <label for="archivo">Permisos</label>
+
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-4">
-                            <label for="archivo">Archivo .pdf</label>
-                            <form-uploadFisico (onLoaded)="onLoadedFile($event)" [ruta]="ruta"></form-uploadFisico>
-                            <br/>
-                            <br/>
-
-                            <list-uploadFisico></list-uploadFisico>
-                        </div>
-                    </div>
-
+                        </tab>
+                    </tabset>
                     <div class="row">
                         &nbsp;
                     </div>
@@ -53,7 +47,7 @@
                 </form>
             </div>
             <!-- <h2>Diagnostic Info</h2>
-        <div [innerHtml]="diagnosticValidate"></div>-->
+            <div [innerHtml]="diagnosticValidate"></div>-->
         </div>
     </div>
 </div>
@@ -75,3 +69,4 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
+<!-- /.modal -->

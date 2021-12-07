@@ -79,9 +79,6 @@ export class UsuariosService {
   }
 
 
-
-
-
   // array de modales
   public add(modal: any) {
     this.modals.push(modal);

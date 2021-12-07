@@ -51,5 +51,30 @@ export class PermgruposService {
       , httpOptions);
   }
 
+  /* El siguiente método graba un registro nuevo, o uno editado. */
+  public setRecord(dataPack, actionForm): Observable<any> {
 
+    return this.http.post(this.API_URL + '/permgrupos/setRecord',
+      { dataPack, actionForm }
+      , httpOptions);
+  }
+
+  // array de modales
+  public add(modal: any) {
+    this.modals.push(modal);
+  }
+
+  public remove(id: string) {
+    this.modals = this.modals.filter(x => x.id !== id);
+  }
+
+  public open(id: string, accion: string, idItem: number) {
+    let modal: any = this.modals.filter(x => x.id === id)[0];
+    modal.open(idItem, accion);
+  }
+
+  public close(id: string) {
+    let modal: any = this.modals.filter(x => x.id === id)[0];
+    modal.close();
+  }
 }

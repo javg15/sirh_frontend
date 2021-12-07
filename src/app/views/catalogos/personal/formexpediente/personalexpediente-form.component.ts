@@ -15,6 +15,7 @@ import { PersonalexpedienteFormService } from '../services/personalexpedientefor
 import { CatdocumentosService } from '../../../catalogos/catdocumentos/services/catdocumentos.service';
 import { ListUploadFisicoComponent } from '../../../_shared/upload_fisico/list-uploadFisico.component';
 import { FormUploadFisicoComponent } from '../../../_shared/upload_fisico/form-uploadFisico.component';
+import { UploadFisicoFileService } from '../../../_shared/upload_fisico/uploadFisico-file.service';
 import { relativeTimeThreshold } from 'moment';
 
 
@@ -37,7 +38,7 @@ export class PersonalexpedienteFormComponent implements OnInit, OnDestroy {
 
   actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
-  
+
   private elementModal: any;
 
   @ViewChild('basicModalPersonalexpediente') basicModalPersonalexpediente: ModalDirective;
@@ -55,6 +56,7 @@ export class PersonalexpedienteFormComponent implements OnInit, OnDestroy {
   esinterina: boolean=false;
 
 
+
   //recordJsonTipodoc1:any={UltimoGradodeEstudios:0,AreadeCarrera:0,Carrera:0,Estatus:0};
 
   constructor(
@@ -64,6 +66,7 @@ export class PersonalexpedienteFormComponent implements OnInit, OnDestroy {
     private catdocumentosSvc: CatdocumentosService,
     private el: ElementRef,
     private archivosSvc:ArchivosService,
+    private uploadFileSvc:UploadFisicoFileService,
     private route: ActivatedRoute
   ) {
     this.elementModal = el.nativeElement;
@@ -73,7 +76,7 @@ export class PersonalexpedienteFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  newRecord(idParent: number, idSemestre: number): Personalexpediente {
+  newRecord(idParent: number): Personalexpediente {
     return {
       id: 0, id_personal: idParent, id_catdocumentos: 0, id_archivos: 0,
       observaciones:"",
@@ -82,7 +85,7 @@ export class PersonalexpedienteFormComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
 
-    this.record = this.newRecord(0, 0);
+    this.record = this.newRecord(0);
 
     let modal = this;
 
@@ -108,66 +111,92 @@ export class PersonalexpedienteFormComponent implements OnInit, OnDestroy {
   }
 
 
-  async submitAction(admin) {
+  submitAction(admin) {
 
     if (this.actionForm.toUpperCase() !== "VER") {
 
       this.validSummary.resetErrorMessages(admin);
+      if(this.record.id_catdocumentos<=0)
+        this.validSummary.generateErrorMessagesFromServer({id_catdocumentos: "Seleccione el tipo de documento a cargar"});
+      else{
+        if(this.actionForm.toUpperCase()==="NUEVO"){
+          //primero cargar el archivo
+          this.formUpload.ruta="personal/expediente/" +
+            this.record.id_personal.toString().padStart(5 , "0")+ "/" +
+            this.record.id_catdocumentos.toString().padStart(2 , "0");
+          //el metodo .upload, emitirá el evento que cachará el metodo  onLoadedFile de este archivo
+          this.formUpload.upload()
+        }
+        else if(this.actionForm.toUpperCase()==="EDITAR" || this.actionForm.toUpperCase()==="ELIMINAR"){
+          //Solo se edita información, el archivo no se puede reemplazar, solo eliminar
+          this.isLoadingService.add(
+            this.personalexpedienteformService.setRecord(this.record, this.actionForm).subscribe(async resp => {
+              if (resp.hasOwnProperty('error')) {
+                this.validSummary.generateErrorMessagesFromServer(resp.message);
+              }
+              else if (resp.message == "success") {
+                this.record.id=resp.id;
 
-      
-        await this.isLoadingService.add(
-          this.personalexpedienteformService.setRecord(this.record, this.actionForm).subscribe(async resp => {
-            if (resp.hasOwnProperty('error')) {
-              this.validSummary.generateErrorMessagesFromServer(resp.message);
-            }
-            else if (resp.message == "success") {
-              if (this.actionForm.toUpperCase() == "NUEVO") this.actionForm = "editar";
-              this.record.id = resp.id;
-
-              //actualizar el registro de la tabla archivos
-              //id_archivos ya tomó el valor desde el evento onLoadedFile
-              if(this.record.id_archivos>0){
-                this.recordFile={id:this.record.id_archivos,
-                    tabla:"personalexpediente",
-                    id_tabla:this.record.id,ruta:"personal/expediente",
-                    tipo: null,  nombre:  null,  datos: null,  id_usuarios_r: 0,
-                    state: '',  created_at: null,   updated_at: null
-                  };
-
-                await this.isLoadingService.add(
-                this.archivosSvc.setRecordReferencia(this.recordFile,this.actionForm).subscribe(resp => {
                   this.successModal.show();
                   setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
-                }),{ key: 'loading' });
               }
-              else{
-                this.successModal.show();
-                setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
-              }
-            }
           }), { key: 'loading' });
-        
+        }
+      }
     }
   }
 
-  //Archivo cargado
-  onLoadedFile(idFile:number){
-    this.record.id_archivos=idFile;
-    this.listUpload.showFiles(this.record.id_archivos);
+  //Archivo cargado. Eventos disparado desde el componente
+  async onLoadedFile(datos:any){
+      //ingresar el registro de la tabla archivos
+      this.recordFile={
+        id:0,
+        tabla:"personalexpediente",
+        id_tabla:0,ruta:datos.ruta,
+        tipo: datos.tipo,  nombre:  datos.nombrearchivo,  datos: null,  id_usuarios_r: 0,
+        state: '',  created_at: null,   updated_at: null
+      };
+          //ingresar el registro de expediente
+    await this.isLoadingService.add(
+      this.archivosSvc.setRecord(this.recordFile,this.actionForm).subscribe(resp => {
+        this.record.id_archivos=resp.id;
+        this.recordFile.id=resp.id;
+        //registrar el expediente
+        this.personalexpedienteformService.setRecord(this.record, this.actionForm).subscribe(async resp => {
+          if (resp.hasOwnProperty('error')) {
+            this.validSummary.generateErrorMessagesFromServer(resp.message);
+          }
+          else if (resp.message == "success") {
+            this.record.id=resp.id;
+            if (this.actionForm.toUpperCase() == "NUEVO") this.actionForm = "editar";
+
+            //actualizar la referencia en el archivo
+            this.recordFile.id_tabla=this.record.id;
+            this.archivosSvc.setRecordReferencia(this.recordFile,this.actionForm).subscribe(resp => {
+              this.successModal.show();
+              setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
+            });
+          }
+        })
+      })
+    , { key: 'loading' });
   }
 
   // open modal
-  open(idItem: string, accion: string, idPersonal: number, idSemestre: number, idPlantel:number): void {
+  open(idItem: string, accion: string, idPersonal: number): void {
     this.actionForm = accion;
     this.botonAccion = actionsButtonSave[accion];
     this.tituloForm = "Expediente de personal - " + titulosModal[accion] + " registro";
-
+    this.formUpload.resetFile();
     if (idItem == "0") {
-      this.record = this.newRecord(idPersonal, idSemestre);
+      this.record = this.newRecord(idPersonal);
+      this.formUpload.showFile();
+      this.listUpload.showFiles(0);
     } else {
       //obtener el registro
         this.personalexpedienteformService.getRecord(idItem).subscribe(async resp => {
           this.record = resp;
+          this.formUpload.hideFile();
           this.listUpload.showFiles(this.record.id_archivos);
       });
     }
@@ -184,9 +213,12 @@ export class PersonalexpedienteFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  //muestra el archivo
+  getFile(ruta){
+    this.uploadFileSvc.getFile(ruta);
+  }
+
   // log contenido de objeto en adminulario
   get diagnosticValidate() { return JSON.stringify(this.record); }
-
-
 
 }
