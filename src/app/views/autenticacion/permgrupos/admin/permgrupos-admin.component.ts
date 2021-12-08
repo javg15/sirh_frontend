@@ -85,7 +85,7 @@ export class PermgruposAdminComponent implements OnInit {
           this.permgruposService.http
             .post<DataTablesResponse>(
               // this.API_URL + '/a6b_apis/read_records_dt.php',
-              this.API_URL + '/user/getAdmin',
+              this.API_URL + '/permgrupos/getAdmin',
               dataTablesParameters, {}
             ).subscribe(resp => {
 

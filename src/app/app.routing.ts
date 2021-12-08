@@ -177,12 +177,8 @@ const routes: Routes = [
         loadChildren: () => import('./views/empleados/empleadosstart.module').then(m => m.EmpleadosStartModule)
       },
       {
-        path: 'usuarios/formdirect',
-        loadChildren: () => import('./views/autenticacion/usuarios/usuarios.module').then(m => m.UsuariosModule)
-      },
-      {
-        path: 'autenticacion/usuarios',
-        loadChildren: () => import('./views/autenticacion/usuarios/usuarios.module').then(m => m.UsuariosModule)
+        path: 'autenticacion',
+        loadChildren: () => import('./views/autenticacion/autenticacion.module').then(m => m.AutenticacionModule)
       },
     ]
   },

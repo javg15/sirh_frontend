@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+/*import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { UsuariosAdminComponent } from './admin/usuarios-admin.component';
@@ -51,3 +51,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class UsuariosRoutingModule {}
+*/

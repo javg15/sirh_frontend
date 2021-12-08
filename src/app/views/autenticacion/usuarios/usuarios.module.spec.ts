@@ -1,4 +1,4 @@
-import { UsuariosModule } from './usuarios.module';
+/*import { UsuariosModule } from './usuarios.module';
 
 describe('UsuariosModule', () => {
   let usuariosModule: UsuariosModule;
@@ -11,3 +11,4 @@ describe('UsuariosModule', () => {
     expect(usuariosModule).toBeTruthy();
   });
 });
+*/

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+/*import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -42,3 +42,4 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
   ]
 })
 export class UsuariosModule { }
+*/

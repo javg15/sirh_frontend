@@ -7,6 +7,7 @@ import { actionsButtonSave, titulosModal } from '../../../../../environments/env
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 import { PermgruposService } from '../services/permgrupos.service';
+import { TreeNode, TreeModel, ITreeOptions } from '@circlon/angular-tree-component';
 
 
 declare var $: any;
@@ -30,10 +31,61 @@ export class PermgruposFormComponent implements OnInit, OnDestroy {
     @ViewChild('basicModal') basicModal: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
+  @ViewChild('tree') tree;
 
   record: Permgrupos;
   isLoadingSearch:boolean;
   keywordSearch = 'full_name';
+
+  nodes = [
+    {
+      id:'1', 
+      name:'Root',
+      checked: true,
+      checkbox: false,
+      children: [
+        {
+          id:'2',
+          name:'First Child',
+          checked: true,
+          checkbox: true,
+        },
+        {
+          id:'3',
+          name:'Second Child',
+          checked: false,
+          checkbox: true,
+        }
+      ]
+    },
+    {
+      id:'4', 
+      name:'Root2', 
+      checked: false,
+      checkbox: false,
+      children: [
+        {
+          id:'5',
+          name:'First Child',
+          checked: false,
+          checkbox: false,
+          children: [
+            { id: '7', name: 'grandchild', checked: false,checkbox: true }
+          ]
+        },
+        {
+          id:'6',
+          name:'Second Child',
+          checked: false,
+          checkbox: true,
+        }
+      ]
+    },
+  ];
+
+  options: ITreeOptions = {
+    
+  };
 
   constructor(private isLoadingService: IsLoadingService,
       private permgruposService: PermgruposService, private el: ElementRef,
@@ -94,6 +146,49 @@ export class PermgruposFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**treview \./ */
+  selectNode(node: TreeNode): void{
+    
+    node.data.checked = !node.data.checked;
+
+    let father: TreeNode[] = this.deepSearchFather(node, []);
+
+    if (father != null) {
+      father.forEach((nodePai: TreeNode) => {
+        if(nodePai.data.checkbox){
+          let inputValue: HTMLInputElement = <HTMLInputElement>document.getElementById('check-' + nodePai.id);
+          inputValue.indeterminate = node.data.checked;
+          nodePai.data.checked = node.data.checked;
+          nodePai.data.checkbox = !node.data.checked;
+        }
+      });
+    }
+    console.log("tree.treeModel=>",this.tree.treeModel)
+  }
+
+  private deepSearchFather(node: TreeNode, parents: TreeNode[]): TreeNode[] {
+
+    if (node.parent) {
+
+      if (node.parent.parent) {
+        this.deepSearchFather(node.parent, parents);
+      }
+
+      if (node.parent.data.virtual) {
+        return null;
+      }
+
+      parents.push(node.parent);
+
+    } else {
+      return null;
+    }
+
+    return parents;
+
+  }
+  
+  /** treview /.\ */
 
   // open modal
   open(idItem: string, accion: string):  void {
@@ -104,11 +199,10 @@ export class PermgruposFormComponent implements OnInit, OnDestroy {
     if(idItem=="0"){
       this.record =this.newRecord();
     } else {
-
-    this.permgruposService.getRecord(idItem).subscribe(resp => {
-      this.record = resp;
-    });
-  }
+      this.permgruposService.getRecord(idItem).subscribe(resp => {
+        this.record = resp;
+      });
+    }
 
     // console.log($('#modalTest').html()); poner el id a algun elemento para testear
     this.basicModal.show();

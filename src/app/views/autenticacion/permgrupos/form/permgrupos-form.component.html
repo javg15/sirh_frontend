@@ -30,7 +30,16 @@
                             <div class="row">
                                 <div class="form-group col-sm-4">
                                     <label for="archivo">Permisos</label>
-
+                                    <div style="height: 400px; width: auto; overflow: auto;">
+                                        <tree-root #tree [options]="options" [nodes]="nodes">
+                                            <ng-template #treeNodeTemplate let-node let-index="index">
+    
+                                                <input *ngIf="node.data.checkbox" type="checkbox" [disabled]="!node.data.checkbox" [checked]="node.data.checked" (change)="selectNode(node)" id="check-{{node.id}}">
+                                                <span>{{ node.data.name }}</span>
+                                                
+                                              </ng-template>
+                                        </tree-root>
+                                    </div>
                                 </div>
                             </div>
                         </tab>
