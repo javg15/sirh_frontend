@@ -15,9 +15,7 @@ import { PermgruposService } from '../../../autenticacion/permgrupos/services/pe
 import { PersonalService } from '../../../catalogos/personal/services/personal.service';
 
 import { AutocompleteComponent } from 'angular-ng-autocomplete';
-import { ListUploadComponent } from '../../../_shared/upload/list-upload.component';
-import { FormUploadComponent } from '../../../_shared/upload/form-upload.component';
-
+import { TreeNode, TreeModel, ITreeOptions } from '@circlon/angular-tree-component';
 
 declare var $: any;
 declare var jQuery: any;
@@ -41,8 +39,7 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
   @ViewChild('basicModal') basicModal: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
-  @ViewChild(ListUploadComponent) listUpload: ListUploadComponent;
-  @ViewChild(FormUploadComponent) formUpload: FormUploadComponent;
+  
 
   record: Usuarios;
   passConfirm:String="";
@@ -55,6 +52,11 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
   record_id_personal:number=0;
   isLoadingSearch:boolean;
   keywordSearch = 'full_name';
+
+  nodes = []; 
+  options: ITreeOptions = {
+    
+  };
   //se usa en el html
   dropdownSettings = {
     singleSelection: false,
@@ -152,11 +154,6 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  //Archivo cargado
-  onLoadedFile(idFile:number){
-    this.record.id_archivos_avatar=idFile;
-    this.listUpload.showFiles(this.record.id_archivos_avatar);
-  }
 
   // open modal
   open(idItem: string, accion: string):  void {
@@ -167,17 +164,24 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
 
     if(idItem=="0"){
       this.record =this.newRecord();
+      this.usuariosService.getTreePermisos(0).subscribe(resp => {
+        this.nodes = resp;
+      });
     } else {
 
-    this.usuariosService.getRecord(idItem).subscribe(resp => {
-      this.record = resp;
-      this.listUpload.showFiles(this.record.id_archivos_avatar);
-//obtener las zonas seleccionadas
-      this.usuarioszonasSvc.getRecord(idItem).subscribe(resp => {
-        this.record.record_catzonasgeograficas = resp;
+      this.usuariosService.getRecord(idItem).subscribe(resp => {
+        this.record = resp;
+  //obtener las zonas seleccionadas
+        this.usuarioszonasSvc.getRecord(idItem).subscribe(resp => {
+          this.record.record_catzonasgeograficas = resp;
+        });
+        this.usuariosService.getTreePermisos(idItem).subscribe(resp => {
+          this.nodes = resp;
+        });
+        
+        //this.listUpload.showFiles(this.record.id_archivos_avatar);
       });
-    });
-  }
+    }
 
     // console.log($('#modalTest').html()); poner el id a algun elemento para testear
     this.basicModal.show();
@@ -201,6 +205,69 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
     else
       this.record.username="";
   }
+
+  /**treview \./ */
+  /*update(node: TreeNode) {
+    this.traverse(this.nodes,this.process,node);
+  }
+
+  traverse(o,func,node) {
+    for (var i in o) {
+        if(i=="checked" && o[i]==true)
+          func.apply(this,[i,o[i],o]);  
+        if (o[i] !== null && typeof(o[i])=="object") {
+            //going one step down in the object tree!!
+            this.traverse(o[i],func,node);
+        }
+    }
+  }
+
+  process(key,value,node) {
+    console.log(key + " : "+value,"node=>",node);
+  }*/
+
+  selectNode(node: TreeNode): void{
+
+    node.data.checked = !node.data.checked;
+
+    let father: TreeNode[] = this.deepSearchFather(node, []);
+
+    if (father != null) {
+      father.forEach((nodePai: TreeNode) => {
+        if(nodePai.data.checkbox){
+          let inputValue: HTMLInputElement = <HTMLInputElement>document.getElementById('check-' + nodePai.id);
+          inputValue.indeterminate = node.data.checked;
+          nodePai.data.checked = node.data.checked;
+          nodePai.data.checkbox = !node.data.checked;
+        }
+      });
+    }
+  }
+
+  private deepSearchFather(node: TreeNode, parents: TreeNode[]): TreeNode[] {
+
+    if (node.parent) {
+
+      if (node.parent.parent) {
+        this.deepSearchFather(node.parent, parents);
+      }
+
+      if (node.parent.data.virtual) {
+        return null;
+      }
+
+      parents.push(node.parent);
+
+    } else {
+      return null;
+    }
+
+    return parents;
+
+  }
+  
+  /** treview /.\ */
+
   /*********************
    autocomplete id_personal
    *********************/

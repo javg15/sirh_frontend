@@ -51,11 +51,17 @@ export class PermgruposService {
       , httpOptions);
   }
 
+  public getTreePermisos(id_grupos: any): Observable<any> {
+    return this.http.post(this.API_URL + '/permgrupos/getTreePermisos',
+      { id_grupos }
+      , httpOptions);
+  }
+
   /* El siguiente método graba un registro nuevo, o uno editado. */
-  public setRecord(dataPack, actionForm): Observable<any> {
+  public setRecord(dataPack, nodes,actionForm): Observable<any> {
 
     return this.http.post(this.API_URL + '/permgrupos/setRecord',
-      { dataPack, actionForm }
+      { dataPack, nodes,actionForm }
       , httpOptions);
   }
 

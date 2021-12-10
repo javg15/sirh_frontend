@@ -55,6 +55,12 @@ export class UsuariosService {
       , httpOptions);
   }
 
+  public getTreePermisos(id_usuario: any): Observable<any> {
+    return this.http.post(this.API_URL + '/user/getTreePermisos',
+      { id_usuario }
+      , httpOptions);
+  }
+
   /* El siguiente método graba un registro nuevo, o uno editado. */
   public setRecord(dataPack, actionForm): Observable<any> {
 

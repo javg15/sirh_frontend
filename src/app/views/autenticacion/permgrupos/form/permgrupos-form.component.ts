@@ -31,58 +31,12 @@ export class PermgruposFormComponent implements OnInit, OnDestroy {
     @ViewChild('basicModal') basicModal: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
-  @ViewChild('tree') tree;
 
   record: Permgrupos;
   isLoadingSearch:boolean;
   keywordSearch = 'full_name';
 
-  nodes = [
-    {
-      id:'1', 
-      name:'Root',
-      checked: true,
-      checkbox: false,
-      children: [
-        {
-          id:'2',
-          name:'First Child',
-          checked: true,
-          checkbox: true,
-        },
-        {
-          id:'3',
-          name:'Second Child',
-          checked: false,
-          checkbox: true,
-        }
-      ]
-    },
-    {
-      id:'4', 
-      name:'Root2', 
-      checked: false,
-      checkbox: false,
-      children: [
-        {
-          id:'5',
-          name:'First Child',
-          checked: false,
-          checkbox: false,
-          children: [
-            { id: '7', name: 'grandchild', checked: false,checkbox: true }
-          ]
-        },
-        {
-          id:'6',
-          name:'Second Child',
-          checked: false,
-          checkbox: true,
-        }
-      ]
-    },
-  ];
-
+  nodes = []; 
   options: ITreeOptions = {
     
   };
@@ -126,12 +80,12 @@ export class PermgruposFormComponent implements OnInit, OnDestroy {
 
 
   async submitAction(form) {
-
     if(this.actionForm.toUpperCase()!=="VER"){
       this.validSummary.resetErrorMessages(form);
-
+      
+      //let nodes=this.getNodes();
       await this.isLoadingService.add(
-      this.permgruposService.setRecord(this.record,this.actionForm).subscribe(async resp => {
+      this.permgruposService.setRecord(this.record,this.nodes,this.actionForm).subscribe(async resp => {
         if (resp.hasOwnProperty('error')) {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
         }
@@ -147,8 +101,27 @@ export class PermgruposFormComponent implements OnInit, OnDestroy {
   }
 
   /**treview \./ */
+  /*update(node: TreeNode) {
+    this.traverse(this.nodes,this.process,node);
+  }
+
+  traverse(o,func,node) {
+    for (var i in o) {
+        if(i=="checked" && o[i]==true)
+          func.apply(this,[i,o[i],o]);  
+        if (o[i] !== null && typeof(o[i])=="object") {
+            //going one step down in the object tree!!
+            this.traverse(o[i],func,node);
+        }
+    }
+  }
+
+  process(key,value,node) {
+    console.log(key + " : "+value,"node=>",node);
+  }*/
+
   selectNode(node: TreeNode): void{
-    
+
     node.data.checked = !node.data.checked;
 
     let father: TreeNode[] = this.deepSearchFather(node, []);
@@ -163,7 +136,6 @@ export class PermgruposFormComponent implements OnInit, OnDestroy {
         }
       });
     }
-    console.log("tree.treeModel=>",this.tree.treeModel)
   }
 
   private deepSearchFather(node: TreeNode, parents: TreeNode[]): TreeNode[] {
@@ -198,13 +170,19 @@ export class PermgruposFormComponent implements OnInit, OnDestroy {
 
     if(idItem=="0"){
       this.record =this.newRecord();
+      this.permgruposService.getTreePermisos(0).subscribe(resp => {
+        this.nodes = resp;
+      });
     } else {
       this.permgruposService.getRecord(idItem).subscribe(resp => {
         this.record = resp;
+        this.permgruposService.getTreePermisos(idItem).subscribe(resp => {
+          this.nodes = resp;
+        });
       });
+      
     }
 
-    // console.log($('#modalTest').html()); poner el id a algun elemento para testear
     this.basicModal.show();
   }
 
