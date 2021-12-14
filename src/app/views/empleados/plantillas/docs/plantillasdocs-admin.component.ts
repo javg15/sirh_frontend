@@ -159,7 +159,10 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     this.plantillasdocsService.setActualizarFin(id_plantillasdocsnombramiento).subscribe(resp => {
       this.reDraw(null);
     });
+  }
 
+  imprimirNombramiento(id_plantillasdocsnombramiento){
+    this.plantillasdocsService.getPrintNombramiento('/reportes/plantilla_nombramiento',id_plantillasdocsnombramiento);
   }
 
   // open modal

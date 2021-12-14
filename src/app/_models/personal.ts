@@ -73,7 +73,9 @@ export default interface Personal {
 
   id_catbanco_deposito: number | null;
 
-  cuentadeposito:string | null
+  cuentadeposito:string | null;
+
+  fechanaculthijo: Date | null;
 }
 
 export interface PersonalInitializer {
@@ -141,5 +143,7 @@ export interface PersonalInitializer {
 
   id_catbanco_deposito?: number;
 
-  cuentadeposito?:string
+  cuentadeposito?:string;
+
+  fechanaculthijo?: Date;
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { DataTablesResponse } from '../../../../classes/data-tables-response';
@@ -75,6 +75,17 @@ export class PlantillasdocsService {
     return this.http.post(this.API_URL + '/plantillaspersonaldocs/setActualizarFin',
       { id_plantillasdocsnombramiento }
       , httpOptions);
+  }
+
+  public getPrintNombramiento(url, id_plantillasdocsnombramiento = 0) {
+    let params = new HttpParams().set("id_plantillasdocsnombramiento", (id_plantillasdocsnombramiento == null ? 0 : id_plantillasdocsnombramiento).toString())
+      ;
+
+    this.http.get(this.API_URL + url, { responseType: 'arraybuffer', params: params }).subscribe(data => {
+      var file = new Blob([data], { type: 'application/pdf' });
+      var fileURL = window.URL.createObjectURL(file);
+      window.open(fileURL);
+    });
   }
 
 
