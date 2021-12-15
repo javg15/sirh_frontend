@@ -281,11 +281,11 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
           });
 
           //para el caso de licenciamiento/baja, se debe elegir la categoria
-          if(this.tipo=="licencia"){
+          //if(this.tipo=="licencia"){//se comenta porque la categoria se elige para todos los movimientos
             this.categoriasSvc.getCatalogoVigenteEnPlantilla(this.record.id_plantillaspersonal).subscribe(resp => {
               this.categoriasCat = resp;
             });
-          }
+          //}
 
           this.onSelectPlantel(this.record.id_catplanteles);
           //2=plantilla de docentes
@@ -308,17 +308,17 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
         this.record_plantillaspersonal=data.plantilla;
         this.record.id_catplanteles=data.plantilla.id_catplanteles; // se asigna aquí, porque es de solo lectura y viene desde la plantilla
 
-        /*const categorias$=this.categoriasSvc.getCatalogoVigenteEnPlantilla(data.registro.id_plantillaspersonal);
-        const categoriasExtra$=this.categoriasSvc.getRecordParaCombo(data.registro.id_categorias)*/
+        const categorias$=this.categoriasSvc.getCatalogoVigenteEnPlantilla(data.registro.id_plantillaspersonal);
+        const categoriasExtra$=this.categoriasSvc.getRecordParaCombo(data.registro.id_categorias)
         const plazas$=this.plazasSvc.getPlazaSegunPersonal(data.registro.id_personal_titular)
         const plantillas$=this.catplantillasSvc.getRecord(data.plantilla.id_catplantillas)
         const planteles$=this.catplantelesSvc.getCatalogo();
         const personal_titular$=this.personalSvc.getRecord(data.registro.id_personal_titular)
 
-        let source$ = zip( plazas$, plantillas$, planteles$,personal_titular$);
-        source$.subscribe(([plazasInfo,plantillasInfo, plantelesInfo,personal_titularInfo]) =>{
-          /*this.categoriasCat = categoriasInfo
-          this.categoriasCat.push(categoriasExtraInfo)*/
+        let source$ = zip( categorias$, categoriasExtra$, plazas$, plantillas$, planteles$,personal_titular$);
+        source$.subscribe(([categoriasInfo,categoriasExtraInfo,plazasInfo,plantillasInfo, plantelesInfo,personal_titularInfo]) =>{
+          this.categoriasCat = categoriasInfo
+          this.categoriasCat.push(categoriasExtraInfo)
 
           //cuando es interinato
           if(plazasInfo.length>0){

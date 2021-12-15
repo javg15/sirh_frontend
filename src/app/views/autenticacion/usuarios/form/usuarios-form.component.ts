@@ -16,6 +16,7 @@ import { PersonalService } from '../../../catalogos/personal/services/personal.s
 
 import { AutocompleteComponent } from 'angular-ng-autocomplete';
 import { TreeNode, TreeModel, ITreeOptions } from '@circlon/angular-tree-component';
+import { TabsetComponent } from 'ngx-bootstrap/tabs';
 
 declare var $: any;
 declare var jQuery: any;
@@ -39,7 +40,7 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
   @ViewChild('basicModal') basicModal: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
-  
+  @ViewChild(TabsetComponent) tabSet: TabsetComponent;
 
   record: Usuarios;
   passConfirm:String="";
@@ -161,12 +162,11 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
     this.botonAccion=actionsButtonSave[accion];
     this.tituloForm="Usuarios - " +titulosModal[accion] + " registro";
     this.passConfirm="";
-
+    this.tabSet.tabs[0].active = true;
+    
     if(idItem=="0"){
       this.record =this.newRecord();
-      this.usuariosService.getTreePermisos(0).subscribe(resp => {
-        this.nodes = resp;
-      });
+      this.nodes =[];
     } else {
 
       this.usuariosService.getRecord(idItem).subscribe(resp => {
@@ -265,7 +265,11 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
     return parents;
 
   }
-  
+  onChangeGrupo(valor){
+    this.usuariosService.getTreePermisos( valor).subscribe(resp => {
+      this.nodes = resp;
+    });
+  }
   /** treview /.\ */
 
   /*********************

@@ -30,7 +30,9 @@
                             </select>
                             </div>
                         </div>
-                        <div  class="form-group col-sm-4">
+                    </div>
+                    <div class="row">
+                        <div  class="form-group col-sm-6">
                             <div class="form-group">
                                 <label for="id_categorias">Categorías</label>
                                 <ng-select2 [(ngModel)]="record.id_categorias" [data]="categoriasCat" [allowClear]="true" width="100%" name="Categorías" (valueChanged)="onSelectCategorias($event)">
@@ -38,15 +40,15 @@
                                 
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div  class="form-group col-sm-5">
+                        <div  class="form-group col-sm-6">
                             <div class="form-group">
                                 <label for="id_plazas">Plazas</label>
                                 <ng-select2 [(ngModel)]="record.id_plazas" [data]="plazasCat" [allowClear]="true" width="100%" name="Plazas">
                                 </ng-select2>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="fechaexpedicion">Fecha de expedición del documento</label>

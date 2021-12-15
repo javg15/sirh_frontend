@@ -15,7 +15,7 @@
                         <input type="hidden" [(ngModel)]="record.id" class="form-control" name="ID">
                     </div>
                     <!-- Nav tabs -->
-                    <tabset>
+                    <tabset #tabSet>
                         <tab heading="Credenciales">
                             <div class="row">
                                 <div class="form-group col-sm-6">
@@ -94,7 +94,7 @@
                                 </div>
                             </div>
                         </tab>
-                        <tab heading="Permisos">
+                        <tab *ngIf="nodes.length>0" heading="Permisos">
                             <div class="row">
                                 <div class="form-group col-sm-4">
                                     <label for="archivo">Permisos</label>
