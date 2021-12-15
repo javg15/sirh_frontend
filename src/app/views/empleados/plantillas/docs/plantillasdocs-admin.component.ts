@@ -38,6 +38,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   @Input() id: string; //idModal
   @Input() botonAccion: string; //texto del boton según acción
   @Output() redrawEvent = new EventEmitter<any>();
+  @Output() openCadenaEvent = new EventEmitter<any>();
 
   /* El decorador @ViewChild recibe la clase DataTableDirective, para luego poder
   crear el dtElement que represente la tabla que estamos creando. */
@@ -76,11 +77,16 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   record_id_catplanteles:number;
   record_tipodoc:number;
   record_numeemp:string;
+  record_plazaSeleccionada:number;
   tblNombramientos:[];
+  plantillapersonalCat:any=[];
+  param_id_plantillapersonal:number;
+  param_personalTitular:string;
 
   private elementModal: any;
   @ViewChild('basicModalDocs') basicModalDocs: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
+  @ViewChild('cadenaModal') public cadenaModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
 
   cattipoCat:any[];
@@ -143,8 +149,8 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
         },
       },
       columns: this.headersAdmin,
-      columnDefs:[{"visible": false, "targets": [0,1,2]},
-                {"width": "20%", "targets": [4]}]//ID, tipo
+      columnDefs:[{"visible": false, "targets": [0,1,2,3]},
+                {"width": "20%", "targets": [5]}]//ID, tipo
     };
 
   }
@@ -199,7 +205,21 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
       }
   }
 
+  mostrarModalCadena(tablaJson:string){
+    this.plantillapersonalCat=JSON.parse(tablaJson);
+    this.param_id_plantillapersonal=this.plantillapersonalCat[0].id_pp;
+    this.param_personalTitular=this.plantillapersonalCat[0].personal;
+    if(this.plantillapersonalCat.length>1)//si tiene mas de una plantilla el titular de la cadena
+      this.cadenaModal.show();
+    else
+      this.mostrarCadena();
+  }
 
+  mostrarCadena():void{
+    this.cadenaModal.hide();
+    this.basicModalDocs.hide();
+    this.openCadenaEvent.emit(this.param_id_plantillapersonal);
+  }
 
   //Sub formulario
   openModal(tipo:string, id: string, accion: string, idItem: number,idParent:number) {

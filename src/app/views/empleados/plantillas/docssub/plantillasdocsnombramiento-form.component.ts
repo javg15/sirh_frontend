@@ -99,7 +99,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   conlicencia:boolean;
   esinterina:boolean;
   esnombramiento:boolean;
-  plazaOcupadaTitular:String;
+  plazaOcupadaTitularCat:Plazas[];
   tipo:string;
   varAsignarHorasPlazasPorJornada:boolean;
   varAsignarHorasPlazasPorHora:boolean;
@@ -269,7 +269,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
             //planteles
             this.catplantelesCat = data.catplanteles;
             this.record_plantel=data.catplanteles.find(x=>x.id==this.record.id_catplanteles).ubicacion;
-            this.onSelectPlantel(this.record_plantel,0) 
+            this.onSelectPlantel(this.record_plantel,0)
 
             //plantillas
             this.record_catplantillas=data.catplantillas;
@@ -320,8 +320,10 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
           /*this.categoriasCat = categoriasInfo
           this.categoriasCat.push(categoriasExtraInfo)*/
 
-          if(plazasInfo.length>0)
-            this.plazaOcupadaTitular=plazasInfo[0].clave;
+          //cuando es interinato
+          if(plazasInfo.length>0){
+            this.plazaOcupadaTitularCat=plazasInfo;
+          }
           this.record_catplantillas=plantillasInfo;
 
           this.catplantelesCat = plantelesInfo;
@@ -408,7 +410,12 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
     this.record.id_personal_titular=parseInt(items[2]);
     if(this.record.id_personal_titular>0)
       this.plazasSvc.getPlazaSegunPersonal(this.record.id_personal_titular).subscribe(resp => {
-        this.plazaOcupadaTitular=resp[0].clave;
+        if(resp.length>0){
+          this.plazaOcupadaTitularCat=resp;
+          /*if(resp.length==1)
+            this.record.id_plazas_afectada=resp[0].id*/
+        }
+        //this.plazaOcupadaTitular=resp[0].clave;
       });
   }
 

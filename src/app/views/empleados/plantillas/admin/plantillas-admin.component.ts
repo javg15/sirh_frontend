@@ -113,7 +113,7 @@ console.log("documentosCat=>",this.documentosCat)
 
   ngOnInit(): void {
     this.headersAdmin = this.route.snapshot.data.userdata; // get data from resolver
-    
+
       this.dtOptions = {
         pagingType: 'full_numbers',
         pageLength: 10,
@@ -203,6 +203,12 @@ console.log("documentosCat=>",this.documentosCat)
         dtInstance.clear().draw(false); // viene de form, solo actualiza la vista actual (current page)
       }
     });
+  }
+/**
+ * Abre el modal de la plantilla cadena
+ */
+  openCadena(id_plantillaCadena){
+      this.plantillasService.open("custom-modal-2", "ver", id_plantillaCadena,0,0,0);
   }
 
   onClickBuscar() {
