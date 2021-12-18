@@ -43,6 +43,8 @@ export default interface Personalhoras {
   frenteagrupo: number | null;
 
   id_catplanteles_aplicacion: number;
+  
+  id_plazas: number;
 
 }
 
@@ -92,5 +94,7 @@ export interface PersonalhorasInitializer {
   frenteagrupo?: number;
 
   id_catplanteles_aplicacion?: number;
+
+  id_plazas?: number;
 
 }

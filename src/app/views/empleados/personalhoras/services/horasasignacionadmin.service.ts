@@ -49,9 +49,9 @@ export class HorasasignacionAdminService {
       , httpOptions);
   }
 
-  public getAdminResumen(id_personal:number,id_semestre:number): Observable<any> {
+  public getAdminResumen(id_personal:number,id_semestre:number, id_plaza:number): Observable<any> {
     return this.http.post(this.API_URL + '/personalhoras/getAdminSubResumen',
-      { id_personal, id_semestre}
+      { id_personal, id_semestre, id_plaza}
       , httpOptions);
   }
 

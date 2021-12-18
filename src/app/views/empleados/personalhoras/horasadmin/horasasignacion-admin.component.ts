@@ -54,8 +54,8 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
   private dtOptionsAdicional = {
     datosBusqueda: { campo: 0, operador: 0, valor: '' }
     , raw: 0
-    , fkey: 'id_personal,id_semestre,id_catplanteles,id_catnombramientos'
-    , fkeyvalue: [0, 0, 0, '1']
+    , fkey: 'id_personal,id_semestre,id_catplanteles,id_catnombramientos,id_plazas'
+    , fkeyvalue: [0, 0, 0, '1',0]
     , modo: 22
   };
 
@@ -76,6 +76,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
   record_id_semestre: number=0;
   record_id_catplanteles: number=0;
   record_estatus: string='1';
+  record_id_plaza:number=0;
   esSemestreDesdeParametro:boolean=false;
   tblResumenRows:any=[];
   tblNombramientos:[];
@@ -174,17 +175,20 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
       this.tituloForm="Carga horaria - " + resp.numeemp + " - " + (resp.apellidopaterno + " " + resp.apellidomaterno + " " + resp.nombre);
     });
 
-    this.plazasSvc.getNombramientosVigentes(id_personal,id_semestre).subscribe(resp => {
-      this.tblNombramientos=resp;
-    });
-
     this.esSemestreDesdeParametro=(id_catplanteles>0);
     if(id_catplanteles==0){
       if(this.semestreCat.length>0){
         this.record_id_semestre=this.semestreCat[this.semestreCat.length-1].id;
       }
     }
-    this.reDraw(null);
+
+    this.plazasSvc.getNombramientosVigentes(id_personal,id_semestre).subscribe(resp => {
+      this.tblNombramientos=resp;
+      this.record_id_plaza=resp[0].id_plazas;
+      this.reDraw(null);
+    });
+
+    
     // console.log($('#modalTest').html()); poner el id a algun elemento para testear
     this.basicModalDocs.show();
 
@@ -201,15 +205,15 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
 
 
   //Sub formulario
-  openModal(tipo: string, id: string, accion: string, idItem: number, idPersonal: number, idSemestre: number, idPlantel: number) {
+  openModal(tipo: string, id: string, accion: string, idItem: number, idPersonal: number, idSemestre: number, idPlantel: number, idPlaza:number) {
 
     if(this.record_id_semestre>0){
       switch (tipo.toLowerCase()) {
         case "01":
-          this.horasasignacionformSvc.open(id, accion, idItem, idPersonal, idSemestre, idPlantel);
+          this.horasasignacionformSvc.open(id, accion, idItem, idPersonal, idSemestre, idPlantel, idPlaza);
           break;
         default:
-          this.horasasignacionformSvc.open(id, accion, idItem, idPersonal, idSemestre, idPlantel);
+          this.horasasignacionformSvc.open(id, accion, idItem, idPersonal, idSemestre, idPlantel, idPlaza);
           break
       }
     }
@@ -226,7 +230,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
 
 
     this.dtOptionsAdicional.raw++;
-    this.dtOptionsAdicional.fkeyvalue = [this.record_id_personal, this.record_id_semestre, this.record_id_catplanteles, this.record_estatus];
+    this.dtOptionsAdicional.fkeyvalue = [this.record_id_personal, this.record_id_semestre, this.record_id_catplanteles, this.record_estatus,this.record_id_plaza];
     //this.dtOptionsAdicional.fkeyvalue=this.record_id_personal;
     this.dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
 
@@ -242,7 +246,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
       }
 
       //tabla resumen
-      this.horasasignacionadminService.getAdminResumen(this.record_id_personal, this.record_id_semestre).subscribe(resp => {
+      this.horasasignacionadminService.getAdminResumen(this.record_id_personal, this.record_id_semestre, this.record_id_plaza).subscribe(resp => {
         this.tblResumenRows=[];
         if(resp.length>0)
           this.tblResumenRows=resp[0].fn_horas_cuenta_resumen;
@@ -260,6 +264,11 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
 
   onCatestatusChange(estatus:any){
     this.record_estatus = estatus;
+    this.reDraw(null);
+  }
+
+  onPlazaChange(valor: any) {
+    this.record_id_plaza = parseInt(valor);
     this.reDraw(null);
   }
 }

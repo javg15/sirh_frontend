@@ -108,7 +108,7 @@ export class PlantillasAdminComponent implements OnInit {
     this.documentosCat.push({id:7,text:"Cursos y actualizaciones"});
     this.documentosCat.push({id:8,text:"Horario laboral"});
     this.documentosCat.push({id:9,text:"Datos clínicos"});
-console.log("documentosCat=>",this.documentosCat)
+
   }
 
   ngOnInit(): void {

@@ -21,6 +21,7 @@ import { CatnombramientosService } from '../../../catalogos/catnombramientos/ser
 import { CattipohorasdocenteService } from '../../../catalogos/cattipohorasdocente/services/cattipohorasdocente.service';
 import { PersonalService } from '../../../catalogos/personal/services/personal.service';
 import { relativeTimeThreshold } from 'moment';
+import { PlazasService } from '../../../plazas/plazas/services/plazas.service';
 
 
 declare var $: any;
@@ -82,6 +83,8 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
   record_personaltitular:Personal[];
   record_personaltitular_nombre:string;
   record_quincena_activa:Catquincena;
+  record_id_plaza:number;
+  record_text_plaza:string;
   edicion_en_activo:boolean=true;
   edicion_en_copiar:boolean=false;
 
@@ -106,6 +109,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
     private catestatushoraSvc: CatestatushoraService,
     private catnombramientosSvc: CatnombramientosService,
     private cattipohorasdocenteSvc: CattipohorasdocenteService,
+    private plazasSvc: PlazasService,
     private el: ElementRef,
     private route: ActivatedRoute
   ) {
@@ -124,7 +128,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
   newRecord(idParent: number, idSemestre: number): Personalhoras {
     return {
       id: 0, id_personal: idParent, cantidad: 0, id_catplanteles: 0, id_catplanteles_aplicacion:0, id_gruposclase: 0,id_materiasclase: 0,
-      id_cattipohorasmateria: 1, id_catnombramientos: 0, id_semestre: idSemestre,frenteagrupo:0,
+      id_cattipohorasmateria: 1, id_catnombramientos: 0, id_semestre: idSemestre,frenteagrupo:0,id_plazas:0,
       id_catestatushora: 0, id_catquincena_ini: 0, id_catquincena_fin: 0, horassueltas:0, id_cattipohorasdocente:0,
       state: '', created_at: new Date(), updated_at: new Date(), id_usuarios_r: 0
     };
@@ -185,7 +189,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
   }
 
   // open modal
-  open(idItem: string, accion: string, idPersonal: number, idSemestre: number, idPlantel:number): void {
+  open(idItem: string, accion: string, idPersonal: number, idSemestre: number, idPlantel:number, idPlaza:number): void {
     this.actionForm = accion;
     this.botonAccion = actionsButtonSave[accion];
     this.tituloForm = "Carga horaria - " + titulosModal[accion] + " registro";
@@ -215,6 +219,11 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
       this.record.id_catplanteles_aplicacion=idPlantel;
       this.onSelectPlantel(idPlantel);
       this.edicion_en_activo=true;
+      this.plazasSvc.getRecordParaCombo(idPlaza).subscribe(resp => {
+        this.record_id_plaza = resp[0].id;
+        this.record_text_plaza = resp[0].text;
+      });
+      
     } else {
       //obtener el registro
       this.catquincenaSvc.getQuincenaActiva().subscribe(async resp => {
@@ -237,6 +246,10 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
           this.onSelectNombramiento(resp.id_catnombramientos);
           this.cattipohorasdocenteSvc.getCatalogoSegunMateria(resp.id_materiasclase).subscribe(resp => {
             this.cattipohorasdocenteCat = resp;
+          });
+          this.plazasSvc.getRecordParaCombo(this.record.id_personal).subscribe(resp => {
+            this.record_id_plaza = resp[0].id;
+            this.record_text_plaza = resp[0].text;
           });
         });
       });

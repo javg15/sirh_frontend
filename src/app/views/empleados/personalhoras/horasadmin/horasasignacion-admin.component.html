@@ -35,7 +35,7 @@
                                   Agregar asignación <span class="caret"></span>
                                 </button>
                                     <ul *dropdownMenu class="dropdown-menu" role="menu">
-                                        <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openModal('01','custom-01','nuevo',0,record_id_personal,record_id_semestre,record_id_catplanteles)">Horas frente a grupo</a></li>
+                                        <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openModal('01','custom-01','nuevo',0,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza)">Horas frente a grupo</a></li>
                                     </ul>
                                 </div>
                             </form>
@@ -47,11 +47,12 @@
                     <div class="row">
                         <div class="form-group col-sm-12">
                             <label>Plaza base</label>
-                            <table datatable class="table table-striped table-bordered row-border hover">
-                                <tr *ngFor="let row of tblNombramientos; index as i">
-                                    <td *ngIf="row.esplazabase==1">{{ row.clave }}</td>
-                                </tr>
-                            </table>
+                            <select class="form-control" name="Plaza base" [(ngModel)]="record_id_plaza" (change)="onPlazaChange($event.target.value)" multiple="multiple">
+                                <ng-container  *ngFor="let row of tblNombramientos; index as i">
+                                  <option  *ngIf="row.esplazabase==1 && i==0" [value]="row.id_plaza" selected="selected" >{{ row.clave }}</option>
+                                  <option  *ngIf="row.esplazabase==1 && i>0" [value]="row.id_plaza">{{ row.clave }}</option>
+                                </ng-container>
+                              </select>
                         </div>
                         <div class="form-group col-sm-12">
                             <label>Nombramientos vigentes</label>
@@ -65,6 +66,7 @@
 
                     <div class="row">
                         <div class="col-md-12 mx-auto">
+                            <label>Carga horaria</label>
                             <table id="tblPersonalhorasadmin" datatable [dtOptions]="dtOptions" class="table table-striped table-bordered row-border hover" width="100%">
                                 <tbody>
                                     <tr *ngFor="let member of Members;index as irecord">
@@ -73,17 +75,17 @@
                                                 <!--<td><img src="assets/{{ member[col] }}" width="50" /></td>-->
                                                 <td>
                                                     <div *ngFor="let boton of member[col].split(',')" style="display: contents;">
-                                                        <button *ngIf="boton=='ver'" title="Ver" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo,'custom-' + member.tipo,'ver',member.id,record_id_personal,record_id_semestre,record_id_catplanteles)">
+                                                        <button *ngIf="boton=='ver'" title="Ver" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo,'custom-' + member.tipo,'ver',member.id,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza)">
                                                             <i class="fa fa-search"></i>
                                                         </button>
 
-                                                        <button *ngIf="boton=='editar'" title="Editar" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo,'custom-' + member.tipo,'editar',member.id,record_id_personal,record_id_semestre,record_id_catplanteles)">
+                                                        <button *ngIf="boton=='editar'" title="Editar" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo,'custom-' + member.tipo,'editar',member.id,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza)">
                                                           <i class="fa fa-edit"></i>
                                                       </button>
-                                                        <button *ngIf="boton=='copiar'" title="Copiar" class="btn btn-brand btn-sm mr-1 btn-xing" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo,'custom-' + member.tipo,'copiar',member.id,record_id_personal,record_id_semestre,record_id_catplanteles)">
+                                                        <button *ngIf="boton=='copiar'" title="Copiar" class="btn btn-brand btn-sm mr-1 btn-xing" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo,'custom-' + member.tipo,'copiar',member.id,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza)">
                                                         <i class="fa fa-copy"></i>
                                                     </button>
-                                                        <button *ngIf="boton=='eliminar' && member.en_activo==1" title="Eliminar" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo,'custom-' + member.tipo,'eliminar',member.id,record_id_personal,record_id_semestre,record_id_catplanteles)">
+                                                        <button *ngIf="boton=='eliminar' && member.en_activo==1" title="Eliminar" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo,'custom-' + member.tipo,'eliminar',member.id,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza)">
                                                           <i class="fa fa-trash"></i>
                                                       </button>
                                                     </div>
