@@ -29,7 +29,10 @@
                             </select>
                         </div>
                         <div class="form-group col-sm-4">
-                            <form class="form-inline my-2 my-lg-0">
+                            <button class="btn btn-primary my-2 my-sm-0" (click)="openModal('01','custom-01','nuevo',0,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza)">
+                                Agregar carga horaria
+                              </button>
+                            <!--<form class="form-inline my-2 my-lg-0">
                                 <div class="btn-group" dropdown>
                                     <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
                                   Agregar asignación <span class="caret"></span>
@@ -38,7 +41,7 @@
                                         <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openModal('01','custom-01','nuevo',0,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza)">Horas frente a grupo</a></li>
                                     </ul>
                                 </div>
-                            </form>
+                            </form>-->
                         </div>
                     </div>
                     <div class="row">
