@@ -76,7 +76,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
   record_id_semestre: number=0;
   record_id_catplanteles: number=0;
   record_estatus: string='1';
-  record_id_plaza:number=0;
+  record_id_plaza:any=0;
   esSemestreDesdeParametro:boolean=false;
   tblResumenRows:any=[];
   tblNombramientos:[];
@@ -184,11 +184,11 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
 
     this.plazasSvc.getNombramientosVigentes(id_personal,id_semestre).subscribe(resp => {
       this.tblNombramientos=resp;
-      this.record_id_plaza=resp[0].id_plazas;
+      this.record_id_plaza=resp[0].id_plaza;
       this.reDraw(null);
     });
 
-    
+
     // console.log($('#modalTest').html()); poner el id a algun elemento para testear
     this.basicModalDocs.show();
 
@@ -268,7 +268,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
   }
 
   onPlazaChange(valor: any) {
-    this.record_id_plaza = parseInt(valor);
+    this.record_id_plaza = parseInt(valor);//0 es el indice
     this.reDraw(null);
   }
 }

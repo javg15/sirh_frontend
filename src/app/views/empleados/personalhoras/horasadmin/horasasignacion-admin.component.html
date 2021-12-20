@@ -47,12 +47,9 @@
                     <div class="row">
                         <div class="form-group col-sm-12">
                             <label>Plaza base</label>
-                            <select class="form-control" name="Plaza base" [(ngModel)]="record_id_plaza" (change)="onPlazaChange($event.target.value)" multiple="multiple">
-                                <ng-container  *ngFor="let row of tblNombramientos; index as i">
-                                  <option  *ngIf="row.esplazabase==1 && i==0" [value]="row.id_plaza" selected="selected" >{{ row.clave }}</option>
-                                  <option  *ngIf="row.esplazabase==1 && i>0" [value]="row.id_plaza">{{ row.clave }}</option>
-                                </ng-container>
-                              </select>
+                            <select class="form-control" name="Plaza base" (change)="onPlazaChange($event.target.value)" multiple>
+                              <option  *ngFor="let row of tblNombramientos; index as i" [selected]="row.id_plaza == record_id_plaza" value="{{row.id_plaza}}">{{ row.clave }}</option>
+                            </select>
                         </div>
                         <div class="form-group col-sm-12">
                             <label>Nombramientos vigentes</label>
