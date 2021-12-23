@@ -248,11 +248,10 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
       //tabla resumen
       this.horasasignacionadminService.getAdminResumen(this.record_id_personal, this.record_id_semestre, this.record_id_plaza).subscribe(resp => {
         this.tblResumenRows=[];
-        if(resp.length>0)
+        if(resp.length>0){
           this.tblResumenRows=resp[0].fn_horas_cuenta_resumen;
-
+        }
       });
-
     }
     );
   }

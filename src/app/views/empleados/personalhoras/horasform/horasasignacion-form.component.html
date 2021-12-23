@@ -32,7 +32,7 @@
                         <div class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="plaza">Plaza</label>
-                                <input type="text" name="Plaza" disabled="disabled" [value]="record_text_plaza" class="form-control" />
+                                <input type="text" name="Plaza" [value]="record_text_plaza" class="form-control" disabled="disabled"/>
                             </div>
                         </div>
                     </div>
@@ -125,7 +125,7 @@
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="horassueltas">¿Horas sueltas?</label>
-                                <select class="form-control" [(ngModel)]="record.horassueltas" name="¿Horas sueltas?" [disabled]="!edicion_en_activo">
+                                <select class="form-control" [(ngModel)]="record.horassueltas" name="¿Horas sueltas?" [disabled]="true"><!--"!edicion_en_activo"-->
                                   <option value="0">No</option>
                                   <option value="1">Sí</option>
                                 </select>
@@ -136,9 +136,9 @@
                         <div *ngIf="record.horassueltas==1" class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="id_cattipohorasdocente">Tipo de horas</label>
-                                <select class="form-control" [(ngModel)]="record.id_cattipohorasdocente" name="Tipo de horas">
-                            <option *ngFor="let col of cattipohorasdocenteCat" [value]="col.id">{{ col.text }}</option>
-                          </select>
+                                <select class="form-control" [(ngModel)]="record.id_cattipohorasdocente" name="Tipo de horas" [disabled]="!edicion_habilitarTipoHoras">
+                                    <option *ngFor="let col of cattipohorasdocenteCat" [value]="col.id">{{ col.text }}</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group col-sm-3">

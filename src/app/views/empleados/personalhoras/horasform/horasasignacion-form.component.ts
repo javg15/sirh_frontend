@@ -87,6 +87,8 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
   record_text_plaza:string;
   edicion_en_activo:boolean=true;
   edicion_en_copiar:boolean=false;
+  edicion_habilitarTipoHoras:boolean=true;
+  horasDisponiblesEnPlaza:number;
 
   esPlantelDesdeParametro:boolean=false;
   keywordSearch = 'full_name';
@@ -222,7 +224,14 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
       this.plazasSvc.getRecordParaCombo(idPlaza).subscribe(resp => {
         this.record_id_plaza = resp[0].id;
         this.record_text_plaza = resp[0].text;
+        this.record.horassueltas=(resp[0].eshomologada=="true"?1:0);
+        this.edicion_habilitarTipoHoras=(resp[0].eshomologada=="true");
       });
+      this.plazasSvc.getHorasDisponibleSegunPlaza(idPersonal,idPlantel,idSemestre,idPlaza).subscribe(resp => {
+        this.horasDisponiblesEnPlaza=resp[0].horasdisponibles
+        console.log("this.horasDisponiblesEnPlaza=>",this.horasDisponiblesEnPlaza)
+      });
+      
       
     } else {
       //obtener el registro
@@ -247,9 +256,15 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
           this.cattipohorasdocenteSvc.getCatalogoSegunMateria(resp.id_materiasclase).subscribe(resp => {
             this.cattipohorasdocenteCat = resp;
           });
-          this.plazasSvc.getRecordParaCombo(this.record.id_personal).subscribe(resp => {
+          this.plazasSvc.getRecordParaCombo(this.record.id_plazas).subscribe(resp => {
             this.record_id_plaza = resp[0].id;
             this.record_text_plaza = resp[0].text;
+            this.record.horassueltas=(resp[0].eshomologada=="true"?1:0);
+            this.edicion_habilitarTipoHoras=(resp[0].eshomologada=="true");
+          });
+          this.plazasSvc.getHorasDisponibleSegunPlaza(idPersonal,idPlantel,idSemestre,idPlaza).subscribe(resp => {
+            this.horasDisponiblesEnPlaza=resp[0].horasdisponibles+this.record.cantidad
+            console.log("this.horasDisponiblesEnPlaza=>",this.horasDisponiblesEnPlaza)
           });
         });
       });

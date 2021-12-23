@@ -109,6 +109,12 @@ export class PlazasService {
       , httpOptions);
   }
 
+  public getHorasDisponibleSegunPlaza(id_personal:number, id_planteles:number, id_semestre:number, id_plazas:number): Observable<any> {
+    return this.http.post(this.API_URL + '/plazas/getHorasDisponibleSegunPlaza',
+      { id_personal, id_planteles, id_semestre, id_plazas }
+      , httpOptions);
+  }
+
   public getCatalogoVigenteSegunCategoria(id_categorias: any, id_plantillaspersonal:any): Observable<any> {
     return this.http.post(this.API_URL + '/plazas/getCatalogoVigenteSegunCategoria',
       { id_categorias, id_plantillaspersonal }
