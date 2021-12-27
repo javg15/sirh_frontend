@@ -14,7 +14,7 @@
                     <div class="form-group">
                         <input type="hidden" [(ngModel)]="record.id" class="form-control" name="ID">
                     </div>
-                    <tabset>
+                    <tabset #tabSet>
                         <tab heading="Generales">
                             <div class="row">
                                 <div class="form-group col-sm-4">
@@ -184,6 +184,13 @@
                                         <select class="form-control" [(ngModel)]="record.id_catcentrostrabajo" name="Centro de trabajo">
                                         <option *ngFor="let col of catcentrostrabajoCat" [value]="col.id">{{ col.clave + " - " + col.descripcion }}</option>
                                       </select>
+                                    </div>
+                                </div>
+                                <div *ngIf="estipodocente" class="form-group col-sm-4">
+                                    <div class="form-group">
+                                        <label for="id_catplanteles_aplicacion">Plantel (aplicación)</label>
+                                        <ng-select2 [(ngModel)]="record.id_catplanteles_aplicacion" [data]="catplantelesAplicacionCat" [allowClear]="true" width="100%" name="Plantel (aplicación)">
+                                        </ng-select2>
                                     </div>
                                 </div>
                             </div>

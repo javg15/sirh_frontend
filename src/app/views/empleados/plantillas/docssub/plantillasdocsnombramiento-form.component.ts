@@ -1,6 +1,7 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter  } from '@angular/core';
 import { DatePipe } from '@angular/common'
 import { ActivatedRoute } from '@angular/router';
+import { TokenStorageService } from '../../../../_services/token-storage.service';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Plantillasdocsnombramiento,Personal,Categorias,Plantillaspersonal,Catestatusplaza,
@@ -39,6 +40,8 @@ import { ClipboardService } from 'ngx-clipboard'
 import * as moment from 'moment';
 import { filter, map, mergeMap, switchMap } from 'rxjs/operators';
 
+import { TabsetComponent } from 'ngx-bootstrap/tabs';
+
 declare var $: any;
 declare var jQuery: any;
 
@@ -58,14 +61,14 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
 
   actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
-
+  usuario:any=this.tokenStorage.getUser();
 
   private elementModal: any;
   @ViewChild('id_personal_titular') id_personal_titular:AutocompleteComponent;
   @ViewChild('basicModalDocsNombramiento') basicModalDocsNombramiento: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
-
+  @ViewChild(TabsetComponent) tabSet: TabsetComponent;
 
   /*@ViewChild(ListUploadComponent) listUpload: ListUploadComponent;
   @ViewChild(FormUploadComponent) formUpload: FormUploadComponent;*/
@@ -93,12 +96,14 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   cattiposemestreCat:Cattiposemestre[];
   catesquemapagoCat:Catesquemapago[];
   catplantelesCat:Catplanteles[];
+  catplantelesAplicacionCat: Catplanteles[];
   catcentrostrabajoCat:Catcentrostrabajo[];
 
   convigencia:boolean;
   conlicencia:boolean;
   esinterina:boolean;
   esnombramiento:boolean;
+  estipodocente:boolean;
   plazaOcupadaTitularCat:Plazas[];
   tipo:string;
   varAsignarHorasPlazasPorJornada:boolean;
@@ -126,6 +131,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       private catzonageograficaSvc: CatzonageograficaService,
       private catplantillasSvc: CatplantillasService,
       private clipboardService: ClipboardService,
+      private tokenStorage: TokenStorageService,
     private el: ElementRef,
     //private archivosSvc:ArchivosService,
     public datepipe: DatePipe
@@ -146,6 +152,9 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
         this.catesquemapagoSvc.getCatalogo().subscribe(resp => {
           this.catesquemapagoCat = resp;
         });
+        this.catplantelesSvc.getCatalogoSinAdmin(this.usuario.id).subscribe(resp => {
+          this.catplantelesAplicacionCat = resp;
+        });
 
   }
 
@@ -157,7 +166,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0,
       id_catquincena_ini:0,id_catquincena_fin:0,id_catbajamotivo:0,id_catplanteles:0,
       id_catcentrostrabajo:0,id_catesquemapago:0,id_catfuncionprimaria:0,id_catfuncionsecundaria:0,
-      id_cattipoocupacion:0,id_cattiposemestre:0,esplazabase:0
+      id_cattipoocupacion:0,id_cattiposemestre:0,esplazabase:0,id_catplanteles_aplicacion:0
     };
   }
   ngOnInit(): void {
@@ -232,6 +241,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   async open(idItem: string, accion: string,idParent:number,tipo:number):  Promise<void> {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
+    this.tabSet.tabs[0].active = true;
 
     this.tipo=(tipo==1?"nombramiento":"licencia");
     this.tituloForm="Preparación " + this.tipo +" - " + titulosModal[accion] + " registro";
@@ -251,6 +261,15 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
             mergeMap((plantilla) => {
               this.record_plantillaspersonal=plantilla;
               this.record.id_catplanteles=this.record_plantillaspersonal.id_catplanteles; // se asigna aquí, porque es de solo lectura y viene desde la plantilla
+              if(plantilla.id_catplantillas==2){
+                this.estipodocente=true;
+                this.record.id_catplanteles_aplicacion=this.record.id_catplanteles;
+              }
+              else{
+                this.estipodocente=false;
+                this.record.id_catplanteles_aplicacion=0;
+              }
+
 
               return this.catplantelesSvc.getCatalogo().pipe(
                 // this pass all objects to the next observable in this chain
@@ -325,6 +344,12 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
             this.plazaOcupadaTitularCat=plazasInfo;
           }
           this.record_catplantillas=plantillasInfo;
+          if(plantillasInfo.id_catplantillas==2){
+            this.estipodocente=true;
+          }
+          else{
+            this.estipodocente=true;
+          }
 
           this.catplantelesCat = plantelesInfo;
 

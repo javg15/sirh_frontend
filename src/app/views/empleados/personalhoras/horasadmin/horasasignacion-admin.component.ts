@@ -77,6 +77,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
   record_id_catplanteles: number=0;
   record_estatus: string='1';
   record_id_plaza:any=0;
+  record_id_catplanteles_aplicacion:number=0;
   record_esInterina: number=0;
   esSemestreDesdeParametro:boolean=false;
   tblResumenRows:any=[];
@@ -164,7 +165,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
 
 
   // open modal
-  open(id_personal: number, accion: string,id_catplanteles:number,id_semestre:number): void {
+  open(id_personal: number, accion: string,id_catplanteles:number,id_semestre:number,id_catplanteles_aplicacion:number): void {
     this.actionForm = accion;
     this.botonAccion = actionsButtonSave[accion];
     this.record_id_personal = id_personal;
@@ -187,6 +188,8 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
       this.tblNombramientos=resp;
       this.record_id_plaza=resp[0].id_plaza;
       this.record_esInterina=resp[0].esinterina;
+      this.record_id_catplanteles_aplicacion=resp[0].id_catplanteles_aplicacion;
+
       this.reDraw(null);
     });
 
@@ -207,15 +210,15 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
 
 
   //Sub formulario
-  openModal(tipo: string, id: string, accion: string, idItem: number, idPersonal: number, idSemestre: number, idPlantel: number, idPlaza:number,esInterina:number) {
+  openModal(tipo: string, id: string, accion: string, idItem: number, idPersonal: number, idSemestre: number, idPlantel: number, idPlaza:number,esInterina:number,idPlantelAplicacion:number) {
 
     if(this.record_id_semestre>0){
       switch (tipo.toLowerCase()) {
         case "01":
-          this.horasasignacionformSvc.open(id, accion, idItem, idPersonal, idSemestre, idPlantel, idPlaza,esInterina);
+          this.horasasignacionformSvc.open(id, accion, idItem, idPersonal, idSemestre, idPlantel, idPlaza,esInterina,idPlantelAplicacion);
           break;
         default:
-          this.horasasignacionformSvc.open(id, accion, idItem, idPersonal, idSemestre, idPlantel, idPlaza,esInterina);
+          this.horasasignacionformSvc.open(id, accion, idItem, idPersonal, idSemestre, idPlantel, idPlaza,esInterina,idPlantelAplicacion);
           break
       }
     }

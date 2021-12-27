@@ -47,7 +47,8 @@
                         <div class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="id_catplanteles_aplicacion">Plantel (aplicación)</label>
-                                <ng-select2 [(ngModel)]="record.id_catplanteles_aplicacion" [data]="catplantelesAplicacionCat" [allowClear]="true" width="100%" name="Plantel (aplicación)" [disabled]="!edicion_en_activo" (valueChanged)="onSelectPlantel($event)">
+                                <ng-select2 [(ngModel)]="record.id_catplanteles_aplicacion" [data]="catplantelesAplicacionCat" [allowClear]="true" width="100%" name="Plantel (aplicación)" (valueChanged)="onSelectPlantel($event)" [disabled]="true">
+                                    <!--[disabled]="!edicion_en_activo"-->
                                 </ng-select2>
                             </div>
                         </div>
@@ -78,7 +79,7 @@
                         <div class="form-group col-sm-2">
                             <div class="form-group">
                                 <label for="cantidad">Horas</label>
-                                <input type="text" [(ngModel)]="record.cantidad" class="form-control" name="Horas" disabled="disabled">
+                                <input type="text" [(ngModel)]="record.cantidad" class="form-control" name="Horas" [disabled]="!edicion_horasDIES" (change)="onChangeCantidadHoras($event.target.value)">
                             </div>
                         </div>
                     </div>
@@ -92,7 +93,7 @@
                         </div>
                         <div *ngIf="verAsignarHorasRestantes" class="form-group col-sm-4">
                             <div class="form-group">
-                                <label for="asignarHorasRestantes">¿Asignar <span style="color: green;"> {{record.cantidad - horasDisponiblesEnPlaza}} </span> horas restantes a plaza con horas sueltas?</label>
+                                <label for="asignarHorasRestantes">¿Asignar <span style="color: green;"> {{horasRestantesEnPlaza}} </span> horas restantes a plaza con horas sueltas?</label>
                                 <select class="form-control" [(ngModel)]="asignarHorasRestantes" name="¿Horas sueltas?" [disabled]="true"><!--"!edicion_en_activo"-->
                               <option value="0">No, asignar manualmente</option>
                               <option value="1">Sí, asignar automáticamente</option>
@@ -140,7 +141,7 @@
                                 </ng-select2>
                             </div>
                         </div>
-                        <div class="form-group col-sm-3">
+                        <div *ngIf="!edicion_horasDIES" class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="horassueltas">¿Horas sueltas?</label>
                                 <select class="form-control" [(ngModel)]="record.horassueltas" name="¿Horas sueltas?" [disabled]="true"><!--"!edicion_en_activo"-->
@@ -160,7 +161,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group col-sm-3">
+                        <div *ngIf="!edicion_horasDIES" class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="frenteagrupo">¿Frente a grupo?</label>
                                 <select class="form-control" [(ngModel)]="record.frenteagrupo" name="¿Frente a grupo?" [disabled]="!edicion_en_activo">
