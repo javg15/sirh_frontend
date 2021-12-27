@@ -32,7 +32,7 @@
                         <div class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="plaza">Plaza</label>
-                                <input type="text" name="Plaza" [value]="record_text_plaza" class="form-control" disabled="disabled"/>
+                                <input type="text" name="Plaza" [value]="record_text_plaza" class="form-control" disabled="disabled" />
                             </div>
                         </div>
                     </div>
@@ -63,7 +63,7 @@
 
                             </div>
                         </div>
-                        <div class="form-group col-sm-7">
+                        <div class="form-group col-sm-6">
                             <div class="form-group">
                                 <label for="id_materiasclase">Materia</label>
                                 <select class="form-control" [(ngModel)]="record.id_materiasclase" name="Materia" [disabled]="!edicion_en_activo" (change)="onSelectMateriasclase($event.target.value)">
@@ -75,10 +75,28 @@
                 </select>-->
                             </div>
                         </div>
-                        <div class="form-group col-sm-3">
+                        <div class="form-group col-sm-2">
                             <div class="form-group">
                                 <label for="cantidad">Horas</label>
                                 <input type="text" [(ngModel)]="record.cantidad" class="form-control" name="Horas" disabled="disabled">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="record.horassueltas==0">
+                        <!--en No-->
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="horasDisponiblesEnPlaza">Horas disponibles</label>
+                                <input type="text" [(ngModel)]="horasDisponiblesEnPlaza" class="form-control" name="Disponibles" disabled="disabled">
+                            </div>
+                        </div>
+                        <div *ngIf="verAsignarHorasRestantes" class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="asignarHorasRestantes">¿Asignar <span style="color: green;"> {{record.cantidad - horasDisponiblesEnPlaza}} </span> horas restantes a plaza con horas sueltas?</label>
+                                <select class="form-control" [(ngModel)]="asignarHorasRestantes" name="¿Horas sueltas?" [disabled]="true"><!--"!edicion_en_activo"-->
+                              <option value="0">No, asignar manualmente</option>
+                              <option value="1">Sí, asignar automáticamente</option>
+                            </select>
                             </div>
                         </div>
                     </div>
@@ -94,7 +112,7 @@
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="id_catnombramientos">Nombramiento</label>
-                                <select class="form-control" [(ngModel)]="record.id_catnombramientos" name="Nombramiento" [disabled]="!edicion_en_activo" (change)="onSelectNombramiento($event.target.value)">
+                                <select class="form-control" [(ngModel)]="record.id_catnombramientos" name="Nombramiento" [disabled]="!edicion_en_activo || edicion_habilitarTipoHoras" (change)="onSelectNombramiento($event.target.value)">
                                   <option *ngFor="let col of catnombramientosCat" [value]="col.id">{{ col.descripcion }}</option>
                                 </select>
                             </div>
@@ -137,6 +155,7 @@
                             <div class="form-group">
                                 <label for="id_cattipohorasdocente">Tipo de horas</label>
                                 <select class="form-control" [(ngModel)]="record.id_cattipohorasdocente" name="Tipo de horas" [disabled]="!edicion_habilitarTipoHoras">
+                                  <option value="">---</option>
                                     <option *ngFor="let col of cattipohorasdocenteCat" [value]="col.id">{{ col.text }}</option>
                                 </select>
                             </div>

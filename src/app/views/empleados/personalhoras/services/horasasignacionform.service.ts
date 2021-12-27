@@ -31,10 +31,10 @@ export class HorasasignacionFormService {
   }
 
   /* El siguiente método graba un registro nuevo, o uno editado. */
-  public setRecord(dataPack, actionForm): Observable<any> {
+  public setRecord(dataPack, actionForm, asignarHorasRestantes:number, cantidadHaciaHorasSueltas:number): Observable<any> {
 
     return this.http.post(this.API_URL + '/personalhoras/setRecord',
-      { dataPack, actionForm }
+      { dataPack, actionForm, asignarHorasRestantes, cantidadHaciaHorasSueltas }
       , httpOptions);
   }
 
@@ -53,9 +53,9 @@ export class HorasasignacionFormService {
     this.modals = this.modals.filter(x => x.id !== id);
   }
 
-  public open(id: string, accion: string, idItem: number, idPersonal: number, idSemestre: number, idPlantel:number, idPlaza:number) {
+  public open(id: string, accion: string, idItem: number, idPersonal: number, idSemestre: number, idPlantel:number, idPlaza:number,esInterina:number) {
     let modal: any = this.modals.filter(x => x.id === id)[0];
-    modal.open(idItem, accion, idPersonal, idSemestre, idPlantel,idPlaza);
+    modal.open(idItem, accion, idPersonal, idSemestre, idPlantel,idPlaza,esInterina);
   }
 
   public close(id: string) {

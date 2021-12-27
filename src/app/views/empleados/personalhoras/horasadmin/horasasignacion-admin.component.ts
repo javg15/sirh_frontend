@@ -77,6 +77,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
   record_id_catplanteles: number=0;
   record_estatus: string='1';
   record_id_plaza:any=0;
+  record_esInterina: number=0;
   esSemestreDesdeParametro:boolean=false;
   tblResumenRows:any=[];
   tblNombramientos:[];
@@ -185,6 +186,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
     this.plazasSvc.getNombramientosVigentes(id_personal,id_semestre).subscribe(resp => {
       this.tblNombramientos=resp;
       this.record_id_plaza=resp[0].id_plaza;
+      this.record_esInterina=resp[0].esinterina;
       this.reDraw(null);
     });
 
@@ -205,15 +207,15 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
 
 
   //Sub formulario
-  openModal(tipo: string, id: string, accion: string, idItem: number, idPersonal: number, idSemestre: number, idPlantel: number, idPlaza:number) {
+  openModal(tipo: string, id: string, accion: string, idItem: number, idPersonal: number, idSemestre: number, idPlantel: number, idPlaza:number,esInterina:number) {
 
     if(this.record_id_semestre>0){
       switch (tipo.toLowerCase()) {
         case "01":
-          this.horasasignacionformSvc.open(id, accion, idItem, idPersonal, idSemestre, idPlantel, idPlaza);
+          this.horasasignacionformSvc.open(id, accion, idItem, idPersonal, idSemestre, idPlantel, idPlaza,esInterina);
           break;
         default:
-          this.horasasignacionformSvc.open(id, accion, idItem, idPersonal, idSemestre, idPlantel, idPlaza);
+          this.horasasignacionformSvc.open(id, accion, idItem, idPersonal, idSemestre, idPlantel, idPlaza,esInterina);
           break
       }
     }
