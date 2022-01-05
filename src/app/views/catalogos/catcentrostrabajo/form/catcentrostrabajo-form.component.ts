@@ -49,7 +49,7 @@ export class CatcentrostrabajoFormComponent implements OnInit, OnDestroy {
       telefono: '', email: '', emailoficial:'',observaciones:'',sexo:0,
       domicilio:'',colonia:'',cp:'',telefonomovil:'',numimss:'',numissste:'',otronombre:'', numotro:'',tipopension:'',
       created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0,fechaingreso:null,primaantiguedad:0,
-      id_catbanco_deposito:0,cuentadeposito:'',fechanaculthijo: new Date()
+      id_catbanco_deposito:0,cuentadeposito:'',fechanaculthijo: new Date(),formacobro:0,
   };
 
   constructor(private isLoadingService: IsLoadingService,

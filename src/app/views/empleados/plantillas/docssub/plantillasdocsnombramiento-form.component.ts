@@ -409,9 +409,9 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   // close modal
   close(): void {
       this.basicModalDocsNombramiento.hide();
-      if(this.actionForm.toUpperCase()!="VER"){
+      //if(this.actionForm.toUpperCase()!="VER"){
         this.redrawEvent.emit(null);
-      }
+      //}
   }
 
   // log contenido de objeto en adminulario

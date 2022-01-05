@@ -76,6 +76,8 @@ export default interface Personal {
   cuentadeposito:string | null;
 
   fechanaculthijo: Date | null;
+
+  formacobro: number;
 }
 
 export interface PersonalInitializer {
@@ -146,4 +148,6 @@ export interface PersonalInitializer {
   cuentadeposito?:string;
 
   fechanaculthijo?: Date;
+
+  formacobro?: number;
 }

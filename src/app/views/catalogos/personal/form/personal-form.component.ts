@@ -137,7 +137,7 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
       id_catestadosresi: 0, id_catmunicipiosresi: 0, id_catlocalidadesresi: 0,
       domicilio:'',colonia:'',cp:'',telefonomovil:'',numimss:'',numissste:'',otronombre:'', numotro:'',tipopension:'',
       created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0,fechaingreso:null,primaantiguedad:0,
-      id_catbanco_deposito:0,cuentadeposito:'',fechanaculthijo: new Date()
+      id_catbanco_deposito:0,cuentadeposito:'',fechanaculthijo: new Date(),formacobro:0,
     };
 
 
@@ -297,14 +297,30 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
 
   onChangeFechaIngreso(fechaIngreso){
 
-    this.personalService.getRecordAntiguedad(fechaIngreso).subscribe(resp => {
+    /*this.personalService.getRecordAntiguedad(fechaIngreso).subscribe(resp => {
       this.recordantiguedad_catquincena_ingreso=resp.quincena;
       this.recordantiguedad_anios=resp.anios;
       this.recordantiguedad_meses=resp.meses;
       this.recordantiguedad_dias=resp.dias;
 
-    });
+    });*/
+  }
 
+  getAntiguedad(id_personal){
+    if(id_personal>0){
+      this.personalService.getAntiguedadEnQuincenas(id_personal).subscribe(resp => {
+        this.recordantiguedad_catquincena_ingreso=resp.quincena_ini;
+        this.recordantiguedad_anios=resp.anios;
+        this.recordantiguedad_meses=resp.meses;
+        this.recordantiguedad_dias=resp.dias;
+      });
+    }
+    else{
+      this.recordantiguedad_catquincena_ingreso=0;
+      this.recordantiguedad_anios=0;
+      this.recordantiguedad_meses=0;
+      this.recordantiguedad_dias=0;
+    }
   }
 
   async submitAction(form) {
@@ -359,16 +375,19 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
 
     if(idItem=="0"){
       this.record =this.newRecord();
+      this.getAntiguedad(0);
     } else {
 
-    this.personalService.getRecord(idItem).subscribe(async resp => {
-      this.onSelectEntidadNaci(resp.id_catestadosnaci);
-      this.onSelectMunicipioNaci(resp.id_catmunicipiosnaci);
-      this.onSelectEntidadResi(resp.id_catestadosresi);
-      this.onSelectMunicipioResi(resp.id_catmunicipiosresi);
-      this.record = resp;
-      this.listUpload.showFiles(this.record.id_archivos_avatar);
-    });
+      this.personalService.getRecord(idItem).subscribe(async resp => {
+        this.onSelectEntidadNaci(resp.id_catestadosnaci);
+        this.onSelectMunicipioNaci(resp.id_catmunicipiosnaci);
+        this.onSelectEntidadResi(resp.id_catestadosresi);
+        this.onSelectMunicipioResi(resp.id_catmunicipiosresi);
+        this.record = resp;
+        this.listUpload.showFiles(this.record.id_archivos_avatar);
+      });
+
+      this.getAntiguedad(idItem);
   }
 
   this.reDraw(null);

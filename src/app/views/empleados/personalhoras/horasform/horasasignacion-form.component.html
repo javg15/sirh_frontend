@@ -47,7 +47,7 @@
                         <div class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="id_catplanteles_aplicacion">Plantel (aplicación)</label>
-                                <ng-select2 [(ngModel)]="record.id_catplanteles_aplicacion" [data]="catplantelesAplicacionCat" [allowClear]="true" width="100%" name="Plantel (aplicación)" (valueChanged)="onSelectPlantel($event)" [disabled]="true">
+                                <ng-select2 [(ngModel)]="record.id_catplanteles_aplicacion" [data]="catplantelesAplicacionCat" [allowClear]="true" width="100%" name="Plantel (aplicación)" (valueChanged)="onSelectPlantel($event)" >
                                     <!--[disabled]="!edicion_en_activo"-->
                                 </ng-select2>
                             </div>

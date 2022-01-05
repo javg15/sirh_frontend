@@ -34,7 +34,7 @@ declare var jQuery: any;
 export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
 
-  @Input() dtOptions: DataTables.Settings = {};
+
   @Input() id: string; //idModal
   @Input() botonAccion: string; //texto del boton según acción
   @Output() redrawEvent = new EventEmitter<any>();
@@ -47,9 +47,12 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   dtInstance: Promise<DataTables.Api>;
   dtTrigger: Subject<DataTableDirective> = new Subject();
 
-  Members: any[];
-  ColumnNames: string[];
+  API_URL = environment.APIS_URL;
 
+  nombreModulo = 'Plantillasdocs';
+  tipoVentana ="plantillasdocsprofesional"
+
+  @Input() dtOptions: DataTables.Settings = {};
   private dataTablesParameters={
     draw: 1,  length: 100 , opcionesAdicionales: {},
     order: [{column: 0, dir: "asc"}],
@@ -62,13 +65,31 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     ,fkeyvalue:[0,0]
     ,modo:0
   };
-
-  NumberOfMembers = 0;
-  API_URL = environment.APIS_URL;
-
-  nombreModulo = 'Plantillasdocs';
-
   headersAdmin: any;
+  Members: any[];
+  NumberOfMembers = 0;
+  ColumnNames: string[];
+
+
+  @Input() dtOptionsPreparacion: DataTables.Settings = {};
+  private dataTablesParametersPreparacion={
+    draw: 1,  length: 100 , opcionesAdicionales: {},
+    order: [{column: 0, dir: "asc"}],
+    search: {value: "", regex: false},
+    start: 0
+  };
+  private dtOptionsAdicionalPreparacion = { datosBusqueda: {campo: 0, operador: 0, valor: ''}
+    ,raw:0
+    ,fkey:'id'
+    ,fkeyvalue:[0]
+    ,modo:22
+  };
+
+  headersAdminPreparacion: any;
+  MembersPreparacion: any[];
+  ColumnNamesPreparacion: string[];
+  NumberOfMembersPreparacion = 0;
+
 
   actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
@@ -153,6 +174,38 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
                 {"width": "20%", "targets": [5]}]//ID, tipo
     };
 
+
+    //preparacion profesional
+    this.headersAdminPreparacion = this.route.snapshot.data.userdataDocsPreparacion; // get data from resolver
+    this.dtOptionsPreparacion = {
+      pagingType: 'full_numbers',
+      paging:false,
+      //pageLength: 50,
+      //serverSide: true,
+      //processing: true,
+      ordering:false,
+      destroy : true,
+      searching : false,
+      info: false,
+      language: {
+        emptyTable: '',
+        zeroRecords: 'No hay coincidencias',
+        lengthMenu: 'Mostrar _MENU_ elementos',
+        search: 'Buscar:',
+        info: 'De _START_ a _END_ de _TOTAL_ elementos',
+        infoEmpty: 'De 0 a 0 de 0 elementos',
+        infoFiltered: '(filtrados de _MAX_ elementos totales)',
+        paginate: {
+          first: 'Prim.',
+          last: 'Últ.',
+          next: 'Sig.',
+          previous: 'Ant.'
+        },
+      },
+      columns: this.headersAdminPreparacion,
+      columnDefs:[{"visible": false, "targets": [0]},
+                ]//ID, tipo
+    };
   }
 
   // remove self from modal service when directive is destroyed
@@ -256,26 +309,44 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     this.plantillasdocsService.close(id);
   }
 
-  reDraw(parametro:any): void {
+  reDraw(origen:any): void {
 
+    if(origen==null || origen=="plantillasdocsnombramiento" || origen=="plantillasdocsbaja" || origen=="plantillasdocsbaja"){
+      this.dtOptionsAdicional.raw++;
+      this.dtOptionsAdicional.fkeyvalue=[this.record_id_plantillaspersonal,this.record_tipodoc];
+      //this.dtOptionsAdicional.fkeyvalue=this.record_id_plantillaspersonal;
+      this.dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
 
-    this.dtOptionsAdicional.raw++;
-    this.dtOptionsAdicional.fkeyvalue=[this.record_id_plantillaspersonal,this.record_tipodoc];
-    //this.dtOptionsAdicional.fkeyvalue=this.record_id_plantillaspersonal;
-    this.dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
-
-    this.plantillasdocsService.getAdmin(this.dataTablesParameters).subscribe(resp => {
-
-        this.ColumnNames = resp.columnNames;
-        this.Members = resp.data;
-        this.NumberOfMembers = resp.data.length;
-        $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
-        //$('#tblPlantillasdocs').dataTable({searching: false, paging: false, info: false});
-        if (this.NumberOfMembers > 0) {
-          $('.dataTables_empty').css('display', 'none');
+      this.plantillasdocsService.getAdmin(this.dataTablesParameters).subscribe(resp => {
+          this.ColumnNames = resp.columnNames;
+          this.Members = resp.data;
+          this.NumberOfMembers = resp.data.length;
+          $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
+          //$('#tblPlantillasdocs').dataTable({searching: false, paging: false, info: false});
+          if (this.NumberOfMembers > 0) {
+            $('.dataTables_empty').css('display', 'none');
+          }
         }
-      }
-    );
+      );
+    }
+    else if(origen=="plantillasdocsprofesional"){
+      this.dtOptionsAdicionalPreparacion.raw++;
+      this.dtOptionsAdicionalPreparacion.fkeyvalue=[this.record_id_plantillaspersonal];
+
+      this.dataTablesParametersPreparacion.opcionesAdicionales = this.dtOptionsAdicionalPreparacion;
+
+      this.plantillasdocsprofesionalSvc.getAdmin(this.dataTablesParametersPreparacion).subscribe(resp => {
+          this.ColumnNamesPreparacion = resp.columnNames;
+          this.MembersPreparacion = resp.data;
+          this.NumberOfMembersPreparacion = resp.data.length;
+          $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
+          //$('#tblPlantillasdocs').dataTable({searching: false, paging: false, info: false});
+          if (this.NumberOfMembersPreparacion > 0) {
+            $('.dataTables_empty').css('display', 'none');
+          }
+        }
+      );
+    }
   }
 
 }

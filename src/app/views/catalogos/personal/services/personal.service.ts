@@ -67,6 +67,13 @@ export class PersonalService {
       , httpOptions);
   }
 
+  public getAntiguedadEnQuincenas(id_personal: any): Observable<any> {
+    return this.http.post(this.API_URL + '/personal/getAntiguedadEnQuincenas',
+      { id_personal }
+      , httpOptions);
+  }
+
+
   public getCatalogoSegunBusqueda(query): Observable<any> {
     return this.http.post(this.API_URL + '/personal/getCatalogoSegunBusqueda',
       { query }

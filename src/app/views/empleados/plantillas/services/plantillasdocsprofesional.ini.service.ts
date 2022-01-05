@@ -4,6 +4,7 @@ import { take, map } from 'rxjs/operators';
 
 import { PlantillasdocsProfesionalService } from './plantillasdocsprofesional.service';
 import { Observable } from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,6 +13,9 @@ export class PlantillasdocsProfesionalIniService implements Resolve <Observable<
   constructor(private ds: PlantillasdocsProfesionalService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot){
-    return null;
+    return this.ds.getHeaders().pipe(
+      take(1),
+      map(userdata => userdata)
+    )
   }
 }
