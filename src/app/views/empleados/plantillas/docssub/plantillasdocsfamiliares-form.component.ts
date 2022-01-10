@@ -146,7 +146,7 @@ export class PlantillasDocsFamiliaresFormComponent implements OnInit, OnDestroy 
       });
     }
 
-    // console.log($('#modalTest').html()); poner el id a algun elemento para testear
+
     this.basicModalDocsFamiliares.show();
   }
 
@@ -160,7 +160,7 @@ export class PlantillasDocsFamiliaresFormComponent implements OnInit, OnDestroy 
   close(): void {
       this.basicModalDocsFamiliares.hide();
       if(this.actionForm.toUpperCase()!="VER"){
-        this.redrawEvent.emit(null);
+        this.redrawEvent.emit("plantillasdocsfamiliares");
       }
   }
 

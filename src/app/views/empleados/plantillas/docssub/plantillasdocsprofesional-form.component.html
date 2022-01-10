@@ -17,72 +17,29 @@
                     <div class="row">
                         <div class="form-group col-sm-4">
                             <div class="form-group">
-                                <label for="ultimogradoestudios">Último grado de estudios</label>
-                                <select class="form-control" [(ngModel)]="record.ultimogradoestudios" name="Último grado de estudios">
-                            <option value="0"></option>
-                            <option value="1">Primaria</option>
-                            <option value="2">Secundaria</option>
-                            <option value="3">Bachillerato</option>
-                            <option value="4">Licenciatura</option>
-                            <option value="5">Maestría</option>
-                            <option value="6">Doctorado</option>
-                          </select>
+                                <label for="id_catdocumentos">Tipo de documento</label>
+                                <ng-select2 [(ngModel)]="record.id_catdocumentos" [data]="catdocumentosCat" [allowClear]="true" width="100%" name="Tipo de documento">
+                                </ng-select2>
                             </div>
                         </div>
                         <div class="form-group col-sm-4">
                             <div class="form-group">
-                                <label for="areacarrera">Área de carrera</label>
-                                <select class="form-control" [(ngModel)]="record.areacarrera" name="Área de carrera">
-                              <option value="0"></option>
-                              <option value="1">Tronco Común</option>
-                            </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="carrera">Carrera</label>
-                                <select class="form-control" [(ngModel)]="record.carrera" name="Carrera">
-                            <option value="0"></option>
-                            <option value="1">Primaria</option>
-                            <option value="2">Secundaria</option>
-                            <option value="3">Bachillerato</option>
-                            <option value="4">Licenciatura</option>
-                            <option value="5">Maestría</option>
-                            <option value="6">Doctorado</option>
-                          </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="estatus">Estatus</label>
-                                <select class="form-control" [(ngModel)]="record.estatus" name="Estatus">
-                            <option value="0"></option>
-                            <option value="1">Cursando</option>
-                          </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="fechaexpedicion">Fecha de expedición del documento</label>
-                                <input type="date" [(ngModel)]="record.fechaexpedicion" class="form-control" name="Fecha de expedición del documento">
+                                <label for="observaciones">Observaciones</label>
+                                <textarea [(ngModel)]="record.observaciones" rows="5" cols="50" class="form-control" name="Observaciones">
+                              </textarea>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-4">
                             <label for="archivo">Archivo .pdf</label>
-                            <form-upload (onLoaded)="onLoadedFile($event)" [actionForm]="actionForm" [idFile]="record.id_archivos"></form-upload>
+                            <form-uploadFisico (onLoaded)="onLoadedFile($event)" [ruta]="ruta"></form-uploadFisico>
                             <br/>
                             <br/>
 
-                            <list-upload></list-upload>
+                            <list-uploadFisico></list-uploadFisico>
                         </div>
                     </div>
-
                     <div class="row">
                         &nbsp;
                     </div>

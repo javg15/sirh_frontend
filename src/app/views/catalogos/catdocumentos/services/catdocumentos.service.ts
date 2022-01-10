@@ -44,6 +44,13 @@ export class CatdocumentosService {
       , httpOptions);
   }
 
+  public getCatalogoProfesional(): Observable<any> {
+    return this.http.post(this.API_URL + '/catdocumentos/getCatalogoProfesional',
+      {}
+      , httpOptions);
+  }
+
+
   /* El siguiente método lee los datos de un registro seleccionado para edición. */
   public getRecord(id: any): Observable<any> {
     return this.http.post(this.API_URL + '/catdocumentos/getRecord',

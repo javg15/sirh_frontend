@@ -50,7 +50,8 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   API_URL = environment.APIS_URL;
 
   nombreModulo = 'Plantillasdocs';
-  tipoVentana ="plantillasdocsprofesional"
+  tipoVentana:string ="plantillasdocsnombramiento";
+  subTipoVentana:string ="plantillasdocsnombramiento";
 
   @Input() dtOptions: DataTables.Settings = {};
   private dataTablesParameters={
@@ -80,9 +81,9 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   };
   private dtOptionsAdicionalPreparacion = { datosBusqueda: {campo: 0, operador: 0, valor: ''}
     ,raw:0
-    ,fkey:'id'
+    ,fkey:'id_personal'
     ,fkeyvalue:[0]
-    ,modo:22
+    ,modo:33
   };
 
   headersAdminPreparacion: any;
@@ -95,6 +96,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   tituloForm: string;
 
   record_id_plantillaspersonal:number;
+  record_id_personal:number;
   record_id_catplanteles:number;
   record_tipodoc:number;
   record_numeemp:string;
@@ -143,7 +145,6 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
 
       //subtabla datatable
     this.headersAdmin = this.route.snapshot.data.userdataDocs; // get data from resolver
-
     this.dtOptions = {
       pagingType: 'full_numbers',
       paging:false,
@@ -177,6 +178,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
 
     //preparacion profesional
     this.headersAdminPreparacion = this.route.snapshot.data.userdataDocsPreparacion; // get data from resolver
+    //console.log("this.headersAdminPreparacion=>",this.headersAdminPreparacion)
     this.dtOptionsPreparacion = {
       pagingType: 'full_numbers',
       paging:false,
@@ -229,7 +231,11 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
     this.record_id_catplanteles=parseInt(idCatplanteles);
+    this.tipoVentana="plantillasdocsnombramiento";
+
     this.plantillasService.getRecord(idItem).subscribe(resp => {
+      this.record_id_personal=resp.id_personal;
+
       this.personalSvc.getRecord(resp.id_personal).subscribe(resp => {
         this.record_numeemp=resp.numeemp;
         this.tituloForm="Documentación - " +resp.numeemp + " - " +  (resp.apellidopaterno + " " + resp.apellidomaterno + " " + resp.nombre);
@@ -242,7 +248,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
 
         this.reDraw(null);
 
-        // console.log($('#modalTest').html()); poner el id a algun elemento para testear
+
         this.basicModalDocs.show();
       });
     })
@@ -274,33 +280,39 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     this.openCadenaEvent.emit(this.param_id_plantillapersonal);
   }
 
+  onSelectTipoVentana(valor){
+    this.tipoVentana=valor;
+    this.reDraw(null);
+  }
+  openPrevioModal(subTipoVentana: string, accion: string, idItem: number, idPlantillaPersonal:number,idPersonal:number){
+    this.subTipoVentana=subTipoVentana;
+    this.openModal(accion, idItem,idPlantillaPersonal,idPersonal)
+  }
   //Sub formulario
-  openModal(tipo:string, id: string, accion: string, idItem: number,idParent:number) {
-
-    switch(tipo.toLowerCase()){
+  openModal(accion: string, idItem: number,idPlantillaPersonal:number,idPersonal:number) {
+    switch(this.tipoVentana.toLowerCase()){
       case "plantillasdocsprofesional":
-          this.plantillasdocsprofesionalSvc.open(id, accion, idItem,idParent);
+          this.plantillasdocsprofesionalSvc.open('custom-plantillasdocsprofesional', accion, idItem,idPersonal);
           break;
         case "plantillasdocsnombramiento":
-          this.plantillasdocsnombramientoSvc.open(id, accion, idItem,idParent,1);
+          if(this.subTipoVentana=="plantillasdocsnombramiento")
+            this.plantillasdocsnombramientoSvc.open('custom-plantillasdocsnombramiento', accion, idItem,idPlantillaPersonal,1);
+          else if(this.subTipoVentana=="plantillasdocsbaja")
+            this.plantillasdocsbajaSvc.open('custom-plantillasdocsbaja', accion, idItem,idPlantillaPersonal);
+          else if(this.subTipoVentana=="plantillasdocslicenciasadmin")
+            this.plantillasdocsnombramientoSvc.open('custom-plantillasdocsnombramiento', accion, idItem,idPlantillaPersonal,2);
           break;
-        case "plantillasdocsbaja":
-          this.plantillasdocsbajaSvc.open(id, accion, idItem,idParent);
-          break;
-        case "plantillasdocslicenciasadmin":
-            this.plantillasdocsnombramientoSvc.open(id, accion, idItem,idParent,2);
-            break;
         case "plantillasdocssindicato":
-          this.plantillasdocssindicatoSvc.open(id, accion, idItem,idParent);
+          this.plantillasdocssindicatoSvc.open('custom-plantillasdocssindicato', accion, idItem,idPlantillaPersonal);
             break;
         case "plantillasdocsfamiliares":
-          this.plantillasdocsfamiliaresSvc.open(id, accion, idItem,idParent);
+          this.plantillasdocsfamiliaresSvc.open('custom-plantillasdocsfamiliares', accion, idItem,idPlantillaPersonal);
           break;
-          case "plantillasdocslicencias":
-            this.plantillasdocslicenciasSvc.open(id, accion, idItem,idParent);
+        case "plantillasdocslicencias":
+            this.plantillasdocslicenciasSvc.open('custom-plantillasdocslicencias', accion, idItem,idPlantillaPersonal);
             break;
       default:
-        this.plantillasdocsService.open(id, accion, idItem,idParent);
+        this.plantillasdocsService.open("", accion, idItem,idPlantillaPersonal);
 
     }
   }
@@ -309,9 +321,8 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     this.plantillasdocsService.close(id);
   }
 
-  reDraw(origen:any): void {
-
-    if(origen==null || origen=="plantillasdocsnombramiento" || origen=="plantillasdocsbaja" || origen=="plantillasdocsbaja"){
+  reDraw(parametro:any): void {
+    if(this.tipoVentana=="plantillasdocsnombramiento" || this.tipoVentana=="plantillasdocsbaja" || this.tipoVentana=="plantillasdocslicenciasadmin"){
       this.dtOptionsAdicional.raw++;
       this.dtOptionsAdicional.fkeyvalue=[this.record_id_plantillaspersonal,this.record_tipodoc];
       //this.dtOptionsAdicional.fkeyvalue=this.record_id_plantillaspersonal;
@@ -329,9 +340,9 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
         }
       );
     }
-    else if(origen=="plantillasdocsprofesional"){
+    else if(this.tipoVentana=="plantillasdocsprofesional"){
       this.dtOptionsAdicionalPreparacion.raw++;
-      this.dtOptionsAdicionalPreparacion.fkeyvalue=[this.record_id_plantillaspersonal];
+      this.dtOptionsAdicionalPreparacion.fkeyvalue=[this.record_id_personal];
 
       this.dataTablesParametersPreparacion.opcionesAdicionales = this.dtOptionsAdicionalPreparacion;
 

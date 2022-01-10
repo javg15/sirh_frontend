@@ -11,7 +11,6 @@ import { HorasasignacionFormIniService } from './personalhoras/services/horasasi
 import { PlantillasAdminComponent } from './plantillas/admin/plantillas-admin.component';
 import { PlantillasFormComponent } from './plantillas/form/plantillas-form.component';
 import { PlantillasDocsAdminComponent } from './plantillas/docs/plantillasdocs-admin.component';
-import { PlantillasDocsFormComponent } from './plantillas/docssub/plantillasdocs-form.component';
 import { PlantillasDocsProfesionalFormComponent } from './plantillas/docssub/plantillasdocsprofesional-form.component';
 import { PlantillasDocsNombramientoFormComponent } from './plantillas/docssub/plantillasdocsnombramiento-form.component';
 import { PlantillasDocsBajaFormComponent } from './plantillas/docssub/plantillasdocsbaja-form.component';
@@ -88,13 +87,6 @@ const routes: Routes = [
       {
         path: 'docs',
         component: PlantillasDocsAdminComponent,
-        data: {
-          title: 'Plantillas'
-        },
-      },
-      {
-        path: 'docsform',
-        component: PlantillasDocsFormComponent,
         data: {
           title: 'Plantillas'
         },

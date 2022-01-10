@@ -396,7 +396,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
 
 
 
-    // console.log($('#modalTest').html()); poner el id a algun elemento para testear
+
     this.basicModalDocsNombramiento.show();
   }
 
@@ -410,7 +410,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   close(): void {
       this.basicModalDocsNombramiento.hide();
       //if(this.actionForm.toUpperCase()!="VER"){
-        this.redrawEvent.emit(null);
+        this.redrawEvent.emit("plantillasdocsnombramiento");
       //}
   }
 

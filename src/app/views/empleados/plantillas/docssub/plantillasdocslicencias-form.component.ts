@@ -162,7 +162,7 @@ export class PlantillasDocsLicenciasFormComponent implements OnInit, OnDestroy {
       });
     }
 
-    // console.log($('#modalTest').html()); poner el id a algun elemento para testear
+
     this.basicModalDocsLicencias.show();
   }
 
@@ -176,7 +176,7 @@ export class PlantillasDocsLicenciasFormComponent implements OnInit, OnDestroy {
   close(): void {
       this.basicModalDocsLicencias.hide();
       if(this.actionForm.toUpperCase()!="VER"){
-        this.redrawEvent.emit(null);
+        this.redrawEvent.emit("plantillasdocslicencias");
       }
   }
 

@@ -194,7 +194,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
     });
 
 
-    // console.log($('#modalTest').html()); poner el id a algun elemento para testear
+
     this.basicModalDocs.show();
 
   }

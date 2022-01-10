@@ -21,7 +21,7 @@ export class UploadFisicoFileService {
     formdata.append('file', file);
     formdata.append('ruta',ruta);
 
-    const req = new HttpRequest('POST', this.API_URL + '/archivos/upload', formdata, {
+    const req = new HttpRequest('POST', this.API_URL + '/archivos/uploadFisico', formdata, {
       reportProgress: true,
       responseType: 'text'
     });

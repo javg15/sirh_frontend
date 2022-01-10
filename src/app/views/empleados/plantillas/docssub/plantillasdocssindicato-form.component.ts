@@ -152,7 +152,7 @@ export class PlantillasDocsSindicatoFormComponent implements OnInit, OnDestroy {
       });
     }
 
-    // console.log($('#modalTest').html()); poner el id a algun elemento para testear
+
     this.basicModalDocsSindicato.show();
   }
 
@@ -166,7 +166,7 @@ export class PlantillasDocsSindicatoFormComponent implements OnInit, OnDestroy {
   close(): void {
       this.basicModalDocsSindicato.hide();
       if(this.actionForm.toUpperCase()!="VER"){
-        this.redrawEvent.emit(null);
+        this.redrawEvent.emit("plantillasdocssindicato");
       }
   }
 

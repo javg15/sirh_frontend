@@ -12,7 +12,6 @@ import { HorasasignacionFormComponent } from './personalhoras/horasform/horasasi
 import { PlantillasAdminComponent } from './plantillas/admin/plantillas-admin.component';
 import { PlantillasFormComponent } from './plantillas/form/plantillas-form.component';
 import { PlantillasDocsAdminComponent } from './plantillas/docs/plantillasdocs-admin.component';
-import { PlantillasDocsFormComponent } from './plantillas/docssub/plantillasdocs-form.component';
 import { PlantillasDocsProfesionalFormComponent } from './plantillas/docssub/plantillasdocsprofesional-form.component';
 import { PlantillasDocsNombramientoFormComponent } from './plantillas/docssub/plantillasdocsnombramiento-form.component';
 import { PlantillasDocsBajaFormComponent } from './plantillas/docssub/plantillasdocsbaja-form.component';
@@ -61,7 +60,6 @@ import { DatePipe } from '@angular/common'
     PlantillasAdminComponent,
     PlantillasFormComponent,
     PlantillasDocsAdminComponent,
-    PlantillasDocsFormComponent,
     PlantillasDocsProfesionalFormComponent,
     PlantillasDocsBajaFormComponent,
     PlantillasDocsNombramientoFormComponent,
@@ -82,7 +80,6 @@ import { DatePipe } from '@angular/common'
     PlantillasAdminComponent,
     PlantillasFormComponent,
     PlantillasDocsAdminComponent,
-    PlantillasDocsFormComponent,
     PlantillasDocsProfesionalFormComponent,
     PlantillasDocsBajaFormComponent,
     PlantillasDocsNombramientoFormComponent,

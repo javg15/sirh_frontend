@@ -70,7 +70,7 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
     datosBusqueda: { campo: 0, operador: 0, valor: '' }
     , raw: 0
     , fkey: 'id_personal'
-    , fkeyvalue: [0, 0, 0, '1']
+    , fkeyvalue: [0]
     , modo: 22
   };
 
