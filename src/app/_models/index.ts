@@ -55,11 +55,11 @@ import Permusuariosmodulos, { PermusuariosmodulosInitializer, Permusuariosmodulo
 import Personal, { PersonalInitializer, } from './personal';
 import Personalexpediente, { PersonalexpedienteInitializer, } from './personalexpediente';
 import Personalhoras, { PersonalhorasInitializer, } from './personalhoras';
-import Plantillasdocsfamiliares, { PlantillasdocsfamiliaresInitializer, PlantillasdocsfamiliaresId } from './plantillasdocsfamiliares';
+import Personalfamiliares, { PersonalfamiliaresInitializer, PersonalfamiliaresId } from './personalfamiliares';
 import Plantillasdocslicencias, { PlantillasdocslicenciasInitializer, PlantillasdocslicenciasId } from './plantillasdocslicencias';
 import Plantillasdocsnombramiento, { PlantillasdocsnombramientoInitializer, PlantillasdocsnombramientoId } from './plantillasdocsnombramiento';
 import Plantillasdocsprofesional, { PlantillasdocsprofesionalInitializer, PlantillasdocsprofesionalId } from './plantillasdocsprofesional';
-import Plantillasdocssindicato, { PlantillasdocssindicatoInitializer, PlantillasdocssindicatoId } from './plantillasdocssindicato';
+import Personalsindicato, { PersonalsindicatoInitializer, PersonalsindicatoId } from './personalsindicato';
 import Plantillaspersonal, { PlantillaspersonalInitializer, PlantillaspersonalId } from './plantillaspersonal';
 import Plantillaspersonaldocs, { PlantillaspersonaldocsInitializer } from './plantillaspersonaldocs';
 import Plazas, { PlazasInitializer } from './plazas';
@@ -126,11 +126,11 @@ type Model =
   | Personal
   | Personalexpediente
   | Personalhoras
-  | Plantillasdocsfamiliares
+  | Personalfamiliares
   | Plantillasdocslicencias
   | Plantillasdocsnombramiento
   | Plantillasdocsprofesional
-  | Plantillasdocssindicato
+  | Personalsindicato
   | Plantillaspersonal
   | Plantillaspersonaldocs
   | Plazas
@@ -197,11 +197,11 @@ interface ModelTypeMap {
   'personal': Personal;
   'personalexpediente': Personalexpediente;
   'personalhoras': Personalhoras;
-  'plantillasdocsfamiliares': Plantillasdocsfamiliares;
+  'personalfamiliares': Personalfamiliares;
   'plantillasdocslicencias': Plantillasdocslicencias;
   'plantillasdocsnombramiento': Plantillasdocsnombramiento;
   'plantillasdocsprofesional': Plantillasdocsprofesional;
-  'plantillasdocssindicato': Plantillasdocssindicato;
+  'personalsindicato': Personalsindicato;
   'plantillaspersonal': Plantillaspersonal;
   'plantillaspersonaldocs': Plantillaspersonaldocs;
   'plazas': Plazas;
@@ -242,11 +242,11 @@ type ModelId =
   | PermgruposId
   | PermgruposmodulosId
   | PermusuariosmodulosId
-  | PlantillasdocsfamiliaresId
+  | PersonalfamiliaresId
   | PlantillasdocslicenciasId
   | PlantillasdocsnombramientoId
   | PlantillasdocsprofesionalId
-  | PlantillasdocssindicatoId
+  | PersonalsindicatoId
   | PlantillaspersonalId
   | PresupuestoId
   | RhnominasId
@@ -284,11 +284,11 @@ interface ModelIdTypeMap {
   'permgrupos': PermgruposId;
   'permgruposmodulos': PermgruposmodulosId;
   'permusuariosmodulos': PermusuariosmodulosId;
-  'plantillasdocsfamiliares': PlantillasdocsfamiliaresId;
+  'personalfamiliares': PersonalfamiliaresId;
   'plantillasdocslicencias': PlantillasdocslicenciasId;
   'plantillasdocsnombramiento': PlantillasdocsnombramientoId;
   'plantillasdocsprofesional': PlantillasdocsprofesionalId;
-  'plantillasdocssindicato': PlantillasdocssindicatoId;
+  'personalsindicato': PersonalsindicatoId;
   'plantillaspersonal': PlantillaspersonalId;
   'presupuesto': PresupuestoId;
   'rhnominas': RhnominasId;
@@ -353,11 +353,11 @@ type Initializer =
   | PermusuariosmodulosInitializer
   | PersonalInitializer
   | PersonalhorasInitializer
-  | PlantillasdocsfamiliaresInitializer
+  | PersonalfamiliaresInitializer
   | PlantillasdocslicenciasInitializer
   | PlantillasdocsnombramientoInitializer
   | PlantillasdocsprofesionalInitializer
-  | PlantillasdocssindicatoInitializer
+  | PersonalsindicatoInitializer
   | PlantillaspersonalInitializer
   | PlantillaspersonaldocsInitializer
   | PlazasInitializer
@@ -424,11 +424,11 @@ interface InitializerTypeMap {
   'personal': PersonalInitializer;
   'personalexpediente': PersonalexpedienteInitializer;
   'personalhoras': PersonalhorasInitializer;
-  'plantillasdocsfamiliares': PlantillasdocsfamiliaresInitializer;
+  'personalfamiliares': PersonalfamiliaresInitializer;
   'plantillasdocslicencias': PlantillasdocslicenciasInitializer;
   'plantillasdocsnombramiento': PlantillasdocsnombramientoInitializer;
   'plantillasdocsprofesional': PlantillasdocsprofesionalInitializer;
-  'plantillasdocssindicato': PlantillasdocssindicatoInitializer;
+  'personalsindicato': PersonalsindicatoInitializer;
   'plantillaspersonal': PlantillaspersonalInitializer;
   'plantillaspersonaldocs': PlantillaspersonaldocsInitializer;
   'plazas': PlazasInitializer;
@@ -495,11 +495,11 @@ export {
   Personal, PersonalInitializer,
   Personalexpediente, PersonalexpedienteInitializer,
   Personalhoras, PersonalhorasInitializer,
-  Plantillasdocsfamiliares, PlantillasdocsfamiliaresInitializer, PlantillasdocsfamiliaresId,
+  Personalfamiliares, PersonalfamiliaresInitializer, PersonalfamiliaresId,
   Plantillasdocslicencias, PlantillasdocslicenciasInitializer, PlantillasdocslicenciasId,
   Plantillasdocsnombramiento, PlantillasdocsnombramientoInitializer, PlantillasdocsnombramientoId,
   Plantillasdocsprofesional, PlantillasdocsprofesionalInitializer, PlantillasdocsprofesionalId,
-  Plantillasdocssindicato, PlantillasdocssindicatoInitializer, PlantillasdocssindicatoId,
+  Personalsindicato, PersonalsindicatoInitializer, PersonalsindicatoId,
   Plantillaspersonal, PlantillaspersonalInitializer, PlantillaspersonalId,
   Plantillaspersonaldocs, PlantillaspersonaldocsInitializer,
   Plazas, PlazasInitializer,

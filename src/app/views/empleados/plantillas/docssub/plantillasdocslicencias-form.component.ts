@@ -3,16 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Plantillasdocslicencias } from '../../../../_models';
-import { Archivos } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 
-import { ArchivosService } from '../../../catalogos/archivos/services/archivos.service';
 import { PlantillasdocsLicenciasService } from '../services/plantillasdocslicencias.service';
-import { ListUploadComponent } from '../../../_shared/upload/list-upload.component';
-import { FormUploadComponent } from '../../../_shared/upload/form-upload.component';
 
 declare var $: any;
 declare var jQuery: any;
@@ -39,20 +35,16 @@ export class PlantillasDocsLicenciasFormComponent implements OnInit, OnDestroy {
   @ViewChild('basicModalDocsLicencias') basicModalDocsLicencias: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
-  @ViewChild(ListUploadComponent) listUpload: ListUploadComponent;
-  @ViewChild(FormUploadComponent) formUpload: FormUploadComponent;
 
   record: Plantillasdocslicencias;
   antiguedad:string;dias_transcurridos:string;tipo_prestacion:string;cantidad_prestacion:string;
-  recordFile:Archivos;
-  keywordSearch = 'full_name';
+    keywordSearch = 'full_name';
   isLoadingSearch:boolean;
   //recordJsonTipodoc1:any={UltimoGradodeEstudios:0,AreadeCarrera:0,Carrera:0,Estatus:0};
 
   constructor(private isLoadingService: IsLoadingService,
       private plantillasdocslicenciasService: PlantillasdocsLicenciasService,
     private el: ElementRef,
-    private archivosSvc:ArchivosService
       ) {
         this.elementModal = el.nativeElement;
   }
@@ -112,25 +104,8 @@ export class PlantillasDocsLicenciasFormComponent implements OnInit, OnDestroy {
               this.cantidad_prestacion=resp.cantidad_prestacion;
           });
 
-          //actualizar el registro de la tabla archivos
-          if(this.record.id_archivos>0){
-              this.recordFile={id:this.record.id_archivos,
-                  tabla:"plantillasdocslicencias",
-                  id_tabla:this.record.id,ruta:"",
-                  tipo: null,  nombre:  null,  datos: null,  id_usuarios_r: 0,
-                  state: '',  created_at: null,   updated_at: null
-                };
-
-              await this.isLoadingService.add(
-              this.archivosSvc.setRecordReferencia(this.recordFile,this.actionForm).subscribe(resp => {
-                this.successModal.show();
-                setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
-              }),{ key: 'loading' });
-          }
-          else{
             this.successModal.show();
             setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
-          }
         }
       }),{ key: 'loading' });
     }
@@ -141,11 +116,9 @@ export class PlantillasDocsLicenciasFormComponent implements OnInit, OnDestroy {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
     this.tituloForm="Datos Licencias - " + titulosModal[accion] + " registro";
-    this.formUpload.resetFile();
 
     if(idItem=="0"){
         this.record =this.newRecord(idParent);
-        this.listUpload.showFiles(0);
     } else {
       //obtener el registro
       this.plantillasdocslicenciasService.getRecord(idItem).subscribe(resp => {
@@ -158,7 +131,6 @@ export class PlantillasDocsLicenciasFormComponent implements OnInit, OnDestroy {
           this.cantidad_prestacion=resp.cantidad_prestacion;
         });
 
-        this.listUpload.showFiles(this.record.id_archivos);
       });
     }
 
@@ -169,7 +141,6 @@ export class PlantillasDocsLicenciasFormComponent implements OnInit, OnDestroy {
   //Archivo cargado
   onLoadedFile(idFile:number){
     this.record.id_archivos=idFile;
-    this.listUpload.showFiles(this.record.id_archivos);
   }
 
   // close modal

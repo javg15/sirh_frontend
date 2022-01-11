@@ -1,12 +1,12 @@
 // Automatically generated. Don't change this file manually.
 
-export type PlantillasdocssindicatoId = number & { __flavor?: 'plantillasdocssindicato' };
+export type PersonalsindicatoId = number & { __flavor?: 'personalsindicato' };
 
-export default interface Plantillasdocssindicato {
-  /** Primary key. Index: plantillasdocssindicato_pkey */
-  id: PlantillasdocssindicatoId;
+export default interface Personalsindicato {
+  /** Primary key. Index: personalsindicato_pkey */
+  id: PersonalsindicatoId;
 
-  id_plantillaspersonal: number;
+  id_personal: number;
 
   id_archivos: number | null;
 
@@ -23,15 +23,15 @@ export default interface Plantillasdocssindicato {
   updated_at: Date | null;
 }
 
-export interface PlantillasdocssindicatoInitializer {
+export interface PersonalsindicatoInitializer {
   /**
-   * Default value: nextval('plantillasdocssindicato_id_seq'::regclass)
-   * Primary key. Index: plantillasdocssindicato_pkey
+   * Default value: nextval('personalsindicato_id_seq'::regclass)
+   * Primary key. Index: personalsindicato_pkey
    */
-  id?: PlantillasdocssindicatoId;
+  id?: PersonalsindicatoId;
 
   /** Default value: 0 */
-  id_plantillaspersonal?: number;
+  id_personal?: number;
 
   id_archivos?: number;
 

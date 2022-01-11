@@ -12,6 +12,9 @@ export class PlantillasdocsFamiliaresIniService implements Resolve <Observable<a
   constructor(private ds: PlantillasdocsFamiliaresService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot){
-    return null;
+    return this.ds.getHeaders().pipe(
+      take(1),
+      map(userdata => userdata)
+    )
   }
 }

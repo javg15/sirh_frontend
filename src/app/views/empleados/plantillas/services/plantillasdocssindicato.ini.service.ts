@@ -12,6 +12,9 @@ export class PlantillasdocsSindicatoIniService implements Resolve <Observable<an
   constructor(private ds: PlantillasdocsSindicatoService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot){
-    return null;
+    return this.ds.getHeaders().pipe(
+      take(1),
+      map(userdata => userdata)
+    )
   }
 }

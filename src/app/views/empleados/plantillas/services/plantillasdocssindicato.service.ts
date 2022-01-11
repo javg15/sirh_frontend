@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+import { DataTablesResponse } from '../../../../classes/data-tables-response';
+
 import { environment } from '../../../../../environments/environment';
 
 const httpOptions = {
@@ -22,10 +24,32 @@ export class PlantillasdocsSindicatoService {
   Se define como public, para que sea accesible desde los componentes necesarios */
   constructor(public http: HttpClient) {}
 
+  getHeaders(): Observable<any>{
+    return new Observable((o)=>{
+      setTimeout(()=>{
+        this.http.post<DataTablesResponse>(
+          // this.API_URL + '/a6b_apis/read_records_dt.php',
+          this.API_URL + '/personalsindicato/getAdmin',
+          {solocabeceras:1,opcionesAdicionales:{raw:0}}, {}
+        ).subscribe(resp => {
+            if(resp.data.length>0)
+              o.next(JSON.parse(resp.data[0].cabeceras));
+            else{
+              o.next(JSON.parse('[{"data":"id","name":"a_id","title":"ID"},{"data":"z_e","name":"cze_descripcion","title":"Z E"},{"data":"pl_auto","name":"a_totalplazaaut","title":"Pl Auto"},{"data":"horas_auto","name":"a_totalhorasaut","title":"Horas Auto"},{"data":"quin_inicio","name":"Quin_Inicio","title":"Quin Inicio"},{"data":"quin_fin","name":"Quin_Fin","title":"Quin Fin"},{"data":"importe","name":"a_importe","title":"Importe"},{"data":"acciones","name":"Accionesbotones>","title":"Acciones","render":"botones"}]'))
+            }
+          })
+      }, 200)
+    })
+  }
 
+  public getAdmin(dataTablesParameters): Observable<any> {
+    return this.http.post(this.API_URL + '/personalsindicato/getAdmin',
+      { dataTablesParameters }
+      , httpOptions);
+  }
   /* El siguiente método lee los datos de un registro seleccionado para edición. */
   public getRecord(id: any): Observable<any> {
-    return this.http.post(this.API_URL + '/plantillasdocssindicato/getRecord',
+    return this.http.post(this.API_URL + '/personalsindicato/getRecord',
       { id }
       , httpOptions);
   }
@@ -33,7 +57,7 @@ export class PlantillasdocsSindicatoService {
   /* El siguiente método graba un registro nuevo, o uno editado. */
   public setRecord(dataPack,actionForm): Observable<any> {
 
-    return this.http.post(this.API_URL + '/plantillasdocssindicato/setRecord',
+    return this.http.post(this.API_URL + '/personalsindicato/setRecord',
       { dataPack,actionForm }
       , httpOptions);
   }

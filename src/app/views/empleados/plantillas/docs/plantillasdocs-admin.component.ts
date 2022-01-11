@@ -91,6 +91,66 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   ColumnNamesPreparacion: string[];
   NumberOfMembersPreparacion = 0;
 
+  //familiares
+  @Input() dtOptionsFamiliares: DataTables.Settings = {};
+  private dataTablesParametersFamiliares={
+    draw: 1,  length: 100 , opcionesAdicionales: {},
+    order: [{column: 0, dir: "asc"}],
+    search: {value: "", regex: false},
+    start: 0
+  };
+  private dtOptionsAdicionalFamiliares = { datosBusqueda: {campo: 0, operador: 0, valor: ''}
+    ,raw:0
+    ,fkey:'id_personal'
+    ,fkeyvalue:[0]
+    ,modo:22
+  };
+
+  headersAdminFamiliares: any;
+  MembersFamiliares: any[];
+  ColumnNamesFamiliares: string[];
+  NumberOfMembersFamiliares = 0;
+
+  //sindicato
+  @Input() dtOptionsSindicato: DataTables.Settings = {};
+  private dataTablesParametersSindicato={
+    draw: 1,  length: 100 , opcionesAdicionales: {},
+    order: [{column: 0, dir: "asc"}],
+    search: {value: "", regex: false},
+    start: 0
+  };
+  private dtOptionsAdicionalSindicato = { datosBusqueda: {campo: 0, operador: 0, valor: ''}
+    ,raw:0
+    ,fkey:'id_personal'
+    ,fkeyvalue:[0]
+    ,modo:22
+  };
+
+  headersAdminSindicato: any;
+  MembersSindicato: any[];
+  ColumnNamesSindicato: string[];
+  NumberOfMembersSindicato = 0;
+
+  //licencias
+  @Input() dtOptionsLicencias: DataTables.Settings = {};
+  private dataTablesParametersLicencias={
+    draw: 1,  length: 100 , opcionesAdicionales: {},
+    order: [{column: 0, dir: "asc"}],
+    search: {value: "", regex: false},
+    start: 0
+  };
+  private dtOptionsAdicionalLicencias = { datosBusqueda: {campo: 0, operador: 0, valor: ''}
+    ,raw:0
+    ,fkey:'id_plantillaspersonal'
+    ,fkeyvalue:[0]
+    ,modo:22
+  };
+
+  headersAdminLicencias: any;
+  MembersLicencias: any[];
+  ColumnNamesLicencias: string[];
+  NumberOfMembersLicencias = 0;
+
 
   actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
@@ -208,6 +268,106 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
       columnDefs:[{"visible": false, "targets": [0]},
                 ]//ID, tipo
     };
+
+
+    //familiares
+    this.headersAdminFamiliares = this.route.snapshot.data.userdataDocsFamiliares; // get data from resolver
+    //console.log("this.headersAdminFamiliares=>",this.headersAdminFamiliares)
+    this.dtOptionsFamiliares = {
+      pagingType: 'full_numbers',
+      paging:false,
+      //pageLength: 50,
+      //serverSide: true,
+      //processing: true,
+      ordering:false,
+      destroy : true,
+      searching : false,
+      info: false,
+      language: {
+        emptyTable: '',
+        zeroRecords: 'No hay coincidencias',
+        lengthMenu: 'Mostrar _MENU_ elementos',
+        search: 'Buscar:',
+        info: 'De _START_ a _END_ de _TOTAL_ elementos',
+        infoEmpty: 'De 0 a 0 de 0 elementos',
+        infoFiltered: '(filtrados de _MAX_ elementos totales)',
+        paginate: {
+          first: 'Prim.',
+          last: 'Últ.',
+          next: 'Sig.',
+          previous: 'Ant.'
+        },
+      },
+      columns: this.headersAdminFamiliares,
+      columnDefs:[{"visible": false, "targets": [0]},
+                ]//ID, tipo
+    };
+
+    //sindicato
+    this.headersAdminSindicato = this.route.snapshot.data.userdataDocsSindicato; // get data from resolver
+    //console.log("this.headersAdminSindicato=>",this.headersAdminSindicato)
+    this.dtOptionsSindicato = {
+      pagingType: 'full_numbers',
+      paging:false,
+      //pageLength: 50,
+      //serverSide: true,
+      //processing: true,
+      ordering:false,
+      destroy : true,
+      searching : false,
+      info: false,
+      language: {
+        emptyTable: '',
+        zeroRecords: 'No hay coincidencias',
+        lengthMenu: 'Mostrar _MENU_ elementos',
+        search: 'Buscar:',
+        info: 'De _START_ a _END_ de _TOTAL_ elementos',
+        infoEmpty: 'De 0 a 0 de 0 elementos',
+        infoFiltered: '(filtrados de _MAX_ elementos totales)',
+        paginate: {
+          first: 'Prim.',
+          last: 'Últ.',
+          next: 'Sig.',
+          previous: 'Ant.'
+        },
+      },
+      columns: this.headersAdminSindicato,
+      columnDefs:[{"visible": false, "targets": [0]},
+                ]//ID, tipo
+    };
+
+    //licencias
+    this.headersAdminLicencias = this.route.snapshot.data.userdataDocsLicencias; // get data from resolver
+    //console.log("this.headersAdminLicencias=>",this.headersAdminLicencias)
+    this.dtOptionsLicencias = {
+      pagingType: 'full_numbers',
+      paging:false,
+      //pageLength: 50,
+      //serverSide: true,
+      //processing: true,
+      ordering:false,
+      destroy : true,
+      searching : false,
+      info: false,
+      language: {
+        emptyTable: '',
+        zeroRecords: 'No hay coincidencias',
+        lengthMenu: 'Mostrar _MENU_ elementos',
+        search: 'Buscar:',
+        info: 'De _START_ a _END_ de _TOTAL_ elementos',
+        infoEmpty: 'De 0 a 0 de 0 elementos',
+        infoFiltered: '(filtrados de _MAX_ elementos totales)',
+        paginate: {
+          first: 'Prim.',
+          last: 'Últ.',
+          next: 'Sig.',
+          previous: 'Ant.'
+        },
+      },
+      columns: this.headersAdminLicencias,
+      columnDefs:[{"visible": false, "targets": [0]},
+                ]//ID, tipo
+    };
   }
 
   // remove self from modal service when directive is destroyed
@@ -303,10 +463,10 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
             this.plantillasdocsnombramientoSvc.open('custom-plantillasdocsnombramiento', accion, idItem,idPlantillaPersonal,2);
           break;
         case "plantillasdocssindicato":
-          this.plantillasdocssindicatoSvc.open('custom-plantillasdocssindicato', accion, idItem,idPlantillaPersonal);
+          this.plantillasdocssindicatoSvc.open('custom-plantillasdocssindicato', accion, idItem,idPersonal);
             break;
         case "plantillasdocsfamiliares":
-          this.plantillasdocsfamiliaresSvc.open('custom-plantillasdocsfamiliares', accion, idItem,idPlantillaPersonal);
+          this.plantillasdocsfamiliaresSvc.open('custom-plantillasdocsfamiliares', accion, idItem,idPersonal);
           break;
         case "plantillasdocslicencias":
             this.plantillasdocslicenciasSvc.open('custom-plantillasdocslicencias', accion, idItem,idPlantillaPersonal);
@@ -353,6 +513,60 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
           $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
           //$('#tblPlantillasdocs').dataTable({searching: false, paging: false, info: false});
           if (this.NumberOfMembersPreparacion > 0) {
+            $('.dataTables_empty').css('display', 'none');
+          }
+        }
+      );
+    }
+    else if(this.tipoVentana=="plantillasdocsfamiliares"){
+      this.dtOptionsAdicionalFamiliares.raw++;
+      this.dtOptionsAdicionalFamiliares.fkeyvalue=[this.record_id_personal];
+
+      this.dataTablesParametersFamiliares.opcionesAdicionales = this.dtOptionsAdicionalFamiliares;
+
+      this.plantillasdocsfamiliaresSvc.getAdmin(this.dataTablesParametersFamiliares).subscribe(resp => {
+          this.ColumnNamesFamiliares = resp.columnNames;
+          this.MembersFamiliares = resp.data;
+          this.NumberOfMembersFamiliares = resp.data.length;
+          $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
+          //$('#tblPlantillasdocs').dataTable({searching: false, paging: false, info: false});
+          if (this.NumberOfMembersFamiliares > 0) {
+            $('.dataTables_empty').css('display', 'none');
+          }
+        }
+      );
+    }
+    else if(this.tipoVentana=="plantillasdocssindicato"){
+      this.dtOptionsAdicionalSindicato.raw++;
+      this.dtOptionsAdicionalSindicato.fkeyvalue=[this.record_id_personal];
+
+      this.dataTablesParametersSindicato.opcionesAdicionales = this.dtOptionsAdicionalSindicato;
+
+      this.plantillasdocssindicatoSvc.getAdmin(this.dataTablesParametersSindicato).subscribe(resp => {
+          this.ColumnNamesSindicato = resp.columnNames;
+          this.MembersSindicato = resp.data;
+          this.NumberOfMembersSindicato = resp.data.length;
+          $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
+          //$('#tblPlantillasdocs').dataTable({searching: false, paging: false, info: false});
+          if (this.NumberOfMembersSindicato > 0) {
+            $('.dataTables_empty').css('display', 'none');
+          }
+        }
+      );
+    }
+    else if(this.tipoVentana=="plantillasdocslicencias"){
+      this.dtOptionsAdicionalLicencias.raw++;
+      this.dtOptionsAdicionalLicencias.fkeyvalue=[this.record_id_plantillaspersonal];
+
+      this.dataTablesParametersLicencias.opcionesAdicionales = this.dtOptionsAdicionalLicencias;
+
+      this.plantillasdocslicenciasSvc.getAdmin(this.dataTablesParametersLicencias).subscribe(resp => {
+          this.ColumnNamesLicencias = resp.columnNames;
+          this.MembersLicencias = resp.data;
+          this.NumberOfMembersLicencias = resp.data.length;
+          $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
+          //$('#tblPlantillasdocs').dataTable({searching: false, paging: false, info: false});
+          if (this.NumberOfMembersLicencias > 0) {
             $('.dataTables_empty').css('display', 'none');
           }
         }

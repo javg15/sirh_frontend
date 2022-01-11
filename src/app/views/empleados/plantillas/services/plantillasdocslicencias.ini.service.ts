@@ -12,6 +12,9 @@ export class PlantillasdocsLicenciasIniService implements Resolve <Observable<an
   constructor(private ds: PlantillasdocsLicenciasService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot){
-    return null;
+    return this.ds.getHeaders().pipe(
+      take(1),
+      map(userdata => userdata)
+    )
   }
 }

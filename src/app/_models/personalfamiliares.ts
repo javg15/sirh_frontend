@@ -1,14 +1,16 @@
 // Automatically generated. Don't change this file manually.
 
-export type PlantillasdocsfamiliaresId = number & { __flavor?: 'plantillasdocsfamiliares' };
+export type PersonalfamiliaresId = number & { __flavor?: 'personalfamiliares' };
 
-export default interface Plantillasdocsfamiliares {
-  /** Primary key. Index: plantillasdocsfamiliares_pkey */
-  id: PlantillasdocsfamiliaresId;
+export default interface Personalfamiliares {
+  /** Primary key. Index: personalfamiliares_pkey */
+  id: PersonalfamiliaresId;
 
-  id_plantillaspersonal: number;
+  id_personal: number;
 
   id_archivos: number | null;
+
+  id_catdocumentos: number | null;
 
   curp: string;
 
@@ -24,7 +26,7 @@ export default interface Plantillasdocsfamiliares {
 
   fechanacimiento: Date | null;
 
-  sexo: string | null;
+  sexo: number | null;
 
   id_usuarios_r: number;
 
@@ -35,17 +37,19 @@ export default interface Plantillasdocsfamiliares {
   updated_at: Date | null;
 }
 
-export interface PlantillasdocsfamiliaresInitializer {
+export interface PersonalfamiliaresInitializer {
   /**
-   * Default value: nextval('plantillasdocsfamiliares_id_seq'::regclass)
-   * Primary key. Index: plantillasdocsfamiliares_pkey
+   * Default value: nextval('personalfamiliares_id_seq'::regclass)
+   * Primary key. Index: personalfamiliares_pkey
    */
-  id?: PlantillasdocsfamiliaresId;
+  id?: PersonalfamiliaresId;
 
   /** Default value: 0 */
-  id_plantillaspersonal?: number;
+  id_personal?: number;
 
   id_archivos?: number;
+
+  id_catdocumentos?: number;
 
   curp: string;
 
@@ -61,7 +65,7 @@ export interface PlantillasdocsfamiliaresInitializer {
 
   fechanacimiento?: Date;
 
-  sexo?: string;
+  sexo?: number;
 
   /** Default value: 0 */
   id_usuarios_r?: number;

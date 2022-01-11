@@ -2,17 +2,13 @@ import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, Eve
 import { ActivatedRoute } from '@angular/router';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Plantillasdocsfamiliares } from '../../../../_models';
-import { Archivos } from '../../../../_models';
+import { Personalfamiliares } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 
-import { ArchivosService } from '../../../catalogos/archivos/services/archivos.service';
 import { PlantillasdocsFamiliaresService } from '../services/plantillasdocsfamiliares.service';
-import { ListUploadComponent } from '../../../_shared/upload/list-upload.component';
-import { FormUploadComponent } from '../../../_shared/upload/form-upload.component';
 
 declare var $: any;
 declare var jQuery: any;
@@ -29,7 +25,7 @@ export class PlantillasDocsFamiliaresFormComponent implements OnInit, OnDestroy 
   @Input() botonAccion: string; //texto del boton según acción
   @Output() redrawEvent = new EventEmitter<any>();
 
-  nombreModulo = 'Plantillaspersonaldocs';
+  nombreModulo = 'Plantillasdocsfamiliares';
 
   actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
@@ -39,11 +35,8 @@ export class PlantillasDocsFamiliaresFormComponent implements OnInit, OnDestroy 
   @ViewChild('basicModalDocsFamiliares') basicModalDocsFamiliares: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
-  @ViewChild(ListUploadComponent) listUpload: ListUploadComponent;
-  @ViewChild(FormUploadComponent) formUpload: FormUploadComponent;
 
-  record: Plantillasdocsfamiliares;
-  recordFile:Archivos;
+  record: Personalfamiliares;
   keywordSearch = 'full_name';
   isLoadingSearch:boolean;
   //recordJsonTipodoc1:any={UltimoGradodeEstudios:0,AreadeCarrera:0,Carrera:0,Estatus:0};
@@ -51,16 +44,16 @@ export class PlantillasDocsFamiliaresFormComponent implements OnInit, OnDestroy 
   constructor(private isLoadingService: IsLoadingService,
       private plantillasdocsfamiliaresService: PlantillasdocsFamiliaresService,
     private el: ElementRef,
-    private archivosSvc:ArchivosService
+
       ) {
         this.elementModal = el.nativeElement;
   }
 
-  newRecord(idParent:number): Plantillasdocsfamiliares {
+  newRecord(idParent:number): Personalfamiliares {
     return {
-      id: 0,  id_plantillaspersonal: idParent, id_archivos:0,
+      id: 0,  id_personal: idParent, id_archivos:0,id_catdocumentos:0,
       curp:'',rfc:'',homoclave:'',nombre:'',apellidopaterno:'',apellidomaterno:'',
-      fechanacimiento:null,sexo:'',
+      fechanacimiento:null,sexo:0,
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }
@@ -104,25 +97,8 @@ export class PlantillasDocsFamiliaresFormComponent implements OnInit, OnDestroy 
           if(this.actionForm.toUpperCase()=="NUEVO") this.actionForm="editar";
           this.record.id=resp.id;
 
-          //actualizar el registro de la tabla archivos
-          if(this.record.id_archivos>0){
-              this.recordFile={id:this.record.id_archivos,
-                  tabla:"plantillasdocsfamiliares",
-                  id_tabla:this.record.id,ruta:"",
-                  tipo: null,  nombre:  null,  datos: null,  id_usuarios_r: 0,
-                  state: '',  created_at: null,   updated_at: null
-                };
-
-              await this.isLoadingService.add(
-              this.archivosSvc.setRecordReferencia(this.recordFile,this.actionForm).subscribe(resp => {
-                this.successModal.show();
-                setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
-              }),{ key: 'loading' });
-          }
-          else{
             this.successModal.show();
             setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
-          }
         }
       }),{ key: 'loading' });
     }
@@ -133,16 +109,13 @@ export class PlantillasDocsFamiliaresFormComponent implements OnInit, OnDestroy 
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
     this.tituloForm="Datos Familiares - " + titulosModal[accion] + " registro";
-    this.formUpload.resetFile();
 
     if(idItem=="0"){
         this.record =this.newRecord(idParent);
-        this.listUpload.showFiles(0);
     } else {
       //obtener el registro
       this.plantillasdocsfamiliaresService.getRecord(idItem).subscribe(resp => {
         this.record = resp;
-        this.listUpload.showFiles(this.record.id_archivos);
       });
     }
 
@@ -150,11 +123,6 @@ export class PlantillasDocsFamiliaresFormComponent implements OnInit, OnDestroy 
     this.basicModalDocsFamiliares.show();
   }
 
-  //Archivo cargado
-  onLoadedFile(idFile:number){
-    this.record.id_archivos=idFile;
-    this.listUpload.showFiles(this.record.id_archivos);
-  }
 
   // close modal
   close(): void {
@@ -175,7 +143,7 @@ export class PlantillasDocsFamiliaresFormComponent implements OnInit, OnDestroy 
     let fechanacimiento=curp.toString().substring(4,10);
     //console.log("fechanacimiento=",fechanacimiento)
     let fecha="";
-    if(parseInt(fechanacimiento.substring(0,2))>20)
+    if(parseInt(fechanacimiento.substring(0,2))>60)
       fecha="19" +fechanacimiento.substring(0,2) + "-" + fechanacimiento.substring(2,4) + "-" + fechanacimiento.substring(4,6);
     else
       fecha="20" +fechanacimiento.substring(0,2) + "-" + fechanacimiento.substring(2,4) + "-" + fechanacimiento.substring(4,6);
