@@ -81,6 +81,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
   record_esInterina: number=0;
   esSemestreDesdeParametro:boolean=false;
   tblResumenRows:any=[];
+  tblResumenRowsEstatus:any=[];
   tblNombramientos:[];
 
   private elementModal: any;
@@ -252,9 +253,10 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
 
       //tabla resumen
       this.horasasignacionadminService.getAdminResumen(this.record_id_personal, this.record_id_semestre, this.record_id_plaza).subscribe(resp => {
-        this.tblResumenRows=[];
+        this.tblResumenRows=[];this.tblResumenRowsEstatus=[];
         if(resp.length>0){
-          this.tblResumenRows=resp[0].fn_horas_cuenta_resumen;
+          this.tblResumenRows=resp[0].fn_horas_cuenta_resumen.Total;
+          this.tblResumenRowsEstatus=resp[0].fn_horas_cuenta_resumen.Estatus;
         }
       });
     }

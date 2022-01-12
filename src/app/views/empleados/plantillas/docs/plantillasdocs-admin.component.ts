@@ -499,6 +499,10 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
           }
         }
       );
+      //nombramientos
+      this.plazasSvc.getNombramientosVigentes(this.record_id_personal,0).subscribe(resp => {
+        this.tblNombramientos=resp;
+      });
     }
     else if(this.tipoVentana=="plantillasdocsprofesional"){
       this.dtOptionsAdicionalPreparacion.raw++;
