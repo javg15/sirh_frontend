@@ -3,22 +3,18 @@ import { ActivatedRoute } from '@angular/router';
 import { TokenStorageService } from '../../../../_services/token-storage.service';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Personalhoras, Personal, Semestre, Catplanteles, Catquincena, Gruposclase, Materiasclase, Catestatushora, Catnombramientos, Cattipohorasdocente } from '../../../../_models';
+import { Personalhoras, Personal, Semestre, Catplanteles, Catquincena, Gruposclase, Materiasclase } from '../../../../_models';
 import { Archivos } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 
-import { HorasasignacionFormService } from '../services/horasasignacionform.service';
-import { CatquincenaService } from '../../../catalogos/catquincena/services/catquincena.service';
+import { HorasdescargaFormService } from '../services/horasdescargaform.service';
 import { GruposclaseService } from '../../../catalogos/gruposclase/services/gruposclase.service';
 import { MateriasclaseService } from '../../../catalogos/materiasclase/services/materiasclase.service';
 import { SemestreService } from '../../../catalogos/semestre/services/semestre.service';
 import { CatplantelesService } from '../../../catalogos/catplanteles/services/catplanteles.service';
-import { CatestatushoraService } from '../../../catalogos/catestatushora/services/catestatushora.service';
-import { CatnombramientosService } from '../../../catalogos/catnombramientos/services/catnombramientos.service';
-import { CattipohorasdocenteService } from '../../../catalogos/cattipohorasdocente/services/cattipohorasdocente.service';
 import { PersonalService } from '../../../catalogos/personal/services/personal.service';
 import { relativeTimeThreshold } from 'moment';
 import { PlazasService } from '../../../plazas/plazas/services/plazas.service';
@@ -28,18 +24,18 @@ declare var $: any;
 declare var jQuery: any;
 
 @Component({
-  selector: 'app-horasasignacion-form',
-  templateUrl: './horasasignacion-form.component.html',
-  styleUrls: ['./horasasignacion-form.component.css']
+  selector: 'app-horasdescarga-form',
+  templateUrl: './horasdescarga-form.component.html',
+  styleUrls: ['./horasdescarga-form.component.css']
 })
 
-export class HorasasignacionFormComponent implements OnInit, OnDestroy {
+export class HorasdescargaFormComponent implements OnInit, OnDestroy {
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
   @Input() id: string; //idModal
   @Input() botonAccion: string; //texto del boton según acción
   @Output() redrawEvent = new EventEmitter<any>();
 
-  nombreModulo = 'Horasasignacion';
+  nombreModulo = 'Horasdescarga';
 
   actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
@@ -47,7 +43,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
   private elementModal: any;
 
-  @ViewChild('basicModalHorasasignacion') basicModalHorasasignacion: ModalDirective;
+  @ViewChild('basicModalHorasdescarga') basicModalHorasdescarga: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
 
@@ -71,12 +67,11 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
   catplantelesCat: Catplanteles[];
   catplantelesAplicacionCat: Catplanteles[];
-  catquincenaCat: Catquincena[];
+  
   gruposclaseCat: Gruposclase[];
   materiasclaseCat: Materiasclase[];
-  catestatushoraCat: Catestatushora[];
-  catnombramientosCat: Catnombramientos[];
-  cattipohorasdocenteCat: Cattipohorasdocente[];
+  
+  
   record_id_personal:number;
   record_id_semestre:number;
   record_id_plantel:number;
@@ -93,7 +88,8 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
   horasRestantesEnPlaza:number=0;
   verAsignarHorasRestantes:boolean=false;
   asignarHorasRestantes:number;
-
+  record_id_personalhoras_descarga:number;
+  horaslimite_descarga:number;
 
   esPlantelDesdeParametro:boolean=false;
   keywordSearch = 'full_name';
@@ -106,29 +102,17 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
   constructor(
     private tokenStorage: TokenStorageService,
     private isLoadingService: IsLoadingService,
-    private horasasignacionformService: HorasasignacionFormService,
+    private horasdescargaformService: HorasdescargaFormService,
     private personalSvc: PersonalService,
     private semestreSvc: SemestreService,
-    private catquincenaSvc: CatquincenaService,
     private catplantelesSvc: CatplantelesService,
     private gruposclaseSvc: GruposclaseService,
     private materiasclaseSvc: MateriasclaseService,
-    private catestatushoraSvc: CatestatushoraService,
-    private catnombramientosSvc: CatnombramientosService,
-    private cattipohorasdocenteSvc: CattipohorasdocenteService,
     private plazasSvc: PlazasService,
     private el: ElementRef,
     private route: ActivatedRoute
   ) {
     this.elementModal = el.nativeElement;
-
-
-    this.catestatushoraSvc.getCatalogo().subscribe(resp => {
-      this.catestatushoraCat = resp;
-    });
-    this.catnombramientosSvc.getCatalogo().subscribe(resp => {
-      this.catnombramientosCat = resp;
-    });
 
   }
 
@@ -152,18 +136,18 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
       return;
     }
     // add self (this modal instance) to the modal service so it's accessible from controllers
-    modal.horasasignacionformService.add(modal);
+    modal.horasdescargaformService.add(modal);
 
     //loading
     this.userFormIsPending = this.isLoadingService.isLoading$({ key: 'loading' });
 
     //quincena activa
-    //this.record_quincena_activa = this.route.snapshot.data.dataHoraAsignacion;
+    //this.record_quincena_activa = this.route.snapshot.data.dataHoraDescarga;
   }
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-    this.horasasignacionformService.remove(this.id); //idModal
+    this.horasdescargaformService.remove(this.id); //idModal
     this.elementModal.remove();
   }
 
@@ -182,7 +166,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
       }
       else{
         await this.isLoadingService.add(
-          this.horasasignacionformService.setRecord(this.record, this.actionForm, this.asignarHorasRestantes, this.horasRestantesEnPlaza).subscribe(async resp => {
+          this.horasdescargaformService.setRecord(this.record, this.actionForm, this.asignarHorasRestantes, this.horasRestantesEnPlaza).subscribe(async resp => {
             if (resp.hasOwnProperty('error')) {
               this.validSummary.generateErrorMessagesFromServer(resp.message);
             }
@@ -264,10 +248,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
     } else {
       //obtener el registro
-      this.catquincenaSvc.getQuincenaActiva().subscribe(async resp => {
-        //quincena activa
-        this.record_quincena_activa = resp;
-        this.horasasignacionformService.getRecord(idItem).subscribe(async resp => {
+        this.horasdescargaformService.getRecord(idItem).subscribe(async resp => {
           this.record = resp;
           this.edicion_en_activo=true;
           if(this.record_quincena_activa.id>this.record.id_catquincena_ini)
@@ -281,10 +262,6 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
           this.onSelectPlantel(resp.id_catplanteles_aplicacion);
           this.onSelectGruposclase(resp.id_gruposclase);
-          this.onSelectNombramiento(resp.id_catnombramientos);
-          this.cattipohorasdocenteSvc.getCatalogoSegunMateria(resp.id_materiasclase).subscribe(resp => {
-            this.cattipohorasdocenteCat = resp;
-          });
           this.plazasSvc.getRecordParaCombo(this.record.id_plazas).subscribe(resp => {
             this.record_id_plaza = resp[0].id;
             this.record_text_plaza = resp[0].text;
@@ -311,16 +288,16 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
             this.verAsignarHorasRestantes=(this.horasRestantesEnPlaza>0);
           });
         });
-      });
+      
     }
 
 
-    this.basicModalHorasasignacion.show();
+    this.basicModalHorasdescarga.show();
   }
 
   // close modal
   close(): void {
-    this.basicModalHorasasignacion.hide();
+    this.basicModalHorasdescarga.hide();
     if (this.actionForm.toUpperCase() != "VER") {
       this.redrawEvent.emit(null);
     }
@@ -335,16 +312,9 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
     if(this.recordsemestre.tipo=="B") id_cattiposemestre=2
     if(this.recordsemestre.tipo=="A,B") id_cattiposemestre=3
 
-    if(!this.edicion_en_copiar)//si no es copia
       this.gruposclaseSvc.getCatalogoConHorasDisponiblesSegunPlantel(valor,this.record.id,this.recordsemestre.tipo,this.record_id_semestre,id_cattiposemestre).subscribe(resp => {
         this.gruposclaseCat = resp;
       });
-    else
-      this.gruposclaseSvc.getCatalogoConHorasDisponiblesSegunCopia(valor,this.record.id,this.recordsemestre.tipo,this.record_id_semestre,id_cattiposemestre
-          ,this.record.id_materiasclase,this.record.id_catestatushora,this.record.id_cattipohorasdocente,this.record.id_personal).subscribe(resp => {
-        this.gruposclaseCat = resp;
-      });
-
   }
 
   onSelectGruposclase(valor: any) {
@@ -369,36 +339,6 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
     if(this.edicion_horasDIES){
       this.record.horassueltas=0;
       this.record.frenteagrupo=0;
-    }
-    this.cattipohorasdocenteSvc.getCatalogoSegunMateria(valor).subscribe(resp => {
-     this.cattipohorasdocenteCat = resp;
-   });
-  }
-
-  onSelectNombramiento(id_catnombramientos){
-    this.record_personaltitular=[];
-    this.esinterina=false;
-    if(id_catnombramientos==2 || id_catnombramientos==3){//interino o provisional
-      this.catquincenaSvc.getCatalogoSegunSemestre(this.record_id_semestre).subscribe(resp => {
-        this.catquincenaCat = resp;
-      });
-      //interinato
-      if(id_catnombramientos==2){
-        this.esinterina=true;
-        this.horasasignacionformService.getRecordTitularEnLicencia(this.record.id_catplanteles_aplicacion,this.record.id_gruposclase,this.record.id_materiasclase,this.record.id_semestre).subscribe(resp => {
-          this.record_personaltitular = resp;
-          this.record_personaltitular_nombre="";
-          
-          if(resp.length>0){
-            this.record_personaltitular_nombre=this.record_personaltitular["nombre"];
-          }
-        });
-      }
-    }
-    else{
-      this.catquincenaSvc.getCatalogo().subscribe(resp => {
-        this.catquincenaCat = resp;
-      });
     }
   }
 

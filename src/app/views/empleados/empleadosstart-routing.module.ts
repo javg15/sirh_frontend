@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PersonalhorasAdminComponent } from './personalhoras/admin/personalhoras-admin.component';
 import { HorasasignacionAdminComponent } from './personalhoras/horasadmin/horasasignacion-admin.component';
 import { HorasasignacionFormComponent } from './personalhoras/horasform/horasasignacion-form.component';
+import { HorasdescargaFormComponent } from './personalhoras/horasdescarga/horasdescarga-form.component';
 import { PersonalhorasIniService } from './personalhoras/services/personalhoras.ini.service';
 import { HorasasignacionAdminIniService } from './personalhoras/services/horasasignacionadmin.ini.service';
 import { HorasasignacionFormIniService } from './personalhoras/services/horasasignacionform.ini.service';
@@ -54,6 +55,13 @@ const routes: Routes = [
         resolve:{
           dataHoraAsignacion:HorasasignacionFormIniService,
         }
+      },
+      {
+        path: 'descarga',
+        component: HorasdescargaFormComponent,
+        data: {
+          title: 'Descarga de horas'
+        },
       },
       {
         path: 'horas',

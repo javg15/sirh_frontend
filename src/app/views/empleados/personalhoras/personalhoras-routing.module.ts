@@ -5,6 +5,7 @@ import { PersonalAdminComponent } from './admin/personal-admin.component';
 import { PersonalFormComponent } from './form/personal-form.component';
 import { PersonalhorasAdminComponent } from './horasadmin/personalhoras-admin.component';
 import { PersonalhorasFormComponent } from './horasform/personalhoras-form.component';
+import { PersonalhorasFormComponent } from './horasform/personalhoras-form.component';
 import { PersonalIniService } from './services/personal.ini.service';
 import { PersonalhorasAdminIniService } from './services/personalhorasadmin.ini.service';
 

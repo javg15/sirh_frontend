@@ -1,0 +1,149 @@
+<div bsModal #basicModalHorasdescarga="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-full-height modal-right" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">{{ tituloForm }}</h4>
+
+                <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+                  <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #dataForm="ngForm" (ngSubmit)="submitAction(dataForm)">
+                    <input type="hidden" name="action" value="{{ actionForm }}">
+                    <div class="form-group">
+                        <input type="hidden" [(ngModel)]="record.id" class="form-control" name="ID">
+                        <input type="hidden" [(ngModel)]="record.id_personal" class="form-control" name="id_personal">
+                        <input type="hidden" [(ngModel)]="record.id_semestre" class="form-control" name="id_semestre">
+                        <input type="hidden" [(ngModel)]="record_id_personalhoras_descarga" class="form-control" name="record_id_personalhoras_descarga">
+                        <input type="hidden" [(ngModel)]="horaslimite_descarga" class="form-control" name="horaslimite_descarga">
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <div class="form-group">
+                                <label for="nombre">Nombre</label>
+                                <input type="text" name="Nombre" disabled="disabled" [value]="recordpersonal.nombre + ' ' + recordpersonal.apellidopaterno + ' ' + recordpersonal.apellidomaterno" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <div class="form-group">
+                                <label for="semestre">Semestre</label>
+                                <input type="text" name="Semestre" disabled="disabled" [value]="recordsemestre.anio + ' ' + recordsemestre.tipo" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="plaza">Plaza</label>
+                                <input type="text" name="Plaza" [value]="record_text_plaza" class="form-control" disabled="disabled" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-8">
+                            <div class="form-group">
+                                <label for="id_catplanteles">Plantel</label>
+                                <ng-select2 [(ngModel)]="record.id_catplanteles" [data]="catplantelesCat" [allowClear]="true" width="100%" name="Plantel" [disabled]="esPlantelDesdeParametro">
+                                </ng-select2>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="id_catplanteles_aplicacion">Plantel (aplicación)</label>
+                                <ng-select2 [(ngModel)]="record.id_catplanteles_aplicacion" [data]="catplantelesAplicacionCat" [allowClear]="true" width="100%" name="Plantel (aplicación)" (valueChanged)="onSelectPlantel($event)" >
+                                    <!--[disabled]="!edicion_en_activo"-->
+                                </ng-select2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-2">
+                            <div class="form-group">
+                                <label for="id_gruposclase">Grupo</label>
+                                <select class="form-control" [(ngModel)]="record.id_gruposclase" name="Grupo" [disabled]="(!edicion_en_activo && !edicion_en_copiar)" (change)="onSelectGruposclase($event.target.value)">
+                                  <option value="">---</option>
+                                  <option *ngFor="let col of gruposclaseCat" [value]="col.id">{{ col.text }}</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <div class="form-group">
+                                <label for="id_materiasclase">Materia</label>
+                                <select class="form-control" [(ngModel)]="record.id_materiasclase" name="Materia" [disabled]="!edicion_en_activo" (change)="onSelectMateriasclase($event.target.value)">
+                                  <option value="">---</option>
+                                  <option *ngFor="let col of materiasclaseCat" [value]="col.id">{{ col.text }}</option>
+                                </select>
+                                <!--<select id="selectPlantel" class="form-control" [(ngModel)]="record.id_categorias" name="Categorías">
+                  <option *ngFor="let col of categoriasCat" [value]="col.id">{{ col.clave + " - " + (col.denominacion!=null?col.denominacion:".") }}</option>
+                </select>-->
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <div class="form-group">
+                                <label for="cantidad">Horas</label>
+                                <input type="text" [(ngModel)]="record.cantidad" class="form-control" name="Horas" [disabled]="!edicion_horasDIES" (change)="onChangeCantidadHoras($event.target.value)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!--en No-->
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="horasDisponiblesEnPlaza">Horas disponibles</label>
+                                <input type="text" [(ngModel)]="horasDisponiblesEnPlaza" class="form-control" name="Disponibles" disabled="disabled">
+                            </div>
+                        </div>
+                        <div *ngIf="verAsignarHorasRestantes" class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="asignarHorasRestantes">¿Asignar <span style="color: green;"> {{horasRestantesEnPlaza}} </span> horas restantes de descarga?</label>
+                                <select class="form-control" [(ngModel)]="asignarHorasRestantes" name="¿Horas sueltas?" [disabled]="true"><!--"!edicion_en_activo"-->
+                              <option value="0">No, asignar manualmente</option>
+                              <option value="1">Sí, asignar automáticamente</option>
+                            </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        
+                        <div *ngIf="esinterina==true" class="form-group col-sm-8">
+                            <div class="form-group">
+                                <label for="Titular">Titular</label>
+                                <input type="text" name="Titular" disabled="disabled" [value]="record_personaltitular_nombre" class="form-control" />
+                                <input type="hidden" #id_personal_titular name="Titular" [value]="record_personaltitular.id" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        &nbsp;
+                    </div>
+                    <app-validation-summary [form]="dataForm"></app-validation-summary>
+                    <!-- [disabled]="!dataForm.form.valid" -->
+                    <button *ngIf="actionForm!=='ver'" type="submit" [disabled]='userFormIsPending | async' class="btn btn-primary">
+                      <div *ngIf="userFormIsPending | async; else elseBlock"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Procesando...</span></div>
+                      <ng-template #elseBlock>{{ botonAccion }}</ng-template>
+                    </button>
+                </form>
+            </div>
+            <!-- <h2>Diagnostic Info</h2>
+        <div [innerHtml]="diagnosticValidate"></div>-->
+        </div>
+    </div>
+</div>
+
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-success" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">&nbsp;</h5>
+            </div>
+            <div class="modal-body">
+                <p>Acción realizada satisfactoriamente</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="successModal.hide()">Cerrar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

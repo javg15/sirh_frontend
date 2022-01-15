@@ -82,6 +82,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   record_plantel:string;
   record_txtzonaeconomica:string;
   record_txtzonageografica:string;
+  record_todaslasplantillas:boolean=false;
   //recordFile:Archivos;
   keywordSearch = 'full_name';
   isLoadingSearch:boolean;
@@ -460,7 +461,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
         //if(this.actionForm.toUpperCase()!=="NUEVO" && this.record.id_categorias>0){
           this.categoriasSvc.getRecordParaCombo(this.record.id_categorias).pipe(
             mergeMap((registro) => {
-              return this.categoriasSvc.getCatalogoDisponibleEnPlantilla(this.record_plantillaspersonal.id_catplanteles,this.record.id_plazas,this.record_plantillaspersonal.id_catplantillas).pipe(
+              return this.categoriasSvc.getCatalogoDisponibleEnPlantilla(this.record_plantillaspersonal.id_catplanteles,this.record.id_plazas,this.record_todaslasplantillas?0:this.record_plantillaspersonal.id_catplantillas).pipe(
                 // this pass all objects to the next observable in this chain
                 map(categorias => ({ categorias,registro }))
               )
@@ -509,6 +510,10 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
           })
       }
     }
+  }
+
+  onChangeTodasCategorias(valor:any){
+    this.onSelectTipoNombramiento(this.record.id_catestatusplaza);
   }
 
   onSelectCategorias(valor:any){
