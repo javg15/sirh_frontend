@@ -41,7 +41,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-sm-12">
-                                    <label>Nombramientos vigentes</label>
+                                    <label>Nombramientos vigentes; Quincena activa: {{ record_quincena_activa }}</label>
                                     <select class="form-control" name="Nombramientos vigentes" multiple size="3">
                                       <option  *ngFor="let row of tblNombramientos; index as i" value="{{row.id_plaza}}">{{ row.clave }}</option>
                                     </select>

@@ -13,7 +13,7 @@ import { PersonalService } from '../../../catalogos/personal/services/personal.s
 import { CategoriasService } from '../../../catalogos/categorias/services/categorias.service';
 import {CatestatusplazaService}from '../../../catalogos/catestatusplaza/services/catestatusplaza.service';
 import { AutocompleteComponent } from 'angular-ng-autocomplete';
-
+import { CatquincenaService } from '../../../catalogos/catquincena/services/catquincena.service';
 
 import { environment } from '../../../../../environments/environment';
 
@@ -71,6 +71,7 @@ export class PlantillasAdminComponent implements OnInit {
   keywordSearch = 'full_name';
   isLoadingSearch:boolean;
   esInicio:boolean=true;
+  record_quincena_activa:string;
   /* En el constructor creamos el objeto plazasService,
   de la clase HttpConnectService, que contiene el servicio mencionado,
   y estará disponible en toda la clase de este componente.
@@ -81,6 +82,7 @@ export class PlantillasAdminComponent implements OnInit {
     private catplantelesSvc: CatplantelesService,
     private personalSvc: PersonalService,
     private categoriasSvc: CategoriasService,
+    private catquincenaSvc: CatquincenaService,
     private catestatusplazaSvc:CatestatusplazaService
   ) {
     this.catplantillasSvc.getCatalogo().subscribe(resp => {
@@ -95,6 +97,10 @@ export class PlantillasAdminComponent implements OnInit {
     });
     this.catestatusplazaSvc.getCatalogo().subscribe(resp => {
       this.catestatusplazaCat = resp;
+    });
+    this.catquincenaSvc.getQuincenaActiva().subscribe(async resp => {
+      //quincena activa
+      this.record_quincena_activa = resp.anio+resp.quincena.toString().padStart(2 , '0');
     });
     this.documentosCat.push({id:1,text:"Preparación profesional"});
     this.documentosCat.push({id:2,text:"Nombramiento administrativo"});

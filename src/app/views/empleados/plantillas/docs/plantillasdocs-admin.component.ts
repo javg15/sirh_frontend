@@ -20,6 +20,7 @@ import { PlantillasdocsBajaService } from '../services/plantillasdocsbaja.servic
 import { PlantillasdocsFamiliaresService } from '../services/plantillasdocsfamiliares.service';
 import { PlantillasdocsLicenciasService } from '../services/plantillasdocslicencias.service';
 import { PlantillasdocsSindicatoService } from '../services/plantillasdocssindicato.service';
+import { CatquincenaService } from '../../../catalogos/catquincena/services/catquincena.service';
 import { environment } from '../../../../../environments/environment';
 
 declare var $: any;
@@ -161,6 +162,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   record_tipodoc:number;
   record_numeemp:string;
   record_plazaSeleccionada:number;
+  record_quincena_activa:string;
   tblNombramientos:[];
   plantillapersonalCat:any=[];
   param_id_plantillapersonal:number;
@@ -182,12 +184,17 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     private plantillasdocslicenciasSvc: PlantillasdocsLicenciasService,
     private plantillasdocssindicatoSvc: PlantillasdocsSindicatoService,
     private plantillasdocsbajaSvc: PlantillasdocsBajaService,
+    private catquincenaSvc: CatquincenaService,
     private personalSvc: PersonalService,
     private plazasSvc: PlazasService,
     private el: ElementRef,
     private route: ActivatedRoute
       ) {
       this.elementModal = el.nativeElement;
+      this.catquincenaSvc.getQuincenaActiva().subscribe(async resp => {
+        //quincena activa
+        this.record_quincena_activa = resp.anio+resp.quincena.toString().padStart(2 , '0');
+      });
   }
 
 
