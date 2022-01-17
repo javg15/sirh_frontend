@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 
 import { HorasasignacionFormService } from '../services/horasasignacionform.service';
+import { CatquincenaService } from '../../../catalogos/catquincena/services/catquincena.service';
 import { GruposclaseService } from '../../../catalogos/gruposclase/services/gruposclase.service';
 import { MateriasclaseService } from '../../../catalogos/materiasclase/services/materiasclase.service';
 import { SemestreService } from '../../../catalogos/semestre/services/semestre.service';
@@ -57,7 +58,7 @@ export class HorasdescargaFormComponent implements OnInit, OnDestroy {
       id_catestadosresi: 0, id_catmunicipiosresi: 0, id_catlocalidadesresi: 0,
       domicilio:'',colonia:'',cp:'',telefonomovil:'',numimss:'',numissste:'',otronombre:'', numotro:'',tipopension:'',
       created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0,fechaingreso:null,primaantiguedad:0,
-      id_catbanco_deposito:0,cuentadeposito:'',fechanaculthijo: new Date(),formacobro:0,
+      id_catbanco_deposito:0,cuentadeposito:'',formacobro:0,
   };
   recordsemestre: Semestre = {
     id: 0,tipo: '',anio: 0,quincena: 0,qnainiciosemestre:'',qnafinsemestre: '',actual: 0,id_catquincena_ini: 0,
@@ -67,10 +68,10 @@ export class HorasdescargaFormComponent implements OnInit, OnDestroy {
 
   catplantelesCat: Catplanteles[];
   catplantelesAplicacionCat: Catplanteles[];
-
+  catquincenaCat: Catquincena[];
   gruposclaseCat: Gruposclase[];
   materiasclaseCat: Materiasclase[];
-  materiasdescargadasCat: Materiasclase[];
+  materiasdescargadasCat: any[];
 
   record_id_personal:number;
   record_id_semestre:number;
@@ -85,7 +86,6 @@ export class HorasdescargaFormComponent implements OnInit, OnDestroy {
   horasRestantesEnDescarga:number=0;
   verAsignarHorasRestantes:boolean=false;
   asignarHorasRestantes:number;
-  record_id_personalhoras_descarga:number;
   horaslimite_descarga:number;
 
   esPlantelDesdeParametro:boolean=false;
@@ -106,19 +106,28 @@ export class HorasdescargaFormComponent implements OnInit, OnDestroy {
     private gruposclaseSvc: GruposclaseService,
     private materiasclaseSvc: MateriasclaseService,
     private plazasSvc: PlazasService,
+    private catquincenaSvc: CatquincenaService,
     private el: ElementRef,
     private route: ActivatedRoute
   ) {
     this.elementModal = el.nativeElement;
 
+    this.catquincenaSvc.getQuincenaActiva().subscribe(async resp => {
+      //quincena activa
+      this.record_quincena_activa = resp;
+    });
+
+    this.catquincenaSvc.getCatalogo().subscribe(resp => {
+      this.catquincenaCat = resp;
+    });
   }
 
   newRecord(idParent: number, idSemestre: number): Personalhoras {
     return {
       id: 0, id_personal: idParent, cantidad: 0, id_catplanteles: 0, id_catplanteles_aplicacion:0, id_gruposclase: 0,id_materiasclase: 0,
-      id_cattipohorasmateria: 1, id_catnombramientos: 0, id_semestre: idSemestre,frenteagrupo:0,id_plazas:0,
-      id_catestatushora: 0, id_catquincena_ini: 0, id_catquincena_fin: 0, horassueltas:0, id_cattipohorasdocente:0,
-      state: '', created_at: new Date(), updated_at: new Date(), id_usuarios_r: 0, descargada:0, id_personalhoras_descarga:0
+      id_cattipohorasmateria: 4, id_catnombramientos: 2, id_semestre: idSemestre,frenteagrupo:0,id_plazas:0,
+      id_catestatushora: 1, id_catquincena_ini: 0, id_catquincena_fin: 0, horassueltas:0, id_cattipohorasdocente:0,
+      state: '', created_at: new Date(), updated_at: new Date(), id_usuarios_r: 0, descargada:1, id_personalhoras_descarga:0
     };
   }
   ngOnInit(): void {
@@ -155,10 +164,6 @@ export class HorasdescargaFormComponent implements OnInit, OnDestroy {
 
       this.validSummary.resetErrorMessages(admin);
 
-      if(this.record.id_catnombramientos==2 && this.record_personaltitular.length==0){
-        this.validSummary.generateErrorMessagesFromServer({Titular: "No existe un profesor con esta materia en Licencia"});
-      }
-      else{
         await this.isLoadingService.add(
           this.horasasignacionformService.setRecord(this.record, this.actionForm, this.asignarHorasRestantes, this.horasRestantesEnDescarga).subscribe(async resp => {
             if (resp.hasOwnProperty('error')) {
@@ -173,7 +178,7 @@ export class HorasdescargaFormComponent implements OnInit, OnDestroy {
             }
           }), { key: 'loading' });
         }
-    }
+
   }
 
   // open modal
@@ -193,6 +198,7 @@ export class HorasdescargaFormComponent implements OnInit, OnDestroy {
     });
     this.semestreSvc.getRecord(idSemestre).subscribe(resp => {
       this.recordsemestre = resp;
+      this.record.id_catquincena_fin=this.recordsemestre.id_catquincena_fin;
     });
     this.catplantelesSvc.getCatalogoSegunPersonal(idPersonal).subscribe(resp => {
       this.catplantelesCat = resp;
@@ -207,6 +213,7 @@ export class HorasdescargaFormComponent implements OnInit, OnDestroy {
       this.record = this.newRecord(idPersonal, idSemestre);
       this.record.id_catplanteles=idPlantel;
       this.record.id_plazas=idPlaza;
+
       if(idPlantelAplicacion==0)
         this.record.id_catplanteles_aplicacion=idPlantel;
       else
@@ -218,16 +225,6 @@ export class HorasdescargaFormComponent implements OnInit, OnDestroy {
         this.record_id_plaza = resp[0].id;
         this.record_text_plaza = resp[0].text;
         this.record.horassueltas=(resp[0].eshomologada=="true"?1:0);
-
-        if(resp[0].eshomologada=="true"){
-          this.record.id_catnombramientos=1;
-        }
-        else if(esInterina==1){
-          this.record.id_catnombramientos=2;//2=interino
-        }
-        else{
-          this.record.id_catnombramientos=0;
-        }
       });
       this.horasasignacionformService.getHorasDisponibleSegunDescarga(idPersonal,idPlantel,idSemestre,idPlaza).subscribe(resp => {
         this.horasDisponiblesEnDescarga=resp[0].horasdisponibles;
@@ -235,12 +232,18 @@ export class HorasdescargaFormComponent implements OnInit, OnDestroy {
         this.verAsignarHorasRestantes=(this.horasRestantesEnDescarga>0);
       });
 
+      this.horasasignacionformService.getCatalogoMateriasDescargadas(idPersonal,idPlantel,idSemestre,idPlaza,"nuevo").subscribe(resp => {
+        this.materiasdescargadasCat = resp;
+      });
 
     } else {
       //obtener el registro
         this.horasasignacionformService.getRecord(idItem).subscribe(async resp => {
           this.record = resp;
 
+          this.horasasignacionformService.getCatalogoMateriasDescargadas(idPersonal,idPlantel,idSemestre,idPlaza,"editar").subscribe(resp => {
+            this.materiasdescargadasCat = resp;
+          });
 
           this.onSelectPlantel(resp.id_catplanteles_aplicacion);
           this.onSelectGruposclase(resp.id_gruposclase);

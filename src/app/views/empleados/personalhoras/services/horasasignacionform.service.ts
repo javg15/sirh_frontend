@@ -50,6 +50,11 @@ export class HorasasignacionFormService {
       , httpOptions);
   }
 
+  public getCatalogoMateriasDescargadas(id_personal:number, id_planteles:number, id_semestre:number, id_plazas:number,modo:string): Observable<any> {
+    return this.http.post(this.API_URL + '/personalhoras/getCatalogoMateriasDescargadas',
+      { id_personal, id_planteles, id_semestre, id_plazas, modo }
+      , httpOptions);
+  }
 
   // array de modales
   public add(modal: any) {

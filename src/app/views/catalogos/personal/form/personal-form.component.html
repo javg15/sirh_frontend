@@ -1,6 +1,6 @@
 <div bsModal #basicModal="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-full-height modal-right" role="document">
-        <div class="modal-content">
+        <div class="modal-content modal-form">
             <div class="modal-header">
                 <h4 class="modal-title w-100" id="myModalLabel">{{ tituloForm }}</h4>
 
@@ -114,14 +114,6 @@
                                     <div class="form-group">
                                         <label for="homoclave">Homoclave</label>
                                         <input type="text" [(ngModel)]="record.homoclave" class="form-control" name="Homoclave" [disabled]="existeSegunCURP">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-sm-6">
-                                    <div class="form-group">
-                                        <label for="fechanaculthijo">Fecha de nacimiento de ultimo hijo (si aplica)</label>
-                                        <input id="txtFechanaculthijo" type="date" [(ngModel)]="record.fechanaculthijo" class="form-control" name="Fecha de nacimiento de ultimo hijo (si aplica)">
                                     </div>
                                 </div>
                             </div>

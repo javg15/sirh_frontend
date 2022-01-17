@@ -1,6 +1,6 @@
 <div bsModal #basicModalHorasdescarga="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-full-height modal-right" role="document">
-        <div class="modal-content">
+        <div class="modal-content modal-form">
             <div class="modal-header">
                 <h4 class="modal-title w-100" id="myModalLabel">{{ tituloForm }}</h4>
 
@@ -53,6 +53,17 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="form-group col-sm-12">
+                            <div class="form-group">
+                                <label for="id_personalhoras_descarga">Materia descargada</label>
+                                <select class="form-control" [(ngModel)]="record.id_personalhoras_descarga" name="Materia descargada">
+                                <option value="">---</option>
+                                <option *ngFor="let col of materiasdescargadasCat" [value]="col.id">{{ col.text }}</option>
+                              </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="form-group col-sm-2">
                             <div class="form-group">
                                 <label for="id_gruposclase">Grupo</label>
@@ -61,17 +72,6 @@
                                 <option *ngFor="let col of gruposclaseCat" [value]="col.id">{{ col.text }}</option>
                               </select>
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-2">
-                            <div class="form-group">
-                                <label for="record_id_personalhoras_descarga">Materia descargada</label>
-                                <select class="form-control" [(ngModel)]="record_id_personalhoras_descarga" name="Materia descargada">
-                                  <option value="">---</option>
-                                  <option *ngFor="let col of materiasdescargadasCat" [value]="col.id">{{ col.text }}</option>
-                                </select>
                             </div>
                         </div>
                         <div class="form-group col-sm-6">
@@ -97,22 +97,28 @@
                         <!--en No-->
                         <div class="form-group col-sm-3">
                             <div class="form-group">
-                                <label for="horasDisponiblesEnPlaza">Horas disponibles</label>
-                                <input type="text" [(ngModel)]="horasDisponiblesEnPlaza" class="form-control" name="Disponibles" disabled="disabled">
+                                <label for="horasDisponiblesEnDescarga">Horas de descarga disponibles</label>
+                                <input type="text" [(ngModel)]="horasDisponiblesEnDescarga" class="form-control" name="Disponibles" disabled="disabled">
                             </div>
                         </div>
                         <div *ngIf="verAsignarHorasRestantes" class="form-group col-sm-4">
                             <div class="form-group">
-                                <label for="asignarHorasRestantes">¿Asignar <span style="color: green;"> {{horasRestantesEnPlaza}} </span> horas restantes de descarga?</label>
-                                <select class="form-control" [(ngModel)]="asignarHorasRestantes" name="¿Horas sueltas?" [disabled]="true">
+                                <label for="asignarHorasRestantes">¿Asignar <span style="color: green;"> {{horasRestantesEnDescarga}} </span> horas de descarga restantes?</label>
+                                <select class="form-control" [(ngModel)]="asignarHorasRestantes" name="¿Horas sueltas?">
                               <option value="0">No, asignar manualmente</option>
                               <option value="1">Sí, asignar automáticamente</option>
                             </select>
                             </div>
                         </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="id_catquincena_ini">Quincena inicial</label>
+                                <ng-select2 [(ngModel)]="record.id_catquincena_ini" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena inicial">
+                                </ng-select2>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
-
                         <div *ngIf="esinterina==true" class="form-group col-sm-8">
                             <div class="form-group">
                                 <label for="Titular">Titular</label>

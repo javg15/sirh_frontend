@@ -31,6 +31,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
 
   @Input() dtOptions: DataTables.Settings = {};
+  @Input() dtOptionsDescarga: DataTables.Settings = {};
   @Input() id: string; //idModal
   @Input() botonAccion: string; //texto del boton según acción
   @Output() redrawEvent = new EventEmitter<any>();
@@ -44,6 +45,8 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
 
   Members: any[];
   ColumnNames: string[];
+  NumberOfMembers = 0;
+  headersAdmin: any;
 
   private dataTablesParameters = {
     draw: 1, length: 100, opcionesAdicionales: {},
@@ -55,17 +58,34 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
     state:'AD',
     datosBusqueda: { campo: 0, operador: 0, valor: '' }
     , raw: 0
-    , fkey: 'id_personal,id_semestre,id_catplanteles,id_catnombramientos,id_plazas'
-    , fkeyvalue: [0, 0, 0, '1',0]
+    , fkey: 'id_personal,id_semestre,id_catplanteles,id_catestatushora,id_plazas,id_personalhoras_descarga'
+    , fkeyvalue: [0, 0, 0, '1',0,0]
     , modo: 22
   };
 
-  NumberOfMembers = 0;
+  //Descarga
+  private dataTablesParametersDescarga = {
+    draw: 1, length: 100, opcionesAdicionales: {},
+    order: [{ column: 0, dir: "asc" }],
+    search: { value: "", regex: false },
+    start: 0
+  };
+  private dtOptionsAdicionalDescarga = {
+    state:'AD',
+    datosBusqueda: { campo: 0, operador: 0, valor: '' }
+    , raw: 0
+    , fkey: 'id_personal,id_semestre,id_catplanteles,id_catestatushora,id_plazas,id_personalhoras_descarga'
+    , fkeyvalue: [0, 0, 0, '1',0,1]
+    , modo: 22
+  };
+  MembersDescarga: any[];
+  ColumnNamesDescarga: string[];
+  NumberOfMembersDescarga = 0;
+  headersAdminDescarga: any;
+
   API_URL = environment.APIS_URL;
 
   nombreModulo = 'HorasasignacionAdmin';
-
-  headersAdmin: any;
 
   actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
@@ -125,6 +145,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
 
     //subtabla datatable
     this.headersAdmin = this.route.snapshot.data.userdataHoras; // get data from resolver
+    this.headersAdminDescarga = this.route.snapshot.data.userdataHoras; // get data from resolver
 
     this.dtOptions = {
       pagingType: 'full_numbers',
@@ -152,7 +173,39 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
         },
       },
       columns: this.headersAdmin,
-      columnDefs: [{ "visible": false, "targets": [0, 1,2,3,4,5,6] },
+      columnDefs: [{ "visible": false, "targets": [1,2,3,4,5,6,17] },//17=id_descarga
+      { "width": "20%", "targets": [7,9],} // no ejecuta la alineación, entonces, se fuerza en el css
+      ]//ID, tipo
+    };
+
+    //Descarga
+    this.dtOptionsDescarga = {
+      pagingType: 'full_numbers',
+      paging: false,
+      //pageLength: 50,
+      //serverSide: true,
+      //processing: true,
+      ordering: false,
+      destroy: true,
+      searching: false,
+      info: false,
+      language: {
+        emptyTable: '',
+        zeroRecords: 'No hay coincidencias',
+        lengthMenu: 'Mostrar _MENU_ elementos',
+        search: 'Buscar:',
+        info: 'De _START_ a _END_ de _TOTAL_ elementos',
+        infoEmpty: 'De 0 a 0 de 0 elementos',
+        infoFiltered: '(filtrados de _MAX_ elementos totales)',
+        paginate: {
+          first: 'Prim.',
+          last: 'Últ.',
+          next: 'Sig.',
+          previous: 'Ant.'
+        },
+      },
+      columns: this.headersAdminDescarga,
+      columnDefs: [{ "visible": false, "targets": [1,2,3,4,5,6] },
       { "width": "20%", "targets": [7,9],} // no ejecuta la alineación, entonces, se fuerza en el css
       ]//ID, tipo
     };
@@ -239,7 +292,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
 
 
     this.dtOptionsAdicional.raw++;
-    this.dtOptionsAdicional.fkeyvalue = [this.record_id_personal, this.record_id_semestre, this.record_id_catplanteles, this.record_estatus,this.record_id_plaza];
+    this.dtOptionsAdicional.fkeyvalue = [this.record_id_personal, this.record_id_semestre, this.record_id_catplanteles, this.record_estatus,this.record_id_plaza,0];
     //this.dtOptionsAdicional.fkeyvalue=this.record_id_personal;
     this.dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
 
@@ -262,8 +315,25 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
           this.tblResumenRowsEstatus=resp[0].fn_horas_cuenta_resumen.Estatus;
         }
       });
-    }
-    );
+    });
+
+    //descarga
+    this.dtOptionsAdicionalDescarga.raw++;
+    this.dtOptionsAdicionalDescarga.fkeyvalue = [this.record_id_personal, this.record_id_semestre, this.record_id_catplanteles, this.record_estatus,this.record_id_plaza,1];
+    //this.dtOptionsAdicional.fkeyvalue=this.record_id_personal;
+    this.dataTablesParametersDescarga.opcionesAdicionales = this.dtOptionsAdicionalDescarga;
+
+    this.horasasignacionadminService.getAdmin(this.dataTablesParametersDescarga).subscribe(resp => {
+
+      this.ColumnNamesDescarga = resp.columnNames;
+      this.MembersDescarga = resp.data;
+      this.NumberOfMembersDescarga = resp.data.length;
+      $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
+      //$('#tblHorasasignacionAdmin').dataTable({searching: false, paging: false, info: false});
+      if (this.NumberOfMembersDescarga > 0) {
+        $('.dataTables_empty').css('display', 'none');
+      }
+    });
   }
 
   onSemestreChange(valor: any) {

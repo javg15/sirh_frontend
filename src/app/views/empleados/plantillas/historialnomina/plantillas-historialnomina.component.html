@@ -71,9 +71,9 @@
 
 <div bsModal #detalleModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-full-height modal-right" role="document">
-        <div class="modal-content">
+        <div class="modal-content modal-form">
             <div class="modal-header">
-                <h4 class="modal-title w-100" >Información de la plaza</h4>
+                <h4 class="modal-title w-100">Información de la plaza</h4>
 
                 <button type="button" class="close pull-right" aria-label="Close" (click)="closeDetalle()">
                   <span aria-hidden="true">×</span>
@@ -81,25 +81,78 @@
             </div>
             <div class="modal-body">
                 <table>
-                    <tr><td>Función</td><td><input type="text" [(ngModel)]="record_detalle['descempfuncion']" class="form-control" [disabled]="true" /></td></tr>
-                    <tr><td>Centro de Adscripción (Ubicación física del empleado)</td><td><input type="text" [(ngModel)]="record_detalle['nombrect']" class="form-control" [disabled]="true" /></td></tr>
-                    <tr><td>Departamento del Centro de Adscripción (Ubicación física del empleado)</td><td><input type="text" [(ngModel)]="record_detalle['descplantelfisica']" class="form-control" [disabled]="true" /></td></tr>
-                    <tr><td>Centro de Adscripción al que pertenece la plaza (Utilizada para pago)</td><td><input type="text" [(ngModel)]="record_detalle['descplantelplaza']" class="form-control" [disabled]="true" /></td></tr>
-                    <tr><td>Nómina</td><td><input type="text" [(ngModel)]="record_detalle['desctiponomina']" class="form-control" [disabled]="true" /></td></tr>
-                    <tr><td>Categoría</td><td><input type="text" [(ngModel)]="record_detalle['desccategoria']" class="form-control" [disabled]="true" /></td></tr>
-                    <tr><td>Sindicato</td><td><input type="text" [(ngModel)]="record_detalle['siglassindicato']" class="form-control" [disabled]="true" /></td></tr>
-                    <tr><td>Tipo ocupación</td><td><table><tr><td><input type="text" [(ngModel)]="record_detalle['desctipoemp']" class="form-control" [disabled]="true" /></td>
-                        <td><input type="text" [(ngModel)]="record_detalle['tratarcomobase']" class="form-control" [disabled]="true" />Tratar como BASE plaza y carga horaria</td>
-                        <td><input type="text" [(ngModel)]="record_detalle['interinopuro']" class="form-control" [disabled]="true" />¿Interino puro?</td></tr></table>
-                        </td></tr>
-                    <tr><td>Titular de la plaza</td><td><input type="text" [(ngModel)]="record_detalle['nomemptitular']" class="form-control" [disabled]="true" /></td></tr>
-                    <tr><td>Funcion primaria</td><td><input type="text" [(ngModel)]="record_detalle['nombrefuncionpri']" class="form-control" [disabled]="true" /></td></tr>
-                    <tr><td>Funcion secundaria</td><td><input type="text" [(ngModel)]="record_detalle['nombrefuncionsec']" class="form-control" [disabled]="true" /></td></tr>
-                    <tr><td>Inicio</td><td><input type="text" [(ngModel)]="record_detalle['qnaini']" class="form-control" [disabled]="true" /></td></tr>
-                    <tr><td>Término</td><td><input type="text" [(ngModel)]="record_detalle['qnafin']" class="form-control" [disabled]="true" /></td></tr>
-                    <tr><td>Motivo de baja</td><td><input type="text" [(ngModel)]="record_detalle['descmotgralbaja']" class="form-control" [disabled]="true" /></td></tr>
-                    <tr><td>Vigente en semestre(s)</td><td><input type="text" [(ngModel)]="record_detalle['tiposemestre']" class="form-control" [disabled]="true" /></td></tr>
-                    <tr><td>Esquema de pago</td><td><input type="text" [(ngModel)]="record_detalle['descesquemapago']" class="form-control" [disabled]="true" /></td></tr>
+                    <tr>
+                        <td>Función</td>
+                        <td><input type="text" [(ngModel)]="record_detalle['descempfuncion']" class="form-control" [disabled]="true" /></td>
+                    </tr>
+                    <tr>
+                        <td>Centro de Adscripción (Ubicación física del empleado)</td>
+                        <td><input type="text" [(ngModel)]="record_detalle['nombrect']" class="form-control" [disabled]="true" /></td>
+                    </tr>
+                    <tr>
+                        <td>Departamento del Centro de Adscripción (Ubicación física del empleado)</td>
+                        <td><input type="text" [(ngModel)]="record_detalle['descplantelfisica']" class="form-control" [disabled]="true" /></td>
+                    </tr>
+                    <tr>
+                        <td>Centro de Adscripción al que pertenece la plaza (Utilizada para pago)</td>
+                        <td><input type="text" [(ngModel)]="record_detalle['descplantelplaza']" class="form-control" [disabled]="true" /></td>
+                    </tr>
+                    <tr>
+                        <td>Nómina</td>
+                        <td><input type="text" [(ngModel)]="record_detalle['desctiponomina']" class="form-control" [disabled]="true" /></td>
+                    </tr>
+                    <tr>
+                        <td>Categoría</td>
+                        <td><input type="text" [(ngModel)]="record_detalle['desccategoria']" class="form-control" [disabled]="true" /></td>
+                    </tr>
+                    <tr>
+                        <td>Sindicato</td>
+                        <td><input type="text" [(ngModel)]="record_detalle['siglassindicato']" class="form-control" [disabled]="true" /></td>
+                    </tr>
+                    <tr>
+                        <td>Tipo ocupación</td>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td><input type="text" [(ngModel)]="record_detalle['desctipoemp']" class="form-control" [disabled]="true" /></td>
+                                    <td><input type="text" [(ngModel)]="record_detalle['tratarcomobase']" class="form-control" [disabled]="true" />Tratar como BASE plaza y carga horaria</td>
+                                    <td><input type="text" [(ngModel)]="record_detalle['interinopuro']" class="form-control" [disabled]="true" />¿Interino puro?</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Titular de la plaza</td>
+                        <td><input type="text" [(ngModel)]="record_detalle['nomemptitular']" class="form-control" [disabled]="true" /></td>
+                    </tr>
+                    <tr>
+                        <td>Funcion primaria</td>
+                        <td><input type="text" [(ngModel)]="record_detalle['nombrefuncionpri']" class="form-control" [disabled]="true" /></td>
+                    </tr>
+                    <tr>
+                        <td>Funcion secundaria</td>
+                        <td><input type="text" [(ngModel)]="record_detalle['nombrefuncionsec']" class="form-control" [disabled]="true" /></td>
+                    </tr>
+                    <tr>
+                        <td>Inicio</td>
+                        <td><input type="text" [(ngModel)]="record_detalle['qnaini']" class="form-control" [disabled]="true" /></td>
+                    </tr>
+                    <tr>
+                        <td>Término</td>
+                        <td><input type="text" [(ngModel)]="record_detalle['qnafin']" class="form-control" [disabled]="true" /></td>
+                    </tr>
+                    <tr>
+                        <td>Motivo de baja</td>
+                        <td><input type="text" [(ngModel)]="record_detalle['descmotgralbaja']" class="form-control" [disabled]="true" /></td>
+                    </tr>
+                    <tr>
+                        <td>Vigente en semestre(s)</td>
+                        <td><input type="text" [(ngModel)]="record_detalle['tiposemestre']" class="form-control" [disabled]="true" /></td>
+                    </tr>
+                    <tr>
+                        <td>Esquema de pago</td>
+                        <td><input type="text" [(ngModel)]="record_detalle['descesquemapago']" class="form-control" [disabled]="true" /></td>
+                    </tr>
                 </table>
             </div>
             <div class="modal-footer">

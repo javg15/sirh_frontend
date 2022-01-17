@@ -1,6 +1,6 @@
 <div bsModal #basicModalDocs="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-full-height modal-left" role="document">
-        <div class="modal-content" style="width:900px">
+        <div class="modal-content modal-form">
             <div class="modal-header">
                 <h4 class="modal-title w-100" id="myModalLabel">{{ tituloForm }}</h4>
 
@@ -95,7 +95,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 mx-auto">
-                            <label>Carga horaria</label>
+                            <label style="font-weight: bold;">Carga horaria</label>
                             <table id="tblPersonalhorasadmin" datatable [dtOptions]="dtOptions" class="table table-striped table-bordered row-border hover" width="100%">
                                 <tbody>
                                     <tr *ngFor="let member of Members;index as irecord">
@@ -104,20 +104,20 @@
                                                 <!--<td><img src="assets/{{ member[col] }}" width="50" /></td>-->
                                                 <td>
                                                     <div *ngFor="let boton of member[col].split(',')" style="display: contents;">
-                                                        <button *ngIf="boton=='ver'" title="Ver" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo,'custom-' + member.tipo,'ver',member.id,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza,record_esInterina,record_id_catplanteles_aplicacion)">
+                                                        <button *ngIf="boton=='ver'" title="Ver" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo,'custom-01','ver',member.id,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza,record_esInterina,record_id_catplanteles_aplicacion)">
                                                             <i class="fa fa-search"></i>
                                                         </button>
 
-                                                        <button *ngIf="boton=='editar'" title="Editar" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo,'custom-' + member.tipo,'editar',member.id,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza,record_esInterina,record_id_catplanteles_aplicacion)">
+                                                        <button *ngIf="boton=='editar'" title="Editar" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo,'custom-01','editar',member.id,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza,record_esInterina,record_id_catplanteles_aplicacion)">
                                                           <i class="fa fa-edit"></i>
                                                       </button>
-                                                        <button *ngIf="boton=='copiar'" title="Copiar" class="btn btn-brand btn-sm mr-1 btn-xing" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo,'custom-' + member.tipo,'copiar',member.id,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza,record_esInterina,record_id_catplanteles_aplicacion)">
+                                                        <button *ngIf="boton=='copiar'" title="Copiar" class="btn btn-brand btn-sm mr-1 btn-xing" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo,'custom-01','copiar',member.id,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza,record_esInterina,record_id_catplanteles_aplicacion)">
                                                         <i class="fa fa-copy"></i>
                                                     </button>
-                                                        <button *ngIf="boton=='eliminar' && member.en_activo==1" title="Eliminar" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo,'custom-' + member.tipo,'eliminar',member.id,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza,record_esInterina,record_id_catplanteles_aplicacion)">
+                                                        <button *ngIf="boton=='eliminar' && member.en_activo==1" title="Eliminar" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo,'custom-01','eliminar',member.id,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza,record_esInterina,record_id_catplanteles_aplicacion)">
                                                           <i class="fa fa-trash"></i>
                                                       </button>
-                                                        <button *ngIf="boton=='desactivar' && member.en_activo==1" title="Descargar" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo,'custom-' + member.tipo,'desactivar',member.id,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza,record_esInterina,record_id_catplanteles_aplicacion)">
+                                                        <button *ngIf="boton=='desactivar' && member.en_activo==1" title="Descargar" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo,'custom-01','desactivar',member.id,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza,record_esInterina,record_id_catplanteles_aplicacion)">
                                                           <i class="fa fa-download"></i>
                                                       </button>
                                                     </div>
@@ -154,18 +154,95 @@
                                             <ng-template #elseBlock5>
                                                 <ng-container *ngIf="col=='materia';else elseBlock6">
                                                     <td [ngStyle]="{'background-color': (member.descargada=='1') ? '#c4c4af' : '#ffffff'}">
-                                                        <div [innerHtml]="member[col]" style="color:blue"></div>
+                                                        <div [innerHtml]="member[col]" style="font-style: italic"></div>
                                                     </td>
                                                 </ng-container>
                                             </ng-template>
                                             <ng-template #elseBlock6>
-                                                <ng-container *ngIf="col!='id'
-                                                && col!='descplantel'
+                                                <ng-container *ngIf="col!='descplantel'
                                                 && col!='desctipo'
                                                 && col!='descestatus'
                                                 && col!='descnombramiento'
                                                 && col!='en_activo'
+                                                && col!='id descarga'
                                                 && col!='descargada';else elseBlock7">
+                                                    <td>
+                                                        <div [innerHtml]="member[col]"></div>
+                                                    </td>
+                                                </ng-container>
+                                            </ng-template>
+                                            <ng-template #elseBlock7></ng-template>
+                                        </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        &nbsp;
+                    </div>
+                    <!--<div *ngIf="NumberOfMembersDescarga>0" class="row">-->
+                    <div class="row">
+                        <div class="col-md-12 mx-auto">
+                            <label style="font-weight: bold;">Carga horaria - DESCARGAS -</label>
+                            <table id="tblPersonalhorasadminDescarga" datatable [dtOptions]="dtOptionsDescarga" class="table table-striped table-bordered row-border hover" width="100%">
+                                <tbody>
+                                    <tr *ngFor="let member of MembersDescarga;index as irecord">
+                                        <ng-container *ngFor="let col of ColumnNamesDescarga;index as i">
+                                            <div *ngIf="col=='acciones'; else elseBlock">
+                                                <!--<td><img src="assets/{{ member[col] }}" width="50" /></td>-->
+                                                <td>
+                                                    <div *ngFor="let boton of member[col].split(',')" style="display: contents;">
+                                                        <button *ngIf="boton=='ver' || boton=='editar'" title="Ver" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo,'custom-02','ver',member.id,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza,record_esInterina,record_id_catplanteles_aplicacion)">
+                                                          <i class="fa fa-search"></i>
+                                                      </button>
+                                                        <button *ngIf="boton=='eliminar' && member.en_activo==1" title="Eliminar" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo,'custom-02','eliminar',member.id,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza,record_esInterina,record_id_catplanteles_aplicacion)">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                    </div>
+                                                </td>
+                                            </div>
+                                            <ng-template #elseBlock>
+                                                <ng-container *ngIf="col=='plantel';else elseBlock2">
+                                                    <td>
+                                                        <div [title]="member.descplantel" [innerHtml]="member[col]" style="color:blue"></div>
+                                                    </td>
+                                                </ng-container>
+                                            </ng-template>
+                                            <ng-template #elseBlock2>
+                                                <ng-container *ngIf="col=='tipo';else elseBlock3">
+                                                    <td>
+                                                        <div [title]="member.desctipo" [innerHtml]="member[col]" style="color:blue"></div>
+                                                    </td>
+                                                </ng-container>
+                                            </ng-template>
+                                            <ng-template #elseBlock3>
+                                                <ng-container *ngIf="col=='estatus';else elseBlock4">
+                                                    <td>
+                                                        <div [title]="member.descestatus" [innerHtml]="member[col]" style="color:blue"></div>
+                                                    </td>
+                                                </ng-container>
+                                            </ng-template>
+                                            <ng-template #elseBlock4>
+                                                <ng-container *ngIf="col=='nomb';else elseBlock5">
+                                                    <td>
+                                                        <div [title]="member.descnombramiento" [innerHtml]="member[col]" style="color:blue"></div>
+                                                    </td>
+                                                </ng-container>
+                                            </ng-template>
+                                            <ng-template #elseBlock5>
+                                                <ng-container *ngIf="col=='materia';else elseBlock6">
+                                                    <td [ngStyle]="{'background-color': (member.descargada=='1') ? '#c4c4af' : '#ffffff'}">
+                                                        <div [innerHtml]="member[col]" style="font-style: italic"></div>
+                                                    </td>
+                                                </ng-container>
+                                            </ng-template>
+                                            <ng-template #elseBlock6>
+                                                <ng-container *ngIf="col!='descplantel'
+                                              && col!='desctipo'
+                                              && col!='descestatus'
+                                              && col!='descnombramiento'
+                                              && col!='en_activo'
+                                              && col!='descargada';else elseBlock7">
                                                     <td>
                                                         <div [innerHtml]="member[col]"></div>
                                                     </td>

@@ -1,6 +1,6 @@
 <div bsModal #basicModal="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-full-height modal-right" role="document">
-        <div class="modal-content">
+        <div class="modal-content modal-form">
             <div class="modal-header">
                 <h4 class="modal-title w-100" id="myModalLabel">{{ tituloForm }}</h4>
 
@@ -33,11 +33,11 @@
                                     <div style="height: 400px; width: 400px; overflow: auto;">
                                         <tree-root #tree [options]="options" [nodes]="nodes">
                                             <ng-template #treeNodeTemplate let-node let-index="index">
-    
+
                                                 <input *ngIf="node.data.checkbox" type="checkbox" [disabled]="!node.data.checkbox" [checked]="node.data.checked" (change)="selectNode(node)" id="check-{{node.id}}">
                                                 <span>{{ node.data.name }}</span>
-                                                
-                                              </ng-template>
+
+                                            </ng-template>
                                         </tree-root>
                                     </div>
                                 </div>

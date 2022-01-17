@@ -19,6 +19,8 @@ tbody td:nth-child(6),
 tbody td:nth-child(7),
 tbody td:nth-child(8),
 tbody td:nth-child(9),
-tbody td:nth-child(10) {
+tbody td:nth-child(10),
+tbody td:nth-child(11),
+tbody td:nth-child(12) {
     text-align: center;
 }

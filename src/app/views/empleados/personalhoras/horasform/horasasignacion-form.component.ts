@@ -61,7 +61,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
       id_catestadosresi: 0, id_catmunicipiosresi: 0, id_catlocalidadesresi: 0,
       domicilio:'',colonia:'',cp:'',telefonomovil:'',numimss:'',numissste:'',otronombre:'', numotro:'',tipopension:'',
       created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0,fechaingreso:null,primaantiguedad:0,
-      id_catbanco_deposito:0,cuentadeposito:'',fechanaculthijo: new Date(),formacobro:0,
+      id_catbanco_deposito:0,cuentadeposito:'',formacobro:0,
   };
   recordsemestre: Semestre = {
     id: 0,tipo: '',anio: 0,quincena: 0,qnainiciosemestre:'',qnafinsemestre: '',actual: 0,id_catquincena_ini: 0,
