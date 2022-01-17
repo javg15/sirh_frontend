@@ -137,7 +137,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
       id: 0, id_personal: idParent, cantidad: 0, id_catplanteles: 0, id_catplanteles_aplicacion:0, id_gruposclase: 0,id_materiasclase: 0,
       id_cattipohorasmateria: 1, id_catnombramientos: 0, id_semestre: idSemestre,frenteagrupo:0,id_plazas:0,
       id_catestatushora: 0, id_catquincena_ini: 0, id_catquincena_fin: 0, horassueltas:0, id_cattipohorasdocente:0,
-      state: '', created_at: new Date(), updated_at: new Date(), id_usuarios_r: 0
+      state: '', created_at: new Date(), updated_at: new Date(), id_usuarios_r: 0, descargada:0, id_personalhoras_descarga:0
     };
   }
   ngOnInit(): void {
@@ -181,6 +181,10 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
         this.validSummary.generateErrorMessagesFromServer({Horas: "La materia seleccionada es del Programa DIES, por lo tanto, la cantidad de horas debe ser entre 1 y 40"});
       }
       else{
+        if (this.actionForm.toUpperCase() == "DESACTIVAR") {
+          this.record.descargada=1;
+        }
+
         await this.isLoadingService.add(
           this.horasasignacionformService.setRecord(this.record, this.actionForm, this.asignarHorasRestantes, this.horasRestantesEnPlaza).subscribe(async resp => {
             if (resp.hasOwnProperty('error')) {
@@ -270,12 +274,19 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
         this.horasasignacionformService.getRecord(idItem).subscribe(async resp => {
           this.record = resp;
           this.edicion_en_activo=true;
-          if(this.record_quincena_activa.id>this.record.id_catquincena_ini)
+
+          //obtener registro segun quincena inicial
+          this.catquincenaSvc.getRecord(this.record.id_catquincena_ini).subscribe(async resp => {
+            if(this.record_quincena_activa.anio.toString()+this.record_quincena_activa.quincena.toString().padStart(2,"0")
+               >resp.anio.toString()+resp.quincena.toString().padStart(2,"0"))
             this.edicion_en_activo=false;//solo editar la quincena final
+          });
+
 
           if(this.actionForm.toUpperCase()=="COPIAR"){
             this.actionForm="NUEVO";
             this.record.id=0;
+            this.record.descargada=0;
             this.edicion_en_copiar=true;
           }
 
@@ -305,7 +316,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
             if(!this.edicion_en_copiar)
               this.horasDisponiblesEnPlaza=parseFloat(resp[0].horasdisponibles)+this.record.cantidad //sumar las horas ya asignadas como parte de las horas disponibles
             else
-            this.horasDisponiblesEnPlaza=resp[0].horasdisponibles
+              this.horasDisponiblesEnPlaza=resp[0].horasdisponibles
 
             this.horasRestantesEnPlaza=(this.horasDisponiblesEnPlaza>0?this.record.cantidad - this.horasDisponiblesEnPlaza:parseInt((this.record.cantidad*-1).toString()) + parseInt(this.horasDisponiblesEnPlaza.toString()));
             this.verAsignarHorasRestantes=(this.horasRestantesEnPlaza>0);
@@ -388,7 +399,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
         this.horasasignacionformService.getRecordTitularEnLicencia(this.record.id_catplanteles_aplicacion,this.record.id_gruposclase,this.record.id_materiasclase,this.record.id_semestre).subscribe(resp => {
           this.record_personaltitular = resp;
           this.record_personaltitular_nombre="";
-          
+
           if(resp.length>0){
             this.record_personaltitular_nombre=this.record_personaltitular["nombre"];
           }

@@ -10,7 +10,7 @@ import { actionsButtonSave, titulosModal } from '../../../../../environments/env
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 
-import { HorasdescargaFormService } from '../services/horasdescargaform.service';
+import { HorasasignacionFormService } from '../services/horasasignacionform.service';
 import { GruposclaseService } from '../../../catalogos/gruposclase/services/gruposclase.service';
 import { MateriasclaseService } from '../../../catalogos/materiasclase/services/materiasclase.service';
 import { SemestreService } from '../../../catalogos/semestre/services/semestre.service';
@@ -67,11 +67,11 @@ export class HorasdescargaFormComponent implements OnInit, OnDestroy {
 
   catplantelesCat: Catplanteles[];
   catplantelesAplicacionCat: Catplanteles[];
-  
+
   gruposclaseCat: Gruposclase[];
   materiasclaseCat: Materiasclase[];
-  
-  
+  materiasdescargadasCat: Materiasclase[];
+
   record_id_personal:number;
   record_id_semestre:number;
   record_id_plantel:number;
@@ -80,12 +80,9 @@ export class HorasdescargaFormComponent implements OnInit, OnDestroy {
   record_quincena_activa:Catquincena;
   record_id_plaza:number;
   record_text_plaza:string;
-  edicion_en_activo:boolean=true;
-  edicion_en_copiar:boolean=false;
-  edicion_habilitarTipoHoras:boolean=true;
-  edicion_horasDIES:boolean=false;
-  horasDisponiblesEnPlaza:number;
-  horasRestantesEnPlaza:number=0;
+
+  horasDisponiblesEnDescarga:number;
+  horasRestantesEnDescarga:number=0;
   verAsignarHorasRestantes:boolean=false;
   asignarHorasRestantes:number;
   record_id_personalhoras_descarga:number;
@@ -102,7 +99,7 @@ export class HorasdescargaFormComponent implements OnInit, OnDestroy {
   constructor(
     private tokenStorage: TokenStorageService,
     private isLoadingService: IsLoadingService,
-    private horasdescargaformService: HorasdescargaFormService,
+    private horasasignacionformService: HorasasignacionFormService,
     private personalSvc: PersonalService,
     private semestreSvc: SemestreService,
     private catplantelesSvc: CatplantelesService,
@@ -121,7 +118,7 @@ export class HorasdescargaFormComponent implements OnInit, OnDestroy {
       id: 0, id_personal: idParent, cantidad: 0, id_catplanteles: 0, id_catplanteles_aplicacion:0, id_gruposclase: 0,id_materiasclase: 0,
       id_cattipohorasmateria: 1, id_catnombramientos: 0, id_semestre: idSemestre,frenteagrupo:0,id_plazas:0,
       id_catestatushora: 0, id_catquincena_ini: 0, id_catquincena_fin: 0, horassueltas:0, id_cattipohorasdocente:0,
-      state: '', created_at: new Date(), updated_at: new Date(), id_usuarios_r: 0
+      state: '', created_at: new Date(), updated_at: new Date(), id_usuarios_r: 0, descargada:0, id_personalhoras_descarga:0
     };
   }
   ngOnInit(): void {
@@ -136,7 +133,7 @@ export class HorasdescargaFormComponent implements OnInit, OnDestroy {
       return;
     }
     // add self (this modal instance) to the modal service so it's accessible from controllers
-    modal.horasdescargaformService.add(modal);
+    modal.horasasignacionformService.add(modal);
 
     //loading
     this.userFormIsPending = this.isLoadingService.isLoading$({ key: 'loading' });
@@ -147,7 +144,7 @@ export class HorasdescargaFormComponent implements OnInit, OnDestroy {
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-    this.horasdescargaformService.remove(this.id); //idModal
+    this.horasasignacionformService.remove(this.id); //idModal
     this.elementModal.remove();
   }
 
@@ -161,12 +158,9 @@ export class HorasdescargaFormComponent implements OnInit, OnDestroy {
       if(this.record.id_catnombramientos==2 && this.record_personaltitular.length==0){
         this.validSummary.generateErrorMessagesFromServer({Titular: "No existe un profesor con esta materia en Licencia"});
       }
-      else if(this.edicion_horasDIES && (this.record.cantidad>40 || this.record.cantidad<1)){
-        this.validSummary.generateErrorMessagesFromServer({Horas: "La materia seleccionada es del Programa DIES, por lo tanto, la cantidad de horas debe ser entre 1 y 40"});
-      }
       else{
         await this.isLoadingService.add(
-          this.horasdescargaformService.setRecord(this.record, this.actionForm, this.asignarHorasRestantes, this.horasRestantesEnPlaza).subscribe(async resp => {
+          this.horasasignacionformService.setRecord(this.record, this.actionForm, this.asignarHorasRestantes, this.horasRestantesEnDescarga).subscribe(async resp => {
             if (resp.hasOwnProperty('error')) {
               this.validSummary.generateErrorMessagesFromServer(resp.message);
             }
@@ -207,7 +201,6 @@ export class HorasdescargaFormComponent implements OnInit, OnDestroy {
       this.catplantelesAplicacionCat = resp;
     });
 
-    this.edicion_en_copiar=false;
     this.asignarHorasRestantes=1;//por default en sí
 
     if (idItem == "0") {
@@ -220,7 +213,7 @@ export class HorasdescargaFormComponent implements OnInit, OnDestroy {
         this.record.id_catplanteles_aplicacion=idPlantelAplicacion;
 
       this.onSelectPlantel(this.record.id_catplanteles_aplicacion);
-      this.edicion_en_activo=true;
+
       this.plazasSvc.getRecordParaCombo(idPlaza).subscribe(resp => {
         this.record_id_plaza = resp[0].id;
         this.record_text_plaza = resp[0].text;
@@ -228,37 +221,26 @@ export class HorasdescargaFormComponent implements OnInit, OnDestroy {
 
         if(resp[0].eshomologada=="true"){
           this.record.id_catnombramientos=1;
-          this.edicion_habilitarTipoHoras=true;
         }
         else if(esInterina==1){
           this.record.id_catnombramientos=2;//2=interino
-          this.edicion_habilitarTipoHoras=true;
         }
         else{
           this.record.id_catnombramientos=0;
-          this.edicion_habilitarTipoHoras=false;
         }
       });
-      this.plazasSvc.getHorasDisponibleSegunPlaza(idPersonal,idPlantel,idSemestre,idPlaza).subscribe(resp => {
-        this.horasDisponiblesEnPlaza=resp[0].horasdisponibles;
-        this.horasRestantesEnPlaza=(this.horasDisponiblesEnPlaza>0?this.record.cantidad - this.horasDisponiblesEnPlaza:parseInt((this.record.cantidad*-1).toString()) + parseInt(this.horasDisponiblesEnPlaza.toString()));
-        this.verAsignarHorasRestantes=(this.horasRestantesEnPlaza>0);
+      this.horasasignacionformService.getHorasDisponibleSegunDescarga(idPersonal,idPlantel,idSemestre,idPlaza).subscribe(resp => {
+        this.horasDisponiblesEnDescarga=resp[0].horasdisponibles;
+        this.horasRestantesEnDescarga=(this.horasDisponiblesEnDescarga>0?this.record.cantidad - this.horasDisponiblesEnDescarga:parseInt((this.record.cantidad*-1).toString()) + parseInt(this.horasDisponiblesEnDescarga.toString()));
+        this.verAsignarHorasRestantes=(this.horasRestantesEnDescarga>0);
       });
 
 
     } else {
       //obtener el registro
-        this.horasdescargaformService.getRecord(idItem).subscribe(async resp => {
+        this.horasasignacionformService.getRecord(idItem).subscribe(async resp => {
           this.record = resp;
-          this.edicion_en_activo=true;
-          if(this.record_quincena_activa.id>this.record.id_catquincena_ini)
-            this.edicion_en_activo=false;//solo editar la quincena final
 
-          if(this.actionForm.toUpperCase()=="COPIAR"){
-            this.actionForm="NUEVO";
-            this.record.id=0;
-            this.edicion_en_copiar=true;
-          }
 
           this.onSelectPlantel(resp.id_catplanteles_aplicacion);
           this.onSelectGruposclase(resp.id_gruposclase);
@@ -268,27 +250,18 @@ export class HorasdescargaFormComponent implements OnInit, OnDestroy {
             this.record.horassueltas=(resp[0].eshomologada=="true"?1:0);
             if(resp[0].eshomologada=="true"){
               this.record.id_catnombramientos=1;
-              this.edicion_habilitarTipoHoras=true;
             }
             else if(esInterina==1){
               this.record.id_catnombramientos=2;//2=interino
-              this.edicion_habilitarTipoHoras=true;
-            }
-            else{
-              this.edicion_habilitarTipoHoras=false;
             }
           });
-          this.plazasSvc.getHorasDisponibleSegunPlaza(idPersonal,idPlantel,idSemestre,idPlaza).subscribe(resp => {
-            if(!this.edicion_en_copiar)
-              this.horasDisponiblesEnPlaza=parseFloat(resp[0].horasdisponibles)+this.record.cantidad //sumar las horas ya asignadas como parte de las horas disponibles
-            else
-            this.horasDisponiblesEnPlaza=resp[0].horasdisponibles
-
-            this.horasRestantesEnPlaza=(this.horasDisponiblesEnPlaza>0?this.record.cantidad - this.horasDisponiblesEnPlaza:parseInt((this.record.cantidad*-1).toString()) + parseInt(this.horasDisponiblesEnPlaza.toString()));
-            this.verAsignarHorasRestantes=(this.horasRestantesEnPlaza>0);
+          this.horasasignacionformService.getHorasDisponibleSegunDescarga(idPersonal,idPlantel,idSemestre,idPlaza).subscribe(resp => {
+            this.horasDisponiblesEnDescarga=parseFloat(resp[0].horasdisponibles)+this.record.cantidad //sumar las horas ya asignadas como parte de las horas disponibles
+            this.horasRestantesEnDescarga=(this.horasDisponiblesEnDescarga>0?this.record.cantidad - this.horasDisponiblesEnDescarga:parseInt((this.record.cantidad*-1).toString()) + parseInt(this.horasDisponiblesEnDescarga.toString()));
+            this.verAsignarHorasRestantes=(this.horasRestantesEnDescarga>0);
           });
         });
-      
+
     }
 
 
@@ -332,20 +305,14 @@ export class HorasdescargaFormComponent implements OnInit, OnDestroy {
     this.record.cantidad=materia.horasdisponibles;
 
     //si son horas de jornada, entonces, si ya excede las horas, entonces, mostrar la opción de asignar en horas sueltas
-    this.horasRestantesEnPlaza=(this.horasDisponiblesEnPlaza>0?this.record.cantidad - this.horasDisponiblesEnPlaza:parseInt((this.record.cantidad*-1).toString()) + parseInt(this.horasDisponiblesEnPlaza.toString()));
-    this.verAsignarHorasRestantes=(this.horasRestantesEnPlaza>0);
-
-    this.edicion_horasDIES=(materia["nogrupo"]==1 && materia["claveasignatura"].substring(0,2)=="PD");
-    if(this.edicion_horasDIES){
-      this.record.horassueltas=0;
-      this.record.frenteagrupo=0;
-    }
+    this.horasRestantesEnDescarga=(this.horasDisponiblesEnDescarga>0?this.record.cantidad - this.horasDisponiblesEnDescarga:parseInt((this.record.cantidad*-1).toString()) + parseInt(this.horasDisponiblesEnDescarga.toString()));
+    this.verAsignarHorasRestantes=(this.horasRestantesEnDescarga>0);
   }
 
   onChangeCantidadHoras(valor: any){
     //si son horas de jornada, entonces, si ya excede las horas, entonces, mostrar la opción de asignar en horas sueltas
-    this.horasRestantesEnPlaza=(this.horasDisponiblesEnPlaza>0?this.record.cantidad - this.horasDisponiblesEnPlaza:parseInt((this.record.cantidad*-1).toString()) + parseInt(this.horasDisponiblesEnPlaza.toString()));
-    this.verAsignarHorasRestantes=(this.horasRestantesEnPlaza>0);
+    this.horasRestantesEnDescarga=(this.horasDisponiblesEnDescarga>0?this.record.cantidad - this.horasDisponiblesEnDescarga:parseInt((this.record.cantidad*-1).toString()) + parseInt(this.horasDisponiblesEnDescarga.toString()));
+    this.verAsignarHorasRestantes=(this.horasRestantesEnDescarga>0);
   }
 
 }

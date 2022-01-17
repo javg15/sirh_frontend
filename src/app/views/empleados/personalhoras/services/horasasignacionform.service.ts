@@ -44,6 +44,13 @@ export class HorasasignacionFormService {
       , httpOptions);
   }
 
+  public getHorasDisponibleSegunDescarga(id_personal:number, id_planteles:number, id_semestre:number, id_plazas:number): Observable<any> {
+    return this.http.post(this.API_URL + '/personalhoras/getHorasDisponibleSegunDescarga',
+      { id_personal, id_planteles, id_semestre, id_plazas }
+      , httpOptions);
+  }
+
+
   // array de modales
   public add(modal: any) {
     this.modals.push(modal);

@@ -52,6 +52,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
     start: 0
   };
   private dtOptionsAdicional = {
+    state:'AD',
     datosBusqueda: { campo: 0, operador: 0, valor: '' }
     , raw: 0
     , fkey: 'id_personal,id_semestre,id_catplanteles,id_catnombramientos,id_plazas'
@@ -79,6 +80,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
   record_id_plaza:any=0;
   record_id_catplanteles_aplicacion:number=0;
   record_esInterina: number=0;
+  record_numeemp:string;
   esSemestreDesdeParametro:boolean=false;
   tblResumenRows:any=[];
   tblResumenRowsEstatus:any=[];
@@ -150,8 +152,8 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
         },
       },
       columns: this.headersAdmin,
-      columnDefs: [{ "visible": false, "targets": [0, 1,2,3,4,5] },
-      { "width": "20%", "targets": [6,8],} // no ejecuta la alineación, entonces, se fuerza en el css
+      columnDefs: [{ "visible": false, "targets": [0, 1,2,3,4,5,6] },
+      { "width": "20%", "targets": [7,9],} // no ejecuta la alineación, entonces, se fuerza en el css
       ]//ID, tipo
     };
 
@@ -176,6 +178,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
 
     this.personalSvc.getRecord(id_personal).subscribe(resp => {
       this.tituloForm="Carga horaria - " + resp.numeemp + " - " + (resp.apellidopaterno + " " + resp.apellidomaterno + " " + resp.nombre);
+      this.record_numeemp=resp.numeemp;
     });
 
     this.esSemestreDesdeParametro=(id_catplanteles>0);

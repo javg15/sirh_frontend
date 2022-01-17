@@ -14,58 +14,85 @@
                     <div class="form-group">
                         <input type="hidden" [(ngModel)]="record_id_personal" class="form-control" name="ID">
                     </div>
+
                     <div class="row">
-                        <div class="form-group col-sm-4">
-                            <label for="record_id_semestre">Semestre</label>
-                            <select class="form-control" [(ngModel)]="record_id_semestre" name="Semestre" (change)="onSemestreChange($event.target.value)" [disabled]="esSemestreDesdeParametro">
-                              <option *ngFor="let col of semestreCat" [value]="col.id">{{ col.text }}</option>
-                            </select>
+                        <div class="form-group col-sm-2">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <img [src]="'http://sigaa.cobaev.edu.mx/festival/fotos/personal/' + record_numeemp + '.JPG'" style="width:100px" class="img-avatar" alt="" />
+                                        <img [src]="'http://sigaa.cobaev.edu.mx/festival/fotos/personal/' + record_numeemp + '.jpg'" style="width:100px" class="img-avatar" alt="" />
+                                        <img [src]="'http://sigaa.cobaev.edu.mx/festival/fotos/personal/' + record_numeemp + '.PNG'" style="width:100px" class="img-avatar" alt="" />
+                                        <img [src]="'http://sigaa.cobaev.edu.mx/festival/fotos/personal/' + record_numeemp + '.png'" style="width:100px" class="img-avatar" alt="" />
+                                        <img [src]="'http://sigaa.cobaev.edu.mx/festival/fotos/personal/' + record_numeemp + '.JPEG'" style="width:100px" class="img-avatar" alt="" />
+                                        <img [src]="'http://sigaa.cobaev.edu.mx/festival/fotos/personal/' + record_numeemp + '.jpeg'" style="width:100px" class="img-avatar" alt="" />
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
-                        <div class="form-group col-sm-4">
-                            <label for="record_state">Estatus de registro</label>
-                            <select class="form-control" name="Estatus de registro" (change)="onCatestatusChange($event.target.value)">
-                              <option value="1" selected="selected">Vigentes</option> <!--solo sin fecha fin-->
-                              <option value="1|2|3|4|5|6">Historial</option> <!--todas-->
-                            </select>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <button class="btn btn-primary my-2 my-sm-0" (click)="openModal('01','custom-01','nuevo',0,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza,record_esInterina,record_id_catplanteles_aplicacion)">
-                                Agregar carga horaria
-                              </button>
-                            <!--<form class="form-inline my-2 my-lg-0">
-                                <div class="btn-group" dropdown>
-                                    <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
-                                  Agregar asignación <span class="caret"></span>
-                                </button>
-                                    <ul *dropdownMenu class="dropdown-menu" role="menu">
-                                        <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openModal('01','custom-01','nuevo',0,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza)">Horas frente a grupo</a></li>
-                                    </ul>
-                                </div>
-                            </form>-->
-                        </div>
-                    </div>
-                    <div class="row">
-                        &nbsp;
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-12">
-                            <label>Plaza base</label>
-                            <select class="form-control" name="Plaza base" multiple [disabled]="true" size="3">
+                        <div class="form-group col-sm-10">
+                            <div class="row">
+                                <div class="form-group col-sm-12">
+                                    <label>Plaza base</label>
+                                    <select class="form-control" name="Plaza base" multiple [disabled]="true" size="3">
                               <ng-container *ngFor="let row of tblNombramientos; index as i">
                                   <option  *ngIf="row.esplazabase==1"  value="{{row.id_plaza}}">{{ row.clave }}</option>
                               </ng-container>
 
                             </select>
-                        </div>
-                        <div class="form-group col-sm-12">
-                            <label>Nombramientos vigentes</label>
-                            <select class="form-control" name="Nombramientos vigentes" (change)="onPlazaChange($event.target.value)" multiple>
-                              <option  *ngFor="let row of tblNombramientos; index as i" [selected]="row.id_plaza == record_id_plaza" value="{{row.id_plaza}}">{{ row.clave }}</option>
-                            </select>
+                                </div>
+                                <div class="form-group col-sm-12">
+                                    <label>Nombramientos vigentes</label>
+                                    <select class="form-control" name="Nombramientos vigentes" (change)="onPlazaChange($event.target.value)" multiple>
+                                <option  *ngFor="let row of tblNombramientos; index as i" [selected]="row.id_plaza == record_id_plaza" value="{{row.id_plaza}}">{{ row.clave }}</option>
+                              </select>
 
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <label for="record_id_semestre">Semestre</label>
+                            <select class="form-control" [(ngModel)]="record_id_semestre" name="Semestre" (change)="onSemestreChange($event.target.value)" [disabled]="esSemestreDesdeParametro">
+                            <option *ngFor="let col of semestreCat" [value]="col.id">{{ col.text }}</option>
+                          </select>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label for="record_state">Estatus de registro</label>
+                            <select class="form-control" name="Estatus de registro" (change)="onCatestatusChange($event.target.value)">
+                            <option value="1" selected="selected">Vigentes</option> <!--solo sin fecha fin-->
+                            <option value="1|2|3|4|5|6">Historial</option> <!--todas-->
+                          </select>
                         </div>
                     </div>
+                    <div class="row">
+                        &nbsp;
+                    </div>
+                    <div>
+                        <nav class="header-admin navbar navbar-expand-lg navbar-light bg-light">
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav mr-auto">
 
+                                </ul>
+                                <!-- <button class="btn btn-primary my-2 my-sm-0" (click)="openModal('01','custom-01','nuevo',0,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza,record_esInterina,record_id_catplanteles_aplicacion)">
+                            Agregar carga horaria
+                          </button>-->
+                                <form class="form-inline my-2 my-lg-0">
+                                    <div class="btn-group" dropdown>
+                                        <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+                                          Agregar<span class="caret"></span>
+                                        </button>
+                                        <ul *dropdownMenu class="dropdown-menu" role="menu">
+                                            <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openModal('01','custom-01','nuevo',0,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza,record_esInterina,record_id_catplanteles_aplicacion)">Carga horaria</a></li>
+                                            <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openModal('01','custom-02','nuevo',0,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza,record_esInterina,record_id_catplanteles_aplicacion)">Reemplazos de horas de descarga</a></li>
+                                        </ul>
+                                    </div>
+                                </form>
+                            </div>
+                        </nav>
+                    </div>
                     <div class="row">
                         <div class="col-md-12 mx-auto">
                             <label>Carga horaria</label>
@@ -89,6 +116,9 @@
                                                     </button>
                                                         <button *ngIf="boton=='eliminar' && member.en_activo==1" title="Eliminar" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo,'custom-' + member.tipo,'eliminar',member.id,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza,record_esInterina,record_id_catplanteles_aplicacion)">
                                                           <i class="fa fa-trash"></i>
+                                                      </button>
+                                                        <button *ngIf="boton=='desactivar' && member.en_activo==1" title="Descargar" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal(member.tipo,'custom-' + member.tipo,'desactivar',member.id,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza,record_esInterina,record_id_catplanteles_aplicacion)">
+                                                          <i class="fa fa-download"></i>
                                                       </button>
                                                     </div>
                                                 </td>
@@ -122,17 +152,26 @@
                                                 </ng-container>
                                             </ng-template>
                                             <ng-template #elseBlock5>
+                                                <ng-container *ngIf="col=='materia';else elseBlock6">
+                                                    <td [ngStyle]="{'background-color': (member.descargada=='1') ? '#c4c4af' : '#ffffff'}">
+                                                        <div [innerHtml]="member[col]" style="color:blue"></div>
+                                                    </td>
+                                                </ng-container>
+                                            </ng-template>
+                                            <ng-template #elseBlock6>
                                                 <ng-container *ngIf="col!='id'
                                                 && col!='descplantel'
                                                 && col!='desctipo'
                                                 && col!='descestatus'
-                                                && col!='descnombramiento' && col!='en_activo';else elseBlock6">
+                                                && col!='descnombramiento'
+                                                && col!='en_activo'
+                                                && col!='descargada';else elseBlock7">
                                                     <td>
                                                         <div [innerHtml]="member[col]"></div>
                                                     </td>
                                                 </ng-container>
                                             </ng-template>
-                                            <ng-template #elseBlock6></ng-template>
+                                            <ng-template #elseBlock7></ng-template>
                                         </ng-container>
                                 </tbody>
                             </table>
@@ -205,5 +244,5 @@
 
 <app-horasasignacion-form id="custom-01" (redrawEvent)="reDraw($event)">
 </app-horasasignacion-form>
-<app-horasasignacion-form id="custom-03" (redrawEvent)="reDraw($event)">
-</app-horasasignacion-form>
+<app-horasdescarga-form id="custom-02" (redrawEvent)="reDraw($event)">
+</app-horasdescarga-form>
