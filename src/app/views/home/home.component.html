@@ -130,25 +130,21 @@
         </div>-->
     </div>
     <!--/.card-->
-    <!--<div class="row">
+    <div class="row">
         <div class="col-sm-6 col-lg-3">
             <div class="brand-card">
-                <div class="brand-card-header bg-facebook">
-                    <i class="fa fa-facebook"></i>
-                    <div class="chart-wrapper">
 
-                    </div>
-                </div>
-                <div class="brand-card-body">
-                    <div>
-                        <div class="text-value">89k</div>
-                        <div class="text-uppercase text-muted small">friends</div>
-                    </div>
-                    <div>
-                        <div class="text-value">459</div>
-                        <div class="text-uppercase text-muted small">feeds</div>
-                    </div>
-                </div>
+                <google-map height="500px" width="100%" [zoom]="zoom" [center]="center" [options]="options" (mapClick)="click($event)">
+                    <map-marker #markerElem *ngFor="let marker of markers" [position]="marker.position" [label]="marker.label" [title]="marker.title" [options]="marker.options" (mapClick)="openInfo(markerElem, marker.info)">
+                    </map-marker>
+
+                    <map-info-window>{{ infoContent }}</map-info-window>
+                </google-map>
+
+                <button (click)="zoomIn()">Zoom in</button>
+                <button (click)="zoomOut()">Zoom out</button>
+                <button (click)="logCenter()">Log center</button>
+                <button (click)="addMarker()">Add marker</button>
             </div>
         </div>
         <!--/.col--
@@ -217,4 +213,4 @@
         <!--/.col--
     </div>
   -->
-</div>
+    </div>
