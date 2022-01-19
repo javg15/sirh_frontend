@@ -61,15 +61,15 @@ table.dataTable td {
 
 @media only screen and (min-width: 768px) {
     .modal-content.modal-form {
-        width: 160%;
-        left: -30%;
+        width: 130%;
+        left: -15%;
     }
 }
 
 @media only screen and (min-width: 1024px) {
     .modal-content.modal-form {
-        width: 160%;
-        left: -30%;
+        width: 130%;
+        left: -15%;
     }
 }
 

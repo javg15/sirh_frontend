@@ -2,7 +2,6 @@ import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, Eve
 import { SearchService } from '../../../_services/search.service';
 import { NgSelect2Module } from 'ng-select2';
 
-
 declare var $: any;
 declare var jQuery: any;
 
@@ -37,8 +36,8 @@ export class SearchAdminComponent implements OnInit {
                             ,{id: 0, idesc: '', orden: 0}
                             ,{id: 0, idesc: '', orden: 0}];
 
-  tipoEdicion:Array<number>= [0,0,0,0,0];;
-  valorBuscar: Array<string>= ['','','','',''];;
+  tipoEdicion:Array<number>= [0,0,0,0,0];
+  valorBuscar: Array<string>= ['','','','',''];
   cuentaVisibles:number=1;
 
   comboCat:Array<Array<any>>=[[{id:"---------",text:"----------"}]
@@ -46,6 +45,14 @@ export class SearchAdminComponent implements OnInit {
                             ,[{id:"---------",text:"----------"}]
                             ,[{id:"---------",text:"----------"}]
                             ,[{id:"---------",text:"----------"}]];
+  options0: Array<any>=[{},{},{},{},{}]
+  options1: Array<any>=[{multiple: true, closeOnSelect: false, width: '300'},
+                        {multiple: true, closeOnSelect: false, width: '300'},
+                        {multiple: true, closeOnSelect: false, width: '300'},
+                        {multiple: true, closeOnSelect: false, width: '300'},
+                        {multiple: true, closeOnSelect: false, width: '300'},
+                        ]
+  tipoOptions:Array<number>= [0,0,0,0,0];
 
   constructor(private searchService: SearchService) {
   }
@@ -100,6 +107,15 @@ export class SearchAdminComponent implements OnInit {
         });
       }
     });
+  }
+
+  onSelectOperador(idx, id_operador){
+    if(id_operador==19)//id=19->'incluye' de la tabla searchoperador
+      this.tipoOptions[idx]=1
+    else
+      this.tipoOptions[idx]=0
+
+    this.valorBuscar[idx]="" //reiniciar
   }
 
   onSelectComboValor(idx,valor){

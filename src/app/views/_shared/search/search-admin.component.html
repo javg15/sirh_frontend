@@ -20,7 +20,7 @@
                 </div>
                 <div class="form-group col-sm-2">
                     <label for="cmbSearchDonde">Donde sea: </label>
-                    <select class="form-control" [(ngModel)]="selectedItemsOperadores[0].id">
+                    <select class="form-control" [(ngModel)]="selectedItemsOperadores[0].id" (change)="onSelectOperador(0,$event.target.value)">
                       <ng-container *ngFor="let col of itemsOperadores[0];index as i">
                         <option value = "{{ col.id }}">{{ col.idesc }}</option>
                       </ng-container>
@@ -31,11 +31,22 @@
                         <label for="cmbSearchA">a:</label>
                         <input type="text" class="form-control" [(ngModel)]="valorBuscar[0]">
                     </div>
-                    <div *ngIf="tipoEdicion[0]==1" class="form-group">
+                    <!--combo simple-->
+                    <div *ngIf="tipoEdicion[0]==1 && tipoOptions[0]==0" class="form-group">
                         <label for="cmbSearchA">a:</label>
                         <div class="form-group col-sm-4">
                             <div class="form-group">
-                                <ng-select2 [(ngModel)]="valorBuscar[0]" [data]="comboCat[0]" [allowClear]="true" width="300px" (valueChanged)="onSelectComboValor(0,$event)">
+                                <ng-select2 [options]="options0[0]" [(ngModel)]="valorBuscar[0]" [data]="comboCat[0]" [allowClear]="true" width="300px" (valueChanged)="onSelectComboValor(0,$event)">
+                                </ng-select2>
+                            </div>
+                        </div>
+                    </div>
+                    <!--combo multiple-->
+                    <div *ngIf="tipoEdicion[0]==1 && tipoOptions[0]==1" class="form-group">
+                        <label for="cmbSearchA">a:</label>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <ng-select2 [options]="options1[0]" [(ngModel)]="valorBuscar[0]" [data]="comboCat[0]" [allowClear]="true" width="300px" (valueChanged)="onSelectComboValor(0,$event)">
                                 </ng-select2>
                             </div>
                         </div>
@@ -71,7 +82,7 @@
                 </div>
                 <div class="form-group col-sm-2">
                     <label for="cmbSearchDonde">Donde sea: </label>
-                    <select class="form-control" [(ngModel)]="selectedItemsOperadores[1].id">
+                    <select class="form-control" [(ngModel)]="selectedItemsOperadores[1].id" (change)="onSelectOperador(1,$event.target.value)">
                     <ng-container *ngFor="let col of itemsOperadores[1];index as i">
                       <option value = "{{ col.id }}">{{ col.idesc }}</option>
                     </ng-container>
@@ -82,15 +93,26 @@
                         <label for="cmbSearchA">a:</label>
                         <input type="text" class="form-control" [(ngModel)]="valorBuscar[1]">
                     </div>
-                    <div *ngIf="tipoEdicion[1]==1" class="form-group">
+                    <div *ngIf="tipoEdicion[1]==1 && tipoOptions[1]==0" class="form-group">
                         <label for="cmbSearchA">a:</label>
                         <div class="form-group col-sm-4">
                             <div class="form-group">
-                              <ng-select2 [(ngModel)]="valorBuscar[1]" [data]="comboCat[1]" [allowClear]="true" width="200px" (valueChanged)="onSelectComboValor(1,$event)">
-                              </ng-select2>
+                                <ng-select2 [options]="options0[1]" [(ngModel)]="valorBuscar[1]" [data]="comboCat[1]" [allowClear]="true" width="200px" (valueChanged)="onSelectComboValor(1,$event)">
+                                </ng-select2>
                             </div>
                         </div>
                     </div>
+                    <!--combo multiple-->
+                    <div *ngIf="tipoEdicion[1]==1 && tipoOptions[1]==1" class="form-group">
+                        <label for="cmbSearchA">a:</label>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <ng-select2 [options]="options1[1]" [(ngModel)]="valorBuscar[1]" [data]="comboCat[1]" [allowClear]="true" width="200px" (valueChanged)="onSelectComboValor(1,$event)">
+                                </ng-select2>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div *ngIf="cuentaVisibles>=3" class="row" data-idx="2">
@@ -104,7 +126,7 @@
                 </div>
                 <div class="form-group col-sm-2">
                     <label for="cmbSearchDonde">Donde sea: </label>
-                    <select class="form-control" [(ngModel)]="selectedItemsOperadores[2].id">
+                    <select class="form-control" [(ngModel)]="selectedItemsOperadores[2].id" (change)="onSelectOperador(2,$event.target.value)">
                     <ng-container *ngFor="let col of itemsOperadores[2];index as i">
                       <option value = "{{ col.id }}">{{ col.idesc }}</option>
                     </ng-container>
@@ -115,12 +137,22 @@
                         <label for="cmbSearchA">a:</label>
                         <input type="text" class="form-control" [(ngModel)]="valorBuscar[2]">
                     </div>
-                    <div *ngIf="tipoEdicion[2]==1" class="form-group">
+                    <div *ngIf="tipoEdicion[2]==1 && tipoOptions[2]==0" class="form-group">
                         <label for="cmbSearchA">a:</label>
                         <div class="form-group col-sm-4">
                             <div class="form-group">
-                              <ng-select2 [(ngModel)]="valorBuscar[2]" [data]="comboCat[2]" [allowClear]="true" width="200px" (valueChanged)="onSelectComboValor(2,$event)">
-                              </ng-select2>
+                                <ng-select2 [options]="options0[2]" [(ngModel)]="valorBuscar[2]" [data]="comboCat[2]" [allowClear]="true" width="200px" (valueChanged)="onSelectComboValor(2,$event)">
+                                </ng-select2>
+                            </div>
+                        </div>
+                    </div>
+                    <!--combo multiple-->
+                    <div *ngIf="tipoEdicion[2]==1 && tipoOptions[2]==1" class="form-group">
+                        <label for="cmbSearchA">a:</label>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <ng-select2 [options]="options1[2]" [(ngModel)]="valorBuscar[2]" [data]="comboCat[2]" [allowClear]="true" width="200px" (valueChanged)="onSelectComboValor(2,$event)">
+                                </ng-select2>
                             </div>
                         </div>
                     </div>
@@ -137,7 +169,7 @@
                 </div>
                 <div class="form-group col-sm-2">
                     <label for="cmbSearchDonde">Donde sea: </label>
-                    <select class="form-control" [(ngModel)]="selectedItemsOperadores[3].id">
+                    <select class="form-control" [(ngModel)]="selectedItemsOperadores[3].id" (change)="onSelectOperador(3,$event.target.value)">
                     <ng-container *ngFor="let col of itemsOperadores[3];index as i">
                       <option value = "{{ col.id }}">{{ col.idesc }}</option>
                     </ng-container>
@@ -148,12 +180,22 @@
                         <label for="cmbSearchA">a:</label>
                         <input type="text" class="form-control" [(ngModel)]="valorBuscar[3]">
                     </div>
-                    <div *ngIf="tipoEdicion[3]==1" class="form-group">
+                    <div *ngIf="tipoEdicion[3]==1 && tipoOptions[3]==0" class="form-group">
                         <label for="cmbSearchA">a:</label>
                         <div class="form-group col-sm-4">
                             <div class="form-group">
-                              <ng-select2 [(ngModel)]="valorBuscar[3]" [data]="comboCat[3]" [allowClear]="true" width="200px" (valueChanged)="onSelectComboValor(3,$event)">
-                              </ng-select2>
+                                <ng-select2 [options]="options0[3]" [(ngModel)]="valorBuscar[3]" [data]="comboCat[3]" [allowClear]="true" width="200px" (valueChanged)="onSelectComboValor(3,$event)">
+                                </ng-select2>
+                            </div>
+                        </div>
+                    </div>
+                    <!--combo multiple-->
+                    <div *ngIf="tipoEdicion[3]==1 && tipoOptions[3]==1" class="form-group">
+                        <label for="cmbSearchA">a:</label>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <ng-select2 [options]="options1[3]" [(ngModel)]="valorBuscar[3]" [data]="comboCat[3]" [allowClear]="true" width="200px" (valueChanged)="onSelectComboValor(3,$event)">
+                                </ng-select2>
                             </div>
                         </div>
                     </div>
@@ -170,7 +212,7 @@
                 </div>
                 <div class="form-group col-sm-2">
                     <label for="cmbSearchDonde">Donde sea: </label>
-                    <select class="form-control" [(ngModel)]="selectedItemsOperadores[4].id">
+                    <select class="form-control" [(ngModel)]="selectedItemsOperadores[4].id" (change)="onSelectOperador(4,$event.target.value)">
                     <ng-container *ngFor="let col of itemsOperadores[4];index as i">
                       <option value = "{{ col.id }}">{{ col.idesc }}</option>
                     </ng-container>
@@ -181,12 +223,22 @@
                         <label for="cmbSearchA">a:</label>
                         <input type="text" class="form-control" [(ngModel)]="valorBuscar[4]">
                     </div>
-                    <div *ngIf="tipoEdicion[4]==1" class="form-group">
+                    <div *ngIf="tipoEdicion[4]==1 && tipoOptions[4]==0" class="form-group">
                         <label for="cmbSearchA">a:</label>
                         <div class="form-group col-sm-4">
                             <div class="form-group">
-                              <ng-select2 [(ngModel)]="valorBuscar[4]" [data]="comboCat[4]" [allowClear]="true" width="200px" (valueChanged)="onSelectComboValor(4,$event)">
-                              </ng-select2>
+                                <ng-select2 [options]="options0[4]" [(ngModel)]="valorBuscar[4]" [data]="comboCat[4]" [allowClear]="true" width="200px" (valueChanged)="onSelectComboValor(4,$event)">
+                                </ng-select2>
+                            </div>
+                        </div>
+                    </div>
+                    <!--combo multiple-->
+                    <div *ngIf="tipoEdicion[4]==1 && tipoOptions[4]==1" class="form-group">
+                        <label for="cmbSearchA">a:</label>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <ng-select2 [options]="options1[4]" [(ngModel)]="valorBuscar[4]" [data]="comboCat[4]" [allowClear]="true" width="200px" (valueChanged)="onSelectComboValor(4,$event)">
+                                </ng-select2>
                             </div>
                         </div>
                     </div>
