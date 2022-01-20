@@ -4,18 +4,14 @@ import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { TokenStorageService } from '../../_services/token-storage.service';
 import { Router } from '@angular/router';
 
-import { MapInfoWindow, MapMarker, GoogleMap } from '@angular/google-maps'
-
+import { HomeService } from './services/home.service';
 
 import { Personal } from '../../_models';
 import { PersonalService } from '../catalogos/personal/services/personal.service';
 @Component({
   templateUrl: 'home.component.html'
 })
-export class HomeComponent implements OnInit {
-
-  @ViewChild(GoogleMap, { static: false }) map: GoogleMap
-  @ViewChild(MapInfoWindow, { static: false }) info: MapInfoWindow
+export class HomeComponent  {
 
   record_personal: Personal;
 
@@ -26,22 +22,8 @@ export class HomeComponent implements OnInit {
   imageAvatar1:any;imageAvatar2:any;imageAvatar3:any;
   imageAvatar4:any;imageAvatar5:any;imageAvatar6:any;
 
-
-  zoom = 12
-  center: google.maps.LatLngLiteral
-  options: google.maps.MapOptions = {
-    zoomControl: false,
-    scrollwheel: false,
-    disableDoubleClickZoom: true,
-    mapTypeId: 'hybrid',
-    maxZoom: 15,
-    minZoom: 8,
-  }
-  markers = []
-  infoContent = ''
-
-
   constructor(private tokenStorage: TokenStorageService,
+    private homeService: HomeService,
     private personalSvc: PersonalService,
     private router: Router,
   ) {
@@ -56,61 +38,14 @@ export class HomeComponent implements OnInit {
     this.personalSvc.getRecordSegunUsuario(this.usuario.id).subscribe(resp => {
       this.record_personal = resp;
     });
-}
-
-  ngOnInit(): void {
-    // generate random values for mainChart
-    navigator.geolocation.getCurrentPosition((position) => {
-      this.center = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-      }
-    })
   }
 
-  onErrorImage(i){
-    this.images[i]=0;
-    if(this.images[0]==0 && this.images[1]==0 && this.images[2]==0
-      && this.images[3]==0 && this.images[4]==0 && this.images[5]==0)
-      this.imageDefault=true;
+  openModal(id: string) {
+    this.homeService.open(id);
   }
 
-  zoomIn() {
-    if (this.zoom < this.options.maxZoom) this.zoom++
-  }
-
-  zoomOut() {
-    if (this.zoom > this.options.minZoom) this.zoom--
-  }
-
-  click(event: google.maps.MouseEvent) {
-    console.log(event)
-  }
-
-  logCenter() {
-    console.log(JSON.stringify(this.map.getCenter()))
-  }
-
-  addMarker() {
-    this.markers.push({
-      position: {
-        lat: this.center.lat + ((Math.random() - 0.5) * 2) / 10,
-        lng: this.center.lng + ((Math.random() - 0.5) * 2) / 10,
-      },
-      label: {
-        color: 'red',
-        text: 'Marker label ' + (this.markers.length + 1),
-      },
-      title: 'Marker title ' + (this.markers.length + 1),
-      info: 'Marker info ' + (this.markers.length + 1),
-      options: {
-        animation: google.maps.Animation.BOUNCE,
-      },
-    })
-  }
-
-  openInfo(marker: MapMarker, content) {
-    this.infoContent = content
-    this.info.open(marker)
+  closeModal(id: string) {
+    this.homeService.close(id);
   }
 }
+  

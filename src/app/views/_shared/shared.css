@@ -57,12 +57,18 @@ table.dataTable td {
     .modal-content.modal-form {
         width: 100%;
     }
+    google-map,google-map .map-container{
+        width: 100% !important;
+    }
 }
 
 @media only screen and (min-width: 768px) {
     .modal-content.modal-form {
         width: 130%;
         left: -15%;
+    }
+    google-map,google-map .map-container{
+        width: 100% !important;
     }
 }
 
@@ -71,11 +77,17 @@ table.dataTable td {
         width: 130%;
         left: -15%;
     }
+    google-map,google-map .map-container{
+        width: 100% !important;
+    }
 }
 
 @media only screen and (min-width: 1200px) {
     .modal-content.modal-form {
         width: 160%;
         left: -30%;
+    }
+    google-map,google-map .map-container{
+        width: 200% !important;
     }
 }

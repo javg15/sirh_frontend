@@ -1,0 +1,36 @@
+<div bsModal #basicModal="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-full-height modal-right" role="document">
+        <div class="modal-content modal-form">
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">{{ tituloForm }}</h4>
+
+                <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+                  <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="brand-card">
+            
+                            <google-map height="500px" [zoom]="zoom" [center]="center" [options]="options" (mapClick)="click($event)">
+                                <map-marker #markerElem *ngFor="let marker of markers" [position]="marker.position" [label]="marker.label" [title]="marker.title" [options]="marker.options" (mapClick)="openInfo(markerElem, marker.info)">
+                                </map-marker>
+            
+                                <map-info-window>{{ infoContent }}</map-info-window>
+                            </google-map>
+            
+                            <button (click)="zoomIn()">Zoom in</button>
+                            <button (click)="zoomOut()">Zoom out</button>
+                            <button (click)="logCenter()">Log center</button>
+                            <button (click)="addMarker()">Add marker</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <h2>Diagnostic Info</h2>
+            <div [innerHtml]="diagnosticValidate"></div>-->
+        </div>
+    </div>
+</div>
+
