@@ -8,18 +8,16 @@ import { HomeRoutingModule } from './home-routing.module';
 import { HomeService } from './services/home.service';
 import { MapsFormComponent } from './maps/maps-form.component';
 
-import {GoogleMapsModule} from '@angular/google-maps';
 
 @NgModule({
   imports: [
     FormsModule,
     HomeRoutingModule,
     CommonModule,
-    GoogleMapsModule,
     ModalModule.forRoot(),
   ],
   declarations: [ HomeComponent,
-    MapsFormComponent, 
+    MapsFormComponent,
   ],
     providers: [
       HomeService

@@ -8,7 +8,8 @@ import { Catplanteles } from '../../../_models';
 import { titulosModal } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
 
-import { MapInfoWindow, MapMarker, GoogleMap } from '@angular/google-maps'
+import H from '@here/maps-api-for-javascript';
+import onResize from 'simple-element-resize-detector';
 
 declare var $: any;
 declare var jQuery: any;
@@ -20,30 +21,21 @@ declare var jQuery: any;
 })
 
 export class MapsFormComponent implements OnInit, OnDestroy {
-  @ViewChild(GoogleMap, { static: false }) map: GoogleMap
-  @ViewChild(MapInfoWindow, { static: false }) info: MapInfoWindow
-  
+
+  private map?: H.Map;
+  @ViewChild('map') mapDiv?: ElementRef;
+
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
   @Input() id: string; //idModal
   tituloForm: string;
   @ViewChild('basicModal') basicModal: ModalDirective;
 
-  zoom = 12
-  center: google.maps.LatLngLiteral
-  options: google.maps.MapOptions = {
-    zoomControl: false,
-    scrollwheel: false,
-    disableDoubleClickZoom: true,
-    mapTypeId: 'hybrid',
-    maxZoom: 15,
-    minZoom: 8,
-  }
-  markers = []
-  infoContent = ''
-
   private elementModal: any;
-  
+
   catplantelesCat:Catplanteles[];
+  zoom: number=2;
+  lat: number=0;
+  lng: number=0;
 
   constructor(private el: ElementRef,
       private homeService: HomeService,
@@ -58,7 +50,6 @@ export class MapsFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-
       let modal = this;
 
       // ensure id attribute exists
@@ -66,19 +57,47 @@ export class MapsFormComponent implements OnInit, OnDestroy {
           console.error('modal must have an id');
           return;
       }
-
-          // generate random values for mainChart
-    navigator.geolocation.getCurrentPosition((position) => {
-      this.center = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-      }
-    })
-
-
       // add self (this modal instance) to the modal service so it's accessible from controllers
       modal.homeService.add(modal);
 
+  }
+
+  ngAfterViewInit(): void {
+    if (!this.map && this.mapDiv) {
+      // instantiate a platform, default layers and a map as usual
+      const platform = new H.service.Platform({
+        apikey: 'AMO0y-Nu5tUIBy_b7wuCpu72tGnqIoC2LNbzs3vX7b0'
+      });
+      const layers = platform.createDefaultLayers();
+      const map = new H.Map(
+        this.mapDiv.nativeElement,
+        layers.vector.normal.map,
+        {
+          pixelRatio: window.devicePixelRatio,
+          center: {lat: this.lat, lng: this.lng},
+          zoom: this.zoom,
+        },
+      );
+      onResize(this.mapDiv.nativeElement, () => {
+        map.getViewPort().resize();
+      });
+      this.map = map;
+
+      // MapEvents enables the event system
+      // Behavior implements default interactions for pan/zoom (also on mobile touch environments)
+      var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+
+      // Create the default UI:
+      const ui = H.ui.UI.createDefault(map, layers, 'es-ES');
+
+      // Create an info bubble object at a specific geographic location:
+      var bubble = new H.ui.InfoBubble({ lng: 13.4, lat: 52.51 }, {
+        content: '<b>Hello World!</b>'
+      });
+
+      // Add info bubble to the UI:
+      ui.addBubble(bubble);
+    }
   }
 
   // remove self from modal service when directive is destroyed
@@ -102,44 +121,22 @@ export class MapsFormComponent implements OnInit, OnDestroy {
       this.basicModal.hide();
   }
 
-
-  zoomIn() {
-    if (this.zoom < this.options.maxZoom) this.zoom++
-  }
-
-  zoomOut() {
-    if (this.zoom > this.options.minZoom) this.zoom--
-  }
-
-  click(event: google.maps.MouseEvent) {
-    console.log(event)
-  }
-
-  logCenter() {
-    console.log(JSON.stringify(this.map.getCenter()))
-  }
-
-  addMarker() {
-    this.markers.push({
-      position: {
-        lat: this.center.lat + ((Math.random() - 0.5) * 2) / 10,
-        lng: this.center.lng + ((Math.random() - 0.5) * 2) / 10,
-      },
-      label: {
-        color: 'red',
-        text: 'Marker label ' + (this.markers.length + 1),
-      },
-      title: 'Marker title ' + (this.markers.length + 1),
-      info: 'Marker info ' + (this.markers.length + 1),
-      options: {
-        animation: google.maps.Animation.BOUNCE,
-      },
-    })
-  }
-
-  openInfo(marker: MapMarker, content) {
-    this.infoContent = content
-    this.info.open(marker)
+  onChangeInput(event: Event) {
+    const target = <HTMLInputElement> event.target;
+    if (target) {
+      if (target.name === 'zoom') {
+        this.zoom = parseFloat(target.value);
+        this.map.setZoom(this.zoom);
+      }
+      if (target.name === 'lat') {
+        this.lat = parseFloat(target.value);
+        this.map.setCenter({lat: this.lat, lng: this.lng});
+      }
+      if (target.name === 'lng') {
+        this.lng = parseFloat(target.value);
+        this.map.setCenter({lat: this.lat, lng: this.lng});
+      }
+    }
   }
 
 }

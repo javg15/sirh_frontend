@@ -10,20 +10,23 @@
             </div>
             <div class="modal-body">
                 <div class="row">
+                    <div class="col-sm-12">
+                        <div #map id="map"></div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-sm-6 col-lg-3">
-                        <div class="brand-card">
-            
-                            <google-map height="500px" [zoom]="zoom" [center]="center" [options]="options" (mapClick)="click($event)">
-                                <map-marker #markerElem *ngFor="let marker of markers" [position]="marker.position" [label]="marker.label" [title]="marker.title" [options]="marker.options" (mapClick)="openInfo(markerElem, marker.info)">
-                                </map-marker>
-            
-                                <map-info-window>{{ infoContent }}</map-info-window>
-                            </google-map>
-            
-                            <button (click)="zoomIn()">Zoom in</button>
-                            <button (click)="zoomOut()">Zoom out</button>
-                            <button (click)="logCenter()">Log center</button>
-                            <button (click)="addMarker()">Add marker</button>
+                        <div>
+                            Zoom:
+                            <input (change)="onChangeInput($event)" name="zoom" type="number" [value]="zoom" />
+                        </div>
+                        <div>
+                            Latitude:
+                            <input (change)="onChangeInput($event)" name="lat" type="number" [value]="lat" />
+                        </div>
+                        <div>
+                            Longitude:
+                            <input (change)="onChangeInput($event)" name="lng" type="number" [value]="lng" />
                         </div>
                     </div>
                 </div>
@@ -33,4 +36,3 @@
         </div>
     </div>
 </div>
-

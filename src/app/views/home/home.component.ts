@@ -40,6 +40,17 @@ export class HomeComponent  {
     });
   }
 
+  ngOnInit(): void {
+    // generate random values for mainChart
+  }
+
+  onErrorImage(i){
+    this.images[i]=0;
+    if(this.images[0]==0 && this.images[1]==0 && this.images[2]==0
+      && this.images[3]==0 && this.images[4]==0 && this.images[5]==0)
+      this.imageDefault=true;
+  }
+
   openModal(id: string) {
     this.homeService.open(id);
   }
@@ -47,5 +58,5 @@ export class HomeComponent  {
   closeModal(id: string) {
     this.homeService.close(id);
   }
+
 }
-  
