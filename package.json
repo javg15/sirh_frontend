@@ -8,17 +8,15 @@
         "github": "https://github.com/mrholek",
         "twitter": "https://twitter.com/lukaszholeczek"
     },
-    "contributors": [
-        {
-            "name": "Andrzej Kopański",
-            "url": "https://github.com/xidedix"
-        }
-    ],
+    "contributors": [{
+        "name": "Andrzej Kopański",
+        "url": "https://github.com/xidedix"
+    }],
     "homepage": "https://coreui.io/angular",
     "copyright": "Copyright 2020 creativeLabs Łukasz Holeczek",
     "license": "MIT",
     "scripts": {
-        "ng": "ng",
+        "ng": "node --max_old_space_size=10000 ./node_modules/@angular/cli/bin/ng",
         "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
         "start": "ng serve --proxy-config proxy.conf.json",
         "build": "ng build --prod --aot --buildOptimizer --commonChunk --vendorChunk --optimization --progress",
