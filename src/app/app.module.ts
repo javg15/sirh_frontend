@@ -19,7 +19,7 @@ import { DefaultLayoutComponent } from './containers';
 
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
-import { LoginComponent } from './login/login.component';
+//import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
 const APP_CONTAINERS = [
@@ -46,7 +46,6 @@ import { authInterceptorProviders } from './_helpers/auth.interceptor';
 // Import 3rd party components
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts';
-import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
@@ -73,16 +72,15 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     ChartsModule,
     FormsModule,
     HttpClientModule,
-    
+
   ],
   declarations: [
     AppComponent,
     ...APP_CONTAINERS,
     P404Component,
     P500Component,
-    LoginComponent,
+    //LoginComponent,
     RegisterComponent,
-    HomeComponent,
     ProfileComponent,
     BoardAdminComponent,
     BoardModeratorComponent,

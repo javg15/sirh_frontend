@@ -4,8 +4,8 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  //APIS_URL:"https://app.visorplus.mx/sirh_backend/api",
   APIS_URL:"http://localhost:8080/api",
+  URL:"http://localhost:8080/",
   production: false
 };
 

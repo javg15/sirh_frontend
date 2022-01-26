@@ -49,6 +49,11 @@ export class CatplantelesService {
       { id_personal }
       , httpOptions);
   }
+  public getCatalogoJSON(): Observable<any> {
+    return this.http.post(this.API_URL + '/catplanteles/getCatalogoJSON',
+      {  }
+      , httpOptions);
+  }
 
 
   /* El siguiente método graba un registro nuevo, o uno editado. */

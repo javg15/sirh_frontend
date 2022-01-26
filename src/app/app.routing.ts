@@ -51,13 +51,14 @@ const routes: Routes = [
       title: 'Page 500'
     }
   },
-  {
+  { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule) },
+  /*{
     path: 'login',
     component: LoginComponent,
     data: {
       title: 'Login Page'
     }
-  },
+  },*/
 
   {
     path: '',

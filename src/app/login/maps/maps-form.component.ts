@@ -1,11 +1,11 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
 
-import { HomeService } from '../services/home.service';
-import { CatplantelesService } from '../../catalogos/catplanteles/services/catplanteles.service';
+import { LoginService } from '../services/login.service';
+import { CatplantelesService } from '../../views/catalogos/catplanteles/services/catplanteles.service';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Catplanteles } from '../../../_models';
-import { titulosModal } from '../../../../environments/environment';
+import { Catplanteles } from '../../_models';
+import { titulosModal,environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 
 import H from '@here/maps-api-for-javascript';
@@ -21,6 +21,7 @@ declare var jQuery: any;
 })
 
 export class MapsFormComponent implements OnInit, OnDestroy {
+  public URL = environment.URL;
 
   private map?: H.Map;
   @ViewChild('map') mapDiv?: ElementRef;
@@ -33,19 +34,17 @@ export class MapsFormComponent implements OnInit, OnDestroy {
   private elementModal: any;
 
   catplantelesCat:Catplanteles[];
-  zoom: number=2;
-  lat: number=0;
-  lng: number=0;
+  zoom: number=7;
+  lat: number=17.9613981;
+  lng: number=-94.7352529;
 
   constructor(private el: ElementRef,
-      private homeService: HomeService,
+      private loginService: LoginService,
       private catplantelesSvc: CatplantelesService,
 
       ) {
       this.elementModal = el.nativeElement;
-      this.catplantelesSvc.getCatalogo().subscribe(resp => {
-        this.catplantelesCat = resp;
-      });
+
   }
 
   ngOnInit(): void {
@@ -58,7 +57,7 @@ export class MapsFormComponent implements OnInit, OnDestroy {
           return;
       }
       // add self (this modal instance) to the modal service so it's accessible from controllers
-      modal.homeService.add(modal);
+      modal.loginService.add(modal);
 
   }
 
@@ -90,25 +89,37 @@ export class MapsFormComponent implements OnInit, OnDestroy {
       // Create the default UI:
       const ui = H.ui.UI.createDefault(map, layers, 'es-ES');
 
-      // Create an info bubble object at a specific geographic location:
-      var bubble = new H.ui.InfoBubble({ lng: 13.4, lat: 52.51 }, {
-        content: '<b>Hello World!</b>'
+      // Define a variable holding SVG mark-up that defines an icon image:
+      var svgMarkup = this.URL + 'assets/img/brand/cobaevico.png';
+
+      // Create an icon, an object holding the latitude and longitude, and a marker:
+      var icon = new H.map.Icon(svgMarkup);
+
+      this.catplantelesSvc.getCatalogoJSON().subscribe(resp => {
+        this.catplantelesCat = resp;
+
+        this.catplantelesCat.forEach( (element) => {
+          let marker = new H.map.Marker({lat: parseFloat(element.latitud), lng: parseFloat(element.longitud)}
+            , {icon: icon,data:""});
+            // Add the marker to the map and center the map at the location of the marker:
+            map.addObject(marker);
+        });
+
+        map.setCenter({lat: 19.5426, lng: -96.9137});//xalapa
       });
 
-      // Add info bubble to the UI:
-      ui.addBubble(bubble);
     }
   }
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-      this.homeService.remove(this.id); //idModal
+      this.loginService.remove(this.id); //idModal
       this.elementModal.remove();
   }
 
 
   // open modal
-  open(idItem: string, accion: string,id_plantillasdocsnombramiento_actual:number,id_estatus:number):  void {
+  open():  void {
 
     this.tituloForm="Localización de Planteles";
 

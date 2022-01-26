@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { TokenStorageService } from '../_services/token-storage.service';
 import { Router } from '@angular/router';
-
+import { LoginService } from './services/login.service';
 @Component({
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   //periodoCat:any[]=[];
 
   constructor(private authService: AuthService, private tokenStorage: TokenStorageService,
+    private loginService: LoginService,
     private router: Router) {
 
     }
@@ -62,5 +63,13 @@ export class LoginComponent implements OnInit {
 
   inicio(): void {
     this.router.navigate(['home']);
+  }
+
+  openModal(id: string) {
+    this.loginService.open(id);
+  }
+
+  closeModal(id: string) {
+    this.loginService.close(id);
   }
 }

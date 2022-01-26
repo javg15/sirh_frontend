@@ -6,7 +6,6 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeService } from './services/home.service';
-import { MapsFormComponent } from './maps/maps-form.component';
 
 
 @NgModule({
@@ -17,7 +16,7 @@ import { MapsFormComponent } from './maps/maps-form.component';
     ModalModule.forRoot(),
   ],
   declarations: [ HomeComponent,
-    MapsFormComponent,
+
   ],
     providers: [
       HomeService
