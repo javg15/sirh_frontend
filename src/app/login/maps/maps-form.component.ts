@@ -118,7 +118,7 @@ export class MapsFormComponent implements OnInit, OnDestroy {
 
         this.catplantelesCat.forEach( (element) => {
           this.addMarkerToGroup(group, {lat: parseFloat(element.latitud), lng: parseFloat(element.longitud)},
-            '<div style="width: 300px"><span style="font-size:8px;font-weight:bold">' + element.ubicacion + '</span></div>' +
+            '<div style="width: 150px"><span style="font-size:8px;font-weight:bold">' + element.ubicacion + '</span></div>' +
             '<div><span style="font-size:8px;">' + element.domicilio + '</span></div>');
         });
 
@@ -136,7 +136,7 @@ export class MapsFormComponent implements OnInit, OnDestroy {
  */
   addMarkerToGroup(group: H.map.Group, coordinate, html: string) {
     // Define a variable holding SVG mark-up that defines an icon image:
-    var svgMarkup = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAALNSURBVDhPXZNLSFRRGMfPOXd0HmUTRplREgihQi4SkmgRQQ+tcFHYwrKZGDSQzCh7QI9BcGEL3UwyIDpmSQshiGhXEBEZhQ2MGiX02FgZFr1MmGnuOf3OXRR04Mz3+v//3/fde0eK/05ra2soa8x2I0QDYaU0xsEuGCkzSojbRYHA80QikfXAnL8CjY2NTiAcrldS9hBWGWM+CSnn8OcBrSUuxV/GfaS1Pj6aSk3jC6su4vG4byGXuwzwqpRSQ+zGPqMUsh0gP+cmlVITxAewkeqamvRkOv3Wm+BILHYY0jDBC4Aj+EelUik3n7/v+Hx5ZUxYC9FGrdAo1a+0HmMlP022ylgsVvxbqSlPScoE7Q6ydwfPoItMOcAc1k++ExuAtAdsL/UHCN5TeaX2klhjRwQUFVqf0lKmvImkvELO2hOQz3EXuVmX7mB2UosrfnZxP1t1SNcYsZsRLxJ30qUM8VWID7PSWeqntTE3WWnfjYGBJ9eHhiZ5M2I9QCtQIbV+jC1zlVoC8SF+PSscww/TJIAtEUr9AB+i5h0rwJuTBnV+xE/299FB89BCdP4KSZG3YuXYcVbcgv/yUHu7faVe8T23GOIcGlX4s4i5ELdhZ4lPgnuFWKdxnF66NRFXq2y2zRNgt3HGWwn4m31VjHTJPhw6RbFvEK5F7J3junUqn+9B6Cn5zT5jJppjsUoZjUbX6YKCScTsFzdDx9eQphE8T26KZebZuxTSRiYcxQZ4LkvB7qb+C6yRkZaWCwRdANIIfARUgO13qDH2oiUxkQuxBeIitphcHdOeIRYiEokETGHhIEEThQ+Qb+FXUFrOJPZbztHoC5PY8ffTqAY75leq2fsvZDKZ/Iby8rs+v99PuANALV2KoM4QT1kRcpuIG7AliPWFg8GOZDKZI/fvMMlqJxgMu65rvzr7d17hFTiQvmPuQOgbGRzM2JQQQvwB9vhOSHRIxbkAAAAASUVORK5CYII=';
+    var svgMarkup = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAMXSURBVDhPTVPbS1RBGD8zc457ZneP6+6qYCE9CBZJF4pQLKOb3SwQi/APSCjwrYISxHyRHoLoqfCptx58KBN6EAN9kAJDMrUlLdE0g9y11c5ezmVm+h2T6MDst/Od+X6Xb75DtP8epWnkPudVDufXdNu+pHR9j0YIVVIWme9PeZb1KuS6Q722nd4u0f4B9FRUREWx2EHy+W4qRFwytkmUKgjOMyyftxSlFcibUteXRTR6sy+bfY0yxYLiO8mkRW37JS0UboDR9zmfIIRkiBA7qetGRElJQaN0SIRCc9T3DzLHaW+orFwZz+U+kEB2V1lZt7Gx0asMYwlM88R1GyH/BdZcQABmqnleC8CrZCRyi+bzT6HOci2rjdwtL681stkpTSkXBTPU82ogc5RIeQYKqCJEAoNrjA1rvp+DkqMiFrsNxf0g/EbRrE7IMoNi4nl7ha6/gewLKJyGujUAZXBwDIx1OGNC4RIpFA5v1tQ0OInEVQr0k2hYThpGTJaUTDDPuyJDoXGA1qPgJ2T/AuB5j/MxqDtOpXzLisWzdanU4sPl5a8UxQlIlVBSDXkpMOnUcQzYmAT7IezrsQje8aAdQc9gl61u3yDFrwKLBJuDvcQBDcXIyFrkN7DPgmRBz+X2wco01gFhmiteOHz6L4DnLQDdRPIblOxWjH0HaBxrHSARxAwY4zgbwkDNQF0TrDTphUJnoIY1xuNxoF8EqwOvdWDox7VdRrM+IjcowQYlo1QpCoJ25D7DUsIvLZ0dsaxTpIfzHdLzZsFm4QYyTAgOyc8wTi1o2K5tWwwWFyWl79DkFt803+vF4gkRDq+xUd+3R6LRTbCfQwEHgw2Jx8D6BbcxCOAByfk8VCn8b1amOYn3R2DN8GOx64j4DtALPxrtwMw/ht8QFNgAWMXwJOE57IfDacTfmmFw4jjVKBIY90d9uVzXFkDwBA25l0g0ox89UNMYpDBMAn6DqBCN4DoxL/MumBfS6fEBAAWDtPUAST1YXx/Gh9LkJZOBvyfBdGK4UoifcDvPi4lEG+Tv/9HamgmKNU3T/gBqE68Cin/2/gAAAABJRU5ErkJggg==';
 
     // Create an icon, an object holding the latitude and longitude, and a marker:
     var icon = new H.map.Icon(svgMarkup);
