@@ -3,8 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 /*import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';*/
-import { HomeComponent } from './home/home.component';
-import { ProfileComponent } from './profile/profile.component';
 import { BoardUserComponent } from './board-user/board-user.component';
 import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
@@ -26,7 +24,6 @@ const routes: Routes = [
 
   /*{ path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },*/
-  { path: 'profile', component: ProfileComponent },
   { path: 'user', component: BoardUserComponent },
   { path: 'mod', component: BoardModeratorComponent },
   { path: 'admin', component: BoardAdminComponent },
@@ -80,15 +77,6 @@ const routes: Routes = [
         path: 'icons',
         loadChildren: () => import('./views/icons/icons.module').then(m => m.IconsModule)
       },
-      {
-        path: 'notifications',
-        loadChildren: () => import('./views/notifications/notifications.module').then(m => m.NotificationsModule)
-      },
-      {
-        path: 'theme5',
-        loadChildren: () => import('./views/theme/theme.module').then(m => m.ThemeModule)
-      },
-
       {
         path: 'catalogos/catplanteles',
         loadChildren: () => import('./views/catalogos/catplanteles/catplanteles.module').then(m => m.CatplantelesModule)

@@ -45,7 +45,6 @@ import { authInterceptorProviders } from './_helpers/auth.interceptor';
 
 // Import 3rd party components
 import { TabsModule } from 'ngx-bootstrap/tabs';
-import { ProfileComponent } from './profile/profile.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
 import { BoardUserComponent } from './board-user/board-user.component';
@@ -79,7 +78,6 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     P500Component,
     //LoginComponent,
     RegisterComponent,
-    ProfileComponent,
     BoardAdminComponent,
     BoardModeratorComponent,
     BoardUserComponent,
