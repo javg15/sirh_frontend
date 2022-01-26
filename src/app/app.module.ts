@@ -45,7 +45,6 @@ import { authInterceptorProviders } from './_helpers/auth.interceptor';
 
 // Import 3rd party components
 import { TabsModule } from 'ngx-bootstrap/tabs';
-import { ChartsModule } from 'ng2-charts';
 import { ProfileComponent } from './profile/profile.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
@@ -69,7 +68,6 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
-    ChartsModule,
     FormsModule,
     HttpClientModule,
 

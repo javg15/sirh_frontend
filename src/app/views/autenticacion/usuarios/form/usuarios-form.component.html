@@ -78,18 +78,8 @@
                                 <div class="form-group col-sm-6">
                                     <div class="form-group">
                                         <label for="id_catzonasgeograficas">Zonas geográficas a trabajar (si aplica)</label>
-                                        <angular2-multiselect [data]="catzonageograficaCat" [(ngModel)]="record.record_catzonasgeograficas" [settings]="dropdownSettings" class="form-control" name="Zonas geográficas a trabajar (si aplica)">
-                                            <c-item>
-                                                <ng-template let-item="item">
-                                                    <label style="color: #333;min-width: 150px;">{{item.descripcion}}</label>
-                                                </ng-template>
-                                            </c-item>
-                                            <c-badge>
-                                                <ng-template let-item="item">
-                                                    <label style="margin: 0px;">{{item.descripcion}}</label>
-                                                </ng-template>
-                                            </c-badge>
-                                        </angular2-multiselect>
+                                        <ng-select2 [options]="optionsSelect" [(ngModel)]="record.record_catzonasgeograficas" [data]="catzonageograficaCat" [allowClear]="true" width="200px" name="Zonas geográficas a trabajar (si aplica)">
+                                        </ng-select2>
                                     </div>
                                 </div>
                             </div>

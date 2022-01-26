@@ -54,9 +54,9 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
   isLoadingSearch:boolean;
   keywordSearch = 'full_name';
 
-  nodes = []; 
+  nodes = [];
   options: ITreeOptions = {
-    
+
   };
   //se usa en el html
   dropdownSettings = {
@@ -67,6 +67,8 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
     enableSearchFilter: false,
     classes:"myclass custom-class"
   };
+
+  optionsSelect: any={multiple: true, closeOnSelect: false, width: '300'};
 
   constructor(private isLoadingService: IsLoadingService,
       private usuariosService: UsuariosService, private el: ElementRef,
@@ -163,7 +165,7 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
     this.tituloForm="Usuarios - " +titulosModal[accion] + " registro";
     this.passConfirm="";
     this.tabSet.tabs[0].active = true;
-    
+
     if(idItem=="0"){
       this.record =this.newRecord();
       this.nodes =[];
@@ -178,7 +180,7 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
         this.usuariosService.getTreePermisos(idItem).subscribe(resp => {
           this.nodes = resp;
         });
-        
+
         //this.listUpload.showFiles(this.record.id_archivos_avatar);
       });
     }
@@ -214,7 +216,7 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
   traverse(o,func,node) {
     for (var i in o) {
         if(i=="checked" && o[i]==true)
-          func.apply(this,[i,o[i],o]);  
+          func.apply(this,[i,o[i],o]);
         if (o[i] !== null && typeof(o[i])=="object") {
             //going one step down in the object tree!!
             this.traverse(o[i],func,node);

@@ -17,7 +17,7 @@ import { PermgruposService } from './permgrupos/services/permgrupos.service';
 
 import { DataTablesModule } from 'angular-datatables';
 
-import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
+
 
 // Tabs Component
 import { TabsModule } from 'ngx-bootstrap/tabs';
@@ -33,7 +33,6 @@ import { TreeModule } from '@circlon/angular-tree-component';
     ModalModule.forRoot(),
     SharedModule,
     TabsModule.forRoot(),
-    AngularMultiSelectModule,
     AutocompleteLibModule,
     TreeModule
   ],
