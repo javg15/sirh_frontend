@@ -5,7 +5,7 @@ import { CatplantelesService } from '../../views/catalogos/catplanteles/services
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Catplanteles } from '../../_models';
-import { titulosModal,environment } from '../../../environments/environment';
+import { titulosModal } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 
 import H from '@here/maps-api-for-javascript';
@@ -21,7 +21,6 @@ declare var jQuery: any;
 })
 
 export class MapsFormComponent implements OnInit, OnDestroy {
-  public URL = environment.URL;
 
   private map?: H.Map;
   @ViewChild('map') mapDiv?: ElementRef;
@@ -89,26 +88,63 @@ export class MapsFormComponent implements OnInit, OnDestroy {
       // Create the default UI:
       const ui = H.ui.UI.createDefault(map, layers, 'es-ES');
 
-      // Define a variable holding SVG mark-up that defines an icon image:
-      var svgMarkup = this.URL + 'assets/img/brand/cobaevico.png';
+      // Move UI elements to the top left of the map
+      var mapSettings = ui.getControl('mapsettings');
+      var zoom = ui.getControl('zoom');
+      var scalebar = ui.getControl('scalebar');
 
-      // Create an icon, an object holding the latitude and longitude, and a marker:
-      var icon = new H.map.Icon(svgMarkup);
+      mapSettings.setAlignment(H.ui.LayoutAlignment.TOP_LEFT);
+      zoom.setAlignment(H.ui.LayoutAlignment.TOP_LEFT);
+      scalebar.setAlignment(H.ui.LayoutAlignment.TOP_LEFT);
 
       this.catplantelesSvc.getCatalogoJSON().subscribe(resp => {
         this.catplantelesCat = resp;
 
+        var group = new H.map.Group();
+
+        map.addObject(group);
+
+        // add 'tap' event listener, that opens info bubble, to the group
+        group.addEventListener('tap', function (evt) {
+          // event target is the marker itself, group is a parent event target
+          // for all objects that it contains
+          var bubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
+            // read custom data
+            content: evt.target.getData()
+          });
+          // show info bubble
+          ui.addBubble(bubble);
+        }, false);
+
         this.catplantelesCat.forEach( (element) => {
-          let marker = new H.map.Marker({lat: parseFloat(element.latitud), lng: parseFloat(element.longitud)}
-            , {icon: icon,data:""});
-            // Add the marker to the map and center the map at the location of the marker:
-            map.addObject(marker);
+          this.addMarkerToGroup(group, {lat: parseFloat(element.latitud), lng: parseFloat(element.longitud)},
+            '<div style="width: 300px"><span style="font-size:8px;font-weight:bold">' + element.ubicacion + '</span></div>' +
+            '<div><span style="font-size:8px;">' + element.domicilio + '</span></div>');
         });
 
         map.setCenter({lat: 19.5426, lng: -96.9137});//xalapa
       });
 
     }
+  }
+
+  /**
+ * Creates a new marker and adds it to a group
+ * @param {H.map.Group} group       The group holding the new marker
+ * @param {H.geo.Point} coordinate  The location of the marker
+ * @param {String} html             Data associated with the marker
+ */
+  addMarkerToGroup(group: H.map.Group, coordinate, html: string) {
+    // Define a variable holding SVG mark-up that defines an icon image:
+    var svgMarkup = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsIAAA7CARUoSoAAAALNSURBVDhPXZNLSFRRGMfPOXd0HmUTRplREgihQi4SkmgRQQ+tcFHYwrKZGDSQzCh7QI9BcGEL3UwyIDpmSQshiGhXEBEZhQ2MGiX02FgZFr1MmGnuOf3OXRR04Mz3+v//3/fde0eK/05ra2soa8x2I0QDYaU0xsEuGCkzSojbRYHA80QikfXAnL8CjY2NTiAcrldS9hBWGWM+CSnn8OcBrSUuxV/GfaS1Pj6aSk3jC6su4vG4byGXuwzwqpRSQ+zGPqMUsh0gP+cmlVITxAewkeqamvRkOv3Wm+BILHYY0jDBC4Aj+EelUik3n7/v+Hx5ZUxYC9FGrdAo1a+0HmMlP022ylgsVvxbqSlPScoE7Q6ydwfPoItMOcAc1k++ExuAtAdsL/UHCN5TeaX2klhjRwQUFVqf0lKmvImkvELO2hOQz3EXuVmX7mB2UosrfnZxP1t1SNcYsZsRLxJ30qUM8VWID7PSWeqntTE3WWnfjYGBJ9eHhiZ5M2I9QCtQIbV+jC1zlVoC8SF+PSscww/TJIAtEUr9AB+i5h0rwJuTBnV+xE/299FB89BCdP4KSZG3YuXYcVbcgv/yUHu7faVe8T23GOIcGlX4s4i5ELdhZ4lPgnuFWKdxnF66NRFXq2y2zRNgt3HGWwn4m31VjHTJPhw6RbFvEK5F7J3junUqn+9B6Cn5zT5jJppjsUoZjUbX6YKCScTsFzdDx9eQphE8T26KZebZuxTSRiYcxQZ4LkvB7qb+C6yRkZaWCwRdANIIfARUgO13qDH2oiUxkQuxBeIitphcHdOeIRYiEokETGHhIEEThQ+Qb+FXUFrOJPZbztHoC5PY8ffTqAY75leq2fsvZDKZ/Iby8rs+v99PuANALV2KoM4QT1kRcpuIG7AliPWFg8GOZDKZI/fvMMlqJxgMu65rvzr7d17hFTiQvmPuQOgbGRzM2JQQQvwB9vhOSHRIxbkAAAAASUVORK5CYII=';
+
+    // Create an icon, an object holding the latitude and longitude, and a marker:
+    var icon = new H.map.Icon(svgMarkup);
+
+    var marker = new H.map.Marker(coordinate,{icon: icon,data:""});
+    // add custom data to the marker
+    marker.setData(html);
+    group.addObject(marker);
   }
 
   // remove self from modal service when directive is destroyed
@@ -132,22 +168,5 @@ export class MapsFormComponent implements OnInit, OnDestroy {
       this.basicModal.hide();
   }
 
-  onChangeInput(event: Event) {
-    const target = <HTMLInputElement> event.target;
-    if (target) {
-      if (target.name === 'zoom') {
-        this.zoom = parseFloat(target.value);
-        this.map.setZoom(this.zoom);
-      }
-      if (target.name === 'lat') {
-        this.lat = parseFloat(target.value);
-        this.map.setCenter({lat: this.lat, lng: this.lng});
-      }
-      if (target.name === 'lng') {
-        this.lng = parseFloat(target.value);
-        this.map.setCenter({lat: this.lat, lng: this.lng});
-      }
-    }
-  }
 
 }
