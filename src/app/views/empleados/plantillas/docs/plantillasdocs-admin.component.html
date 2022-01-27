@@ -51,42 +51,44 @@
 
                     </div>
 
-                    <div>
-                        <nav class="header-admin navbar navbar-expand-lg navbar-light bg-light">
-                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                <ul class="navbar-nav mr-auto">
-                                    <select class="form-control" [(ngModel)]="tipoVentana" (change)="onSelectTipoVentana($event.target.value)" name="tipoventana">
-                                    <option value="plantillasdocsprofesional">Preparación profesional</option>
-                                    <option value="plantillasdocsnombramiento">Nombramiento administrativo</option>
-                                    <!--<option value="plantillasdocslicenciasadmin">Licencia administrativa</option>
-                                    <option value="plantillasdocsbaja">Baja administrativa</option>-->
-                                    <option value="plantillasdocssindicato">Adhesión sindical</option>
-                                    <option value="">Seguro institucional (Beneficiarios)</option>
-                                    <option value="">Pensiones, juicios (Beneficiarios)</option>
-                                    <option value="plantillasdocsfamiliares">Datos de familiares</option>
-                                    <option value="plantillasdocslicencias">Licencias médicas</option>
-                                    <option value="">Cursos y actualizaciones</option>
-                                    <option value="">Horario laboral</option>
-                                    <option value="">Datos clínicos</option>
-                                  </select>
-                                </ul>
-                                <form class="form-inline my-2 my-lg-0">
-                                    <button *ngIf="tituloBotonAgregar!='' && tipoVentana!='plantillasdocsnombramiento'" class="btn btn-success my-2 my-sm-0" (click)="openModal('nuevo',0,record_id_plantillaspersonal,record_id_personal)">Agregar</button>
-                                    <div *ngIf="tituloBotonAgregar!='' && tipoVentana=='plantillasdocsnombramiento'" class="btn-group" dropdown>
-                                        <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
-                                          Agregar<span class="caret"></span>
-                                        </button>
-                                        <ul *dropdownMenu class="dropdown-menu" role="menu">
-                                            <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openPrevioModal('plantillasdocsnombramiento','nuevo',0,record_id_plantillaspersonal,record_id_personal)">Nombramiento administrativo</a></li>
-                                            <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openPrevioModal('plantillasdocslicenciasadmin','nuevo',0,record_id_plantillaspersonal,record_id_personal)">Licencia administrativa</a></li>
-                                            <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openPrevioModal('plantillasdocsbaja','nuevo',0,record_id_plantillaspersonal,record_id_personal)">Baja administrativa</a></li>
-                                        </ul>
-                                    </div>
-                                </form>
-                            </div>
-                        </nav>
-                        <!--<app-header-admin id="header-admin-2" [nombreModulo]="nombreModulo" (agregarEvent)="openModal('custom-modal-2','nuevo',0,record_id_plantillaspersonal,record_tipodoc)">
-                        </app-header-admin>-->
+                    <div class="row">
+                        <div class="form-group col-sm-11">
+                            <nav class="header-admin navbar navbar-expand-lg navbar-light bg-light">
+                                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                    <ul class="navbar-nav mr-auto">
+                                        <select class="form-control" [(ngModel)]="tipoVentana" (change)="onSelectTipoVentana($event.target.value)" name="tipoventana">
+                                        <option value="plantillasdocsprofesional">Preparación profesional</option>
+                                        <option value="plantillasdocsnombramiento">Nombramiento administrativo</option>
+                                        <!--<option value="plantillasdocslicenciasadmin">Licencia administrativa</option>
+                                        <option value="plantillasdocsbaja">Baja administrativa</option>-->
+                                        <option value="plantillasdocssindicato">Adhesión sindical</option>
+                                        <option value="">Seguro institucional (Beneficiarios)</option>
+                                        <option value="">Pensiones, juicios (Beneficiarios)</option>
+                                        <option value="plantillasdocsfamiliares">Datos de familiares</option>
+                                        <option value="plantillasdocslicencias">Licencias médicas</option>
+                                        <option value="">Cursos y actualizaciones</option>
+                                        <option value="">Horario laboral</option>
+                                        <option value="">Datos clínicos</option>
+                                    </select>
+                                    </ul>
+                                    <form class="form-inline my-2 my-lg-0">
+                                        <button *ngIf="tituloBotonAgregar!='' && tipoVentana!='plantillasdocsnombramiento'" class="btn btn-success my-2 my-sm-0" (click)="openModal('nuevo',0,record_id_plantillaspersonal,record_id_personal)">Agregar</button>
+                                        <div *ngIf="tituloBotonAgregar!='' && tipoVentana=='plantillasdocsnombramiento'" class="btn-group" dropdown>
+                                            <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+                                            Agregar<span class="caret"></span>
+                                            </button>
+                                            <ul *dropdownMenu class="dropdown-menu" role="menu">
+                                                <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openPrevioModal('plantillasdocsnombramiento','nuevo',0,record_id_plantillaspersonal,record_id_personal)">Nombramiento administrativo</a></li>
+                                                <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openPrevioModal('plantillasdocslicenciasadmin','nuevo',0,record_id_plantillaspersonal,record_id_personal)">Licencia administrativa</a></li>
+                                                <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openPrevioModal('plantillasdocsbaja','nuevo',0,record_id_plantillaspersonal,record_id_personal)">Baja administrativa</a></li>
+                                            </ul>
+                                        </div>
+                                    </form>
+                                </div>
+                            </nav>
+                            <!--<app-header-admin id="header-admin-2" [nombreModulo]="nombreModulo" (agregarEvent)="openModal('custom-modal-2','nuevo',0,record_id_plantillaspersonal,record_tipodoc)">
+                            </app-header-admin>-->
+                        </div>
                     </div>
                     <div class="row">
                         &nbsp;

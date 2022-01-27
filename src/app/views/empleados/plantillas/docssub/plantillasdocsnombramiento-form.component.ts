@@ -76,6 +76,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   record: Plantillasdocsnombramiento;
   record_plantillaspersonal:Plantillaspersonal;
   record_catplantillas:Catplantillas;
+  record_categorias:Categorias;
   record_titular:String;
   record_disponibles_horas:number;
   record_disponibles_horasb:number;
@@ -83,6 +84,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   record_txtzonaeconomica:string;
   record_txtzonageografica:string;
   record_todaslasplantillas:boolean=false;
+  record_tipoocupacion:string="";
   //recordFile:Archivos;
   keywordSearch = 'full_name';
   isLoadingSearch:boolean;
@@ -90,6 +92,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   categoriasCat:Categorias[];
   categoriasdetalleCat:Categoriasdetalle[];
   catestatusplazaCat:Catestatusplaza[];
+  catestatusplazaFilterCat:Catestatusplaza[];
   plazasCat:Plazas[];
   catquincenaCat:Catquincena[];
   catfuncionprimariaCat:Catfuncionprimaria[];
@@ -243,7 +246,13 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
     this.tabSet.tabs[0].active = true;
-
+    this.record_tipoocupacion="";
+    //inicializar el objeto
+    this.record_categorias= {
+      id: 0,  clave: '', codigo:'', denominacion: '', nivelsalarial:'',id_cattipocategoria:0, id_tiponomina:0,
+      horasasignadas:0, state: '', aplicaa:0, created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
+    };
+    
     this.tipo=(tipo==1?"nombramiento":"licencia");
     this.tituloForm="Preparación " + this.tipo +" - " + titulosModal[accion] + " registro";
     //this.formUpload.resetFile();
@@ -251,6 +260,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
 
     await this.catestatusplazaSvc.getCatalogo(tipo).subscribe(resp => {
       this.catestatusplazaCat = resp;
+      this.onSelectTipoOcupacion(100)
     });
 
 
@@ -291,21 +301,15 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
             this.record_plantel=data.catplanteles.find(x=>x.id==this.record.id_catplanteles).ubicacion;
             this.onSelectPlantel(this.record_plantel,0)
 
-            //plantillas
-            this.record_catplantillas=data.catplantillas;
-            //marca si se debe revisar la carga horaria
-            if(this.record_catplantillas.id==2 && this.tipo=='licencia')
-              this.seRevisoCargaHoraria=false; //se pone a false, y cuando se pica el boton de editar carga horaria, se pone a true
-            else
-              this.seRevisoCargaHoraria=true;
+            
           });
 
           //para el caso de licenciamiento/baja, se debe elegir la categoria
-          //if(this.tipo=="licencia"){//se comenta porque la categoria se elige para todos los movimientos
+          if(this.tipo=="licencia"){
             this.categoriasSvc.getCatalogoVigenteEnPlantilla(this.record.id_plantillaspersonal).subscribe(resp => {
               this.categoriasCat = resp;
             });
-          //}
+          }
 
           this.onSelectPlantel(this.record.id_catplanteles);
           //2=plantilla de docentes
@@ -444,11 +448,17 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
         //this.plazaOcupadaTitular=resp[0].clave;
       });
   }
+  onSelectTipoOcupacion(valor:any){
+    if(valor==100) //licencia
+      this.catestatusplazaFilterCat=this.catestatusplazaCat;
+    else
+      this.catestatusplazaFilterCat=this.catestatusplazaCat.filter(x=>x.tipoocupplaza==valor);
+  }
 
   onSelectTipoNombramiento(valor:any){
 
     if(valor!=""){
-      let tipoNombramiento=this.catestatusplazaCat.find(x=>x.id==valor);
+      let tipoNombramiento=this.catestatusplazaFilterCat.find(x=>x.id==valor);
 
       this.convigencia=(tipoNombramiento.convigencia==1);
       this.conlicencia=(tipoNombramiento.conlicencia==1);
@@ -458,7 +468,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       if(this.esnombramiento){
         //si se esta editando o consultando se agrega el registro de la categoria almacenada, esto debido a que la funcion
         //getCatalogoDisponibleEnPlantilla ya no regresa la categoria registrada
-        //if(this.actionForm.toUpperCase()!=="NUEVO" && this.record.id_categorias>0){
+        if(this.actionForm.toUpperCase()!=="NUEVO" && this.record.id_categorias>0){
           this.categoriasSvc.getRecordParaCombo(this.record.id_categorias).pipe(
             mergeMap((registro) => {
               return this.categoriasSvc.getCatalogoDisponibleEnPlantilla(this.record_plantillaspersonal.id_catplanteles,this.record.id_plazas,this.record_todaslasplantillas?0:this.record_plantillaspersonal.id_catplantillas).pipe(
@@ -474,12 +484,12 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
             if(this.actionForm.toUpperCase()!=="NUEVO" && (!busqueda || data.categorias.length==0) && data.registro[0])
               this.categoriasCat.push(data.registro[0])
           })
-        /*}
+        }
         else{
           this.categoriasSvc.getCatalogoDisponibleEnPlantilla(this.record_plantillaspersonal.id_catplanteles,this.record.id_plazas,this.record_plantillaspersonal.id_catplantillas).subscribe(resp => {
             this.categoriasCat = resp;
           });
-        }*/
+        }
       }
       else{
         if(this.record.fechaini!=null){
@@ -504,9 +514,11 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
             this.categoriasCat = data.categorias;
             //agregar el elemento para cuando se esta editando o visualizando
             //siempre y cuando no este ya en la lista
-            let busqueda=data.categorias.find(x=>x.id==data.registro[0].id);
-            if(this.actionForm.toUpperCase()!=="NUEVO" && (!busqueda || data.categorias.length==0) && data.registro[0])
-              this.categoriasCat.push(data.registro[0])
+            if(data.registro.length>0){
+              let busqueda=data.categorias.find(x=>x.id==data.registro[0].id);
+              if(this.actionForm.toUpperCase()!=="NUEVO" && (!busqueda || data.categorias.length==0) && data.registro[0])
+                this.categoriasCat.push(data.registro[0])
+            }
           })
       }
     }
@@ -526,10 +538,23 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
           this.varAsignarHorasPlazasPorJornada=true;
       }
     });*/
+    //categorias
+    if(valor>0){
+      this.categoriasSvc.getRecord(valor).subscribe(resp => {
+        this.record_categorias=resp;
+        //marca si se debe revisar la carga horaria
+        if(this.record_categorias.id_cattipocategoria==2 && this.tipo=='licencia')
+          this.seRevisoCargaHoraria=false; //se pone a false, y cuando se pica el boton de editar carga horaria, se pone a true
+        else
+          this.seRevisoCargaHoraria=true;
+      });
+    }
 
     //definir si asigna por semestre o por categorias
-    this.varAsignarHorasPlazasPorHora=false;this.varAsignarHorasPlazasPorJornada=false;
-    if(this.record_plantillaspersonal.id_catplantillas==2){
+    this.varAsignarHorasPlazasPorHora=false;
+    this.varAsignarHorasPlazasPorJornada=false;
+
+    if(this.record_categorias.id_cattipocategoria==2){
       if(this.categoriasCat.find(a=>a.id==valor).horasasignadas>0)
         this.varAsignarHorasPlazasPorJornada=true;
       else

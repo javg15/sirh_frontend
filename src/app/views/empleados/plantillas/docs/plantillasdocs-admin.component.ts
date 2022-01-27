@@ -451,6 +451,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     this.tipoVentana=valor;
     this.reDraw(null);
   }
+  
   openPrevioModal(subTipoVentana: string, accion: string, idItem: number, idPlantillaPersonal:number,idPersonal:number){
     this.subTipoVentana=subTipoVentana;
     this.openModal(accion, idItem,idPlantillaPersonal,idPersonal)
@@ -466,8 +467,9 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
             this.plantillasdocsnombramientoSvc.open('custom-plantillasdocsnombramiento', accion, idItem,idPlantillaPersonal,1);
           else if(this.subTipoVentana=="plantillasdocsbaja")
             this.plantillasdocsbajaSvc.open('custom-plantillasdocsbaja', accion, idItem,idPlantillaPersonal);
-          else if(this.subTipoVentana=="plantillasdocslicenciasadmin")
+          else if(this.subTipoVentana=="plantillasdocslicenciasadmin"){
             this.plantillasdocsnombramientoSvc.open('custom-plantillasdocsnombramiento', accion, idItem,idPlantillaPersonal,2);
+          }
           break;
         case "plantillasdocssindicato":
           this.plantillasdocssindicatoSvc.open('custom-plantillasdocssindicato', accion, idItem,idPersonal);

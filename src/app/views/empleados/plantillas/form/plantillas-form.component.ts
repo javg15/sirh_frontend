@@ -232,13 +232,17 @@ export class PlantillasFormComponent implements OnInit, OnDestroy {
 
   onCatplantelesChange(select_plantel){
     this.record.id_catplanteles=select_plantel;
-    if(!(this.actionForm.toUpperCase()=='ACTUALIZAR' || this.actionForm.toUpperCase()=='EDITAR'))
-      this.getConsecutivo()
+    if(this.actionForm!=null){
+      if(!(this.actionForm.toUpperCase()=='ACTUALIZAR' || this.actionForm.toUpperCase()=='EDITAR'))
+        this.getConsecutivo()
+    }
   }
   onCatplanillasChange(select_plantilla){
     this.record.id_catplantillas=select_plantilla;
-    if(!(this.actionForm.toUpperCase()=='ACTUALIZAR' || this.actionForm.toUpperCase()=='EDITAR'))
-      this.getConsecutivo()
+    if(this.actionForm!=null){
+      if(!(this.actionForm.toUpperCase()=='ACTUALIZAR' || this.actionForm.toUpperCase()=='EDITAR'))
+        this.getConsecutivo()
+    }
   }
 
   getConsecutivo(){

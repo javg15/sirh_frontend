@@ -17,12 +17,25 @@
                     <tabset #tabSet>
                         <tab heading="Generales">
                             <div class="row">
-                                <div class="form-group col-sm-4">
+                                <div *ngIf="tipo=='nombramiento'" class="form-group col-sm-3">
                                     <div class="form-group">
-                                        <label for="id_catestatusplaza">Tipo de {{tipo}}</label>
-                                        <select class="form-control" [(ngModel)]="record.id_catestatusplaza" name="Tipo de nombramiento" (change)="onSelectTipoNombramiento($event.target.value)">
+                                        <label for="">Tipo de ocupación</label>
+                                        <select class="form-control" [(ngModel)]="record_tipoocupacion" name="Tipo de ocupación" (change)="onSelectTipoOcupacion($event.target.value)">
+                                            <option value=""></option>
+                                            <option value="B">Base</option>
+                                            <option value="C">Confianza</option>
+                                            <option value="I">Interino</option>
+                                            <option value="OT">Obra y/o tiempo determinado</option>
+                                            <option value="P">Provisional</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <div class="form-group">
+                                        <label for="id_catestatusplaza">Estatus de la plaza</label>
+                                        <select class="form-control" [(ngModel)]="record.id_catestatusplaza" name="Estatus de la plaza" (change)="onSelectTipoNombramiento($event.target.value)">
                                           <option value="0">---</option>
-                                <option *ngFor="let col of catestatusplazaCat" [value]="col.id">{{ col.descripcion }}</option>
+                                <option *ngFor="let col of catestatusplazaFilterCat" [value]="col.id">{{ col.descripcion }}</option>
                               </select>
 
                                         <!--<select class="form-control" [(ngModel)]="record.id_catestatusplaza" name="Tipo de nombramiento" (change)="onSelectTipoNombramiento($event.target.value)">
@@ -34,7 +47,7 @@
                               </select>-->
                                     </div>
                                 </div>
-                                <div class="form-group col-sm-4">
+                                <div class="form-group col-sm-3">
                                     <div class="form-group">
                                         <label for="id_catquincena_ini">Quincena de inicio</label>
                                         <ng-select2 [(ngModel)]="record.id_catquincena_ini" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena de inicio">
@@ -42,7 +55,7 @@
                                     </div>
                                 </div>
 
-                                <div *ngIf="convigencia==true" class="form-group col-sm-4">
+                                <div *ngIf="convigencia==true" class="form-group col-sm-3">
                                     <div class="form-group">
                                         <label for="id_catquincena_fin">Quincena de término</label>
                                         <ng-select2 [(ngModel)]="record.id_catquincena_fin" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena de término">
@@ -159,7 +172,7 @@
                                         <input type="date" [(ngModel)]="record.fechaexpedicion" class="form-control" name="Fecha de expedición del documento">
                                     </div>
                                 </div>
-                                <div *ngIf="tipo=='licencia' && record_catplantillas.id==2" class="form-group col-sm-4">
+                                <div *ngIf="tipo=='licencia' && record_categorias.id_cattipocategoria==2" class="form-group col-sm-4">
                                     <div class="form-group">
                                         <button type="button" class="btn btn-secondary" (click)="openModal('customhorasasignacionadmin','editar',record.id_plantillaspersonal)">
                                       <div><span>Editar horas</span></div>

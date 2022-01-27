@@ -13,7 +13,7 @@ import { DefaultLayoutComponent } from './containers';
 
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
-import { LoginComponent } from './login/login.component';
+import { MapsFormComponent } from './maps/maps-form.component';
 import { RegisterComponent } from './register/register.component';
 
 
@@ -24,16 +24,10 @@ const routes: Routes = [
 
   /*{ path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },*/
-  { path: 'user', component: BoardUserComponent },
+  /*{ path: 'user', component: BoardUserComponent },
   { path: 'mod', component: BoardModeratorComponent },
-  { path: 'admin', component: BoardAdminComponent },
+  { path: 'admin', component: BoardAdminComponent },*/
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-
-  {
-    path: 'dashboard',
-    redirectTo: 'dashboard',
-    pathMatch: 'full',
-  },
   {
     path: '404',
     component: P404Component,
@@ -49,13 +43,13 @@ const routes: Routes = [
     }
   },
   { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule) },
-  /*{
-    path: 'login',
-    component: LoginComponent,
+  {
+    path: 'maps',
+    component: MapsFormComponent,
     data: {
-      title: 'Login Page'
+      title: 'Mapa de ubicación de planteles'
     }
-  },*/
+  },
 
   {
     path: '',

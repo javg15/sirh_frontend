@@ -48,6 +48,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
 import { BoardUserComponent } from './board-user/board-user.component';
+import { MapsFormComponent } from './maps/maps-form.component';
 
 
 // Dropdowns Component
@@ -76,7 +77,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     ...APP_CONTAINERS,
     P404Component,
     P500Component,
-    //LoginComponent,
+    MapsFormComponent,
     RegisterComponent,
     BoardAdminComponent,
     BoardModeratorComponent,
