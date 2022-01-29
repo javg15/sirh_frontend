@@ -49,9 +49,9 @@ export class CatplantelesService {
       { id_personal }
       , httpOptions);
   }
-  public getCatalogoJSON(): Observable<any> {
-    return this.http.post(this.API_URL + '/catplanteles/getCatalogoJSON',
-      {  }
+  public getCatalogoOpen(id_catregion,id_catplanteles): Observable<any> {
+    return this.http.post(this.API_URL + '/catplanteles/getCatalogoOpen',
+      { id_catregion,id_catplanteles }
       , httpOptions);
   }
 
