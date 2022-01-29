@@ -39,17 +39,8 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label for="id_catplanteles">Plantel</label>
-                                    <ng-select2  [(ngModel)]="record_id_catplanteles" [data]="catplantelesComboCat" [allowClear]="true" width="300px">
+                                    <ng-select2  [(ngModel)]="record_id_catplanteles" [data]="catplantelesComboCat" [allowClear]="true" width="300px" (valueChanged)="onSelectPlantel($event)">
                                     </ng-select2>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <button type="button" class="btn btn-primary btn-sm btn-pill" (click)="onClickBuscar()">
-                                        <i class="fa fa-search"></i>
-                                      </button>
                                 </div>
                             </div>
                         </div>
@@ -67,7 +58,7 @@
                                             <tr><td>Clave SEV</td><td  > {{ params.record_plantel.clavectse }}  </td></tr>
                                             <tr><td>Teléfono</td><td  >
                                                 <div class="input-group">
-                                                    <input type="text" [(ngModel)]="params.record_plantel.telefono"  class="form-control" [disabled]="true" mask="(000)000-0000" [specialCharacters]="[ '(' ,')' , '-' ]"/>
+                                                    <input type="text" [(ngModel)]="params.record_plantel.telefono"  class="form-control" [disabled]="!isLoggedIn" mask="(000)000-0000" [specialCharacters]="[ '(' ,')' , '-' ]"/>
                                                     <span class="input-group-append" style="margin-right: -25px;">
                                                         <button type="button" class="btn btn-primary btn-sm btn-pill" (click)="openModal('login-modal-1')">
                                                             <i class="fa fa-edit"></i>
@@ -82,7 +73,7 @@
                                             <tr><td>Año de creación</td><td  > --  </td></tr>
                                             <tr><td>Correco electrónico</td><td  >
                                                 <div class="input-group">
-                                                    <label class="form-control">{{ params.record_plantel.email }}</label>
+                                                    <input type="text" [(ngModel)]="params.record_plantel.email"  class="form-control" [disabled]="!isLoggedIn" />
                                                     <span class="input-group-append" style="margin-right: -25px;">
                                                         <button type="button" class="btn btn-primary btn-sm btn-pill" (click)="openModal('login-modal-1')">
                                                             <i class="fa fa-edit"></i>
@@ -104,6 +95,6 @@
         </div>
     </main>
 </div>
-<app-login-modal id="login-modal-1" >
+<app-login-modal id="login-modal-1" (onLoginEvent)="onLogin($event)">
     <!--<input type="hidden" [(ngModel)]="idItem" />-->
 </app-login-modal>

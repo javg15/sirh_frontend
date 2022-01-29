@@ -4,11 +4,10 @@ import { MapsService } from './services/maps.service';
 import { CatplantelesService } from '../views/catalogos/catplanteles/services/catplanteles.service';
 import { CatregionesService } from '../views/catalogos/catregiones/services/catregiones.service';
 
-import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Catplanteles,Catregiones } from '../_models';
-import { titulosModal } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { LoginModalService } from '../views/_shared/login/services/login-modal.service';
+import { TokenStorageService } from '../_services/token-storage.service';
 
 import H from '@here/maps-api-for-javascript';
 import onResize from 'simple-element-resize-detector';
@@ -29,7 +28,7 @@ export class MapsFormComponent implements OnInit {
   @ViewChild('map') mapDiv?: ElementRef;
   private ui?:any;
   
-  
+  isLoggedIn = false;  
 
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
   @Input() id: string; //idModal
@@ -54,6 +53,7 @@ export class MapsFormComponent implements OnInit {
       private catplantelesSvc: CatplantelesService,
       private catregionesSvc: CatregionesService,
       private loginModalSvc: LoginModalService,
+      private tokenStorage: TokenStorageService,
       ) {
         this.catplantelesSvc.getCatalogoOpen(0,0).subscribe(resp => {
           this.catplantelesComboCat = resp;
@@ -125,12 +125,26 @@ export class MapsFormComponent implements OnInit {
       this.catplantelesComboCat = this.catplantelesCat
     else
       this.catplantelesComboCat = this.catplantelesCat.filter(a=>a.id_catregion==valor);
+
+    this.onClickBuscar()
+  }
+
+  onSelectPlantel(valor:any){
+    if(valor==null) this.record_id_catplanteles=0
+      
+    this.onClickBuscar()
   }
 
   onClickBuscar(){
     this.map.removeObjects(this.map.getObjects ())
     this.params.mostrarInfo=0;    
     this.updateData(this.ui,this.params);
+  }
+
+  onLogin(): void {
+    if (this.tokenStorage.getToken()) {
+      this.isLoggedIn = true;
+    }
   }
 
   updateData(ui,params){

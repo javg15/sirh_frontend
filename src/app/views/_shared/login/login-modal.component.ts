@@ -16,6 +16,7 @@ declare var jQuery: any;
 export class LoginModalComponent implements OnInit {
   form: any = {};
   @Input() id: string; //idModal
+  @Output() onLoginEvent = new EventEmitter<any>();
 
   isLoggedIn = false;
   isLoginFailed = false;
@@ -65,6 +66,7 @@ export class LoginModalComponent implements OnInit {
         this.isLoginFailed = false;
         this.isLoggedIn = true;
         this.roles = this.tokenStorage.getUser().roles;
+        this.onLoginEvent.emit();
         this.close();
         //this.reloadPage();
       },
