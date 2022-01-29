@@ -8,7 +8,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Catplanteles,Catregiones } from '../_models';
 import { titulosModal } from '../../environments/environment';
 import { Observable } from 'rxjs';
-import { LoginModalComponent } from '../views/_shared/login/login-modal.component';
+import { LoginModalService } from '../views/_shared/login/services/login-modal.service';
 
 import H from '@here/maps-api-for-javascript';
 import onResize from 'simple-element-resize-detector';
@@ -52,7 +52,8 @@ export class MapsFormComponent implements OnInit {
   constructor(private el: ElementRef,
       private mapsService: MapsService,
       private catplantelesSvc: CatplantelesService,
-      private catregionesSvc: CatregionesService
+      private catregionesSvc: CatregionesService,
+      private loginModalSvc: LoginModalService,
       ) {
         this.catplantelesSvc.getCatalogoOpen(0,0).subscribe(resp => {
           this.catplantelesComboCat = resp;
@@ -63,11 +64,11 @@ export class MapsFormComponent implements OnInit {
   }
 
   openModal(id: string, accion: string, idItem: number,idCatplanteles:number,idCatplantillas:number,tipoDocumento:number) {
-    this.mapsService.open(id);
+    this.loginModalSvc.open(id);
   }
 
   closeModal(id: string) {
-    this.mapsService.close(id);
+    this.loginModalSvc.close(id);
   }
 
   ngOnInit(): void {

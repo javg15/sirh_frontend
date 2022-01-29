@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter} from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { LoginService } from '../../../login/services/login.service';
+import { LoginModalService } from './services/login-modal.service';
 import { AuthService } from '../../../_services/auth.service';
 import { TokenStorageService } from '../../../_services/token-storage.service';
 
@@ -15,28 +15,45 @@ declare var jQuery: any;
 
 export class LoginModalComponent implements OnInit {
   form: any = {};
+  @Input() id: string; //idModal
+
   isLoggedIn = false;
   isLoginFailed = false;
   errorMessage = '';
   roles: string[] = [];
+  private elementModal: any;
   @ViewChild('basicModal') basicModal: ModalDirective;
   
 
   constructor(private authService: AuthService, private tokenStorage: TokenStorageService,
-    private loginService: LoginService,
+    private loginModalService: LoginModalService,
+    private el: ElementRef,
     ) {
-
+      this.elementModal = el.nativeElement;
     }
 
   ngOnInit(): void {
+
+    let modal = this;
+    // ensure id attribute exists
+    if (!modal.id) {//idModal {
+      console.error('modal must have an id');
+      return;
+    }
+    // add self (this modal instance) to the modal service so it's accessible from controllers
+    modal.loginModalService.add(modal);
+
     if (this.tokenStorage.getToken()) {
       this.isLoggedIn = true;
       this.roles = this.tokenStorage.getUser().roles;
     }
-
-    /*for(let i=2020;i<=new Date().getFullYear();i++)
-      this.periodoCat.push({id:i,descripcion:i});*/
   }
+
+  // remove self from modal service when directive is destroyed
+  ngOnDestroy(): void {
+    this.loginModalService.remove(this.id); //idModal
+    this.elementModal.remove();
+}
 
   onSubmit(): void {
     this.authService.login(this.form).subscribe(
@@ -48,6 +65,7 @@ export class LoginModalComponent implements OnInit {
         this.isLoginFailed = false;
         this.isLoggedIn = true;
         this.roles = this.tokenStorage.getUser().roles;
+        this.close();
         //this.reloadPage();
       },
       err => {
@@ -59,9 +77,6 @@ export class LoginModalComponent implements OnInit {
 
   // open modal
   open(idItem: string):  void {
-    
-
-
     this.basicModal.show();
   }
 
