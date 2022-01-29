@@ -45,32 +45,16 @@
                             </div>
                         </div>
                         <div *ngIf="params.mostrarInfo==1" class="row">
-                            <div class="col-sm-12 colInfo">
+                            <div #colInfo id="colInfo" class="col-sm-12 colInfo">
                                 <div class="form-group">
                                     <table class="tablaInfo">
-                                            <tr><td>Plantel</td><td  > {{params.record_plantel.clave + ' - ' + params.record_plantel.ubicacion }}  </td></tr>
+                                            <tr><td>Plantel</td><td  > {{params.record_plantel.clave_plantel + ' - ' + params.record_plantel.ubicacion }}  </td></tr>
                                             <tr><td>Tipo de plantel</td><td  > {{ params.record_plantel.tipoplantel }}  </td></tr>
-                                            <tr><td>Nombre</td><td  > --  </td></tr>
-                                            <tr><td>Zona</td><td  > {{ params.record_plantel.id_catzonageografica - 1 }}  </td></tr>
-                                            <tr><td>Localidad</td><td  > {{ params.record_plantel.localidad }}  </td></tr>
+                                            <tr><td>Zona</td><td  > {{ params.record_plantel.clave_zona }}  </td></tr>
+                                            <tr><td>Municipio</td><td  > {{ params.record_plantel.municipio }}  </td></tr>
                                             <tr><td>Dirección</td><td  > {{ params.record_plantel.domicilio }}  </td></tr>
-                                            <tr><td>C.P.</td><td  > -- </td></tr>
                                             <tr><td>Clave SEV</td><td  > {{ params.record_plantel.clavectse }}  </td></tr>
-                                            <tr><td>Teléfono</td><td  >
-                                                <div class="input-group">
-                                                    <input type="text" [(ngModel)]="params.record_plantel.telefono"  class="form-control" [disabled]="!isLoggedIn" mask="(000)000-0000" [specialCharacters]="[ '(' ,')' , '-' ]"/>
-                                                    <span class="input-group-append" style="margin-right: -25px;">
-                                                        <button type="button" class="btn btn-primary btn-sm btn-pill" (click)="openModal('login-modal-1')">
-                                                            <i class="fa fa-edit"></i>
-                                                        </button> 
-                                                    </span>
-                                                </div>
-                                            </td></tr>
-                                            <tr><td>Director</td><td  > {{ params.record_plantel_director }}  </td></tr>
-                                            <tr><td>Subdirector Académico</td><td  > {{ params.record_plantel_subdirector1 }}  </td></tr>
-                                            <tr><td>Subdirector Administrativo</td><td  > {{ params.record_plantel_subdirector2 }}  </td></tr>
-                                            <tr><td>Alumnos</td><td  > --  </td></tr>
-                                            <tr><td>Año de creación</td><td  > --  </td></tr>
+                                            <tr><td>Año de creación</td><td  > {{ params.record_plantel.aniocreacion }}  </td></tr>
                                             <tr><td>Correco electrónico</td><td  >
                                                 <div class="input-group">
                                                     <input type="text" [(ngModel)]="params.record_plantel.email"  class="form-control" [disabled]="!isLoggedIn" />
@@ -81,6 +65,25 @@
                                                     </span>
                                                 </div>
                                             </td></tr>
+                                            <tr><td>Teléfono</td><td  >
+                                                <div class="input-group">
+                                                    <input type="text" [(ngModel)]="params.record_plantel.telefono"  class="form-control" [disabled]="!isLoggedIn" mask="(000)000-0000" [specialCharacters]="[ '(' ,')' , '-' ]"/>
+                                                    <span class="input-group-append" style="margin-right: -25px;">
+                                                        <button type="button" class="btn btn-primary btn-sm btn-pill" (click)="openModal('login-modal-1')">
+                                                            <i class="fa fa-edit"></i>
+                                                        </button> 
+                                                    </span>
+                                                </div>
+                                            </td></tr>
+                                            <ng-container *ngFor="let col of params.record_plantel.directivos">
+                                                <tr><td colspan="2"><hr/></td></tr>
+                                                <tr><td>{{ col.plazacategoria }}</td><td  > {{ col.persona }}  </td></tr>
+                                                <tr><td>Función</td><td  > {{ col.funcion }}  </td></tr>
+                                                <tr><td>T. Movil</td><td  > {{ col.telefonomovil }}  </td></tr>
+                                                <tr><td>Correo</td><td  > {{ col.email }}  </td></tr>
+                                            </ng-container>
+                                            
+                                            
                                     </table>
                                 </div>
                             </div>

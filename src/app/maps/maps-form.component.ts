@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild, Output, EventEmitter,Renderer2 } from '@angular/core';
 
 import { MapsService } from './services/maps.service';
 import { CatplantelesService } from '../views/catalogos/catplanteles/services/catplanteles.service';
@@ -27,6 +27,8 @@ export class MapsFormComponent implements OnInit {
   private map?: H.Map;
   @ViewChild('map') mapDiv?: ElementRef;
   private ui?:any;
+
+  @ViewChild("colInfo") colInfo;
   
   isLoggedIn = false;  
 
@@ -40,8 +42,13 @@ export class MapsFormComponent implements OnInit {
   record_id_catregion:number=0;
   record_id_catplanteles:number=0;
   record_plantel_subdirector2:"";
-  params={mostrarInfo:0,record_plantel:{clave:"",ubicacion:"",tipoplantel:"",id_catzonageografica:0,localidad:"",domicilio:"",clavectse:"",telefono:"",email:""},
-    record_plantel_director:"",record_plantel_subdirector1:"",record_plantel_subdirector2:""};
+  params={mostrarInfo:0
+    ,record_plantel:{clave_zona:"",clave_plantel:"",ubicacion:"",tipoplantel:"",aniocreacion:"",municipio:"",clavectse:"",telefono:"",email:"",
+      directivos:{
+        persona:"",telefonomovil:"",email:"",plazacategoria:"",funcion:""
+      }
+    }
+  };
 
 
   zoom: number=7;
@@ -49,11 +56,11 @@ export class MapsFormComponent implements OnInit {
   lng: number=-94.7352529;
 
   constructor(private el: ElementRef,
-      private mapsService: MapsService,
       private catplantelesSvc: CatplantelesService,
       private catregionesSvc: CatregionesService,
       private loginModalSvc: LoginModalService,
       private tokenStorage: TokenStorageService,
+      private renderer: Renderer2
       ) {
         this.catplantelesSvc.getCatalogoOpen(0,0).subscribe(resp => {
           this.catplantelesComboCat = resp;
@@ -168,14 +175,13 @@ export class MapsFormComponent implements OnInit {
         // show info bubble
         ui.addBubble(bubble);*/
         let record= evt.target.getData();
-
         params.record_plantel=record;
-        if(record.directivos.find(a=>a.funcion.toLowerCase()=="director")!=typeof undefined)
+        /*if(record.directivos.find(a=>a.funcion.toLowerCase()=="director")!=typeof undefined)
           params.record_plantel_director=record.directivos.find(a=>a.funcion.toLowerCase()=="director").persona
         if(record.directivos.find(a=>a.funcion.toLowerCase()=="subdirector académico")==typeof undefined)
           params.record_plantel_subdirector1=record.directivos.find(a=>a.funcion.toLowerCase()=="subdirector académico").persona
         if(record.directivos.find(a=>a.funcion.toLowerCase()=="subdirector administrativo")==typeof undefined)
-          params.record_plantel_subdirector2=record.directivos.find(a=>a.funcion.toLowerCase()=="subdirector administrativo").persona
+          params.record_plantel_subdirector2=record.directivos.find(a=>a.funcion.toLowerCase()=="subdirector administrativo").persona*/
       }, false);
 
       this.catplantelesCat.forEach( (element) => {
@@ -200,6 +206,8 @@ export class MapsFormComponent implements OnInit {
         this.map.setCenter({lat:parseFloat(this.catplantelesCat[0].latitud), lng: parseFloat(this.catplantelesCat[0].longitud)});//xalapa
         this.map.setZoom(9);
       }
+
+      this.renderer.setProperty(this.colInfo.nativeElement, 'scrollTop',0);
       
     });
   }
