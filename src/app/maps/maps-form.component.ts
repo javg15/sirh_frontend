@@ -41,6 +41,13 @@ export class MapsFormComponent implements OnInit {
   record_id_catzonageografica:number=0;
   record_id_catplanteles:number=0;
   record_plantel:Catplanteles;
+  inputsDirectivos:any []={
+    Name:'',
+    DateofBirth:new Date(),
+    isAccepted:false,
+    File:null
+    }
+
   params={mostrarInfo:0
     ,record_plantel:{id:0,clave_zona:"",clave_plantel:"",ubicacion:"",tipoplantel:"",aniocreacion:"",municipio:"",clavectse:"",telefono:"",email:"",
       directivos:{

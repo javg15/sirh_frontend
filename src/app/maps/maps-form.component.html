@@ -123,7 +123,8 @@
                                         </tr>
                                         <tr>
                                             <td>T. Movil</td>
-                                            <td> {{ col.telefonomovil }} </td>
+                                            <td><input type="text" #tmovil_i (blur)="onBlurDirectivo($event.target,params.record_plantel.directivos.id" type="file" [(ngModel)]="col.telefonomovil">
+                                                 </td>
                                         </tr>
                                         <tr>
                                             <td>Correo</td>
