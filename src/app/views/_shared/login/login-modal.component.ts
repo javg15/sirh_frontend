@@ -24,7 +24,7 @@ export class LoginModalComponent implements OnInit {
   roles: string[] = [];
   private elementModal: any;
   @ViewChild('basicModal') basicModal: ModalDirective;
-  
+
 
   constructor(private authService: AuthService, private tokenStorage: TokenStorageService,
     private loginModalService: LoginModalService,
@@ -35,18 +35,18 @@ export class LoginModalComponent implements OnInit {
 
   ngOnInit(): void {
 
-    let modal = this;
-    // ensure id attribute exists
-    if (!modal.id) {//idModal {
-      console.error('modal must have an id');
-      return;
-    }
-    // add self (this modal instance) to the modal service so it's accessible from controllers
-    modal.loginModalService.add(modal);
-
     if (this.tokenStorage.getToken()) {
       this.isLoggedIn = true;
-      this.roles = this.tokenStorage.getUser().roles;
+    }
+    else{
+      let modal = this;
+      // ensure id attribute exists
+      if (!modal.id) {//idModal {
+        console.error('modal must have an id');
+        return;
+      }
+      // add self (this modal instance) to the modal service so it's accessible from controllers
+      modal.loginModalService.add(modal);
     }
   }
 

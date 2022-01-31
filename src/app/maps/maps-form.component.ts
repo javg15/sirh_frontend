@@ -1,6 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, Output, EventEmitter,Renderer2 } from '@angular/core';
 
-import { MapsService } from './services/maps.service';
 import { CatplantelesService } from '../views/catalogos/catplanteles/services/catplanteles.service';
 import { CatregionesService } from '../views/catalogos/catregiones/services/catregiones.service';
 
@@ -28,22 +27,22 @@ export class MapsFormComponent implements OnInit {
   @ViewChild('map') mapDiv?: ElementRef;
   private ui?:any;
 
-  @ViewChild("colInfo") colInfo;
-  
-  isLoggedIn = false;  
+  isLoggedIn = false;
 
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
   @Input() id: string; //idModal
   tituloForm: string;
-  
+
+  email_background_color:string="white";
+  telefono_background_color:string="white";
   catregionesCat:Catregiones[];
   catplantelesCat:Catplanteles[];
   catplantelesComboCat:Catplanteles[];
   record_id_catregion:number=0;
   record_id_catplanteles:number=0;
-  record_plantel_subdirector2:"";
+  record_plantel:Catplanteles;
   params={mostrarInfo:0
-    ,record_plantel:{clave_zona:"",clave_plantel:"",ubicacion:"",tipoplantel:"",aniocreacion:"",municipio:"",clavectse:"",telefono:"",email:"",
+    ,record_plantel:{id:0,clave_zona:"",clave_plantel:"",ubicacion:"",tipoplantel:"",aniocreacion:"",municipio:"",clavectse:"",telefono:"",email:"",
       directivos:{
         persona:"",telefonomovil:"",email:"",plazacategoria:"",funcion:""
       }
@@ -71,11 +70,35 @@ export class MapsFormComponent implements OnInit {
   }
 
   openModal(id: string, accion: string, idItem: number,idCatplanteles:number,idCatplantillas:number,tipoDocumento:number) {
-    this.loginModalSvc.open(id);
+    this.onLogin()
+    if(!this.isLoggedIn)
+      this.loginModalSvc.open(id);
   }
 
   closeModal(id: string) {
     this.loginModalSvc.close(id);
+  }
+
+  submit(campo,valor){
+
+      this.catplantelesSvc.getRecord(this.params.record_plantel.id).subscribe(resp => {
+        this.record_plantel=resp
+        this.record_plantel.email=this.params.record_plantel.email;
+        this.record_plantel.telefono=this.params.record_plantel.telefono;
+
+        this.catplantelesSvc.setRecord(this.record_plantel,"editar").subscribe(resp => {
+            if(valor.target.name=='email') {
+              this.email_background_color="lightgreen";
+              setTimeout(()=>{ this.email_background_color="white"; }, 1000)
+            }
+            if(valor.target.name=='telefono'){
+              this.telefono_background_color="lightgreen";
+              setTimeout(()=>{ this.telefono_background_color="white"; }, 1000)
+            }
+        });
+      });
+
+
   }
 
   ngOnInit(): void {
@@ -120,7 +143,7 @@ export class MapsFormComponent implements OnInit {
       mapSettings.setAlignment(H.ui.LayoutAlignment.TOP_LEFT);
       zoom.setAlignment(H.ui.LayoutAlignment.TOP_LEFT);
       scalebar.setAlignment(H.ui.LayoutAlignment.TOP_LEFT);
-      
+
 
       this.updateData(ui,this.params)
 
@@ -138,13 +161,13 @@ export class MapsFormComponent implements OnInit {
 
   onSelectPlantel(valor:any){
     if(valor==null) this.record_id_catplanteles=0
-      
+
     this.onClickBuscar()
   }
 
   onClickBuscar(){
     this.map.removeObjects(this.map.getObjects ())
-    this.params.mostrarInfo=0;    
+    this.params.mostrarInfo=0;
     this.updateData(this.ui,this.params);
   }
 
@@ -167,7 +190,7 @@ export class MapsFormComponent implements OnInit {
         // event target is the marker itself, group is a parent event target
         // for all objects that it contains
         params.mostrarInfo=1;
-        
+
         /*var bubble = new H.ui.InfoBubble(evt.target.getGeometry(), {
           // read custom data
           content: evt.target.getData()
@@ -185,7 +208,7 @@ export class MapsFormComponent implements OnInit {
       }, false);
 
       this.catplantelesCat.forEach( (element) => {
-        
+
         /*html='<div style="width: 300px"><span style="font-size:8px;font-weight:bold">' + element.ubicacion + ' - ' + element.tipoplantel +'</span></div>';
         html+='<table style="border: hidden;"><thead><tr><th style="font-size:10px;">Persona</th><th style="font-size:10px;">Función</th></tr></thead>';
           html+='<tbody style="border: hidden">';
@@ -207,8 +230,6 @@ export class MapsFormComponent implements OnInit {
         this.map.setZoom(9);
       }
 
-      this.renderer.setProperty(this.colInfo.nativeElement, 'scrollTop',0);
-      
     });
   }
 
@@ -229,7 +250,7 @@ export class MapsFormComponent implements OnInit {
       svgMarkup= 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAMAUExURQAAAAM+MwQ/NApDOAtEOgxFOg1FOw1GOw5HPBFIPRNIPxJKPxVLQRVLQhdMQxhNQxhOQxlORBpORRtPRh1QRhxRRx5RSB1SSB5TSR9TSiJTSiFUSyNVTCdYTydYUClaUSpaUitbUytcUyxdVC5eVS5fVjFgVzFgWDVhWTZjWzZkWzllXTlmXj1nYDxpYD5pYj9sY0FqYkNqY0BsZEFtZUNtZkVtZURvZ0ZvaEZwaEdxaUhwaUlyakhza0t1bUxya052b1B2cFF4cVJ6c1V6c1d7dFZ8dVZ9dlt9d1h+d1l/eFx/eV2Ael6Be2CAemODfWOFfmKGf2SFf2WGgGSHgWeIgWaJg2iKg2qKhGuMhm2Nh22OiG6QinCQi3OTjXeRjXeTjnSUjnaVj3aWkHiXkX2Xk3mYkn6Yk4CcloOcmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD3YhVwAAAEAdFJOU////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////wBT9wclAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGnRFWHRTb2Z0d2FyZQBQYWludC5ORVQgdjMuNS4xMDD0cqEAAADkSURBVChTNc97NwJhEAbwnSiytdi8pBTaECK5VbpaRBf3bkoubW7f/wM8Zt9Tz19zfjNnzowCmZdFWu3LSsImacZGZIbiI5jWK1/5Qgc9j1eCy/8RbLGXnzGrMkzpZhQp4fMDCah3Cqi8BA2wsIeqvaPpeW+cYL1yQVhGgWEhkoGw6jEaAxk5iM/6NgX/jtBmuNSySCJ8bpkqttJvUIa0b8CLQecbB7c7PIFJkf3B3NlrTTQG6RWngj7Nn3KHU4qn6JcvvSb9JrF7nMvUinQlf+lOOEKB+8M1Nz3aO+w8EMfxBAD/RIB5pVcpiJUAAAAASUVORK5CYII=';
     if(record.tipoplantel=="EMSAD")
       svgMarkup= 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAMAUExURQAAAE8GNFAHNVAINVMNOVQOO1UQPFYRPVcUPlkVQFgWQFoYQlsYQ1waQ1waRF0dRF0dRV8eR18fSF4gR18gSF8hSWAfSGAgSWIhSmIiSmMiS2IkS2MkTGQmTWYqUGgsUmktU2ouU2otVGsuVWwxVm0wV200WG40WW43Wm84W3E4XHM7X3E8XnM8X3U/YXc/YnNAYHVBYnZDY3VGZHdHZnhCZHlDZXlEZnlGZntGaHtIaHtIaXtKaXpMaXxIaX1Kan5Ka39LbHxOa3xObIFNboJQcIFTcINXc4RTcoZUc4VYdYZYdoZeeIhYdohaeIpbeYheeohgeYlgeopge4hie4xlfo5kf41mf49ogJFmgpBpgpNohJNqhJJshJJthZVthpZviJdviZpwippyi5x1jp12j5h5jZp4jp14j554kJ94kZ5/lKB5kqB7k52Bk6KCl6KEmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHSIQZkAAAEAdFJOU////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////wBT9wclAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAGnRFWHRTb2Z0d2FyZQBQYWludC5ORVQgdjMuNS4xMDD0cqEAAADpSURBVChTNc/pNwJhFAbwuVo0LWOMZEmFocgSCWUiSxhDmxiyJ6Kx1P//5fHOe/R8uud3z3nOvQJ4nkcp1uIThzhJ6vysl5b+YVAufx0UH9H0+Tm4Jz6m7pmf30ISGbhlfQ47yvA4kIJ4JYCMMQQAC2uo2B13vnYji5nyGWESRQYj03tQrMsF6gOp+1De64sU7m3hgcGptIs0oieW7kVCe4PwTasq/Og8/WCznrTvcIXyv5AKr7Vg41OLuAS0aCjDNizHKznqsktLJF+sL28fatUjMvgvL86BaPh6I+Yh0+6wYxKL4wYA/gDrWXsKMkSIlgAAAABJRU5ErkJggg==';
-    
+
     // Create an icon, an object holding the latitude and longitude, and a marker:
     var icon = new H.map.Icon(svgMarkup);
 
