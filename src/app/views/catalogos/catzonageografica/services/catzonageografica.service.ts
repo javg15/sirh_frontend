@@ -59,7 +59,11 @@ export class CatzonageograficaService {
       , httpOptions);
   }
 
-
+  public getCatalogoOpen(): Observable<any> {
+    return this.http.post(this.API_URL + '/catzonageografica/getCatalogoOpen',
+      {}
+      , httpOptions);
+  }
 
   // array de modales
   public add(modal: any) {

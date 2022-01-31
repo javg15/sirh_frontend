@@ -160,6 +160,7 @@ export class CatquincenaAdminComponent implements OnInit {
       this.catquincenaService.setUpdateFromWebService(resp.id).subscribe(resp => {
         this.successModal.show();
             setTimeout(()=>{ this.successModal.hide(); this.loadingActualizar=false}, 2000)
+        this.reDraw();
       });
     });
   }

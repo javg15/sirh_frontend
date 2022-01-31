@@ -1,9 +1,9 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, Output, EventEmitter,Renderer2 } from '@angular/core';
 
 import { CatplantelesService } from '../views/catalogos/catplanteles/services/catplanteles.service';
-import { CatregionesService } from '../views/catalogos/catregiones/services/catregiones.service';
+import { CatzonageograficaService } from '../views/catalogos/catzonageografica/services/catzonageografica.service';
 
-import { Catplanteles,Catregiones } from '../_models';
+import { Catplanteles,Catzonageografica } from '../_models';
 import { Observable } from 'rxjs';
 import { LoginModalService } from '../views/_shared/login/services/login-modal.service';
 import { TokenStorageService } from '../_services/token-storage.service';
@@ -35,10 +35,10 @@ export class MapsFormComponent implements OnInit {
 
   email_background_color:string="white";
   telefono_background_color:string="white";
-  catregionesCat:Catregiones[];
+  catzonageograficaCat:Catzonageografica[];
   catplantelesCat:Catplanteles[];
   catplantelesComboCat:Catplanteles[];
-  record_id_catregion:number=0;
+  record_id_catzonageografica:number=0;
   record_id_catplanteles:number=0;
   record_plantel:Catplanteles;
   params={mostrarInfo:0
@@ -56,7 +56,7 @@ export class MapsFormComponent implements OnInit {
 
   constructor(private el: ElementRef,
       private catplantelesSvc: CatplantelesService,
-      private catregionesSvc: CatregionesService,
+      private CatzonageograficaSvc: CatzonageograficaService,
       private loginModalSvc: LoginModalService,
       private tokenStorage: TokenStorageService,
       private renderer: Renderer2
@@ -64,8 +64,8 @@ export class MapsFormComponent implements OnInit {
         this.catplantelesSvc.getCatalogoOpen(0,0).subscribe(resp => {
           this.catplantelesComboCat = resp;
         });
-        this.catregionesSvc.getCatalogoOpen().subscribe(resp => {
-          this.catregionesCat = resp;
+        this.CatzonageograficaSvc.getCatalogoOpen().subscribe(resp => {
+          this.catzonageograficaCat = resp;
         });
   }
 
@@ -178,7 +178,7 @@ export class MapsFormComponent implements OnInit {
   }
 
   updateData(ui,params){
-    this.catplantelesSvc.getCatalogoOpen(this.record_id_catregion,this.record_id_catplanteles).subscribe(resp => {
+    this.catplantelesSvc.getCatalogoOpen(this.record_id_catzonageografica,this.record_id_catplanteles).subscribe(resp => {
       this.catplantelesCat = resp;
 
       var group = new H.map.Group();
@@ -221,7 +221,7 @@ export class MapsFormComponent implements OnInit {
 
 
       if((this.record_id_catplanteles==0 || this.record_id_catplanteles==null)
-        && (this.record_id_catregion==0 || this.record_id_catregion==null)){
+        && (this.record_id_catzonageografica==0 || this.record_id_catzonageografica==null)){
         this.map.setCenter({lat: 19.5426, lng: -96.9137});//xalapa
         this.map.setZoom(7);
       }
