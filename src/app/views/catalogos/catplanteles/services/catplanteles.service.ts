@@ -64,6 +64,12 @@ export class CatplantelesService {
       , httpOptions);
   }
 
+  public setRecord2(dataPack, campoEdit): Observable<any> {
+
+    return this.http.post(this.API_URL + '/catplanteles/setRecord2',
+      { dataPack, campoEdit }
+      , httpOptions);
+  }
 
   public getCatalogoSinAdmin(id_usuario:number): Observable<any> {
     return this.http.post(this.API_URL + '/catplanteles/getCatalogoSinAdmin',

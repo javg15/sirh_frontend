@@ -7,23 +7,42 @@
     max-width: 100% !important;
 }
 
-.tablaInfo{
+.tablaInfo {
     border-spacing: 10px;
     border-collapse: separate;
 }
-.tablaInfo tr,.tablaInfo td{
+
+.tablaInfo tr,
+.tablaInfo td {
     border: none;
 }
-.tablaInfo td{
+
+.tablaInfo td {
     background-color: lightgray;
-    color:#333;
-    padding:2px;
+    color: #333;
+    padding: 2px;
 }
-.tablaInfo tr td:first-child { font-weight: bold; }
+
+.tablaInfo tr td:first-child {
+    font-weight: bold;
+}
 
 @media only screen and (min-width: 1200px) {
     .colInfo {
         overflow: auto;
         height: 400px;
     }
+}
+
+.validation-summary {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: .25rem;
+}
+
+.validation-summary p {
+    margin-left: 10px;
 }

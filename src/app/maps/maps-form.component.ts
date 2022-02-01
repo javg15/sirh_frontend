@@ -1,4 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, Output, EventEmitter,Renderer2 } from '@angular/core';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 import { CatplantelesService } from '../views/catalogos/catplanteles/services/catplanteles.service';
 import { CatzonageograficaService } from '../views/catalogos/catzonageografica/services/catzonageografica.service';
@@ -29,16 +30,23 @@ export class MapsFormComponent implements OnInit {
   @ViewChild('map') mapDiv?: ElementRef;
   private ui?:any;
 
+  @ViewChild('errorModal') public errorModal: ModalDirective;
+
   isLoggedIn = false;
 
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
   @Input() id: string; //idModal
   tituloForm: string;
 
-  email_background_color:string="white";
-  telefono_background_color:string="white";
-  email_dir_background_color:Array<any>=[{"bg":"white"},{"bg":"white"},{"bg":"white"},{"bg":"white"},{"bg":"white"}];
-  tmovil_dir_background_color:Array<any>=[{"bg":"white"},{"bg":"white"},{"bg":"white"},{"bg":"white"},{"bg":"white"}];
+  bg_color:any={"email":"white","telefono":"white","dir":[
+    {"email_dir":"white","tel_dir":"white","telmov_dir":"white"},
+    {"email_dir":"white","tel_dir":"white","telmov_dir":"white"},
+    {"email_dir":"white","tel_dir":"white","telmov_dir":"white"},
+    {"email_dir":"white","tel_dir":"white","telmov_dir":"white"},
+    {"email_dir":"white","tel_dir":"white","telmov_dir":"white"},
+  ]}
+
+  errors: string[] = [];
 
   catzonageograficaCat:Catzonageografica[];
   catplantelesCat:Catplanteles[];
@@ -87,69 +95,77 @@ export class MapsFormComponent implements OnInit {
     this.loginModalSvc.close(id);
   }
 
-  submitPlantel(campo,valor){
+  submitPlantel(ctrl:any){
 
       this.catplantelesSvc.getRecord(this.params.record_plantel.id).subscribe(resp => {
         this.record_plantel=resp
         this.record_plantel.email=this.params.record_plantel.email;
         this.record_plantel.telefono=this.params.record_plantel.telefono;
 
-        this.catplantelesSvc.setRecord(this.record_plantel,"editar").subscribe(resp => {
-          if (resp.hasOwnProperty('error')) {
-            if(valor.target.name=='email') {
-              this.email_background_color="#f08080";
-              setTimeout(()=>{ this.email_background_color="white"; }, 1000)
+          let campo="";
+          if(ctrl.srcElement.name=="email") campo="email"
+          if(ctrl.srcElement.name=="telefono") campo="telefono"
+
+          this.catplantelesSvc.setRecord2(this.record_plantel,campo).subscribe(resp => {
+            if (resp.hasOwnProperty('error')) {
+              this.bg_color[ctrl.srcElement.name]="#f08080";
+                setTimeout(()=>{ this.bg_color[ctrl.srcElement.name]="white"; }, 1000)
+
+                //mostrar el error
+                this.errors.length = 0;
+                for (var value in resp.message) {
+                  //reemplazar el texto del campo [pass] por la etiqueta [Contraseña]
+                  this.errors.push(resp.message[value]);
+                }
+                this.errorModal.show();
+                //setTimeout(()=>{ this.errorModal.hide(); }, 2000)
+
             }
-            if(valor.target.name=='telefono'){
-              this.telefono_background_color="#f08080";
-              setTimeout(()=>{ this.telefono_background_color="white"; }, 1000)
+            else if(resp.message=="success"){
+                this.bg_color[ctrl.srcElement.name]="lightgreen";
+                setTimeout(()=>{ this.bg_color[ctrl.srcElement.name]="white"; }, 1000)
             }
-          }
-          else if(resp.message=="success"){
-            if(valor.target.name=='email') {
-              this.email_background_color="lightgreen";
-              setTimeout(()=>{ this.email_background_color="white"; }, 1000)
-            }
-            if(valor.target.name=='telefono'){
-              this.telefono_background_color="lightgreen";
-              setTimeout(()=>{ this.telefono_background_color="white"; }, 1000)
-            }
-          }
-        });
+          });
+
       });
+
   }
 
-  submitDirectivo(campo:any,id:number,idx:number){
+  submitDirectivo(ctrl:any,id:number,idx:number){
+      this.personalSvc.getRecord(id).subscribe(resp => {
+        this.record_personal = Object.assign({}, resp);
 
-    this.personalSvc.getRecord(id).subscribe(resp => {
-      this.record_personal=resp
+        this.record_personal.emailoficial=this.params.record_plantel.directivos[idx].email;
+        this.record_personal.telefonomovil=this.params.record_plantel.directivos[idx].telefonomovil;
 
-      this.record_personal.email=this.params.record_plantel.directivos[idx].email;
-      this.record_personal.telefonomovil=this.params.record_plantel.directivos[idx].telefonomovil;
 
-      this.personalSvc.setRecord2(this.record_personal,"editar").subscribe(resp => {
-        if (resp.hasOwnProperty('error')) {
-          if(campo.target.name=='email_dir') {
-            this.email_dir_background_color[idx].bg="#f08080";
-              setTimeout(()=>{ this.email_dir_background_color[idx].bg="white"; }, 1000)
-          }
-          else if(campo.target.name=='tmovil_dir'){
-            this.tmovil_dir_background_color[idx].bg="#f08080";
-            setTimeout(()=>{ this.tmovil_dir_background_color[idx].bg="white"; }, 1000)
-          }
-        }
-        else if(resp.message=="success"){
-          if(campo.target.name=='email_dir') {
-            this.email_dir_background_color[idx].bg="lightgreen";
-            setTimeout(()=>{ this.email_dir_background_color[idx].bg="white"; }, 1000)
-          }
-          else if(campo.target.name=='tmovil_dir'){
-            this.tmovil_dir_background_color[idx].bg="lightgreen";
-            setTimeout(()=>{ this.tmovil_dir_background_color[idx].bg="white"; }, 1000)
-          }
-        }
+          let campo="";
+          if(ctrl.srcElement.name=="email_dir") campo="emailoficial"
+          if(ctrl.srcElement.name=="telmov_dir") campo="telefonomovil"
+          if(ctrl.srcElement.name=="tel_dir") campo="telefono"
+
+          this.personalSvc.setRecord2(this.record_personal,campo).subscribe(resp => {
+            if (resp.hasOwnProperty('error')) {
+              this.bg_color.dir[idx][ctrl.srcElement.name]="#f08080";
+                  setTimeout(()=>{ this.bg_color.dir[idx][ctrl.srcElement.name]="white"; }, 1000)
+
+                //mostrar el error
+              this.errors.length = 0;
+              for (var value in resp.message) {
+                //reemplazar el texto del campo [pass] por la etiqueta [Contraseña]
+                this.errors.push(resp.message[value]);
+              }
+              this.errorModal.show();
+              //setTimeout(()=>{ this.errorModal.hide(); }, 2000)
+            }
+            else if(resp.message=="success"){
+                this.bg_color.dir[idx][ctrl.srcElement.name]="lightgreen";
+                setTimeout(()=>{ this.bg_color.dir[idx][ctrl.srcElement.name]="white"; }, 1000)
+            }
+          });
+
       });
-    });
+
   }
 
   ngOnInit(): void {
@@ -158,6 +174,7 @@ export class MapsFormComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
+
     if (!this.map && this.mapDiv) {
       // instantiate a platform, default layers and a map as usual
       const platform = new H.service.Platform({

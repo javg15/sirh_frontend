@@ -87,10 +87,10 @@ export class PersonalService {
       { dataPack, actionForm }
       , httpOptions);
   }
-  public setRecord2(dataPack, actionForm): Observable<any> {
+  public setRecord2(dataPack, campoEdit): Observable<any> {
 
     return this.http.post(this.API_URL + '/personal/setRecord2',
-      { dataPack, actionForm }
+      { dataPack, campoEdit }
       , httpOptions);
   }
 
