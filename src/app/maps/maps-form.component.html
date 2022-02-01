@@ -42,7 +42,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label for="id_catplanteles">Plantel</label>
+                                <label for="id_catplanteles">Plantel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                 <ng-select2 [(ngModel)]="record_id_catplanteles" [data]="catplantelesComboCat" [allowClear]="true" width="300px" (valueChanged)="onSelectPlantel($event)">
                                 </ng-select2>
                             </div>
@@ -84,7 +84,7 @@
                                         <td>Correco electrónico</td>
                                         <td>
                                             <div class="input-group">
-                                                <input name="email" type="text" [(ngModel)]="params.record_plantel.email" class="form-control" [disabled]="!isLoggedIn" (blur)="submit('email',$event)" />
+                                                <input name="email" type="text" [(ngModel)]="params.record_plantel.email" class="form-control" [disabled]="!isLoggedIn" (blur)="submitPlantel('email',$event)" />
                                                 <span class="input-group-append" style="margin-right: -25px;">
                                                         <button type="button" class="btn btn-primary btn-sm btn-pill" (click)="openModal('login-modal-1')" >
                                                             <i class="fa fa-edit"></i>
@@ -97,7 +97,7 @@
                                         <td>Teléfono</td>
                                         <td>
                                             <div class="input-group">
-                                                <input name="telefono" type="text" [(ngModel)]="params.record_plantel.telefono" class="form-control" [disabled]="!isLoggedIn" mask="(000)000-0000" [specialCharacters]="[ '(' ,')' , '-' ]" (blur)="submit('telefono',$event)" [style.background-color]="(!isLoggedIn?lightgray:telefono_background_color)"
+                                                <input name="telefono" type="text" [(ngModel)]="params.record_plantel.telefono" class="form-control" [disabled]="!isLoggedIn" mask="(000)000-0000" [specialCharacters]="[ '(' ,')' , '-' ]" (blur)="submitPlantel('telefono',$event)" [style.background-color]="(!isLoggedIn?lightgray:telefono_background_color)"
                                                 />
                                                 <span class="input-group-append" style="margin-right: -25px;">
                                                         <button type="button" class="btn btn-primary btn-sm btn-pill" (click)="openModal('login-modal-1')">
@@ -107,7 +107,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    <ng-container *ngFor="let col of params.record_plantel.directivos">
+                                    <ng-container *ngFor="let col of params.record_plantel.directivos;index as i">
                                         <tr>
                                             <td colspan="2">
                                                 <hr/>
@@ -122,13 +122,30 @@
                                             <td> {{ col.funcion }} </td>
                                         </tr>
                                         <tr>
-                                            <td>T. Movil</td>
-                                            <td><input type="text" #tmovil_i (blur)="onBlurDirectivo($event.target,params.record_plantel.directivos.id" type="file" [(ngModel)]="col.telefonomovil">
-                                                 </td>
+                                            <td>Correo oficial</td>
+                                            <td>
+                                                <div class="input-group">
+                                                    <input type="text" name="email_dir" [disabled]="!isLoggedIn" (blur)="submitDirectivo($event,col.id,i)" type="text" [(ngModel)]="params.record_plantel.directivos[i].email" [style.background-color]="(!isLoggedIn?lightgray:email_dir_background_color[i].bg)">
+                                                    <span class="input-group-append" style="margin-right: -25px;">
+                                                    <button type="button" class="btn btn-primary btn-sm btn-pill" (click)="openModal('login-modal-1')">
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
+                                                  </span>
+                                                </div>
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>Correo</td>
-                                            <td> {{ col.email }} </td>
+                                            <td>T. Movil</td>
+                                            <td>
+                                                <div class="input-group">
+                                                    <input type="text" name="tmovil_dir" [disabled]="!isLoggedIn" mask="(000)000-0000" [specialCharacters]="[ '(' ,')' , '-' ]" (blur)="submitDirectivo($event,col.id,i)" type="text" [(ngModel)]="params.record_plantel.directivos[i].telefonomovil" [style.background-color]="(!isLoggedIn?lightgray:tmovil_dir_background_color[i].bg)">
+                                                    <span class="input-group-append" style="margin-right: -25px;">
+                                                <button type="button" class="btn btn-primary btn-sm btn-pill" (click)="openModal('login-modal-1')">
+                                                    <i class="fa fa-edit"></i>
+                                                </button>
+                                              </span>
+                                                </div>
+                                            </td>
                                         </tr>
                                     </ng-container>
 

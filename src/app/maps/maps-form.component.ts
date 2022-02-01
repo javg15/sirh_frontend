@@ -2,8 +2,9 @@ import { Component, ElementRef, Input, OnInit, ViewChild, Output, EventEmitter,R
 
 import { CatplantelesService } from '../views/catalogos/catplanteles/services/catplanteles.service';
 import { CatzonageograficaService } from '../views/catalogos/catzonageografica/services/catzonageografica.service';
+import { PersonalService } from '../views/catalogos/personal/services/personal.service';
 
-import { Catplanteles,Catzonageografica } from '../_models';
+import { Catplanteles,Catzonageografica,Personal } from '../_models';
 import { Observable } from 'rxjs';
 import { LoginModalService } from '../views/_shared/login/services/login-modal.service';
 import { TokenStorageService } from '../_services/token-storage.service';
@@ -21,6 +22,7 @@ declare var jQuery: any;
   styleUrls: ['./maps-form.component.css']
 })
 
+
 export class MapsFormComponent implements OnInit {
 
   private map?: H.Map;
@@ -35,24 +37,22 @@ export class MapsFormComponent implements OnInit {
 
   email_background_color:string="white";
   telefono_background_color:string="white";
+  email_dir_background_color:Array<any>=[{"bg":"white"},{"bg":"white"},{"bg":"white"},{"bg":"white"},{"bg":"white"}];
+  tmovil_dir_background_color:Array<any>=[{"bg":"white"},{"bg":"white"},{"bg":"white"},{"bg":"white"},{"bg":"white"}];
+
   catzonageograficaCat:Catzonageografica[];
   catplantelesCat:Catplanteles[];
   catplantelesComboCat:Catplanteles[];
   record_id_catzonageografica:number=0;
   record_id_catplanteles:number=0;
   record_plantel:Catplanteles;
-  inputsDirectivos:any []={
-    Name:'',
-    DateofBirth:new Date(),
-    isAccepted:false,
-    File:null
-    }
+  record_personal:Personal;
 
   params={mostrarInfo:0
     ,record_plantel:{id:0,clave_zona:"",clave_plantel:"",ubicacion:"",tipoplantel:"",aniocreacion:"",municipio:"",clavectse:"",telefono:"",email:"",
-      directivos:{
-        persona:"",telefonomovil:"",email:"",plazacategoria:"",funcion:""
-      }
+      directivos:[{
+        id:0,persona:"",telefonomovil:"",email:"",plazacategoria:"",funcion:""
+      }]
     }
   };
 
@@ -66,6 +66,7 @@ export class MapsFormComponent implements OnInit {
       private CatzonageograficaSvc: CatzonageograficaService,
       private loginModalSvc: LoginModalService,
       private tokenStorage: TokenStorageService,
+      private personalSvc: PersonalService,
       private renderer: Renderer2
       ) {
         this.catplantelesSvc.getCatalogoOpen(0,0).subscribe(resp => {
@@ -76,7 +77,7 @@ export class MapsFormComponent implements OnInit {
         });
   }
 
-  openModal(id: string, accion: string, idItem: number,idCatplanteles:number,idCatplantillas:number,tipoDocumento:number) {
+  openModal(id: string) {
     this.onLogin()
     if(!this.isLoggedIn)
       this.loginModalSvc.open(id);
@@ -86,7 +87,7 @@ export class MapsFormComponent implements OnInit {
     this.loginModalSvc.close(id);
   }
 
-  submit(campo,valor){
+  submitPlantel(campo,valor){
 
       this.catplantelesSvc.getRecord(this.params.record_plantel.id).subscribe(resp => {
         this.record_plantel=resp
@@ -94,6 +95,17 @@ export class MapsFormComponent implements OnInit {
         this.record_plantel.telefono=this.params.record_plantel.telefono;
 
         this.catplantelesSvc.setRecord(this.record_plantel,"editar").subscribe(resp => {
+          if (resp.hasOwnProperty('error')) {
+            if(valor.target.name=='email') {
+              this.email_background_color="#f08080";
+              setTimeout(()=>{ this.email_background_color="white"; }, 1000)
+            }
+            if(valor.target.name=='telefono'){
+              this.telefono_background_color="#f08080";
+              setTimeout(()=>{ this.telefono_background_color="white"; }, 1000)
+            }
+          }
+          else if(resp.message=="success"){
             if(valor.target.name=='email') {
               this.email_background_color="lightgreen";
               setTimeout(()=>{ this.email_background_color="white"; }, 1000)
@@ -102,10 +114,42 @@ export class MapsFormComponent implements OnInit {
               this.telefono_background_color="lightgreen";
               setTimeout(()=>{ this.telefono_background_color="white"; }, 1000)
             }
+          }
         });
       });
+  }
 
+  submitDirectivo(campo:any,id:number,idx:number){
 
+    this.personalSvc.getRecord(id).subscribe(resp => {
+      this.record_personal=resp
+
+      this.record_personal.email=this.params.record_plantel.directivos[idx].email;
+      this.record_personal.telefonomovil=this.params.record_plantel.directivos[idx].telefonomovil;
+
+      this.personalSvc.setRecord2(this.record_personal,"editar").subscribe(resp => {
+        if (resp.hasOwnProperty('error')) {
+          if(campo.target.name=='email_dir') {
+            this.email_dir_background_color[idx].bg="#f08080";
+              setTimeout(()=>{ this.email_dir_background_color[idx].bg="white"; }, 1000)
+          }
+          else if(campo.target.name=='tmovil_dir'){
+            this.tmovil_dir_background_color[idx].bg="#f08080";
+            setTimeout(()=>{ this.tmovil_dir_background_color[idx].bg="white"; }, 1000)
+          }
+        }
+        else if(resp.message=="success"){
+          if(campo.target.name=='email_dir') {
+            this.email_dir_background_color[idx].bg="lightgreen";
+            setTimeout(()=>{ this.email_dir_background_color[idx].bg="white"; }, 1000)
+          }
+          else if(campo.target.name=='tmovil_dir'){
+            this.tmovil_dir_background_color[idx].bg="lightgreen";
+            setTimeout(()=>{ this.tmovil_dir_background_color[idx].bg="white"; }, 1000)
+          }
+        }
+      });
+    });
   }
 
   ngOnInit(): void {
@@ -158,16 +202,21 @@ export class MapsFormComponent implements OnInit {
   }
 
   onSelectRegion(valor:any){
-    if(valor==0 || valor==null)
+    if(valor==0 || valor==null){
       this.catplantelesComboCat = this.catplantelesCat
-    else
+      this.record_id_catzonageografica=0;
+    }
+    else{
       this.catplantelesComboCat = this.catplantelesCat.filter(a=>a.id_catregion==valor);
-
+      this.record_id_catzonageografica=valor;
+    }
     this.onClickBuscar()
   }
 
   onSelectPlantel(valor:any){
+
     if(valor==null) this.record_id_catplanteles=0
+    else this.record_id_catplanteles=valor;
 
     this.onClickBuscar()
   }
