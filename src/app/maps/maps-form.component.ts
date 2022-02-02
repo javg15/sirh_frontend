@@ -49,8 +49,9 @@ export class MapsFormComponent implements OnInit {
   errors: string[] = [];
 
   catzonageograficaCat:Catzonageografica[];
-  catplantelesCat:Catplanteles[];
-  catplantelesComboCat:Catplanteles[];
+  catplantelesMapaCat:Catplanteles[];//para mapa
+  catplantelesComboCat:Catplanteles[];//listado completo para combo
+  catplantelesComboFilteredCat:Catplanteles[];//listado para combo filtrados
   record_id_catzonageografica:number=0;
   record_id_catplanteles:number=0;
   record_plantel:Catplanteles;
@@ -221,11 +222,11 @@ export class MapsFormComponent implements OnInit {
   onSelectRegion(valor:any){
 
     if(valor==0 || valor==null){
-      this.catplantelesComboCat = this.catplantelesCat
+      this.catplantelesComboFilteredCat = this.catplantelesComboCat
       this.record_id_catzonageografica=0;
     }
     else{
-      this.catplantelesComboCat = this.catplantelesCat.filter(a=>a.id_catzonageografica==valor);
+      this.catplantelesComboFilteredCat = this.catplantelesComboCat.filter(a=>a.id_catzonageografica==valor);
       this.record_id_catzonageografica=valor;
     }
     this.onClickBuscar()
@@ -253,7 +254,7 @@ export class MapsFormComponent implements OnInit {
 
   updateData(ui,params){
     this.catplantelesSvc.getCatalogoOpen(this.record_id_catzonageografica,this.record_id_catplanteles).subscribe(resp => {
-      this.catplantelesCat = resp;
+      this.catplantelesMapaCat = resp;
 
       var group = new H.map.Group();
 
@@ -287,11 +288,11 @@ export class MapsFormComponent implements OnInit {
         this.zoom=7;
       }
       else{
-        this.map.setCenter({lat:parseFloat(this.catplantelesCat[0].latitud), lng: parseFloat(this.catplantelesCat[0].longitud)});//xalapa
+        this.map.setCenter({lat:parseFloat(this.catplantelesMapaCat[0].latitud), lng: parseFloat(this.catplantelesMapaCat[0].longitud)});//xalapa
         this.zoom=9;
       }
 
-      this.catplantelesCat.forEach( (element) => {
+      this.catplantelesMapaCat.forEach( (element) => {
 
         /*html='<div style="width: 300px"><span style="font-size:8px;font-weight:bold">' + element.ubicacion + ' - ' + element.tipoplantel +'</span></div>';
         html+='<table style="border: hidden;"><thead><tr><th style="font-size:10px;">Persona</th><th style="font-size:10px;">Función</th></tr></thead>';
