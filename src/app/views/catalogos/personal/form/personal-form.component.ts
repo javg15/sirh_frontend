@@ -95,7 +95,7 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
 
   existeSegunCURP:boolean=false;
 
-  public customPatterns = { '0': { pattern: new RegExp('\[a-zA-Z\\u00C0-\\u00FF \]')} };
+  public customPatterns = { 'S': { pattern: new RegExp('\[A-ZÑa-zñ\]')} };
 
   constructor(private isLoadingService: IsLoadingService,
     private personalService: PersonalService, private el: ElementRef,

@@ -49,13 +49,15 @@ export class MapsFormComponent implements OnInit {
   errors: string[] = [];
 
   catzonageograficaCat:Catzonageografica[];
-  catplantelesMapaCat:Catplanteles[];//para mapa
+  catplantelesMapaCat:any[];//para mapa
   catplantelesComboCat:Catplanteles[];//listado completo para combo
   catplantelesComboFilteredCat:Catplanteles[];//listado para combo filtrados
   record_id_catzonageografica:number=0;
   record_id_catplanteles:number=0;
   record_plantel:Catplanteles;
   record_personal:Personal;
+  checkTodos:boolean=false;
+  loadingForm:number=0;//PARCHESOTE:las 2 primeras change son disparadas por la carga de datos en los combos, entonces, se considera que ya cargo despues de esas dos primeras busqueda
 
   params={mostrarInfo:0
     ,record_plantel:{id:0,clave_zona:"",clave_plantel:"",ubicacion:"",tipoplantel:"",aniocreacion:"",municipio:"",clavectse:"",telefono:"",email:"",
@@ -80,6 +82,9 @@ export class MapsFormComponent implements OnInit {
       ) {
         this.catplantelesSvc.getCatalogoOpen(0,0).subscribe(resp => {
           this.catplantelesComboCat = resp;
+          //para que llene el combo de planteles
+          this.catplantelesComboFilteredCat = this.catplantelesComboCat
+    
         });
         this.CatzonageograficaSvc.getCatalogoOpen().subscribe(resp => {
           this.catzonageograficaCat = resp;
@@ -171,7 +176,6 @@ export class MapsFormComponent implements OnInit {
 
   ngOnInit(): void {
 
-
   }
 
   ngAfterViewInit(): void {
@@ -213,36 +217,63 @@ export class MapsFormComponent implements OnInit {
       zoom.setAlignment(H.ui.LayoutAlignment.TOP_LEFT);
       scalebar.setAlignment(H.ui.LayoutAlignment.TOP_LEFT);
 
-
-      this.updateData(ui,this.params)
-
+      //se comenta porque al iniciar no se desea mostrar todos los planteles, solo con checkbox se hará
+      //this.updateData(ui,this.params)
+      
     }
   }
 
-  onSelectRegion(valor:any){
-
-    if(valor==0 || valor==null){
-      this.catplantelesComboFilteredCat = this.catplantelesComboCat
-      this.record_id_catzonageografica=0;
+  onCheckTodos(){
+    this.record_id_catzonageografica=0;
+    this.record_id_catplanteles=0;
+    if(this.checkTodos==true){
+      this.onClickBuscar()
     }
     else{
-      this.catplantelesComboFilteredCat = this.catplantelesComboCat.filter(a=>a.id_catzonageografica==valor);
-      this.record_id_catzonageografica=valor;
+      this.map.removeObjects(this.map.getObjects ())
     }
-    this.onClickBuscar()
+  }
+  onSelectRegion(valor:any){
+    this.loadingForm++;//PARCHESOTE
+    if(this.loadingForm>2){
+      if(valor==0 || valor==null){
+        this.catplantelesComboFilteredCat = this.catplantelesComboCat
+        this.record_id_catzonageografica=0;
+      }
+      else{
+        this.catplantelesComboFilteredCat = this.catplantelesComboCat.filter(a=>a.id_catzonageografica==valor);
+        this.record_id_catzonageografica=valor;
+      }
+      this.params.mostrarInfo=0;
+
+      this.onClickBuscar()
+    }
+    
   }
 
   onSelectPlantel(valor:any){
+    this.loadingForm++;//PARCHESOTE
+    if(this.loadingForm>2) {
+      if(valor==null) this.record_id_catplanteles=0
+      else this.record_id_catplanteles=valor;
 
-    if(valor==null) this.record_id_catplanteles=0
-    else this.record_id_catplanteles=valor;
+      if(this.record_id_catplanteles==0){
+        this.params.mostrarInfo=0;
+      }
+      else{
+        this.params.mostrarInfo=1;
+      }
 
-    this.onClickBuscar()
+      this.onClickBuscar()
+    }
   }
 
   onClickBuscar(){
+    
     this.map.removeObjects(this.map.getObjects ())
-    this.params.mostrarInfo=0;
+    
+    if(this.checkTodos || this.record_id_catplanteles>0 
+      || this.record_id_catzonageografica>0)
     this.updateData(this.ui,this.params);
   }
 
@@ -255,6 +286,11 @@ export class MapsFormComponent implements OnInit {
   updateData(ui,params){
     this.catplantelesSvc.getCatalogoOpen(this.record_id_catzonageografica,this.record_id_catplanteles).subscribe(resp => {
       this.catplantelesMapaCat = resp;
+      //si la busqueda es por plantel, mostrar la info
+      if(this.record_id_catplanteles>0) {
+        console.log("resp=>",resp)
+        this.params.record_plantel=resp[0];
+      }
 
       var group = new H.map.Group();
 

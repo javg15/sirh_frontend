@@ -46,3 +46,16 @@
 .validation-summary p {
     margin-left: 10px;
 }
+
+.switch-3d .switch-slider::before,
+.switch-3d.switch-sm .switch-slider::before {
+    width: 1.5em !important;
+    height: 1.5em !important;
+}
+.switch {
+    width: 3em !important;
+    height: 1.5em !important;
+}
+.switch-slider{
+    margin-top: 1em;
+}

@@ -34,19 +34,19 @@
                                 <div class="form-group col-sm-4">
                                     <div class="form-group">
                                         <label for="apellidopaterno">Apellido Paterno</label>
-                                        <input type="text" [(ngModel)]="record.apellidopaterno" class="form-control" name="Apellido Paterno" mask="0{100}" [patterns]="customPatterns" [disabled]="existeSegunCURP">
+                                        <input type="text" [(ngModel)]="record.apellidopaterno" class="form-control" name="Apellido Paterno" mask="S* S* S*" [patterns]="customPatterns" [disabled]="existeSegunCURP">
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-4">
                                     <div class="form-group">
                                         <label for="apellidomaterno">Apellido Materno</label>
-                                        <input type="text" [(ngModel)]="record.apellidomaterno" class="form-control" name="Apellido Materno" mask="0{100}" [patterns]="customPatterns" [disabled]="existeSegunCURP">
+                                        <input type="text" [(ngModel)]="record.apellidomaterno" class="form-control" name="Apellido Materno" mask="S* S* S*" [patterns]="customPatterns" [disabled]="existeSegunCURP">
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-4">
                                     <div class="form-group">
                                         <label for="nombre">Nombre</label>
-                                        <input type="text" [(ngModel)]="record.nombre" class="form-control" name="Nombre" mask="0{100}" [patterns]="customPatterns" [disabled]="existeSegunCURP">
+                                        <input type="text" [(ngModel)]="record.nombre" class="form-control" name="Nombre" [mask]="'S* S* S* S* S*'"  [patterns]="customPatterns" [dropSpecialCharacters]="false" [disabled]="existeSegunCURP">
                                     </div>
                                 </div>
                             </div>
