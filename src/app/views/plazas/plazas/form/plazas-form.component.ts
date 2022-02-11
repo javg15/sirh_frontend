@@ -207,7 +207,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
       if(//ya tiene un nombraminto en el historial
         this.record_id_plantillasdocsnombramiento_actual!=0
         //vacante,cancelada,nuevacreacion
-          && this.record_id_estatus!=1 && this.record_id_estatus!=7 && this.record_id_estatus!=8
+        && this.record_id_estatus!=0 && this.record_id_estatus!=1 && this.record_id_estatus!=7 && this.record_id_estatus!=8
         //
           && this.actionForm.toUpperCase()=="DESACTIVAR"
           ) 

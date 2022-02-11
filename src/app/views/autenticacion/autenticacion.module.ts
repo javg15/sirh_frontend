@@ -16,7 +16,7 @@ import { PermgruposFormComponent } from './permgrupos/form/permgrupos-form.compo
 import { PermgruposService } from './permgrupos/services/permgrupos.service';
 
 import { DataTablesModule } from 'angular-datatables';
-
+import { NgSelect2Module } from 'ng-select2';
 
 
 // Tabs Component
@@ -34,7 +34,8 @@ import { TreeModule } from '@circlon/angular-tree-component';
     SharedModule,
     TabsModule.forRoot(),
     AutocompleteLibModule,
-    TreeModule
+    TreeModule,
+    NgSelect2Module
   ],
   declarations: [
     UsuariosAdminComponent,
