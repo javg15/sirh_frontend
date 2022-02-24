@@ -144,8 +144,8 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
     modal.personalhorasService.add(modal);
 
     //subtabla datatable
-    this.headersAdmin = this.route.snapshot.data.userdataHoras; // get data from resolver
-    this.headersAdminDescarga = this.route.snapshot.data.userdataHoras; // get data from resolver
+    this.headersAdmin = JSON.parse(this.route.snapshot.data.userdataHoras); // get data from resolver
+    this.headersAdminDescarga = JSON.parse(this.route.snapshot.data.userdataHoras); // get data from resolver
 
     this.dtOptions = {
       pagingType: 'full_numbers',

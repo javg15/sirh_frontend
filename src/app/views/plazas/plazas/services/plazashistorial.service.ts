@@ -32,11 +32,7 @@ export class PlazashistorialService {
           this.API_URL + '/plazas/getHistorial',
           {dataTablesParameters:{solocabeceras:1,opcionesAdicionales:{raw:0}}}, {}
         ).subscribe(resp => {
-            if(resp.data.length>0)
-              o.next(JSON.parse(resp.data[0].cabeceras));
-            else{
-              o.next(JSON.parse('[{"data":"id","name":"a_id","title":"ID"}]'))
-            }
+            o.next(resp.data[0]);
           })
       }, 200)
     })

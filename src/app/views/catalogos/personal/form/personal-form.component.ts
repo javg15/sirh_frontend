@@ -160,7 +160,7 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
       this.userFormIsPending =this.isLoadingService.isLoading$({ key: 'loading' });
 
       //subtabla datatable
-    this.headersAdmin = this.route.snapshot.data.userdataExpediente; // get data from resolver
+    this.headersAdmin = JSON.parse(this.route.snapshot.data.userdataExpediente); // get data from resolver
 
     this.dtOptions = {
       pagingType: 'full_numbers',

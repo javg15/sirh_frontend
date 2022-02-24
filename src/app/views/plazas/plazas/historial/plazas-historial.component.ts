@@ -96,7 +96,7 @@ export class PlazasHistorialComponent implements OnInit, OnDestroy {
     modal.plazasSvc.add(modal);
 
     //subtabla datatable
-    this.headersAdmin = this.route.snapshot.data.userdataHistorial; // get data from resolver
+    this.headersAdmin = JSON.parse(this.route.snapshot.data.userdataHistorial); // get data from resolver
 
     this.dtOptions = {
       pagingType: 'full_numbers',

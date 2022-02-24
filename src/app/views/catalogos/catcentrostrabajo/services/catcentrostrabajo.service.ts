@@ -32,7 +32,7 @@ export class CatcentrostrabajoService {
           this.API_URL + '/catcentrostrabajo/getAdmin',
           { solocabeceras: 1, opcionesAdicionales: { raw: 0 } }, {}
         ).subscribe(resp => {
-          o.next(JSON.parse(resp.data[0].cabeceras));
+          o.next(resp.data[0]);
         })
       }, 200)
     })

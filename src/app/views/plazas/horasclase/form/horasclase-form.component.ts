@@ -126,7 +126,7 @@ export class HorasclaseFormComponent implements OnInit, OnDestroy {
     modal.horasclaseService.add(modal);
 
       //subtabla datatable
-    this.headersAdmin = this.route.snapshot.data.userdataSueldos; // get data from resolver
+    this.headersAdmin = JSON.parse(this.route.snapshot.data.userdataSueldos); // get data from resolver
 
     this.dtOptions = {
       pagingType: 'full_numbers',

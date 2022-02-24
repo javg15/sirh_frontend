@@ -51,7 +51,7 @@ export class CatcentrostrabajoAdminComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.headersAdmin = this.route.snapshot.data.userdata; // get data from resolver
+    this.headersAdmin = JSON.parse(this.route.snapshot.data.userdata.cabeceras);
 
       this.dtOptions = {
         pagingType: 'full_numbers',

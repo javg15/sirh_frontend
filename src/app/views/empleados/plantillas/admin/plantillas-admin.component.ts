@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, Input, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { DataTablesResponse } from '../../../../classes/data-tables-response';
@@ -14,6 +14,11 @@ import { CategoriasService } from '../../../catalogos/categorias/services/catego
 import {CatestatusplazaService}from '../../../catalogos/catestatusplaza/services/catestatusplaza.service';
 import { AutocompleteComponent } from 'angular-ng-autocomplete';
 import { CatquincenaService } from '../../../catalogos/catquincena/services/catquincena.service';
+
+import { Workbook } from 'exceljs';
+import * as fs from 'file-saver';
+
+import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 
 import { environment } from '../../../../../environments/environment';
 
@@ -54,6 +59,8 @@ export class PlantillasAdminComponent implements OnInit {
   nombreModulo = 'Plantillas';
 
   headersAdmin: any;
+  loadingService:boolean=false;
+
   tipoDocumento:number=0;
   id_categoria:number=0;
   id_catestatusplaza:number=0;
@@ -72,11 +79,12 @@ export class PlantillasAdminComponent implements OnInit {
   isLoadingSearch:boolean;
   esInicio:boolean=true;
   record_quincena_activa:string;
-  /* En el constructor creamos el objeto plazasService,
+  verBotonExcel:boolean=false;
+  /* En el constructor creamos el objeto plantillasService,
   de la clase HttpConnectService, que contiene el servicio mencionado,
   y estará disponible en toda la clase de este componente.
   El objeto es private, porque no se usará fuera de este componente. */
-  constructor(
+  constructor(private isLoadingService: IsLoadingService,
     private plantillasService: PlantillasService,private route: ActivatedRoute,
     private catplantillasSvc: CatplantillasService,
     private catplantelesSvc: CatplantelesService,
@@ -118,7 +126,8 @@ export class PlantillasAdminComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.headersAdmin = this.route.snapshot.data.userdata; // get data from resolver
+    this.headersAdmin = JSON.parse(this.route.snapshot.data.userdata.cabeceras);
+    this.verBotonExcel=this.route.snapshot.data.userdata.excel=="1";
 
       this.dtOptions = {
         pagingType: 'full_numbers',
@@ -172,7 +181,7 @@ export class PlantillasAdminComponent implements OnInit {
 
         columns: this.headersAdmin,
         columnDefs:[{"visible": false, "targets": 0}, //state
-                {"width": "5%", "targets": [1]},
+                {"width": "5%", "targets": [1,2,3,4]},
                 {"width": "10%", "targets": [this.headersAdmin-1]}
               ]
       };
@@ -209,6 +218,74 @@ export class PlantillasAdminComponent implements OnInit {
         dtInstance.clear().draw(false); // viene de form, solo actualiza la vista actual (current page)
       }
     });
+  }
+
+  exportExcel() {
+    this.loadingService=true;
+
+      this.plantillasService.http
+      .post<DataTablesResponse>(
+        // this.API_URL + '/a6b_apis/read_records_dt.php',
+        this.API_URL + '/plantillaspersonal/getAdmin',
+        {
+          columns:this.dtOptions.columns,
+          length: 10000,
+          opcionesAdicionales: {state: "AD", 
+          datosBusqueda: {campo: 0, operador: 0, valor: ''},
+            fkey:'id_catplanteles,id_catplantillas,id_personal,tipoDocumento,id_categoria,id_catestatusplaza',
+            fkeyvalue:[0,0,0,0,0,0],
+            modo:22
+            },
+          order: [{column: 0, dir: "asc"}],
+          search: {value: "", regex: false},
+          start: 0
+        }, {}
+      ).subscribe(resp => {
+        let workbook = new Workbook();
+        let worksheet = workbook.addWorksheet('PlantillasSheet');
+        worksheet.addTable({
+          name: "MyTable",
+          ref: "A1",
+          headerRow: true,
+          totalsRow: false,
+          style: {
+            theme: null,
+            showRowStripes: true,
+            showColumnStripes: true,
+          },
+          columns: [
+            { name: "-" },//inicializar
+          ],
+          rows: [],
+        });
+
+
+        const table = worksheet.getTable("MyTable");
+        this.headersAdmin.forEach(e => {
+          table.addColumn({
+              name: e.title,
+            },[],e.index);
+
+        });
+
+        for(let e of resp.data) {
+          let row=[""];
+
+          for(let i=0;i<this.headersAdmin.length;i++){
+            row[i+1]=e[this.headersAdmin[i].data] //agregar dato de campo
+          }
+          table.addRow(row)
+        }
+        table.commit();
+
+        this.loadingService=false;
+
+        workbook.xlsx.writeBuffer().then((data) => {
+          let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+          fs.saveAs(blob, 'Plantillas.xlsx');
+        })
+      })
+      
   }
 /**
  * Abre el modal de la plantilla cadena

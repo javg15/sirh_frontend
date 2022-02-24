@@ -13,6 +13,11 @@ import { CattiponominaService } from '../../../catalogos/cattiponomina/services/
 import { CategoriasService } from '../../../catalogos/categorias/services/categorias.service';
 import { CatestatusplazaService } from '../../../catalogos/catestatusplaza/services/catestatusplaza.service';
 
+import { Workbook } from 'exceljs';
+import * as fs from 'file-saver';
+
+import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
+
 import { environment } from '../../../../../environments/environment';
 
 declare var $: any;
@@ -27,6 +32,7 @@ declare var jQuery: any;
 
 export class PlazasAdminComponent implements OnInit {
   @Input() dtOptions: DataTables.Settings = {};
+
   /* El decorador @ViewChild recibe la clase DataTableDirective, para luego poder
   crear el dtElement que represente la tabla que estamos creando. */
   @ViewChild(DataTableDirective)
@@ -48,6 +54,7 @@ export class PlazasAdminComponent implements OnInit {
   tituloBotonReporte='Listado';
 
   headersAdmin: any;
+  loadingService:boolean=false;
 
   catplantelesCat:Catplanteles[];
   cattiponominaCat:Cattiponomina[];
@@ -58,12 +65,13 @@ export class PlazasAdminComponent implements OnInit {
   param_id_cattiponomina:number;
   param_id_categorias:number;
   param_id_catestatusplaza:number;
+  verBotonExcel:boolean=false;
 
   /* En el constructor creamos el objeto plazasService,
   de la clase HttpConnectService, que contiene el servicio mencionado,
   y estará disponible en toda la clase de este componente.
   El objeto es private, porque no se usará fuera de este componente. */
-  constructor(
+  constructor(private isLoadingService: IsLoadingService,
     private plazasService: PlazasService,private route: ActivatedRoute,
     private catplantelesSvc: CatplantelesService,private cattiponominaSvc: CattiponominaService,
     private categoriasSvc: CategoriasService,private CatestatusplazaSvc: CatestatusplazaService,
@@ -84,7 +92,8 @@ export class PlazasAdminComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.headersAdmin = this.route.snapshot.data.userdata; // get data from resolver
+    this.headersAdmin = JSON.parse(this.route.snapshot.data.userdata.cabeceras); // get data from resolver
+    this.verBotonExcel=this.route.snapshot.data.userdata.excel=="1";
 
       this.dtOptions = {
         pagingType: 'full_numbers',
@@ -114,7 +123,7 @@ export class PlazasAdminComponent implements OnInit {
         ajax: (dataTablesParameters: any, callback) => {
           this.dtOptionsAdicional.raw++;
           dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
-
+          
           this.plazasService.http
             .post<DataTablesResponse>(
               // this.API_URL + '/a6b_apis/read_records_dt.php',
@@ -156,6 +165,68 @@ export class PlazasAdminComponent implements OnInit {
     this.plazasService.getListado('/reportes/plazas_listado',this.param_id_catplanteles,this.param_id_cattiponomina,this.param_id_categorias,this.param_id_catestatusplaza);
   }
 
+  exportExcel() {
+    this.loadingService=true;
+
+      this.plazasService.http
+      .post<DataTablesResponse>(
+        // this.API_URL + '/a6b_apis/read_records_dt.php',
+        this.API_URL + '/plazas/getAdmin',
+        {
+          columns:this.dtOptions.columns,
+          length: -10000,
+          opcionesAdicionales: {state: "AD", datosBusqueda: {campo: 0, operador: 0, valor: ""}, raw: 1},
+          order: [{column: 0, dir: "asc"}],
+          search: {value: "", regex: false},
+          start: 0
+        }, {}
+      ).subscribe(resp => {
+        let workbook = new Workbook();
+        let worksheet = workbook.addWorksheet('PlazasSheet');
+        worksheet.addTable({
+          name: "MyTable",
+          ref: "A1",
+          headerRow: true,
+          totalsRow: false,
+          style: {
+            theme: null,
+            showRowStripes: true,
+            showColumnStripes: true,
+          },
+          columns: [
+            { name: "-" },//inicializar
+          ],
+          rows: [],
+        });
+
+
+        const table = worksheet.getTable("MyTable");
+        this.headersAdmin.forEach(e => {
+          table.addColumn({
+              name: e.title,
+            },[],e.index);
+
+        });
+
+        for(let e of resp.data) {
+          let row=[""];
+
+          for(let i=0;i<this.headersAdmin.length;i++){
+            row[i+1]=e[this.headersAdmin[i].data] //agregar dato de campo
+          }
+          table.addRow(row)
+        }
+        table.commit();
+
+        this.loadingService=false;
+
+        workbook.xlsx.writeBuffer().then((data) => {
+          let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+          fs.saveAs(blob, 'Plazas.xlsx');
+        })
+      })
+      
+  }
 
   ngAfterViewInit(): void {
     this.dtTrigger.next();
@@ -181,4 +252,12 @@ export class PlazasAdminComponent implements OnInit {
       }
     });
   }
+}
+
+export interface product {
+  id: number
+  name: string
+  brand: string
+  color: string
+  price: number
 }

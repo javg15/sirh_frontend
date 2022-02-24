@@ -211,7 +211,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     modal.plantillasService.add(modal);
 
       //subtabla datatable
-    this.headersAdmin = this.route.snapshot.data.userdataDocs; // get data from resolver
+    this.headersAdmin = JSON.parse(this.route.snapshot.data.userdataDocs); // get data from resolver
     this.dtOptions = {
       pagingType: 'full_numbers',
       paging:false,

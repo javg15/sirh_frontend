@@ -91,7 +91,7 @@ export class PersonalhorasAdminComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.headersAdmin = this.route.snapshot.data.userdata; // get data from resolver
+    this.headersAdmin = JSON.parse(this.route.snapshot.data.userdata.cabeceras);
 
     this.dtOptions = {
       pagingType: 'full_numbers',
@@ -102,6 +102,7 @@ export class PersonalhorasAdminComponent implements OnInit {
       //destroy : true,
       searching: false,
       info: true,
+      
       language: {
         emptyTable: '',
         zeroRecords: 'No hay coincidencias',

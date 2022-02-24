@@ -3,12 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 
 import { DataTablesResponse } from '../../../../classes/data-tables-response';
 import { DataTableDirective } from 'angular-datatables';
-import { Subject } from 'rxjs';
+import { Subject,Observable } from 'rxjs';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
-import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 import { PlantillasService } from '../services/plantillas.service';
 import { PlantillashistorialnominaService } from '../services/plantillashistorialnomina.service';
@@ -101,7 +100,7 @@ export class PlantillasHistorialNominaComponent implements OnInit, OnDestroy {
     modal.plantillasSvc.add(modal);
 
     //subtabla datatable
-    this.headersAdmin = this.route.snapshot.data.userdataHistorialNomina; // get data from resolver
+    this.headersAdmin = JSON.parse(this.route.snapshot.data.userdataHistorialNomina); // get data from resolver
 
     this.dtOptions = {
       pagingType: 'full_numbers',
