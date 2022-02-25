@@ -257,6 +257,8 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
     this.tituloForm="Preparación " + this.tipo +" - " + titulosModal[accion] + " registro";
     //this.formUpload.resetFile();
     this.record_titular="";
+    //limpiar autocomplete
+    this.id_personal_titular.clear();this.id_personal_titular.close();
 
     await this.catestatusplazaSvc.getCatalogo(tipo).subscribe(resp => {
       this.catestatusplazaCat = resp;
@@ -361,10 +363,15 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
           if(plantelesInfo.length>0)
             this.record_plantel=plantelesInfo.find(x=>x.id==data.registro.id_catplanteles).ubicacion;
 
-          if(personal_titularInfo!=null)
+          if(personal_titularInfo!=null){
             this.record_titular =personal_titularInfo.numeemp + " - "
               +  personal_titularInfo.nombre + " " + personal_titularInfo.apellidopaterno
               + " " + personal_titularInfo.apellidomaterno + " - " + personal_titularInfo.curp;
+      
+                this.id_personal_titular.initialValue = this.record_titular;
+                this.id_personal_titular.searchInput.nativeElement.value = this.record_titular;
+                this.record.id_personal_titular=personal_titularInfo.id;
+          }
 
           this.onSelectCategorias(this.record.id_categorias);
           this.onSelectPlazas(this.record.id_plazas);

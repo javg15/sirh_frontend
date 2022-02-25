@@ -16,7 +16,7 @@
                             </ul>
                             <button *ngIf="verBotonExcel" [disabled]='loadingService ' class="btn btn-primary" (click)="exportExcel()">
                                 <div *ngIf="loadingService ; else elseBlock"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Procesando...</span></div>
-                                <ng-template #elseBlock>Excel (todos los registros)</ng-template>
+                                <ng-template #elseBlock>Excel</ng-template>
                             </button>
                         </div>
                     </nav>

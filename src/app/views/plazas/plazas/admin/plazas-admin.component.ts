@@ -175,7 +175,7 @@ export class PlazasAdminComponent implements OnInit {
         {
           columns:this.dtOptions.columns,
           length: -10000,
-          opcionesAdicionales: {state: "AD", datosBusqueda: {campo: 0, operador: 0, valor: ""}, raw: 1},
+          opcionesAdicionales: this.dtOptionsAdicional,
           order: [{column: 0, dir: "asc"}],
           search: {value: "", regex: false},
           start: 0

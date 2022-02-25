@@ -230,12 +230,7 @@ export class PlantillasAdminComponent implements OnInit {
         {
           columns:this.dtOptions.columns,
           length: 10000,
-          opcionesAdicionales: {state: "AD", 
-          datosBusqueda: {campo: 0, operador: 0, valor: ''},
-            fkey:'id_catplanteles,id_catplantillas,id_personal,tipoDocumento,id_categoria,id_catestatusplaza',
-            fkeyvalue:[0,0,0,0,0,0],
-            modo:22
-            },
+          opcionesAdicionales: this.dtOptionsAdicional,
           order: [{column: 0, dir: "asc"}],
           search: {value: "", regex: false},
           start: 0

@@ -47,6 +47,7 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
   pass:String="";
   passActual:String="";
   recordFile:Archivos;
+  record_personal:String;
   catzonageograficaCat:Catzonageografica[];
   permgruposCat:Permgrupos[];
   personalCat:Personal[];
@@ -166,6 +167,10 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
     this.passConfirm="";
     this.tabSet.tabs[0].active = true;
 
+    this.record_personal="";
+    //limpiar autocomplete
+    this.id_personal.clear();this.id_personal.close();
+
     if(idItem=="0"){
       this.record =this.newRecord();
       this.nodes =[];
@@ -180,6 +185,23 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
         this.usuariosService.getTreePermisos(idItem).subscribe(resp => {
           this.nodes = resp;
         });
+
+        this.usuariosService.getTreePermisos(idItem).subscribe(resp => {
+          this.nodes = resp;
+        });
+        this.personalSvc.getRecordSegunUsuario(this.record.id).subscribe(resp => {
+          if(resp!=null){
+            this.record_personal =resp.numeemp + " - "
+                +  resp.nombre + " " + resp.apellidopaterno
+                + " " + resp.apellidomaterno + " - " + resp.curp;
+
+            this.id_personal.initialValue = this.record_personal;
+            this.id_personal.searchInput.nativeElement.value = this.record_personal;
+            this.record_id_personal=resp.id;
+          }
+        });
+
+            
 
         //this.listUpload.showFiles(this.record.id_archivos_avatar);
       });
