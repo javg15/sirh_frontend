@@ -32,7 +32,12 @@ export class PlantillashistorialnominaService {
           this.API_URL + '/plantillaspersonal/getHistorialNomina',
           {dataTablesParameters:{solocabeceras:1,opcionesAdicionales:{raw:0}}}, {}
         ).subscribe(resp => {
-              o.next(resp.data[0]);
+            if(resp.data.length>0){
+              o.next(resp.data[0].cabeceras);
+            }
+            else{
+              o.next('[{"data":"id","name":"a_id","title":"ID"}]')
+            }
           })
       }, 200)
     })

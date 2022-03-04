@@ -14,7 +14,7 @@ export class PlantillasdocsIniService implements Resolve <Observable<any>>{
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot){
     return this.ds.getHeaders().pipe(
       take(1),
-      map(userdata => userdata)
+      map(userdataDocs => userdataDocs)
     )
   }
 }

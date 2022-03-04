@@ -174,7 +174,7 @@ export class PlazasAdminComponent implements OnInit {
         this.API_URL + '/plazas/getAdmin',
         {
           columns:this.dtOptions.columns,
-          length: -10000,
+          length: 10000,
           opcionesAdicionales: this.dtOptionsAdicional,
           order: [{column: 0, dir: "asc"}],
           search: {value: "", regex: false},

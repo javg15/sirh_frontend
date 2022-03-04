@@ -105,7 +105,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
 
   convigencia:boolean;
   conlicencia:boolean;
-  esinterina:boolean;
+  esinterina:boolean=true;
   esnombramiento:boolean;
   estipodocente:boolean;
   plazaOcupadaTitularCat:Plazas[];
