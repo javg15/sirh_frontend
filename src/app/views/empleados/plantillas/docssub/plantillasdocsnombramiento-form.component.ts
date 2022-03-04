@@ -252,7 +252,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       id: 0,  clave: '', codigo:'', denominacion: '', nivelsalarial:'',id_cattipocategoria:0, id_tiponomina:0,
       horasasignadas:0, state: '', aplicaa:0, created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
-    
+
     this.tipo=(tipo==1?"nombramiento":"licencia");
     this.tituloForm="Preparación " + this.tipo +" - " + titulosModal[accion] + " registro";
     //this.formUpload.resetFile();
@@ -303,7 +303,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
             this.record_plantel=data.catplanteles.find(x=>x.id==this.record.id_catplanteles).ubicacion;
             this.onSelectPlantel(this.record_plantel,0)
 
-            
+
           });
 
           //para el caso de licenciamiento/baja, se debe elegir la categoria
@@ -367,7 +367,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
             this.record_titular =personal_titularInfo.numeemp + " - "
               +  personal_titularInfo.nombre + " " + personal_titularInfo.apellidopaterno
               + " " + personal_titularInfo.apellidomaterno + " - " + personal_titularInfo.curp;
-      
+
                 this.id_personal_titular.initialValue = this.record_titular;
                 this.id_personal_titular.searchInput.nativeElement.value = this.record_titular;
                 this.record.id_personal_titular=personal_titularInfo.id;

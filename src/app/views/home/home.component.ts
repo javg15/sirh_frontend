@@ -22,6 +22,7 @@ export class HomeComponent  {
     created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0,fechaingreso:null,primaantiguedad:0,
     id_catbanco_deposito:0,cuentadeposito:'',formacobro:0,
   };
+
   usuario:any=this.tokenStorage.getUser();
   images=[1,1,1,1,1,1];
   imageDefault:boolean=false;
