@@ -189,9 +189,9 @@ export class PlazasAdminComponent implements OnInit {
           headerRow: true,
           totalsRow: false,
           style: {
-            theme: null,
+            theme: 'TableStyleLight1',
             showRowStripes: true,
-            showColumnStripes: true,
+            showColumnStripes: false,
           },
           columns: [
             { name: "-" },//inicializar
@@ -202,17 +202,27 @@ export class PlazasAdminComponent implements OnInit {
 
         const table = worksheet.getTable("MyTable");
         this.headersAdmin.forEach(e => {
-          table.addColumn({
-              name: e.title,
-            },[],e.index);
+          if(e.title.toUpperCase()!="ACCIONES" 
+            && e.title.toLowerCase()!="id"
+            && e.title.toLowerCase()!="id plantillasdocsnombramiento actual"
+            && e.title.toLowerCase()!="id estatus"
+            )
+            table.addColumn({
+                name: e.title,
+              },[],e.index);
 
         });
 
         for(let e of resp.data) {
           let row=[""];
 
-          for(let i=0;i<this.headersAdmin.length;i++){
-            row[i+1]=e[this.headersAdmin[i].data] //agregar dato de campo
+          for(let i=0,j=0;i<this.headersAdmin.length;i++){ //=1 para quitar ID, -1 para quitar acciones
+            if(this.headersAdmin[i].title.toUpperCase()!="ACCIONES" 
+              && this.headersAdmin[i].title.toLowerCase()!="id"
+              && this.headersAdmin[i].title.toLowerCase()!="id plantillasdocsnombramiento actual"
+              && this.headersAdmin[i].title.toLowerCase()!="id estatus"
+              )
+              row[++j]=e[this.headersAdmin[i].data] //agregar dato de campo
           }
           table.addRow(row)
         }
