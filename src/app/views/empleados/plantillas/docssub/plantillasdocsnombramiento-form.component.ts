@@ -202,8 +202,10 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
 
       this.validSummary.resetErrorMessages(admin);
 
-      if(!this.seRevisoCargaHoraria)
-        this.validSummary.generateErrorMessagesFromServer({carga_horaria: "Debe revisar la carga horaria para verificar que materias se registrarán como licencia"});
+      if((!this.seRevisoCargaHoraria) 
+      && (this.actionForm.toUpperCase()=="EDITAR" || this.actionForm.toUpperCase()=="NUEVO")
+      )
+        this.validSummary.generateErrorMessagesFromServer({carga_horaria: "Debe revisar la carga horaria para verificar que materias se registrarán como licencia (clic en el botón 'Editar horas')"});
       else{
         await this.isLoadingService.add(
         this.plantillasdocsnombramientoService.setRecord(this.record,this.actionForm).subscribe(async resp => {
