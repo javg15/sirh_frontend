@@ -4,15 +4,15 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  APIS_URL:"http://localhost:8080/api",
-  URL:"http://localhost:8080/",
-  /*APIS_URL:"http://44.234.213.105:8082/api",
-  URL:"http://44.234.213.105:8082/",*/
+  /*APIS_URL:"http://localhost:8080/api",
+  URL:"http://localhost:8080/",*/
+  APIS_URL: "http://44.234.213.105:8082/api",
+  URL: "http://44.234.213.105:8082/",
   production: false
 };
 
 export const actionsButtonSave = {
-  ver:"Cerrar",
+  ver: "Cerrar",
   nuevo: "Guardar",
   editar: "Guardar",
   cancelar: "Cancelar",
@@ -22,7 +22,7 @@ export const actionsButtonSave = {
 };
 
 export const titulosModal = {
-  ver:"Consultar",
+  ver: "Consultar",
   nuevo: "Nuevo",
   editar: "Editar",
   cancelar: "Cancelar",

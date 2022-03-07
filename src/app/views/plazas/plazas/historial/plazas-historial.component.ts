@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter  } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { DataTablesResponse } from '../../../../classes/data-tables-response';
@@ -41,15 +41,15 @@ export class PlazasHistorialComponent implements OnInit, OnDestroy {
   Members: any[];
   ColumnNames: string[];
 
-  private dataTablesParameters={
-    draw: 1,  length: 100 , opcionesAdicionales: {},
-    order: [{column: 0, dir: "asc"}],
-    search: {value: "", regex: false},
+  private dataTablesParameters = {
+    draw: 1, length: 100, opcionesAdicionales: {},
+    order: [{ column: 0, dir: "asc" }],
+    search: { value: "", regex: false },
     start: 0
   };
   private dtOptionsAdicional = {
-    raw:0
-    ,id_plazas:0
+    raw: 0
+    , id_plazas: 0
   };
 
   NumberOfMembers = 0;
@@ -63,7 +63,7 @@ export class PlazasHistorialComponent implements OnInit, OnDestroy {
 
   headersAdmin: any;
 
-  record_id_plazas:number;
+  record_id_plazas: number;
 
 
   private elementModal: any;
@@ -71,15 +71,15 @@ export class PlazasHistorialComponent implements OnInit, OnDestroy {
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
 
-  cattipoCat:any[];
+  cattipoCat: any[];
 
   constructor(
     private plazashistorialService: PlazashistorialService,
     private plazasSvc: PlazasService,
     private el: ElementRef,
     private route: ActivatedRoute
-      ) {
-      this.elementModal = el.nativeElement;
+  ) {
+    this.elementModal = el.nativeElement;
   }
 
 
@@ -89,127 +89,127 @@ export class PlazasHistorialComponent implements OnInit, OnDestroy {
 
     // ensure id attribute exists
     if (!modal.id) {//idModal {
-        console.error('modal must have an id');
-        return;
+      console.error('modal must have an id');
+      return;
     }
     // add self (this modal instance) to the modal service so it's accessible from controllers
     modal.plazasSvc.add(modal);
 
     //subtabla datatable
-    this.headersAdmin = JSON.parse(this.route.snapshot.data.userdataHistorial); // get data from resolver
+    this.headersAdmin = JSON.parse(this.route.snapshot.data.userdataHistorial.cabeceras); // get data from resolver
 
     this.dtOptions = {
       pagingType: 'full_numbers',
-      paging:false,
+      paging: false,
       //pageLength: 50,
       //serverSide: true,
       //processing: true,
-      ordering:false,
-      destroy : true,
-      searching : false,
+      ordering: false,
+      destroy: true,
+      searching: false,
       info: false,
       dom: 'Bfrtip',
-      initComplete:  function (settings, json) {
+      initComplete: function (settings, json) {
         $('.button').removeClass('dt-button');
-        $('div.dt-buttons').css('float','right');
-     },
+        $('div.dt-buttons').css('float', 'right');
+      },
       buttons: [
-           {
-            extend: 'excelHtml5',
-            text:'Excel',
-            className: 'table-button button btn btn-primary',
-            customize: function ( xlsx ){
+        {
+          extend: 'excelHtml5',
+          text: 'Excel',
+          className: 'table-button button btn btn-primary',
+          customize: function (xlsx) {
 
-              var sheet = xlsx.xl.worksheets['sheet1.xml'];
-              var downrows = 0;
-              var clRow = $('row', sheet);
-              //update Row
-              clRow.each(function () {
-                  var attr = $(this).attr('r');
-                  var ind = parseInt(attr);
-                  ind = ind + downrows;
-                  $(this).attr("r",ind);
-              });
+            var sheet = xlsx.xl.worksheets['sheet1.xml'];
+            var downrows = 0;
+            var clRow = $('row', sheet);
+            //update Row
+            clRow.each(function () {
+              var attr = $(this).attr('r');
+              var ind = parseInt(attr);
+              ind = ind + downrows;
+              $(this).attr("r", ind);
+            });
 
-              // Update  row > c
-              $('row c ', sheet).each(function () {
-                  var attr = $(this).attr('r');
-                  var pre = attr.substring(0, 1);
-                  var ind = parseInt(attr.substring(1, attr.length));
-                  ind = ind + downrows;
-                  $(this).attr("r", pre + ind);
-              });
+            // Update  row > c
+            $('row c ', sheet).each(function () {
+              var attr = $(this).attr('r');
+              var pre = attr.substring(0, 1);
+              var ind = parseInt(attr.substring(1, attr.length));
+              ind = ind + downrows;
+              $(this).attr("r", pre + ind);
+            });
 
-              function Addrow(index,data) {
-                  let msg='<row r="'+index+'">'
-                  for(let i=0;i<data.length;i++){
-                      var key=data[i].k;
-                      var value=data[i].v;
-                      msg += '<c t="inlineStr" r="' + key + index + '" >';//s="42"
-                      msg += '<is>';
-                      msg +=  '<t>'+value+'</t>';
-                      msg+=  '</is>';
-                      msg+='</c>';
-                  }
-                  msg += '</row>';
-                  return msg;
+            function Addrow(index, data) {
+              let msg = '<row r="' + index + '">'
+              for (let i = 0; i < data.length; i++) {
+                var key = data[i].k;
+                var value = data[i].v;
+                msg += '<c t="inlineStr" r="' + key + index + '" >';//s="42"
+                msg += '<is>';
+                msg += '<t>' + value + '</t>';
+                msg += '</is>';
+                msg += '</c>';
               }
+              msg += '</row>';
+              return msg;
+            }
 
-              //insert
-              let rows=[]; let abc=['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O']
-              $("#tblPlazashistorial tbody tr").each(function(i,v){
-                  let row=[];
-                  $(v).find("td").each(function(ih,vh){
-                    row.push({ k: abc[ih+1], v: $(vh).html() });
-                  })
-                  rows.push(Addrow(i+3, row));
-              });
+            //insert
+            let rows = []; let abc = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O']
+            $("#tblPlazashistorial tbody tr").each(function (i, v) {
+              let row = [];
+              $(v).find("td").each(function (ih, vh) {
+                row.push({ k: abc[ih + 1], v: $(vh).html() });
+              })
+              rows.push(Addrow(i + 3, row));
+            });
 
-              rows.splice(-1,1);//remover el ultimo renglon "No hay coincidencias"
-              sheet.childNodes[0].childNodes[1].innerHTML = sheet.childNodes[0].childNodes[1].innerHTML+ rows.toString();
-              }
-            },
-            {
-              extend: 'print',
-              text: 'Imprimir',
-              className: 'table-button button btn btn-success',
-              /*customize: function (d) {
-                var exportBody = "<div class=" + '"row text-center" style="font-size:22px;font-weight:bold;">Header</div>';
-                d.body.length = 0;
-                d.body.push.apply(d.body, exportBody);
-              }*/
-              customize: function (win) {
-
-                  /*$(win.document.body)
-                  .css('font-size', '10pt')
-                  .prepend(
-                  '<img src="http://datatables.net/media/images/logo-fade.png" style="position:absolute; top:0; left:0;" />');*/
-
-                  $(win.document.body).find('table')
-                  .addClass('compact')
-                  .css('font-size', 'inherit');
-
-                  $(win.document.body).find('h1').html($('#custom-modal-2 #myModalLabel').html())
-                  $(win.document.body).find('h1')
-                  $(win.document.body).find('tbody').html($("#tblPlazashistorial tbody").html())
-                  $(win.document.body).find('thead th:first').remove()
-
-                  /*var innerHtmlData = //'<img src="http://datatables.net/media/images/logo-fade.png" style="position:absolute; top:0; left:0;">'
-                    '<h1>'+ $('#custom-modal-2 #myModalLabel').html()
-                    + '</h1><div></div>'
-                    + '<table class="table table-striped table-bordered table-sm row-border hover dataTable no-footer compact" style="font-size: inherit;">'
-                      + '<thead><tr>'
-                          + '<th>RFC</th><th>Personal</th><th>Nombramiento</th><th>Expedición</th><th>Inicio</th><th>Fin</th>'
-                      + '</tr></thead>'
-                    + '<tbody>'
-                      + $("#tblPlazashistorial tbody").html()
-                    + '</tbody>'
-                    + '</table><div></div>'
-
-                  win.document.activeElement.innerHTML= innerHtmlData;*/
-
-              }
+            rows.splice(-1, 1);//remover el ultimo renglon "No hay coincidencias"
+            sheet.childNodes[0].childNodes[1].innerHTML = sheet.childNodes[0].childNodes[1].innerHTML + rows.toString();
           }
+        },
+        {
+          extend: 'print',
+          text: 'Imprimir',
+          className: 'table-button button btn btn-success',
+          /*customize: function (d) {
+            var exportBody = "<div class=" + '"row text-center" style="font-size:22px;font-weight:bold;">Header</div>';
+            d.body.length = 0;
+            d.body.push.apply(d.body, exportBody);
+          }*/
+          customize: function (win) {
+
+            /*$(win.document.body)
+            .css('font-size', '10pt')
+            .prepend(
+            '<img src="http://datatables.net/media/images/logo-fade.png" style="position:absolute; top:0; left:0;" />');*/
+
+            $(win.document.body).find('table')
+              .addClass('compact')
+              .css('font-size', 'inherit');
+
+            $(win.document.body).find('h1').html($('#custom-modal-2 #myModalLabel').html())
+            $(win.document.body).find('h1')
+            $(win.document.body).find('tbody').html($("#tblPlazashistorial tbody").html())
+            $(win.document.body).find('thead th:first').remove()
+
+            /*var innerHtmlData = //'<img src="http://datatables.net/media/images/logo-fade.png" style="position:absolute; top:0; left:0;">'
+              '<h1>'+ $('#custom-modal-2 #myModalLabel').html()
+              + '</h1><div></div>'
+              + '<table class="table table-striped table-bordered table-sm row-border hover dataTable no-footer compact" style="font-size: inherit;">'
+                + '<thead><tr>'
+                    + '<th>RFC</th><th>Personal</th><th>Nombramiento</th><th>Expedición</th><th>Inicio</th><th>Fin</th>'
+                + '</tr></thead>'
+              + '<tbody>'
+                + $("#tblPlazashistorial tbody").html()
+              + '</tbody>'
+              + '</table><div></div>'
+
+            win.document.activeElement.innerHTML= innerHtmlData;*/
+
+          }
+        }
       ],
       language: {
         emptyTable: '',
@@ -227,25 +227,25 @@ export class PlazasHistorialComponent implements OnInit, OnDestroy {
         },
       },
       columns: this.headersAdmin,
-      columnDefs:[{"visible": false, "targets": [0]}]//ID, tipo
+      columnDefs: [{ "visible": false, "targets": [0] }]//ID, tipo
     };
 
   }
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-      this.plazasSvc.remove(this.id); //idModal
-      this.elementModal.remove();
+    this.plazasSvc.remove(this.id); //idModal
+    this.elementModal.remove();
   }
 
 
   // open modal
-  open(idItem: string, accion: string):  void {
-    this.actionForm=accion;
+  open(idItem: string, accion: string): void {
+    this.actionForm = accion;
 
     this.plazasSvc.getClave(idItem).subscribe(resp => {
-      this.tituloForm="Historial de plaza - " + (resp[0].clave);
-      this.record_id_plazas=parseInt(idItem);
+      this.tituloForm = "Historial de plaza - " + (resp[0].clave);
+      this.record_id_plazas = parseInt(idItem);
 
       this.reDraw();
 
@@ -256,12 +256,12 @@ export class PlazasHistorialComponent implements OnInit, OnDestroy {
 
   // close modal
   close(): void {
-      this.basicModalDocs.hide();
+    this.basicModalDocs.hide();
   }
 
   reDraw(): void {
     this.dtOptionsAdicional.raw++;
-    this.dtOptionsAdicional.id_plazas=this.record_id_plazas;
+    this.dtOptionsAdicional.id_plazas = this.record_id_plazas;
     //this.dtOptionsAdicional.fkeyvalue=this.record_id_plazas;
     this.dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
 

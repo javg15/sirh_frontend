@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter  } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { PlantillasService } from '../services/plantillas.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -51,21 +51,22 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   API_URL = environment.APIS_URL;
 
   nombreModulo = 'Plantillasdocs';
-  tipoVentana:string ="plantillasdocsnombramiento";
-  subTipoVentana:string ="plantillasdocsnombramiento";
+  tipoVentana: string = "plantillasdocsnombramiento";
+  subTipoVentana: string = "plantillasdocsnombramiento";
 
   @Input() dtOptions: DataTables.Settings = {};
-  private dataTablesParameters={
-    draw: 1,  length: 100 , opcionesAdicionales: {},
-    order: [{column: 0, dir: "asc"}],
-    search: {value: "", regex: false},
+  private dataTablesParameters = {
+    draw: 1, length: 100, opcionesAdicionales: {},
+    order: [{ column: 0, dir: "asc" }],
+    search: { value: "", regex: false },
     start: 0
   };
-  private dtOptionsAdicional = { datosBusqueda: {campo: 0, operador: 0, valor: ''}
-    ,raw:0
-    ,fkey:'id,tipodocumento'
-    ,fkeyvalue:[0,0]
-    ,modo:0
+  private dtOptionsAdicional = {
+    datosBusqueda: { campo: 0, operador: 0, valor: '' }
+    , raw: 0
+    , fkey: 'id,tipodocumento'
+    , fkeyvalue: [0, 0]
+    , modo: 0
   };
   headersAdmin: any;
   Members: any[];
@@ -74,17 +75,18 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
 
 
   @Input() dtOptionsPreparacion: DataTables.Settings = {};
-  private dataTablesParametersPreparacion={
-    draw: 1,  length: 100 , opcionesAdicionales: {},
-    order: [{column: 0, dir: "asc"}],
-    search: {value: "", regex: false},
+  private dataTablesParametersPreparacion = {
+    draw: 1, length: 100, opcionesAdicionales: {},
+    order: [{ column: 0, dir: "asc" }],
+    search: { value: "", regex: false },
     start: 0
   };
-  private dtOptionsAdicionalPreparacion = { datosBusqueda: {campo: 0, operador: 0, valor: ''}
-    ,raw:0
-    ,fkey:'id_personal'
-    ,fkeyvalue:[0]
-    ,modo:33
+  private dtOptionsAdicionalPreparacion = {
+    datosBusqueda: { campo: 0, operador: 0, valor: '' }
+    , raw: 0
+    , fkey: 'id_personal'
+    , fkeyvalue: [0]
+    , modo: 33
   };
 
   headersAdminPreparacion: any;
@@ -94,17 +96,18 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
 
   //familiares
   @Input() dtOptionsFamiliares: DataTables.Settings = {};
-  private dataTablesParametersFamiliares={
-    draw: 1,  length: 100 , opcionesAdicionales: {},
-    order: [{column: 0, dir: "asc"}],
-    search: {value: "", regex: false},
+  private dataTablesParametersFamiliares = {
+    draw: 1, length: 100, opcionesAdicionales: {},
+    order: [{ column: 0, dir: "asc" }],
+    search: { value: "", regex: false },
     start: 0
   };
-  private dtOptionsAdicionalFamiliares = { datosBusqueda: {campo: 0, operador: 0, valor: ''}
-    ,raw:0
-    ,fkey:'id_personal'
-    ,fkeyvalue:[0]
-    ,modo:22
+  private dtOptionsAdicionalFamiliares = {
+    datosBusqueda: { campo: 0, operador: 0, valor: '' }
+    , raw: 0
+    , fkey: 'id_personal'
+    , fkeyvalue: [0]
+    , modo: 22
   };
 
   headersAdminFamiliares: any;
@@ -114,17 +117,18 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
 
   //sindicato
   @Input() dtOptionsSindicato: DataTables.Settings = {};
-  private dataTablesParametersSindicato={
-    draw: 1,  length: 100 , opcionesAdicionales: {},
-    order: [{column: 0, dir: "asc"}],
-    search: {value: "", regex: false},
+  private dataTablesParametersSindicato = {
+    draw: 1, length: 100, opcionesAdicionales: {},
+    order: [{ column: 0, dir: "asc" }],
+    search: { value: "", regex: false },
     start: 0
   };
-  private dtOptionsAdicionalSindicato = { datosBusqueda: {campo: 0, operador: 0, valor: ''}
-    ,raw:0
-    ,fkey:'id_personal'
-    ,fkeyvalue:[0]
-    ,modo:22
+  private dtOptionsAdicionalSindicato = {
+    datosBusqueda: { campo: 0, operador: 0, valor: '' }
+    , raw: 0
+    , fkey: 'id_personal'
+    , fkeyvalue: [0]
+    , modo: 22
   };
 
   headersAdminSindicato: any;
@@ -134,17 +138,18 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
 
   //licencias
   @Input() dtOptionsLicencias: DataTables.Settings = {};
-  private dataTablesParametersLicencias={
-    draw: 1,  length: 100 , opcionesAdicionales: {},
-    order: [{column: 0, dir: "asc"}],
-    search: {value: "", regex: false},
+  private dataTablesParametersLicencias = {
+    draw: 1, length: 100, opcionesAdicionales: {},
+    order: [{ column: 0, dir: "asc" }],
+    search: { value: "", regex: false },
     start: 0
   };
-  private dtOptionsAdicionalLicencias = { datosBusqueda: {campo: 0, operador: 0, valor: ''}
-    ,raw:0
-    ,fkey:'id_plantillaspersonal'
-    ,fkeyvalue:[0]
-    ,modo:22
+  private dtOptionsAdicionalLicencias = {
+    datosBusqueda: { campo: 0, operador: 0, valor: '' }
+    , raw: 0
+    , fkey: 'id_plantillaspersonal'
+    , fkeyvalue: [0]
+    , modo: 22
   };
 
   headersAdminLicencias: any;
@@ -156,17 +161,17 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
 
-  record_id_plantillaspersonal:number;
-  record_id_personal:number;
-  record_id_catplanteles:number;
-  record_tipodoc:number;
-  record_numeemp:string;
-  record_plazaSeleccionada:number;
-  record_quincena_activa:string;
-  tblNombramientos:[];
-  plantillapersonalCat:any=[];
-  param_id_plantillapersonal:number;
-  param_personalTitular:string;
+  record_id_plantillaspersonal: number;
+  record_id_personal: number;
+  record_id_catplanteles: number;
+  record_tipodoc: number;
+  record_numeemp: string;
+  record_plazaSeleccionada: number;
+  record_quincena_activa: string;
+  tblNombramientos: [];
+  plantillapersonalCat: any = [];
+  param_id_plantillapersonal: number;
+  param_personalTitular: string;
 
   private elementModal: any;
   @ViewChild('basicModalDocs') basicModalDocs: ModalDirective;
@@ -174,7 +179,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   @ViewChild('cadenaModal') public cadenaModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
 
-  cattipoCat:any[];
+  cattipoCat: any[];
 
   constructor(private plantillasService: PlantillasService,
     private plantillasdocsService: PlantillasdocsService,
@@ -189,12 +194,12 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     private plazasSvc: PlazasService,
     private el: ElementRef,
     private route: ActivatedRoute
-      ) {
-      this.elementModal = el.nativeElement;
-      this.catquincenaSvc.getQuincenaActiva().subscribe(async resp => {
-        //quincena activa
-        this.record_quincena_activa = resp.anio+resp.quincena.toString().padStart(2 , '0');
-      });
+  ) {
+    this.elementModal = el.nativeElement;
+    this.catquincenaSvc.getQuincenaActiva().subscribe(async resp => {
+      //quincena activa
+      this.record_quincena_activa = resp.anio + resp.quincena.toString().padStart(2, '0');
+    });
   }
 
 
@@ -204,23 +209,23 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
 
     // ensure id attribute exists
     if (!modal.id) {//idModal {
-        console.error('modal must have an id');
-        return;
+      console.error('modal must have an id');
+      return;
     }
     // add self (this modal instance) to the modal service so it's accessible from controllers
     modal.plantillasService.add(modal);
 
-      //subtabla datatable
-    this.headersAdmin = JSON.parse(this.route.snapshot.data.userdataDocs); // get data from resolver
+    //subtabla datatable
+    this.headersAdmin = JSON.parse(this.route.snapshot.data.userdataDocs.cabeceras); // get data from resolver
     this.dtOptions = {
       pagingType: 'full_numbers',
-      paging:false,
+      paging: false,
       //pageLength: 50,
       //serverSide: true,
       //processing: true,
-      ordering:false,
-      destroy : true,
-      searching : false,
+      ordering: false,
+      destroy: true,
+      searching: false,
       info: false,
       language: {
         emptyTable: '',
@@ -238,8 +243,8 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
         },
       },
       columns: this.headersAdmin,
-      columnDefs:[{"visible": false, "targets": [0,1,2,3]},
-                {"width": "20%", "targets": [5]}]//ID, tipo
+      columnDefs: [{ "visible": false, "targets": [0, 1, 2, 3] },
+      { "width": "20%", "targets": [5] }]//ID, tipo
     };
 
 
@@ -248,13 +253,13 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     //console.log("this.headersAdminPreparacion=>",this.headersAdminPreparacion)
     this.dtOptionsPreparacion = {
       pagingType: 'full_numbers',
-      paging:false,
+      paging: false,
       //pageLength: 50,
       //serverSide: true,
       //processing: true,
-      ordering:false,
-      destroy : true,
-      searching : false,
+      ordering: false,
+      destroy: true,
+      searching: false,
       info: false,
       language: {
         emptyTable: '',
@@ -272,8 +277,8 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
         },
       },
       columns: this.headersAdminPreparacion,
-      columnDefs:[{"visible": false, "targets": [0]},
-                ]//ID, tipo
+      columnDefs: [{ "visible": false, "targets": [0] },
+      ]//ID, tipo
     };
 
 
@@ -282,13 +287,13 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     //console.log("this.headersAdminFamiliares=>",this.headersAdminFamiliares)
     this.dtOptionsFamiliares = {
       pagingType: 'full_numbers',
-      paging:false,
+      paging: false,
       //pageLength: 50,
       //serverSide: true,
       //processing: true,
-      ordering:false,
-      destroy : true,
-      searching : false,
+      ordering: false,
+      destroy: true,
+      searching: false,
       info: false,
       language: {
         emptyTable: '',
@@ -306,8 +311,8 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
         },
       },
       columns: this.headersAdminFamiliares,
-      columnDefs:[{"visible": false, "targets": [0]},
-                ]//ID, tipo
+      columnDefs: [{ "visible": false, "targets": [0] },
+      ]//ID, tipo
     };
 
     //sindicato
@@ -315,13 +320,13 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     //console.log("this.headersAdminSindicato=>",this.headersAdminSindicato)
     this.dtOptionsSindicato = {
       pagingType: 'full_numbers',
-      paging:false,
+      paging: false,
       //pageLength: 50,
       //serverSide: true,
       //processing: true,
-      ordering:false,
-      destroy : true,
-      searching : false,
+      ordering: false,
+      destroy: true,
+      searching: false,
       info: false,
       language: {
         emptyTable: '',
@@ -339,8 +344,8 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
         },
       },
       columns: this.headersAdminSindicato,
-      columnDefs:[{"visible": false, "targets": [0]},
-                ]//ID, tipo
+      columnDefs: [{ "visible": false, "targets": [0] },
+      ]//ID, tipo
     };
 
     //licencias
@@ -348,13 +353,13 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     //console.log("this.headersAdminLicencias=>",this.headersAdminLicencias)
     this.dtOptionsLicencias = {
       pagingType: 'full_numbers',
-      paging:false,
+      paging: false,
       //pageLength: 50,
       //serverSide: true,
       //processing: true,
-      ordering:false,
-      destroy : true,
-      searching : false,
+      ordering: false,
+      destroy: true,
+      searching: false,
       info: false,
       language: {
         emptyTable: '',
@@ -372,45 +377,45 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
         },
       },
       columns: this.headersAdminLicencias,
-      columnDefs:[{"visible": false, "targets": [0]},
-                ]//ID, tipo
+      columnDefs: [{ "visible": false, "targets": [0] },
+      ]//ID, tipo
     };
   }
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-      this.plantillasService.remove(this.id); //idModal
-      this.elementModal.remove();
+    this.plantillasService.remove(this.id); //idModal
+    this.elementModal.remove();
   }
 
-  actualizarfin(id_plantillasdocsnombramiento){
+  actualizarfin(id_plantillasdocsnombramiento) {
     this.plantillasdocsService.setActualizarFin(id_plantillasdocsnombramiento).subscribe(resp => {
       this.reDraw(null);
     });
   }
 
-  imprimirNombramiento(id_plantillasdocsnombramiento){
-    this.plantillasdocsService.getPrintNombramiento('/reportes/plantilla_nombramiento',id_plantillasdocsnombramiento);
+  imprimirNombramiento(id_plantillasdocsnombramiento) {
+    this.plantillasdocsService.getPrintNombramiento('/reportes/plantilla_nombramiento', id_plantillasdocsnombramiento);
   }
 
   // open modal
-  open(idItem: string, accion: string,idCatplanteles:string,idCatplantillas:string,tipoDocumento:string):  void {
-    this.actionForm=accion;
-    this.botonAccion=actionsButtonSave[accion];
-    this.record_id_catplanteles=parseInt(idCatplanteles);
-    this.tipoVentana="plantillasdocsnombramiento";
+  open(idItem: string, accion: string, idCatplanteles: string, idCatplantillas: string, tipoDocumento: string): void {
+    this.actionForm = accion;
+    this.botonAccion = actionsButtonSave[accion];
+    this.record_id_catplanteles = parseInt(idCatplanteles);
+    this.tipoVentana = "plantillasdocsnombramiento";
 
     this.plantillasService.getRecord(idItem).subscribe(resp => {
-      this.record_id_personal=resp.id_personal;
+      this.record_id_personal = resp.id_personal;
 
       this.personalSvc.getRecord(resp.id_personal).subscribe(resp => {
-        this.record_numeemp=resp.numeemp;
-        this.tituloForm="Documentación - " +resp.numeemp + " - " +  (resp.apellidopaterno + " " + resp.apellidomaterno + " " + resp.nombre);
-        this.record_id_plantillaspersonal=parseInt(idItem);
+        this.record_numeemp = resp.numeemp;
+        this.tituloForm = "Documentación - " + resp.numeemp + " - " + (resp.apellidopaterno + " " + resp.apellidomaterno + " " + resp.nombre);
+        this.record_id_plantillaspersonal = parseInt(idItem);
 
-        this.record_tipodoc=parseInt(tipoDocumento);
-        this.plazasSvc.getNombramientosVigentes(resp.id,0).subscribe(resp => {
-          this.tblNombramientos=resp;
+        this.record_tipodoc = parseInt(tipoDocumento);
+        this.plazasSvc.getNombramientosVigentes(resp.id, 0).subscribe(resp => {
+          this.tblNombramientos = resp;
         });
 
         this.reDraw(null);
@@ -425,63 +430,63 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
 
   // close modal
   close(): void {
-      this.basicModalDocs.hide();
-      if(this.actionForm.toUpperCase()!="VER"){
-        this.redrawEvent.emit(null);
-      }
+    this.basicModalDocs.hide();
+    if (this.actionForm.toUpperCase() != "VER") {
+      this.redrawEvent.emit(null);
+    }
   }
 
-  mostrarModalCadena(tablaJson:string){
-    this.plantillapersonalCat=JSON.parse(tablaJson);
-    this.param_id_plantillapersonal=this.plantillapersonalCat[0].id_pp;
-    this.param_personalTitular=this.plantillapersonalCat[0].personal;
-    if(this.plantillapersonalCat.length>1)//si tiene mas de una plantilla el titular de la cadena
+  mostrarModalCadena(tablaJson: string) {
+    this.plantillapersonalCat = JSON.parse(tablaJson);
+    this.param_id_plantillapersonal = this.plantillapersonalCat[0].id_pp;
+    this.param_personalTitular = this.plantillapersonalCat[0].personal;
+    if (this.plantillapersonalCat.length > 1)//si tiene mas de una plantilla el titular de la cadena
       this.cadenaModal.show();
     else
       this.mostrarCadena();
   }
 
-  mostrarCadena():void{
+  mostrarCadena(): void {
     this.cadenaModal.hide();
     this.basicModalDocs.hide();
     this.openCadenaEvent.emit(this.param_id_plantillapersonal);
   }
 
-  onSelectTipoVentana(valor){
-    this.tipoVentana=valor;
+  onSelectTipoVentana(valor) {
+    this.tipoVentana = valor;
     this.reDraw(null);
   }
-  
-  openPrevioModal(subTipoVentana: string, accion: string, idItem: number, idPlantillaPersonal:number,idPersonal:number){
-    this.subTipoVentana=subTipoVentana;
-    this.openModal(accion, idItem,idPlantillaPersonal,idPersonal)
+
+  openPrevioModal(subTipoVentana: string, accion: string, idItem: number, idPlantillaPersonal: number, idPersonal: number) {
+    this.subTipoVentana = subTipoVentana;
+    this.openModal(accion, idItem, idPlantillaPersonal, idPersonal)
   }
   //Sub formulario
-  openModal(accion: string, idItem: number,idPlantillaPersonal:number,idPersonal:number) {
-    switch(this.tipoVentana.toLowerCase()){
+  openModal(accion: string, idItem: number, idPlantillaPersonal: number, idPersonal: number) {
+    switch (this.tipoVentana.toLowerCase()) {
       case "plantillasdocsprofesional":
-          this.plantillasdocsprofesionalSvc.open('custom-plantillasdocsprofesional', accion, idItem,idPersonal);
-          break;
-        case "plantillasdocsnombramiento":
-          if(this.subTipoVentana=="plantillasdocsnombramiento")
-            this.plantillasdocsnombramientoSvc.open('custom-plantillasdocsnombramiento', accion, idItem,idPlantillaPersonal,1);
-          else if(this.subTipoVentana=="plantillasdocsbaja")
-            this.plantillasdocsbajaSvc.open('custom-plantillasdocsbaja', accion, idItem,idPlantillaPersonal);
-          else if(this.subTipoVentana=="plantillasdocslicenciasadmin"){
-            this.plantillasdocsnombramientoSvc.open('custom-plantillasdocsnombramiento', accion, idItem,idPlantillaPersonal,2);
-          }
-          break;
-        case "plantillasdocssindicato":
-          this.plantillasdocssindicatoSvc.open('custom-plantillasdocssindicato', accion, idItem,idPersonal);
-            break;
-        case "plantillasdocsfamiliares":
-          this.plantillasdocsfamiliaresSvc.open('custom-plantillasdocsfamiliares', accion, idItem,idPersonal);
-          break;
-        case "plantillasdocslicencias":
-            this.plantillasdocslicenciasSvc.open('custom-plantillasdocslicencias', accion, idItem,idPlantillaPersonal);
-            break;
+        this.plantillasdocsprofesionalSvc.open('custom-plantillasdocsprofesional', accion, idItem, idPersonal);
+        break;
+      case "plantillasdocsnombramiento":
+        if (this.subTipoVentana == "plantillasdocsnombramiento")
+          this.plantillasdocsnombramientoSvc.open('custom-plantillasdocsnombramiento', accion, idItem, idPlantillaPersonal, 1);
+        else if (this.subTipoVentana == "plantillasdocsbaja")
+          this.plantillasdocsbajaSvc.open('custom-plantillasdocsbaja', accion, idItem, idPlantillaPersonal);
+        else if (this.subTipoVentana == "plantillasdocslicenciasadmin") {
+          this.plantillasdocsnombramientoSvc.open('custom-plantillasdocsnombramiento', accion, idItem, idPlantillaPersonal, 2);
+        }
+        break;
+      case "plantillasdocssindicato":
+        this.plantillasdocssindicatoSvc.open('custom-plantillasdocssindicato', accion, idItem, idPersonal);
+        break;
+      case "plantillasdocsfamiliares":
+        this.plantillasdocsfamiliaresSvc.open('custom-plantillasdocsfamiliares', accion, idItem, idPersonal);
+        break;
+      case "plantillasdocslicencias":
+        this.plantillasdocslicenciasSvc.open('custom-plantillasdocslicencias', accion, idItem, idPlantillaPersonal);
+        break;
       default:
-        this.plantillasdocsService.open("", accion, idItem,idPlantillaPersonal);
+        this.plantillasdocsService.open("", accion, idItem, idPlantillaPersonal);
 
     }
   }
@@ -490,99 +495,99 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     this.plantillasdocsService.close(id);
   }
 
-  reDraw(parametro:any): void {
-    if(this.tipoVentana=="plantillasdocsnombramiento" || this.tipoVentana=="plantillasdocsbaja" || this.tipoVentana=="plantillasdocslicenciasadmin"){
+  reDraw(parametro: any): void {
+    if (this.tipoVentana == "plantillasdocsnombramiento" || this.tipoVentana == "plantillasdocsbaja" || this.tipoVentana == "plantillasdocslicenciasadmin") {
       this.dtOptionsAdicional.raw++;
-      this.dtOptionsAdicional.fkeyvalue=[this.record_id_plantillaspersonal,this.record_tipodoc];
+      this.dtOptionsAdicional.fkeyvalue = [this.record_id_plantillaspersonal, this.record_tipodoc];
       //this.dtOptionsAdicional.fkeyvalue=this.record_id_plantillaspersonal;
       this.dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
 
       this.plantillasdocsService.getAdmin(this.dataTablesParameters).subscribe(resp => {
-          this.ColumnNames = resp.columnNames;
-          this.Members = resp.data;
-          this.NumberOfMembers = resp.data.length;
-          $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
-          //$('#tblPlantillasdocs').dataTable({searching: false, paging: false, info: false});
-          if (this.NumberOfMembers > 0) {
-            $('.dataTables_empty').css('display', 'none');
-          }
+        this.ColumnNames = resp.columnNames;
+        this.Members = resp.data;
+        this.NumberOfMembers = resp.data.length;
+        $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
+        //$('#tblPlantillasdocs').dataTable({searching: false, paging: false, info: false});
+        if (this.NumberOfMembers > 0) {
+          $('.dataTables_empty').css('display', 'none');
         }
+      }
       );
       //nombramientos
-      this.plazasSvc.getNombramientosVigentes(this.record_id_personal,0).subscribe(resp => {
-        this.tblNombramientos=resp;
+      this.plazasSvc.getNombramientosVigentes(this.record_id_personal, 0).subscribe(resp => {
+        this.tblNombramientos = resp;
       });
     }
-    else if(this.tipoVentana=="plantillasdocsprofesional"){
+    else if (this.tipoVentana == "plantillasdocsprofesional") {
       this.dtOptionsAdicionalPreparacion.raw++;
-      this.dtOptionsAdicionalPreparacion.fkeyvalue=[this.record_id_personal];
+      this.dtOptionsAdicionalPreparacion.fkeyvalue = [this.record_id_personal];
 
       this.dataTablesParametersPreparacion.opcionesAdicionales = this.dtOptionsAdicionalPreparacion;
 
       this.plantillasdocsprofesionalSvc.getAdmin(this.dataTablesParametersPreparacion).subscribe(resp => {
-          this.ColumnNamesPreparacion = resp.columnNames;
-          this.MembersPreparacion = resp.data;
-          this.NumberOfMembersPreparacion = resp.data.length;
-          $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
-          //$('#tblPlantillasdocs').dataTable({searching: false, paging: false, info: false});
-          if (this.NumberOfMembersPreparacion > 0) {
-            $('.dataTables_empty').css('display', 'none');
-          }
+        this.ColumnNamesPreparacion = resp.columnNames;
+        this.MembersPreparacion = resp.data;
+        this.NumberOfMembersPreparacion = resp.data.length;
+        $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
+        //$('#tblPlantillasdocs').dataTable({searching: false, paging: false, info: false});
+        if (this.NumberOfMembersPreparacion > 0) {
+          $('.dataTables_empty').css('display', 'none');
         }
+      }
       );
     }
-    else if(this.tipoVentana=="plantillasdocsfamiliares"){
+    else if (this.tipoVentana == "plantillasdocsfamiliares") {
       this.dtOptionsAdicionalFamiliares.raw++;
-      this.dtOptionsAdicionalFamiliares.fkeyvalue=[this.record_id_personal];
+      this.dtOptionsAdicionalFamiliares.fkeyvalue = [this.record_id_personal];
 
       this.dataTablesParametersFamiliares.opcionesAdicionales = this.dtOptionsAdicionalFamiliares;
 
       this.plantillasdocsfamiliaresSvc.getAdmin(this.dataTablesParametersFamiliares).subscribe(resp => {
-          this.ColumnNamesFamiliares = resp.columnNames;
-          this.MembersFamiliares = resp.data;
-          this.NumberOfMembersFamiliares = resp.data.length;
-          $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
-          //$('#tblPlantillasdocs').dataTable({searching: false, paging: false, info: false});
-          if (this.NumberOfMembersFamiliares > 0) {
-            $('.dataTables_empty').css('display', 'none');
-          }
+        this.ColumnNamesFamiliares = resp.columnNames;
+        this.MembersFamiliares = resp.data;
+        this.NumberOfMembersFamiliares = resp.data.length;
+        $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
+        //$('#tblPlantillasdocs').dataTable({searching: false, paging: false, info: false});
+        if (this.NumberOfMembersFamiliares > 0) {
+          $('.dataTables_empty').css('display', 'none');
         }
+      }
       );
     }
-    else if(this.tipoVentana=="plantillasdocssindicato"){
+    else if (this.tipoVentana == "plantillasdocssindicato") {
       this.dtOptionsAdicionalSindicato.raw++;
-      this.dtOptionsAdicionalSindicato.fkeyvalue=[this.record_id_personal];
+      this.dtOptionsAdicionalSindicato.fkeyvalue = [this.record_id_personal];
 
       this.dataTablesParametersSindicato.opcionesAdicionales = this.dtOptionsAdicionalSindicato;
 
       this.plantillasdocssindicatoSvc.getAdmin(this.dataTablesParametersSindicato).subscribe(resp => {
-          this.ColumnNamesSindicato = resp.columnNames;
-          this.MembersSindicato = resp.data;
-          this.NumberOfMembersSindicato = resp.data.length;
-          $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
-          //$('#tblPlantillasdocs').dataTable({searching: false, paging: false, info: false});
-          if (this.NumberOfMembersSindicato > 0) {
-            $('.dataTables_empty').css('display', 'none');
-          }
+        this.ColumnNamesSindicato = resp.columnNames;
+        this.MembersSindicato = resp.data;
+        this.NumberOfMembersSindicato = resp.data.length;
+        $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
+        //$('#tblPlantillasdocs').dataTable({searching: false, paging: false, info: false});
+        if (this.NumberOfMembersSindicato > 0) {
+          $('.dataTables_empty').css('display', 'none');
         }
+      }
       );
     }
-    else if(this.tipoVentana=="plantillasdocslicencias"){
+    else if (this.tipoVentana == "plantillasdocslicencias") {
       this.dtOptionsAdicionalLicencias.raw++;
-      this.dtOptionsAdicionalLicencias.fkeyvalue=[this.record_id_plantillaspersonal];
+      this.dtOptionsAdicionalLicencias.fkeyvalue = [this.record_id_plantillaspersonal];
 
       this.dataTablesParametersLicencias.opcionesAdicionales = this.dtOptionsAdicionalLicencias;
 
       this.plantillasdocslicenciasSvc.getAdmin(this.dataTablesParametersLicencias).subscribe(resp => {
-          this.ColumnNamesLicencias = resp.columnNames;
-          this.MembersLicencias = resp.data;
-          this.NumberOfMembersLicencias = resp.data.length;
-          $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
-          //$('#tblPlantillasdocs').dataTable({searching: false, paging: false, info: false});
-          if (this.NumberOfMembersLicencias > 0) {
-            $('.dataTables_empty').css('display', 'none');
-          }
+        this.ColumnNamesLicencias = resp.columnNames;
+        this.MembersLicencias = resp.data;
+        this.NumberOfMembersLicencias = resp.data.length;
+        $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
+        //$('#tblPlantillasdocs').dataTable({searching: false, paging: false, info: false});
+        if (this.NumberOfMembersLicencias > 0) {
+          $('.dataTables_empty').css('display', 'none');
         }
+      }
       );
     }
   }

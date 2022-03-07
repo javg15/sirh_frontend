@@ -33,7 +33,7 @@ export class HorasasignacionAdminService {
           { solocabeceras: 1, opcionesAdicionales: { raw: 0 } }, {}
         ).subscribe(resp => {
           if (resp.data.length > 0)
-            o.next(resp.data[0].cabeceras);
+            o.next(resp.data[0]);
           else {
             o.next('[{"data":"id","name":"a_id","title":"ID"},{"data":"z_e","name":"cze_descripcion","title":"Z E"},{"data":"pl_auto","name":"a_totalplazaaut","title":"Pl Auto"},{"data":"horas_auto","name":"a_totalhorasaut","title":"Horas Auto"},{"data":"quin_inicio","name":"Quin_Inicio","title":"Quin Inicio"},{"data":"quin_fin","name":"Quin_Fin","title":"Quin Fin"},{"data":"importe","name":"a_importe","title":"Importe"},{"data":"acciones","name":"Accionesbotones>","title":"Acciones","render":"botones"}]')
           }
@@ -49,9 +49,9 @@ export class HorasasignacionAdminService {
       , httpOptions);
   }
 
-  public getAdminResumen(id_personal:number,id_semestre:number, id_plaza:number): Observable<any> {
+  public getAdminResumen(id_personal: number, id_semestre: number, id_plaza: number): Observable<any> {
     return this.http.post(this.API_URL + '/personalhoras/getAdminSubResumen',
-      { id_personal, id_semestre, id_plaza}
+      { id_personal, id_semestre, id_plaza }
       , httpOptions);
   }
 
