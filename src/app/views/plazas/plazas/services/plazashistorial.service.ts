@@ -22,18 +22,18 @@ export class PlazashistorialService {
   /* En el constructor creamos el objeto http de la clase HttpClient,
   que estará disponible en toda la clase del servicio.
   Se define como public, para que sea accesible desde los componentes necesarios */
-  constructor(public http: HttpClient) {}
+  constructor(public http: HttpClient) { }
 
-  getHeaders(): Observable<any>{
-    return new Observable((o)=>{
-      setTimeout(()=>{
+  getHeaders(): Observable<any> {
+    return new Observable((o) => {
+      setTimeout(() => {
         this.http.post<DataTablesResponse>(
           // this.API_URL + '/a6b_apis/read_records_dt.php',
           this.API_URL + '/plazas/getHistorial',
-          {dataTablesParameters:{solocabeceras:1,opcionesAdicionales:{raw:0}}}, {}
+          { dataTablesParameters: { solocabeceras: 1, opcionesAdicionales: { raw: 0 } } }, {}
         ).subscribe(resp => {
-            o.next(resp.data[0]);
-          })
+          o.next(resp.data[0]);
+        })
       }, 200)
     })
   }
@@ -47,22 +47,22 @@ export class PlazashistorialService {
 
 
 
-// array de modales
+  // array de modales
   public add(modal: any) {
-        this.modals.push(modal);
-    }
+    this.modals.push(modal);
+  }
 
   public remove(id: string) {
-        this.modals = this.modals.filter(x => x.id !== id);
-    }
+    this.modals = this.modals.filter(x => x.id !== id);
+  }
 
-  public open(id: string, accion: string, idItem: number,idParent:number) {
-        let modal: any = this.modals.filter(x => x.id === id)[0];
-        modal.open(idItem, accion,idParent);
-    }
+  public open(id: string, accion: string, idItem: number, idParent: number) {
+    let modal: any = this.modals.filter(x => x.id === id)[0];
+    modal.open(idItem, accion, idParent);
+  }
 
   public close(id: string) {
-        let modal: any = this.modals.filter(x => x.id === id)[0];
-        modal.close();
-    }
+    let modal: any = this.modals.filter(x => x.id === id)[0];
+    modal.close();
+  }
 }

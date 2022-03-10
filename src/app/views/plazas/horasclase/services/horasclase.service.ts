@@ -24,25 +24,25 @@ export class HorasclaseService {
   /* En el constructor creamos el objeto http de la clase HttpClient,
   que estará disponible en toda la clase del servicio.
   Se define como public, para que sea accesible desde los componentes necesarios */
-  constructor(public http: HttpClient) {}
+  constructor(public http: HttpClient) { }
 
-  getHeaders(): Observable<any>{
-    return new Observable((o)=>{
-      setTimeout(()=>{
+  getHeaders(): Observable<any> {
+    return new Observable((o) => {
+      setTimeout(() => {
         this.http.post<DataTablesResponse>(
           // this.API_URL + '/a6b_apis/read_records_dt.php',
           this.API_URL + '/horasclase/getAdmin',
-          {solocabeceras:1,opcionesAdicionales:{raw:0}}, {}
+          { solocabeceras: 1, opcionesAdicionales: { raw: 0 } }, {}
         ).subscribe(resp => {
-              o.next(resp.data[0]);
-          })
+          o.next(resp.data[0]);
+        })
       }, 200)
     })
   }
 
   public getCatalogo(): Observable<any> {
     return this.http.post(this.API_URL + '/horasclase/getCatalogo',
-      {  }
+      {}
       , httpOptions);
   }
 
@@ -56,40 +56,40 @@ export class HorasclaseService {
 
 
   /* El siguiente método graba un registro nuevo, o uno editado. */
-  public setRecord(dataPack,actionForm): Observable<any> {
+  public setRecord(dataPack, actionForm): Observable<any> {
 
     return this.http.post(this.API_URL + '/horasclase/setRecord',
-      { dataPack,actionForm }
+      { dataPack, actionForm }
       , httpOptions);
   }
 
-  public getReporte(url,id_ze){
+  public getReporte(url, id_ze) {
     let params = new HttpParams().set("id_ze", id_ze);
 
-    this.http.get(this.API_URL + url, {responseType: 'arraybuffer',params: params}).subscribe( data => {
-      var file = new Blob([data], {type: 'application/pdf'});
+    this.http.get(this.API_URL + url, { responseType: 'arraybuffer', params: params }).subscribe(data => {
+      var file = new Blob([data], { type: 'application/pdf' });
       var fileURL = window.URL.createObjectURL(file);
       window.open(fileURL);
-  });
+    });
   }
 
 
-// array de modales
+  // array de modales
   public add(modal: any) {
-        this.modals.push(modal);
-    }
+    this.modals.push(modal);
+  }
 
   public remove(id: string) {
-        this.modals = this.modals.filter(x => x.id !== id);
-    }
+    this.modals = this.modals.filter(x => x.id !== id);
+  }
 
   public open(id: string, accion: string, idItem: number) {
-        let modal: any = this.modals.filter(x => x.id === id)[0];
-        modal.open(idItem, accion,idItem);
-    }
+    let modal: any = this.modals.filter(x => x.id === id)[0];
+    modal.open(idItem, accion, idItem);
+  }
 
   public close(id: string) {
-        let modal: any = this.modals.filter(x => x.id === id)[0];
-        modal.close();
-    }
+    let modal: any = this.modals.filter(x => x.id === id)[0];
+    modal.close();
+  }
 }

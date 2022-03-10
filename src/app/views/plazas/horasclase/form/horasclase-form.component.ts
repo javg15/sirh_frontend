@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter  } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { HorasclaseService } from '../services/horasclase.service';
 import { HorasclasedetalleService } from '../services/horasclasedetalle.service';
 import { ActivatedRoute } from '@angular/router';
@@ -8,7 +8,7 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Horasclase, Gruposclase,Catplanteles,Materiasclase,Cattipohorasdocente } from '../../../../_models';
+import { Horasclase, Gruposclase, Catplanteles, Materiasclase, Cattipohorasdocente } from '../../../../_models';
 import { GruposclaseService } from '../../../catalogos/gruposclase/services/gruposclase.service';
 import { MateriasclaseService } from '../../../catalogos/materiasclase/services/materiasclase.service';
 import { CatplantelesService } from '../../../catalogos/catplanteles/services/catplanteles.service';
@@ -44,17 +44,18 @@ export class HorasclaseFormComponent implements OnInit, OnDestroy {
   Members: any[];
   ColumnNames: string[];
 
-  private dataTablesParameters={
-    draw: 1,  length: 100 , opcionesAdicionales: {},
-    order: [{column: 0, dir: "asc"}],
-    search: {value: "", regex: false},
+  private dataTablesParameters = {
+    draw: 1, length: 100, opcionesAdicionales: {},
+    order: [{ column: 0, dir: "asc" }],
+    search: { value: "", regex: false },
     start: 0
   };
-  private dtOptionsAdicional = { datosBusqueda: {campo: 0, operador: 0, valor: ''}
-    ,raw:0
-    ,fkey:'id_horasclase'
-    ,fkeyvalue:0
-    ,modo:2
+  private dtOptionsAdicional = {
+    datosBusqueda: { campo: 0, operador: 0, valor: '' }
+    , raw: 0
+    , fkey: 'id_horasclase'
+    , fkeyvalue: 0
+    , modo: 2
   };
 
   NumberOfMembers = 0;
@@ -73,70 +74,70 @@ export class HorasclaseFormComponent implements OnInit, OnDestroy {
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
 
   record: Horasclase;
-  gruposclaseCat:Gruposclase[];
-  catmateriasclaseCat:Materiasclase[];
-  catplantelesCat:Catplanteles[];
-  cattipohorasdocenteCat:Cattipohorasdocente[];
+  gruposclaseCat: Gruposclase[];
+  catmateriasclaseCat: Materiasclase[];
+  catplantelesCat: Catplanteles[];
+  cattipohorasdocenteCat: Cattipohorasdocente[];
 
   constructor(private isLoadingService: IsLoadingService,
-      private horasclaseService: HorasclaseService, private el: ElementRef,
-      private horasclasedetalleService: HorasclasedetalleService,
+    private horasclaseService: HorasclaseService, private el: ElementRef,
+    private horasclasedetalleService: HorasclasedetalleService,
     private gruposclaseSvc: GruposclaseService,
     private materiasclaseSvc: MateriasclaseService,
     private catplantelesSvc: CatplantelesService,
     private cattipohorasdocenteSvc: CattipohorasdocenteService,
     private route: ActivatedRoute
-      ) {
-      this.elementModal = el.nativeElement;
-      this.gruposclaseSvc.getCatalogo().subscribe(resp => {
-        this.gruposclaseCat = resp;
-      });
+  ) {
+    this.elementModal = el.nativeElement;
+    this.gruposclaseSvc.getCatalogo().subscribe(resp => {
+      this.gruposclaseCat = resp;
+    });
 
-      this.materiasclaseSvc.getCatalogo().subscribe(resp => {
-        this.catmateriasclaseCat = resp;
-      });
-      this.catplantelesSvc.getCatalogo().subscribe(resp => {
-        this.catplantelesCat = resp;
-      });
-      this.cattipohorasdocenteSvc.getCatalogo().subscribe(resp => {
-        this.cattipohorasdocenteCat = resp;
-      });
-      //this.cattipoCat=[{id:'',descripcion:''},{id:1,descripcion:'ADMINISTRATIVO'},{id:2,descripcion:'DOCENTE'},{id:3,descripcion:'DIRECTIVO'}];
+    this.materiasclaseSvc.getCatalogo().subscribe(resp => {
+      this.catmateriasclaseCat = resp;
+    });
+    this.catplantelesSvc.getCatalogo().subscribe(resp => {
+      this.catplantelesCat = resp;
+    });
+    this.cattipohorasdocenteSvc.getCatalogo().subscribe(resp => {
+      this.cattipohorasdocenteCat = resp;
+    });
+    //this.cattipoCat=[{id:'',descripcion:''},{id:1,descripcion:'ADMINISTRATIVO'},{id:2,descripcion:'DOCENTE'},{id:3,descripcion:'DIRECTIVO'}];
   }
 
   newRecord(): Horasclase {
     return {
-      id: 0,  id_catplanteles: 0, id_materiasclase:0, horas: 0, horaestatus:0,id_gruposclase:0,
-      id_cattipohorasdocente:0,frenteagrupo:0,id_cattiposemestre:0,
-      state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
+      id: 0, id_catplanteles: 0, id_materiasclase: 0, horas: 0, horaestatus: 0, id_gruposclase: 0,
+      id_cattipohorasdocente: 0, frenteagrupo: 0, id_cattiposemestre: 0,
+      state: '', created_at: new Date(), updated_at: new Date(), id_usuarios_r: 0
     };
   }
   ngOnInit(): void {
 
-    this.record =this.newRecord();
+    this.record = this.newRecord();
 
     let modal = this;
 
     // ensure id attribute exists
     if (!modal.id) {//idModal {
-        console.error('modal must have an id');
-        return;
+      console.error('modal must have an id');
+      return;
     }
     // add self (this modal instance) to the modal service so it's accessible from controllers
     modal.horasclaseService.add(modal);
 
-      //subtabla datatable
-    this.headersAdmin = JSON.parse(this.route.snapshot.data.userdataSueldos); // get data from resolver
+    //subtabla datatable
+    this.headersAdmin = JSON.parse(this.route.snapshot.data.userdataSueldos.cabeceras); // get data from resolver
 
     this.dtOptions = {
       pagingType: 'full_numbers',
-      paging:false,
+      paging: false,
       //pageLength: 50,
       //serverSide: true,
       //processing: true,
-      ordering:false,
-      destroy : true,
-      searching : false,
+      ordering: false,
+      destroy: true,
+      searching: false,
       info: false,
       language: {
         emptyTable: '',
@@ -154,48 +155,48 @@ export class HorasclaseFormComponent implements OnInit, OnDestroy {
         },
       },
       columns: this.headersAdmin,
-      columnDefs:[{"visible": false, "targets": 0}, //state
-                {"width": "5%", "targets": 1}]
+      columnDefs: [{ "visible": false, "targets": 0 }, //state
+      { "width": "5%", "targets": 1 }]
     };
 
   }
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-      this.horasclaseService.remove(this.id); //idModal
-      this.elementModal.remove();
+    this.horasclaseService.remove(this.id); //idModal
+    this.elementModal.remove();
   }
 
 
   async submitAction(form) {
 
-    if(this.actionForm.toUpperCase()!=="VER"){
+    if (this.actionForm.toUpperCase() !== "VER") {
       this.validSummary.resetErrorMessages(form);
 
       await this.isLoadingService.add(
-      this.horasclaseService.setRecord(this.record,this.actionForm).subscribe(resp => {
-        if (resp.hasOwnProperty('error')) {
-          this.validSummary.generateErrorMessagesFromServer(resp.message);
-        }
-        else if(resp.message=="success"){
-          if(this.actionForm.toUpperCase()=="NUEVO") this.actionForm="editar";
-          this.record.id=resp.id;
-          this.successModal.show();
-          setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
-        }
-      }),{ key: 'loading' });
+        this.horasclaseService.setRecord(this.record, this.actionForm).subscribe(resp => {
+          if (resp.hasOwnProperty('error')) {
+            this.validSummary.generateErrorMessagesFromServer(resp.message);
+          }
+          else if (resp.message == "success") {
+            if (this.actionForm.toUpperCase() == "NUEVO") this.actionForm = "editar";
+            this.record.id = resp.id;
+            this.successModal.show();
+            setTimeout(() => { this.successModal.hide(); this.close(); }, 2000)
+          }
+        }), { key: 'loading' });
     }
   }
 
   // open modal
-  open(idItem: string, accion: string):  void {
-    this.actionForm=accion;
-    this.botonAccion=actionsButtonSave[accion];
-    this.tituloForm="Horas clase - " + titulosModal[accion] + " registro";
+  open(idItem: string, accion: string): void {
+    this.actionForm = accion;
+    this.botonAccion = actionsButtonSave[accion];
+    this.tituloForm = "Horas clase - " + titulosModal[accion] + " registro";
 
-    if(idItem=="0"){
-        this.record =this.newRecord();
-        this.reDraw(null);
+    if (idItem == "0") {
+      this.record = this.newRecord();
+      this.reDraw(null);
     } else {
       this.horasclaseService.getRecord(idItem).subscribe(resp => {
         this.record = resp;
@@ -209,10 +210,10 @@ export class HorasclaseFormComponent implements OnInit, OnDestroy {
 
   // close modal
   close(): void {
-      this.basicModal.hide();
-      if(this.actionForm.toUpperCase()!="VER"){
-        this.redrawEvent.emit(null);
-      }
+    this.basicModal.hide();
+    if (this.actionForm.toUpperCase() != "VER") {
+      this.redrawEvent.emit(null);
+    }
   }
 
   // log contenido de objeto en formulario
@@ -220,32 +221,32 @@ export class HorasclaseFormComponent implements OnInit, OnDestroy {
 
 
   //Sub formulario
-  openModal(id: string, accion: string, idItem: number,idParent:number) {
-    this.horasclasedetalleService.open(id, accion, idItem,idParent);
+  openModal(id: string, accion: string, idItem: number, idParent: number) {
+    this.horasclasedetalleService.open(id, accion, idItem, idParent);
   }
 
   closeModal(id: string) {
     this.horasclasedetalleService.close(id);
   }
 
-  reDraw(parametro:any): void {
+  reDraw(parametro: any): void {
 
 
     this.dtOptionsAdicional.raw++;
-    this.dtOptionsAdicional.fkeyvalue=this.record.id;
+    this.dtOptionsAdicional.fkeyvalue = this.record.id;
     this.dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
 
     this.horasclasedetalleService.getAdmin(this.dataTablesParameters).subscribe(resp => {
 
-        this.ColumnNames = resp.columnNames;
-        this.Members = resp.data;
-        this.NumberOfMembers = resp.data.length;
-        $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
-        //$('#tblHorasclasedetalle').dataTable({searching: false, paging: false, info: false});
-        if (this.NumberOfMembers > 0) {
-          $('.dataTables_empty').css('display', 'none');
-        }
+      this.ColumnNames = resp.columnNames;
+      this.Members = resp.data;
+      this.NumberOfMembers = resp.data.length;
+      $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
+      //$('#tblHorasclasedetalle').dataTable({searching: false, paging: false, info: false});
+      if (this.NumberOfMembers > 0) {
+        $('.dataTables_empty').css('display', 'none');
       }
+    }
     );
   }
 

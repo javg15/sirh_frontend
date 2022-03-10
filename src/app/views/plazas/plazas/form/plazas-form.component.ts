@@ -9,7 +9,7 @@ import { CatestatusplazaService } from '../../../catalogos/catestatusplaza/servi
 import { CategoriasdetalleService } from '../../../catalogos/categorias/services/categoriasdetalle.service';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Plazas, Categorias, Catcentrostrabajo, Catplanteles, Catzonaeconomica, Catzonageografica, Catestatusplaza,Categoriasdetalle,Catquincena } from '../../../../_models';
+import { Plazas, Categorias, Catcentrostrabajo, Catplanteles, Catzonaeconomica, Catzonageografica, Catestatusplaza, Categoriasdetalle, Catquincena } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
@@ -43,155 +43,163 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
   @ViewChild('txtplazasdisponibles') txtplazasdisponibles: ElementRef;
   @ViewChild('txtplazasautorizadas') txtplazasautorizadas: ElementRef;
   @ViewChild('txtplazasautorizadasplantel') txtplazasautorizadasplantel: ElementRef;
-    //@ViewChild('txtconsecutivo') txtconsecutivo: ElementRef;
+  //@ViewChild('txtconsecutivo') txtconsecutivo: ElementRef;
 
   record: Plazas;
-  categoriasCat:Categorias[];
-  catplantelesCat:Catplanteles[];
+  categoriasCat: Categorias[];
+  catplantelesCat: Catplanteles[];
   catcentrostrabajoCat: Catcentrostrabajo[];
-  catzonaeconomicaCat:Catzonaeconomica[];
-  catzonageograficaCat:Catzonageografica[];
-  catestatusplazaCat:Catestatusplaza[];
-  categoriasdetalleCat:any[];
-  catquincenaCat:Catquincena[];
-  varHorasAB:boolean;
-  editaconsecutivo:boolean;
-  permiteeditar:boolean;
-  record_id_plantillasdocsnombramiento_actual:number;
-  record_id_estatus:number;
+  catzonaeconomicaCat: Catzonaeconomica[];
+  catzonageograficaCat: Catzonageografica[];
+  catestatusplazaCat: Catestatusplaza[];
+  categoriasdetalleCat: any[];
+  catquincenaCat: Catquincena[];
+  varHorasAB: boolean;
+  editaconsecutivo: boolean;
+  permiteeditar: boolean;
+  record_id_plantillasdocsnombramiento_actual: number;
+  record_id_estatus: number;
 
   constructor(private isLoadingService: IsLoadingService,
-      private plazasService: PlazasService, private el: ElementRef,
-      private catplantelesSvc: CatplantelesService,
-      private catcentrostrabajoSvc: CatcentrostrabajoService,
-      private catzonaeconomicaSvc: CatzonaeconomicaService,
-      private catzonageograficaSvc: CatzonageograficaService,
-      private categoriasdetalleSvc: CategoriasdetalleService,
-      private categoriasSvc: CategoriasService,
-        private catestatusplazaSvc: CatestatusplazaService,
-        private catquincenaSvc:CatquincenaService,
-      ) {
-      this.elementModal = el.nativeElement;
-      this.catplantelesSvc.getCatalogo().subscribe(resp => {
-        this.catplantelesCat = resp;
-      });
-      this.catcentrostrabajoSvc.getCatalogo().subscribe(resp => {
-        this.catcentrostrabajoCat = resp;
-      });
-      this.catestatusplazaSvc.getCatalogo().subscribe(resp => {
-        this.catestatusplazaCat = resp;
-      });
-      this.catquincenaSvc.getCatalogo().subscribe(resp => {
-        this.catquincenaCat = resp;
-      });
+    private plazasService: PlazasService, private el: ElementRef,
+    private catplantelesSvc: CatplantelesService,
+    private catcentrostrabajoSvc: CatcentrostrabajoService,
+    private catzonaeconomicaSvc: CatzonaeconomicaService,
+    private catzonageograficaSvc: CatzonageograficaService,
+    private categoriasdetalleSvc: CategoriasdetalleService,
+    private categoriasSvc: CategoriasService,
+    private catestatusplazaSvc: CatestatusplazaService,
+    private catquincenaSvc: CatquincenaService,
+  ) {
+    this.elementModal = el.nativeElement;
+    this.catplantelesSvc.getCatalogo().subscribe(resp => {
+      this.catplantelesCat = resp;
+    });
+    this.catcentrostrabajoSvc.getCatalogo().subscribe(resp => {
+      this.catcentrostrabajoCat = resp;
+    });
+    this.catestatusplazaSvc.getCatalogo().subscribe(resp => {
+      this.catestatusplazaCat = resp;
+    });
+    this.catquincenaSvc.getCatalogo().subscribe(resp => {
+      this.catquincenaCat = resp;
+    });
   }
 
   newRecord(): Plazas {
     return {
-      id: 0,id_categorias: 0,consecutivo: 0, id_catplanteles: 0,  id_catcentrostrabajo: 0,
+      id: 0, id_categorias: 0, consecutivo: 0, id_catplanteles: 0, id_catcentrostrabajo: 0,
       state: '', id_catplantelescobro: 0, id_catzonageografica: 0, id_catquincena_ini: 0,
-      id_catquincena_fin: 0, id_catestatusplaza: 1, statussicodes: 0, id_puesto: 0,estatus:'',id_categoriasdetalle:0,
-      id_catsindicato: 0, created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0,
-      horas:0,horasb:0
+      id_catquincena_fin: 0, id_catestatusplaza: 1, statussicodes: 0, id_puesto: 0, estatus: '', id_categoriasdetalle: 0,
+      id_catsindicato: 0, created_at: new Date(), updated_at: new Date(), id_usuarios_r: 0,
+      horas: 0, horasb: 0
     };
   }
   ngOnInit(): void {
 
-      this.record =this.newRecord();
+    this.record = this.newRecord();
 
-      let modal = this;
+    let modal = this;
 
-      // ensure id attribute exists
-      if (!modal.id) {//idModal {
-          console.error('modal must have an id');
-          return;
-      }
-      // add self (this modal instance) to the modal service so it's accessible from controllers
-      modal.plazasService.add(modal);
+    // ensure id attribute exists
+    if (!modal.id) {//idModal {
+      console.error('modal must have an id');
+      return;
+    }
+    // add self (this modal instance) to the modal service so it's accessible from controllers
+    modal.plazasService.add(modal);
 
-      //loading
-      this.userFormIsPending =this.isLoadingService.isLoading$({ key: 'loading' });
+    //loading
+    this.userFormIsPending = this.isLoadingService.isLoading$({ key: 'loading' });
   }
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-      this.plazasService.remove(this.id); //idModal
-      this.elementModal.remove();
+    this.plazasService.remove(this.id); //idModal
+    this.elementModal.remove();
   }
 
   onSelectPlantel(select_plantel) {
     //let clave=$("#selectPlantel option:selected").text().split("-")[0];
-    this.record.id_catplanteles=select_plantel;
-    this.record.id_catcentrostrabajo=0;
-    this.catcentrostrabajoCat=[];
+    this.record.id_catplanteles = select_plantel;
+    this.record.id_catcentrostrabajo = 0;
+    this.catcentrostrabajoCat = [];
 
     this.catcentrostrabajoSvc.getCatalogoSegunPlantel(this.record.id_catplanteles).subscribe(resp => {
       this.catcentrostrabajoCat = resp;
     });
 
     //Obtener las categporias segun el tipo de plantel seleccionado
-    let tipoplantel=this.catplantelesCat.find(e=>e.id==select_plantel).tipoplantel;
+    let tipoplantel = null;
+    if (select_plantel > 0)
+      tipoplantel = this.catplantelesCat.find(e => e.id == select_plantel).tipoplantel;
     this.categoriasSvc.getCatalogoSegunPlantel(tipoplantel).subscribe(resp => {
       this.categoriasCat = resp;
     });
 
-    if(select_plantel>0)
+    if (select_plantel > 0)
       this.showAdicionalesPlantel(select_plantel);
   }
 
-  onSelectCategoria(select_categoria){
-    this.record.id_categorias=select_categoria;
+  onSelectCategoria(select_categoria) {
+    this.record.id_categorias = select_categoria;
 
-    let categoria=this.categoriasCat.find(e=>e.id==select_categoria);
+    let categoria = null;
+    if (select_categoria > 0) {
+      categoria = this.categoriasCat.find(e => e.id == select_categoria);
 
-    if(categoria.id_cattipocategoria==2 && categoria.horasasignadas==0)
-      this.varHorasAB=true;
+      if (categoria.id_cattipocategoria == 2 && categoria.horasasignadas == 0)
+        this.varHorasAB = true;
+      else
+        this.varHorasAB = false;
+    }
     else
-      this.varHorasAB=false;
+      this.varHorasAB = false;
 
-    this.showAdicionalesCategoria();
+    if (select_categoria > 0)
+      this.showAdicionalesCategoria();
   }
 
   /**
    * Realiza operaciones extras segun los parametros evaluados
    */
-  showAdicionalesCategoria(){
-    if(this.record.id_categorias>0 && this.record.id_catplanteles>0){
-      this.plazasService.getRecordPlazasInfo(this.record.id_categorias,this.record.id_catplanteles).subscribe(resp => {
-        this.txtplazasdisponibles.nativeElement.value=resp[0].fn_plazas_disponibles.totalplazasdisponibles;
-        this.txtplazasautorizadas.nativeElement.value=resp[0].fn_plazas_disponibles.totalplazasautorizadas;
-        this.txtplazasautorizadasplantel.nativeElement.value=resp[0].fn_plazas_disponibles.totalautorizadasalplantel;
+  showAdicionalesCategoria() {
+    if (this.record.id_categorias > 0 && this.record.id_catplanteles > 0) {
+      this.plazasService.getRecordPlazasInfo(this.record.id_categorias, this.record.id_catplanteles).subscribe(resp => {
+        this.txtplazasdisponibles.nativeElement.value = resp[0].fn_plazas_disponibles.totalplazasdisponibles;
+        this.txtplazasautorizadas.nativeElement.value = resp[0].fn_plazas_disponibles.totalplazasautorizadas;
+        this.txtplazasautorizadasplantel.nativeElement.value = resp[0].fn_plazas_disponibles.totalautorizadasalplantel;
 
         //cambio de color alertando de que ya no hay vacantes
-        if(resp[0].fn_plazas_disponibles.totalplazasdisponibles==0 && this.actionForm.toLowerCase()=="nuevo")
-          this.txtplazasdisponibles.nativeElement.style.backgroundColor ="yellow";
+        if (resp[0].fn_plazas_disponibles.totalplazasdisponibles == 0 && this.actionForm.toLowerCase() == "nuevo")
+          this.txtplazasdisponibles.nativeElement.style.backgroundColor = "yellow";
         else
-          this.txtplazasdisponibles.nativeElement.style.backgroundColor ="";
+          this.txtplazasdisponibles.nativeElement.style.backgroundColor = "";
       });
 
-      if(this.actionForm.toUpperCase()=="NUEVO"){//no calcular el consecutivo en la edicion
+      if (this.actionForm.toUpperCase() == "NUEVO") {//no calcular el consecutivo en la edicion
         this.plazasService.getConsecutivo(this.record.id_categorias).subscribe(resp => {
-          this.record.consecutivo=resp;
+          this.record.consecutivo = resp;
         });
       }
 
       this.categoriasdetalleSvc.getCatalogo(this.record.id_categorias).subscribe(resp => {
         this.categoriasdetalleCat = resp;
-        if(this.categoriasdetalleCat.length>0)//si solo existe un registro
-          this.categoriasdetalleCat.unshift({id:null,codigo:'',clave_ze:''});
+        if (this.categoriasdetalleCat.length > 0)//si solo existe un registro
+          this.categoriasdetalleCat.unshift({ id: null, codigo: '', clave_ze: '' });
       });
     }
   }
 
-  showAdicionalesPlantel(select_plantel){
+  showAdicionalesPlantel(select_plantel) {
 
     this.catplantelesSvc.getRecord(select_plantel).subscribe(resp => {
       this.catzonaeconomicaSvc.getRecord(resp.id_catzonaeconomica).subscribe(resp => {
-        this.txtzonaeconomica.nativeElement.value=resp.descripcion;
+        this.txtzonaeconomica.nativeElement.value = resp.descripcion;
       });
 
       this.catzonageograficaSvc.getRecord(resp.id_catzonageografica).subscribe(resp => {
-        this.txtzonageografica.nativeElement.value=resp.descripcion;
+        this.txtzonageografica.nativeElement.value = resp.descripcion;
       })
     });
 
@@ -201,84 +209,84 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
 
   async submitAction(form) {
 
-    if(this.actionForm.toUpperCase()!=="VER"){
+    if (this.actionForm.toUpperCase() !== "VER") {
       this.validSummary.resetErrorMessages(form);
 
-      if(//ya tiene un nombraminto en el historial
-        this.record_id_plantillasdocsnombramiento_actual!=0
+      if (//ya tiene un nombraminto en el historial
+        this.record_id_plantillasdocsnombramiento_actual != 0
         //vacante,cancelada,nuevacreacion
-        && this.record_id_estatus!=0 && this.record_id_estatus!=1 && this.record_id_estatus!=7 && this.record_id_estatus!=8
+        && this.record_id_estatus != 0 && this.record_id_estatus != 1 && this.record_id_estatus != 7 && this.record_id_estatus != 8
         //
-          && this.actionForm.toUpperCase()=="DESACTIVAR"
-          ) 
-        this.validSummary.generateErrorMessagesFromServer({Titular: "El registro no puede desactivarse debido a que el estatus actual de la plaza es diferente a VACANTE DEFINITIVA, NUEVA CREACIÓN O CANCELADA"});
-      
-      else{
+        && this.actionForm.toUpperCase() == "DESACTIVAR"
+      )
+        this.validSummary.generateErrorMessagesFromServer({ Titular: "El registro no puede desactivarse debido a que el estatus actual de la plaza es diferente a VACANTE DEFINITIVA, NUEVA CREACIÓN O CANCELADA" });
+
+      else {
         await this.isLoadingService.add(
-          this.plazasService.setRecord(this.record,this.actionForm).subscribe(resp => {
+          this.plazasService.setRecord(this.record, this.actionForm).subscribe(resp => {
             if (resp.hasOwnProperty('error')) {
               this.validSummary.generateErrorMessagesFromServer(resp.message);
             }
-            else if(resp.message=="success"){
-              if(this.actionForm.toUpperCase()=="NUEVO") this.actionForm="editar";
-              this.record.id=resp.id;
+            else if (resp.message == "success") {
+              if (this.actionForm.toUpperCase() == "NUEVO") this.actionForm = "editar";
+              this.record.id = resp.id;
               this.successModal.show();
-              setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
+              setTimeout(() => { this.successModal.hide(); this.close(); }, 2000)
             }
-          }),{ key: 'loading' });
+          }), { key: 'loading' });
       }
     }
   }
-  
+
 
   // open modal
-  open(idItem: string, accion: string,id_plantillasdocsnombramiento_actual:number,id_estatus:number):  void {
-    this.actionForm=accion;
-    this.botonAccion=actionsButtonSave[accion];
-    this.editaconsecutivo=false;
-    this.permiteeditar=false;
-    this.record_id_plantillasdocsnombramiento_actual=id_plantillasdocsnombramiento_actual;
-    this.record_id_estatus=id_estatus;
+  open(idItem: string, accion: string, id_plantillasdocsnombramiento_actual: number, id_estatus: number): void {
+    this.actionForm = accion;
+    this.botonAccion = actionsButtonSave[accion];
+    this.editaconsecutivo = false;
+    this.permiteeditar = false;
+    this.record_id_plantillasdocsnombramiento_actual = id_plantillasdocsnombramiento_actual;
+    this.record_id_estatus = id_estatus;
 
-    if(idItem=="0"){
-      this.record =this.newRecord();
-      this.tituloForm="Plazas - " + titulosModal[accion] + " registro";
-      this.permiteeditar=true;
+    if (idItem == "0") {
+      this.record = this.newRecord();
+      this.tituloForm = "Plazas - " + titulosModal[accion] + " registro";
+      this.permiteeditar = true;
     } else {
-      this.editaconsecutivo=true;
-      this.tituloForm="Plazas - " + titulosModal[accion] + " registro";
+      this.editaconsecutivo = true;
+      this.tituloForm = "Plazas - " + titulosModal[accion] + " registro";
       this.plazasService.getRecord(idItem).subscribe(resp => {
         this.record = resp;
         //si aun no tiene una asignación 
-        if(id_plantillasdocsnombramiento_actual==0)
-          this.permiteeditar=true;
-        else if( id_estatus==1 || id_estatus==7 || id_estatus==8) //vacante,cancelada,nuevacreacion
-          this.permiteeditar=true;
+        if (id_plantillasdocsnombramiento_actual == 0)
+          this.permiteeditar = true;
+        else if (id_estatus == 1 || id_estatus == 7 || id_estatus == 8) //vacante,cancelada,nuevacreacion
+          this.permiteeditar = true;
         else
-          this.permiteeditar=false;
+          this.permiteeditar = false;
 
-        if(this.actionForm.toUpperCase()=="COPIAR"){
-          this.actionForm="NUEVO";
-          this.record.id=0;
-          this.permiteeditar=true;
+        if (this.actionForm.toUpperCase() == "COPIAR") {
+          this.actionForm = "NUEVO";
+          this.record.id = 0;
+          this.permiteeditar = true;
         }
 
         this.catcentrostrabajoSvc.getCatalogoSegunPlantel(this.record.id_catplanteles).subscribe(resp => {
           this.catcentrostrabajoCat = resp;
         });
         this.plazasService.getClave(idItem).subscribe(resp => {
-          this.tituloForm="Plazas - " + titulosModal[accion] + " registro - " + resp[0].clave;
+          this.tituloForm = "Plazas - " + titulosModal[accion] + " registro - " + resp[0].clave;
         });
 
         //se pasa a esta variable porque en alguna parte desconocida  this.record.id_categorias se pasa a null
-        let id_categorias=this.record.id_categorias;
+        let id_categorias = this.record.id_categorias;
 
         this.onSelectPlantel(this.record.id_catplanteles);
         //Obtener las categporias segun el tipo de plantel seleccionado
-        let tipoplantel=this.catplantelesCat.find(e=>e.id==this.record.id_catplanteles).tipoplantel;
+        let tipoplantel = this.catplantelesCat.find(e => e.id == this.record.id_catplanteles).tipoplantel;
         this.categoriasSvc.getCatalogoSegunPlantel(tipoplantel).subscribe(resp => {
           this.categoriasCat = resp;
-          this.record.id_categorias=id_categorias;
+          this.record.id_categorias = id_categorias;
           this.onSelectCategoria(id_categorias);
         });
         /*this.showAdicionalesPlantel(resp.id_catplanteles);
@@ -292,10 +300,10 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
 
   // close modal
   close(): void {
-      this.basicModal.hide();
-      if(this.actionForm.toUpperCase()!="VER"){
-        this.redrawEvent.emit(null);
-      }
+    this.basicModal.hide();
+    if (this.actionForm.toUpperCase() != "VER") {
+      this.redrawEvent.emit(null);
+    }
   }
 
   // log contenido de objeto en formulario

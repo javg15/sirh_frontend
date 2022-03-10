@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DataTablesResponse } from '../../../../classes/data-tables-response';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
-import {Semestre,Catestatushora} from '../../../../_models';
+import { Semestre, Catestatushora } from '../../../../_models';
 import { PersonalService } from '../../../catalogos/personal/services/personal.service';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
@@ -55,11 +55,11 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
     start: 0
   };
   private dtOptionsAdicional = {
-    state:'AD',
+    state: 'AD',
     datosBusqueda: { campo: 0, operador: 0, valor: '' }
     , raw: 0
     , fkey: 'id_personal,id_semestre,id_catplanteles,id_catestatushora,id_plazas,id_personalhoras_descarga'
-    , fkeyvalue: [0, 0, 0, '1',0,0]
+    , fkeyvalue: [0, 0, 0, '1', 0, 0]
     , modo: 22
   };
 
@@ -71,11 +71,11 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
     start: 0
   };
   private dtOptionsAdicionalDescarga = {
-    state:'AD',
+    state: 'AD',
     datosBusqueda: { campo: 0, operador: 0, valor: '' }
     , raw: 0
     , fkey: 'id_personal,id_semestre,id_catplanteles,id_catestatushora,id_plazas,id_personalhoras_descarga'
-    , fkeyvalue: [0, 0, 0, '1',0,1]
+    , fkeyvalue: [0, 0, 0, '1', 0, 1]
     , modo: 22
   };
   MembersDescarga: any[];
@@ -93,18 +93,18 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
   semestreCat: Semestre[];
 
 
-  record_id_personal: number=0;
-  record_id_semestre: number=0;
-  record_id_catplanteles: number=0;
-  record_estatus: string='1';
-  record_id_plaza:any=0;
-  record_id_catplanteles_aplicacion:number=0;
-  record_esInterina: number=0;
-  record_numeemp:string;
-  esSemestreDesdeParametro:boolean=false;
-  tblResumenRows:any=[];
-  tblResumenRowsEstatus:any=[];
-  tblNombramientos:[];
+  record_id_personal: number = 0;
+  record_id_semestre: number = 0;
+  record_id_catplanteles: number = 0;
+  record_estatus: string = '1';
+  record_id_plaza: any = 0;
+  record_id_catplanteles_aplicacion: number = 0;
+  record_esInterina: number = 0;
+  record_numeemp: string;
+  esSemestreDesdeParametro: boolean = false;
+  tblResumenRows: any = [];
+  tblResumenRowsEstatus: any = [];
+  tblNombramientos: [];
 
   private elementModal: any;
 
@@ -144,8 +144,8 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
     modal.personalhorasService.add(modal);
 
     //subtabla datatable
-    this.headersAdmin = JSON.parse(this.route.snapshot.data.userdataHoras); // get data from resolver
-    this.headersAdminDescarga = JSON.parse(this.route.snapshot.data.userdataHoras); // get data from resolver
+    this.headersAdmin = JSON.parse(this.route.snapshot.data.userdataHoras.cabeceras); // get data from resolver
+    this.headersAdminDescarga = JSON.parse(this.route.snapshot.data.userdataHoras.cabeceras); // get data from resolver
 
     this.dtOptions = {
       pagingType: 'full_numbers',
@@ -173,8 +173,8 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
         },
       },
       columns: this.headersAdmin,
-      columnDefs: [{ "visible": false, "targets": [1,2,3,4,5,6,17] },//17=id_descarga
-      { "width": "20%", "targets": [7,9],} // no ejecuta la alineación, entonces, se fuerza en el css
+      columnDefs: [{ "visible": false, "targets": [1, 2, 3, 4, 5, 6, 17] },//17=id_descarga
+      { "width": "20%", "targets": [7, 9], } // no ejecuta la alineación, entonces, se fuerza en el css
       ]//ID, tipo
     };
 
@@ -205,8 +205,8 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
         },
       },
       columns: this.headersAdminDescarga,
-      columnDefs: [{ "visible": false, "targets": [1,2,3,4,5,6] },
-      { "width": "20%", "targets": [7,9],} // no ejecuta la alineación, entonces, se fuerza en el css
+      columnDefs: [{ "visible": false, "targets": [1, 2, 3, 4, 5, 6] },
+      { "width": "20%", "targets": [7, 9], } // no ejecuta la alineación, entonces, se fuerza en el css
       ]//ID, tipo
     };
 
@@ -221,31 +221,31 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
 
 
   // open modal
-  open(id_personal: number, accion: string,id_catplanteles:number,id_semestre:number,id_catplanteles_aplicacion:number): void {
+  open(id_personal: number, accion: string, id_catplanteles: number, id_semestre: number, id_catplanteles_aplicacion: number): void {
     this.actionForm = accion;
     this.botonAccion = actionsButtonSave[accion];
     this.record_id_personal = id_personal;
-    this.record_id_semestre=id_semestre;
-    this.record_id_catplanteles=id_catplanteles;
-    this.record_estatus='1';
+    this.record_id_semestre = id_semestre;
+    this.record_id_catplanteles = id_catplanteles;
+    this.record_estatus = '1';
 
     this.personalSvc.getRecord(id_personal).subscribe(resp => {
-      this.tituloForm="Carga horaria - " + resp.numeemp + " - " + (resp.apellidopaterno + " " + resp.apellidomaterno + " " + resp.nombre);
-      this.record_numeemp=resp.numeemp;
+      this.tituloForm = "Carga horaria - " + resp.numeemp + " - " + (resp.apellidopaterno + " " + resp.apellidomaterno + " " + resp.nombre);
+      this.record_numeemp = resp.numeemp;
     });
 
-    this.esSemestreDesdeParametro=(id_catplanteles>0);
-    if(id_catplanteles==0){
-      if(this.semestreCat.length>0){
-        this.record_id_semestre=this.semestreCat[this.semestreCat.length-1].id;
+    this.esSemestreDesdeParametro = (id_catplanteles > 0);
+    if (id_catplanteles == 0) {
+      if (this.semestreCat.length > 0) {
+        this.record_id_semestre = this.semestreCat[this.semestreCat.length - 1].id;
       }
     }
 
-    this.plazasSvc.getNombramientosVigentes(id_personal,id_semestre).subscribe(resp => {
-      this.tblNombramientos=resp;
-      this.record_id_plaza=resp[0].id_plaza;
-      this.record_esInterina=resp[0].esinterina;
-      this.record_id_catplanteles_aplicacion=resp[0].id_catplanteles_aplicacion;
+    this.plazasSvc.getNombramientosVigentes(id_personal, id_semestre).subscribe(resp => {
+      this.tblNombramientos = resp;
+      this.record_id_plaza = resp[0].id_plaza;
+      this.record_esInterina = resp[0].esinterina;
+      this.record_id_catplanteles_aplicacion = resp[0].id_catplanteles_aplicacion;
 
       this.reDraw(null);
     });
@@ -267,20 +267,20 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
 
 
   //Sub formulario
-  openModal(tipo: string, id: string, accion: string, idItem: number, idPersonal: number, idSemestre: number, idPlantel: number, idPlaza:number,esInterina:number,idPlantelAplicacion:number) {
+  openModal(tipo: string, id: string, accion: string, idItem: number, idPersonal: number, idSemestre: number, idPlantel: number, idPlaza: number, esInterina: number, idPlantelAplicacion: number) {
 
-    if(this.record_id_semestre>0){
+    if (this.record_id_semestre > 0) {
       switch (tipo.toLowerCase()) {
         case "01":
-          this.horasasignacionformSvc.open(id, accion, idItem, idPersonal, idSemestre, idPlantel, idPlaza,esInterina,idPlantelAplicacion);
+          this.horasasignacionformSvc.open(id, accion, idItem, idPersonal, idSemestre, idPlantel, idPlaza, esInterina, idPlantelAplicacion);
           break;
         default:
-          this.horasasignacionformSvc.open(id, accion, idItem, idPersonal, idSemestre, idPlantel, idPlaza,esInterina,idPlantelAplicacion);
+          this.horasasignacionformSvc.open(id, accion, idItem, idPersonal, idSemestre, idPlantel, idPlaza, esInterina, idPlantelAplicacion);
           break
       }
     }
-    else{
-      this.validSummary.generateErrorMessagesFromServer({record_id_semestre: "Para continuar debe elgegir un 'semestre' a trabajar"});
+    else {
+      this.validSummary.generateErrorMessagesFromServer({ record_id_semestre: "Para continuar debe elgegir un 'semestre' a trabajar" });
     }
   }
 
@@ -288,11 +288,11 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
     this.horasasignacionadminService.close(id);
   }
 
-  reDraw(parametro:any): void {
+  reDraw(parametro: any): void {
 
 
     this.dtOptionsAdicional.raw++;
-    this.dtOptionsAdicional.fkeyvalue = [this.record_id_personal, this.record_id_semestre, this.record_id_catplanteles, this.record_estatus,this.record_id_plaza,0];
+    this.dtOptionsAdicional.fkeyvalue = [this.record_id_personal, this.record_id_semestre, this.record_id_catplanteles, this.record_estatus, this.record_id_plaza, 0];
     //this.dtOptionsAdicional.fkeyvalue=this.record_id_personal;
     this.dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
 
@@ -309,17 +309,17 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
 
       //tabla resumen
       this.horasasignacionadminService.getAdminResumen(this.record_id_personal, this.record_id_semestre, this.record_id_plaza).subscribe(resp => {
-        this.tblResumenRows=[];this.tblResumenRowsEstatus=[];
-        if(resp.length>0){
-          this.tblResumenRows=resp[0].fn_horas_cuenta_resumen.Total;
-          this.tblResumenRowsEstatus=resp[0].fn_horas_cuenta_resumen.Estatus;
+        this.tblResumenRows = []; this.tblResumenRowsEstatus = [];
+        if (resp.length > 0) {
+          this.tblResumenRows = resp[0].fn_horas_cuenta_resumen.Total;
+          this.tblResumenRowsEstatus = resp[0].fn_horas_cuenta_resumen.Estatus;
         }
       });
     });
 
     //descarga
     this.dtOptionsAdicionalDescarga.raw++;
-    this.dtOptionsAdicionalDescarga.fkeyvalue = [this.record_id_personal, this.record_id_semestre, this.record_id_catplanteles, this.record_estatus,this.record_id_plaza,1];
+    this.dtOptionsAdicionalDescarga.fkeyvalue = [this.record_id_personal, this.record_id_semestre, this.record_id_catplanteles, this.record_estatus, this.record_id_plaza, 1];
     //this.dtOptionsAdicional.fkeyvalue=this.record_id_personal;
     this.dataTablesParametersDescarga.opcionesAdicionales = this.dtOptionsAdicionalDescarga;
 
@@ -341,7 +341,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
     this.reDraw(null);
   }
 
-  onCatestatusChange(estatus:any){
+  onCatestatusChange(estatus: any) {
     this.record_estatus = estatus;
     this.reDraw(null);
   }
