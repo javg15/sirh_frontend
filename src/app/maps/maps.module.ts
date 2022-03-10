@@ -9,6 +9,9 @@ import { MapsService } from './services/maps.service';
 import { MapsFormComponent } from './maps-form.component';
 import { NgSelect2Module } from 'ng-select2';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
+import {
+  AppSidebarModule,
+} from '@coreui/angular';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -22,7 +25,8 @@ const maskConfig: Partial<IConfig> = {
     NgSelect2Module,
     NgxMaskModule.forRoot(maskConfig),
     ModalModule.forRoot(),
-    SharedModule
+    SharedModule,
+    AppSidebarModule,
   ],
   declarations: [ MapsFormComponent,
   ],

@@ -9,11 +9,10 @@ import { BoardAdminComponent } from './board-admin/board-admin.component';
 
 
 // Import Containers
-import { DefaultLayoutComponent } from './containers';
+import { DefaultLayoutComponent,PublicLayoutComponent } from './containers';
 
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
-import { MapsFormComponent } from './maps/maps-form.component';
 import { RegisterComponent } from './register/register.component';
 
 
@@ -43,14 +42,9 @@ const routes: Routes = [
     }
   },
   { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule) },
-  { path: 'maps', loadChildren: () => import('./maps/maps.module').then(m => m.MapsModule) },
-  /*{
-    path: 'maps',
-    component: MapsFormComponent,
-    data: {
-      title: 'Mapa de ubicación de planteles'
-    }
-  },*/
+  { path: 'maps', 
+    component: PublicLayoutComponent,
+    loadChildren: () => import('./maps/maps.module').then(m => m.MapsModule) },
 
   {
     path: '',

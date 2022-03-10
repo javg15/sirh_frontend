@@ -59,6 +59,8 @@ export class MapsFormComponent implements OnInit {
   checkTodos:boolean=false;
   loadingForm:number=0;//PARCHESOTE:las 2 primeras change son disparadas por la carga de datos en los combos, entonces, se considera que ya cargo despues de esas dos primeras busqueda
 
+  sidebarMinimized = false;
+
   params={mostrarInfo:0
     ,record_plantel:{id:0,clave_zona:"",clave_plantel:"",ubicacion:"",tipoplantel:"",aniocreacion:"",municipio:"",clavectse:"",telefono:"",email:"",
       directivos:[{
@@ -342,6 +344,10 @@ export class MapsFormComponent implements OnInit {
 
       this.map.setZoom(this.zoom);
     });
+  }
+
+  toggleMinimize(e) {
+    this.sidebarMinimized = e;
   }
 
   /**

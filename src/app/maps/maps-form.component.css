@@ -59,3 +59,13 @@
 .switch-slider{
     margin-top: 1em;
 }
+ng-select2.form-control {
+    display: block;
+    width: auto;
+    height: auto;
+    background-color: inherit;
+    background-clip: inherit;
+    border: 0px;
+    border-radius: 0px;
+    transition: none;
+}
