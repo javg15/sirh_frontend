@@ -4,10 +4,12 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  /*APIS_URL:"http://localhost:8080/api",
-  URL:"http://localhost:8080/",*/
-  APIS_URL: "http://44.234.213.105:8082/api",
-  URL: "http://44.234.213.105:8082/",
+  APIS_URL:"http://localhost:8080/api",
+  URL:"http://localhost:8080/",
+  /*APIS_URL: "http://44.234.213.105:8082/api",
+  URL: "http://44.234.213.105:8082/",*/
+  /*APIS_URL: "http://35.81.143.160:8082/api",
+  URL: "http://35.81.143.160:8082/",*/
   production: false
 };
 
