@@ -22,6 +22,7 @@ export class LoginModalComponent implements OnInit {
   isLoginFailed = false;
   errorMessage = '';
   roles: string[] = [];
+  tituloForm:string='';
   private elementModal: any;
   @ViewChild('basicModal') basicModal: ModalDirective;
 

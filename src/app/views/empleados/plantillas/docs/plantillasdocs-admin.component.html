@@ -72,8 +72,8 @@
                                     </select>
                                     </ul>
                                     <form class="form-inline my-2 my-lg-0">
-                                        <button *ngIf="tituloBotonAgregar!='' && tipoVentana!='plantillasdocsnombramiento'" class="btn btn-success my-2 my-sm-0" (click)="openModal('nuevo',0,record_id_plantillaspersonal,record_id_personal)">Agregar</button>
-                                        <div *ngIf="tituloBotonAgregar!='' && tipoVentana=='plantillasdocsnombramiento'" class="btn-group" dropdown>
+                                        <button *ngIf="tipoVentana!='plantillasdocsnombramiento'" class="btn btn-success my-2 my-sm-0" (click)="openModal('nuevo',0,record_id_plantillaspersonal,record_id_personal)">Agregar</button>
+                                        <div *ngIf="tipoVentana=='plantillasdocsnombramiento'" class="btn-group" dropdown>
                                             <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
                                             Agregar<span class="caret"></span>
                                             </button>

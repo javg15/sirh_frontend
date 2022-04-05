@@ -6,145 +6,144 @@
         ">
             <div class="row">
                 <div class="col-sm-3">
-                <app-sidebar #appSidebar [fixed]="true" [display]="'lg'" [minimized]="sidebarMinimized" (minimizedChange)="toggleMinimize($event)" 
-                    style="width: 20rem !important">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label>Ver todos</label>
-                                <label class="switch switch-3d switch-info">
+                    <app-sidebar #appSidebar [fixed]="true" [display]="'lg'" [minimized]="sidebarMinimized" (minimizedChange)="toggleMinimize($event)" style="width: 20rem !important">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Ver todos</label>
+                                    <label class="switch switch-3d switch-info">
                                     <input type="checkbox" class="switch-input" [(ngModel)]="checkTodos" (change)="onCheckTodos()">
                                     <span class="switch-slider"></span>
                                 </label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label for="id_catregiones">Zona geográfica</label>
-                                <ng-select2 class="form-control" [(ngModel)]="record_id_catzonageografica" [data]="catzonageograficaCat" [allowClear]="true" width="300px" (valueChanged)="onSelectRegion($event)">
-                                </ng-select2>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="id_catregiones">Zona geográfica</label>
+                                    <ng-select2 class="form-control" [(ngModel)]="record_id_catzonageografica" [data]="catzonageograficaCat" [allowClear]="true" width="300px" (valueChanged)="onSelectRegion($event)">
+                                    </ng-select2>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label for="id_catplanteles">Plantel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                <ng-select2 class="form-control" [(ngModel)]="record_id_catplanteles" [data]="catplantelesComboFilteredCat" [allowClear]="true" width="300px" (valueChanged)="onSelectPlantel($event)">
-                                </ng-select2>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="id_catplanteles">Plantel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                    <ng-select2 class="form-control" [(ngModel)]="record_id_catplanteles" [data]="catplantelesComboFilteredCat" [allowClear]="true" width="300px" (valueChanged)="onSelectPlantel($event)">
+                                    </ng-select2>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div *ngIf="params.mostrarInfo==1" class="row">
-                        <div #colInfo class="col-sm-12 colInfo">
-                            <div class="form-group">
-                                <table class="tablaInfo">
-                                    <tr>
-                                        <td>Plantel</td>
-                                        <td> {{params.record_plantel.clave_plantel + ' - ' + params.record_plantel.ubicacion }} </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tipo de plantel</td>
-                                        <td> {{ params.record_plantel.tipoplantel }} </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Zona</td>
-                                        <td> {{ params.record_plantel.clave_zona }} </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Municipio</td>
-                                        <td> {{ params.record_plantel.municipio }} </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Dirección</td>
-                                        <td> {{ params.record_plantel.domicilio }} </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Clave SEV</td>
-                                        <td> {{ params.record_plantel.clavectse }} </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Año de creación</td>
-                                        <td> {{ params.record_plantel.aniocreacion }} </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Correo electrónico</td>
-                                        <td>
-                                            <div class="input-group">
-                                                <input name="email" type="text" [(ngModel)]="params.record_plantel.email" class="form-control" [disabled]="!isLoggedIn" (change)="submitPlantel($event)" [style.background-color]="(!isLoggedIn?lightgray:bg_color.telefono)" />
-                                                <span class="input-group-append" style="margin-right: -25px;">
+                        <div *ngIf="params.mostrarInfo==1" class="row">
+                            <div #colInfo class="col-sm-12 colInfo">
+                                <div class="form-group">
+                                    <table class="tablaInfo">
+                                        <tr>
+                                            <td>Plantel</td>
+                                            <td> {{params.record_plantel.clave_plantel + ' - ' + params.record_plantel.ubicacion }} </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tipo de plantel</td>
+                                            <td> {{ params.record_plantel.tipoplantel }} </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Zona</td>
+                                            <td> {{ params.record_plantel.clave_zona }} </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Municipio</td>
+                                            <td> {{ params.record_plantel.municipio }} </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Dirección</td>
+                                            <td> {{ params.record_plantel.domicilio }} </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Clave SEV</td>
+                                            <td> {{ params.record_plantel.clavectse }} </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Año de creación</td>
+                                            <td> {{ params.record_plantel.aniocreacion }} </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Correo electrónico</td>
+                                            <td>
+                                                <div class="input-group">
+                                                    <input name="email" type="text" [(ngModel)]="params.record_plantel.email" class="form-control" [disabled]="!isLoggedIn" (change)="submitPlantel($event)" [style.background-color]="(!isLoggedIn?lightgray:bg_color.telefono)" />
+                                                    <span class="input-group-append" style="margin-right: -25px;">
                                                     <button type="button" class="btn btn-primary btn-sm btn-pill" (click)="openModal('login-modal-1')" >
                                                         <i class="fa fa-edit"></i>
                                                     </button>
                                                 </span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Teléfono</td>
-                                        <td>
-                                            <div class="input-group">
-                                                <input name="telefono" type="text" [(ngModel)]="params.record_plantel.telefono" class="form-control" [disabled]="!isLoggedIn" mask="(000)000-0000" [specialCharacters]="[ '(' ,')' , '-' ]" (change)="submitPlantel($event)" [style.background-color]="(!isLoggedIn?lightgray:bg_color.email)"
-                                                />
-                                                <span class="input-group-append" style="margin-right: -25px;">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Teléfono</td>
+                                            <td>
+                                                <div class="input-group">
+                                                    <input name="telefono" type="text" [(ngModel)]="params.record_plantel.telefono" class="form-control" [disabled]="!isLoggedIn" mask="(000)000-0000" [specialCharacters]="[ '(' ,')' , '-' ]" (change)="submitPlantel($event)" [style.background-color]="(!isLoggedIn?lightgray:bg_color.email)"
+                                                    />
+                                                    <span class="input-group-append" style="margin-right: -25px;">
                                                         <button type="button" class="btn btn-primary btn-sm btn-pill" (click)="openModal('login-modal-1')">
                                                             <i class="fa fa-edit"></i>
                                                         </button>
                                                     </span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <ng-container *ngFor="let col of params.record_plantel.directivos;index as i">
-                                        <tr>
-                                            <td colspan="2">
-                                                <hr/>
+                                                </div>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>{{ col.plazacategoria }}</td>
-                                            <td> {{ col.persona }} </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Función</td>
-                                            <td> {{ col.funcion }} </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Correo oficial</td>
-                                            <td>
-                                                <div class="input-group">
-                                                    <input type="text" name="email_dir" [disabled]="!isLoggedIn" (change)="submitDirectivo($event,col.id,i)" type="text" [(ngModel)]="params.record_plantel.directivos[i].email" [style.background-color]="(!isLoggedIn?lightgray:bg_color.dir[i]['email_dir'])">
-                                                    <span class="input-group-append" style="margin-right: -25px;">
+                                        <ng-container *ngFor="let col of params.record_plantel.directivos;index as i">
+                                            <tr>
+                                                <td colspan="2">
+                                                    <hr/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{ col.plazacategoria }}</td>
+                                                <td> {{ col.persona }} </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Función</td>
+                                                <td> {{ col.funcion }} </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Correo oficial</td>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <input type="text" name="email_dir" [disabled]="!isLoggedIn" (change)="submitDirectivo($event,col.id,i)" type="text" [(ngModel)]="params.record_plantel.directivos[i].email" [style.background-color]="(!isLoggedIn?lightgray:bg_color.dir[i]['email_dir'])">
+                                                        <span class="input-group-append" style="margin-right: -25px;">
                                                     <button type="button" class="btn btn-primary btn-sm btn-pill" (click)="openModal('login-modal-1')">
                                                         <i class="fa fa-edit"></i>
                                                     </button>
                                                 </span>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>T. Movil</td>
-                                            <td>
-                                                <div class="input-group">
-                                                    <input type="text" name="telmov_dir" [disabled]="!isLoggedIn" mask="(000)000-0000" [specialCharacters]="[ '(' ,')' , '-' ]" (change)="submitDirectivo($event,col.id,i)" type="text" [(ngModel)]="params.record_plantel.directivos[i].telefonomovil" [style.background-color]="(!isLoggedIn?lightgray:bg_color.dir[i]['telmov_dir'])">
-                                                    <span class="input-group-append" style="margin-right: -25px;">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>T. Movil</td>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <input type="text" name="telmov_dir" [disabled]="!isLoggedIn" mask="(000)000-0000" [specialCharacters]="[ '(' ,')' , '-' ]" (change)="submitDirectivo($event,col.id,i)" type="text" [(ngModel)]="params.record_plantel.directivos[i].telefonomovil" [style.background-color]="(!isLoggedIn?lightgray:bg_color.dir[i]['telmov_dir'])">
+                                                        <span class="input-group-append" style="margin-right: -25px;">
                                                 <button type="button" class="btn btn-primary btn-sm btn-pill" (click)="openModal('login-modal-1')">
                                                     <i class="fa fa-edit"></i>
                                                 </button>
                                             </span>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </ng-container>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
 
 
-                                </table>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <app-sidebar-minimizer></app-sidebar-minimizer>
-                </app-sidebar>
+                        <app-sidebar-minimizer></app-sidebar-minimizer>
+                    </app-sidebar>
                 </div>
                 <div class="col-sm-9">
                     <div class="row">
@@ -175,7 +174,7 @@
         </div>
     </main>
 </div>
-<app-login-modal id="login-modal-1" (onLoginEvent)="onLogin($event)">
+<app-login-modal id="login-modal-1" (onLoginEvent)="onLogin()">
     <!--<input type="hidden" [(ngModel)]="idItem" />-->
 </app-login-modal>
 

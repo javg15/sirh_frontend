@@ -13,7 +13,7 @@ export class FormUploadFisicoComponent implements OnInit {
   currentFileUpload: File;
   progress: { percentage: number } = { percentage: 0 };
 
-  @Input() ruta:string;
+  @Input() ruta:any;
 
   @Output() onLoaded: EventEmitter<number> = new EventEmitter<number>();
   @ViewChild('fileInput') fileInput: ElementRef;

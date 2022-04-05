@@ -51,6 +51,7 @@ export class CatregionesAdminComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.headersAdmin = JSON.parse(this.route.snapshot.data.userdata.cabeceras);
 
       this.dtOptions = {
