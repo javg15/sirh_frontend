@@ -119,7 +119,7 @@ export class CategoriasdetalleFormComponent implements OnInit, OnDestroy {
       modal.categoriasdetalleService.add(modal);
 
       //subtabla datatable
-      this.headersAdmin = JSON.parse(this.route.snapshot.data.userdataPercepciones); // get data from resolver
+      this.headersAdmin = JSON.parse(this.route.snapshot.data.userdataPercepciones.cabeceras); // get data from resolver
 
       this.dtOptions = {
         pagingType: 'full_numbers',
