@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter} from '@angular/core';
 import { SearchService } from '../../../_services/search.service';
-import { NgSelect2Module } from 'ng-select2';
+import { TokenStorageService } from '../../../_services/token-storage.service';
 
 declare var $: any;
 declare var jQuery: any;
@@ -14,6 +14,7 @@ declare var jQuery: any;
 export class SearchAdminComponent implements OnInit {
   @Input() nombreModulo: string;
   @Output() buscarEvent = new EventEmitter<any>();
+  usuario:any=this.tokenStorage.getUser();
 
   isCollapsed: boolean = true;
   itemsCampos: Array<any> = [{id: 0, idesc: '', orden: 0}];
@@ -54,12 +55,14 @@ export class SearchAdminComponent implements OnInit {
                         ]
   tipoOptions:Array<number>= [0,0,0,0,0];
 
-  constructor(private searchService: SearchService) {
+  constructor(
+    private tokenStorage: TokenStorageService,
+    private searchService: SearchService) {
   }
 
   ngOnInit(): void {
 
-    this.searchService.getSearchcampos(this.nombreModulo).subscribe(resp => {
+    this.searchService.getSearchcampos(this.nombreModulo,this.usuario.id).subscribe(resp => {
       for (let i = 0; i < resp.data.length; i++) {
         this.itemsCampos.push({
           id: resp.data[i].id,

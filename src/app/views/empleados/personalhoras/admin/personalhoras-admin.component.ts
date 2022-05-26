@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { TokenStorageService } from '../../../../_services/token-storage.service';
 
 import { DataTablesResponse } from '../../../../classes/data-tables-response';
 import { DataTableDirective } from 'angular-datatables';
@@ -27,6 +28,7 @@ declare var jQuery: any;
 
 export class PersonalhorasAdminComponent implements OnInit {
   @Input() dtOptions: DataTables.Settings = {};
+  usuario:any=this.tokenStorage.getUser();
   /* El decorador @ViewChild recibe la clase DataTableDirective, para luego poder
   crear el dtElement que represente la tabla que estamos creando. */
   @ViewChild('id_personal') id_personal:AutocompleteComponent;
@@ -70,6 +72,7 @@ export class PersonalhorasAdminComponent implements OnInit {
   y estará disponible en toda la clase de este componente.
   El objeto es private, porque no se usará fuera de este componente. */
   constructor(
+    private tokenStorage: TokenStorageService,
     private personalhorasService: PersonalhorasService, private route: ActivatedRoute,
     private semestreSvc: SemestreService,
     private catplantelesSvc: CatplantelesService,
@@ -84,7 +87,7 @@ export class PersonalhorasAdminComponent implements OnInit {
       this.esInicio=false; //si ya se cargó el catalogo, entonces, ya paso la carga inicial
       this.onClickBuscar();
     });
-    this.catplantelesSvc.getCatalogo().subscribe(resp => {
+    this.catplantelesSvc.getCatalogo(this.usuario.id).subscribe(resp => {
       this.catplantelesCat = resp;
     });
 

@@ -77,9 +77,9 @@ export class CatplantelesService {
       , httpOptions);
   }
 
-  public getCatalogo(): Observable<any> {
+  public getCatalogo(id_usuario:number=0): Observable<any> {
     return this.http.post(this.API_URL + '/catplanteles/getCatalogo',
-      {}
+      {id_usuario}
       , httpOptions);
   }
 

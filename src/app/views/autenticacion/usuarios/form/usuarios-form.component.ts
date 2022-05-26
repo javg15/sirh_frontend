@@ -180,7 +180,7 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
         this.record = resp;
   //obtener las zonas seleccionadas
         this.usuarioszonasSvc.getRecord(idItem).subscribe(resp => {
-          this.record.record_catzonasgeograficas = resp;
+          this.record.record_catzonasgeograficas = resp.map(rec=>rec.id.toString());
         });
         this.usuariosService.getTreePermisos(idItem).subscribe(resp => {
           this.nodes = resp;

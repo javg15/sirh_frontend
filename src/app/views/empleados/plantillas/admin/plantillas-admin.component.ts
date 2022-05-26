@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, Input, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { TokenStorageService } from '../../../../_services/token-storage.service';
 
 import { DataTablesResponse } from '../../../../classes/data-tables-response';
 import { DataTableDirective } from 'angular-datatables';
@@ -34,6 +35,7 @@ declare var jQuery: any;
 
 export class PlantillasAdminComponent implements OnInit {
   @Input() dtOptions: DataTables.Settings = {};
+  usuario:any=this.tokenStorage.getUser();
   /* El decorador @ViewChild recibe la clase DataTableDirective, para luego poder
   crear el dtElement que represente la tabla que estamos creando. */
   @ViewChild('id_personal') id_personal:AutocompleteComponent;
@@ -84,7 +86,9 @@ export class PlantillasAdminComponent implements OnInit {
   de la clase HttpConnectService, que contiene el servicio mencionado,
   y estará disponible en toda la clase de este componente.
   El objeto es private, porque no se usará fuera de este componente. */
-  constructor(private isLoadingService: IsLoadingService,
+  constructor(
+    private tokenStorage: TokenStorageService,
+    private isLoadingService: IsLoadingService,
     private plantillasService: PlantillasService,private route: ActivatedRoute,
     private catplantillasSvc: CatplantillasService,
     private catplantelesSvc: CatplantelesService,
@@ -97,7 +101,7 @@ export class PlantillasAdminComponent implements OnInit {
       this.catplantillasCat = resp;
       this.esInicio=false; //si ya se cargó el catalogo, entonces, ya paso la carga inicial
     });
-    this.catplantelesSvc.getCatalogo().subscribe(resp => {
+    this.catplantelesSvc.getCatalogo(this.usuario.id).subscribe(resp => {
       this.catplantelesCat = resp;
     });
     this.categoriasSvc.getCatalogo().subscribe(resp => {

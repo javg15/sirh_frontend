@@ -18,9 +18,10 @@ export class SearchService {
 
   constructor(private http: HttpClient) { }
 
-  getSearchcampos(nombreModulo: string): Observable<any> {
+  getSearchcampos(nombreModulo: string,id_usuario:number=0): Observable<any> {
     return this.http.post(this.API_URL + '/shared/getSearchcampos', {
-      nombreModulo: nombreModulo
+      nombreModulo: nombreModulo,
+      id_usuario:id_usuario
     }, httpOptions);
   }
 
