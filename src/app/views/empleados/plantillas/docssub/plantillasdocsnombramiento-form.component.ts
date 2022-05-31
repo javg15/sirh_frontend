@@ -5,7 +5,7 @@ import { TokenStorageService } from '../../../../_services/token-storage.service
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Plantillasdocsnombramiento,Personal,Categorias,Plantillaspersonal,Catestatusplaza,
-    Plazas,Categoriasdetalle,Catquincena, Catfuncionprimaria,Catfuncionsecundaria,Catesquemapago,
+    Plazas,Categoriasdetalle,Catquincena, Catfuncionprimaria,Catfuncionsecundaria,Catfuncionplantilla,Catesquemapago,
     Cattiposemestre, Catplanteles,Catcentrostrabajo,Catplantillas } from '../../../../_models';
 //import { Archivos } from '../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
@@ -20,6 +20,7 @@ import { CategoriasdetalleService } from '../../../catalogos/categorias/services
 import { CatquincenaService } from '../../../catalogos/catquincena/services/catquincena.service';
 import { CatfuncionprimariaService } from '../../../catalogos/catfuncionprimaria/services/catfuncionprimaria.service';
 import { CatfuncionsecundariaService } from '../../../catalogos/catfuncionsecundaria/services/catfuncionsecundaria.service';
+import { CatfuncionplantillaService } from '../../../catalogos/catfuncionplantilla/services/catfuncionplantilla.service';
 import { CattiposemestreService } from '../../../catalogos/cattiposemestre/services/cattiposemestre.service';
 import { CatesquemapagoService } from '../../../catalogos/catesquemapago/services/catesquemapago.service';
 import { CatplantelesService } from '../../../catalogos/catplanteles/services/catplanteles.service';
@@ -95,6 +96,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   catquincenaCat:Catquincena[];
   catfuncionprimariaCat:Catfuncionprimaria[];
   catfuncionsecundariaCat:Catfuncionsecundaria[];
+  catfuncionplantillaCat:Catfuncionplantilla[];
   cattiposemestreCat:Cattiposemestre[];
   catesquemapagoCat:Catesquemapago[];
   catplantelesCat:Catplanteles[];
@@ -125,6 +127,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       private catquincenaSvc: CatquincenaService,
       private catfuncionprimariaSvc: CatfuncionprimariaService,
       private catfuncionsecundariaSvc: CatfuncionsecundariaService,
+      private catfuncionplantillaSvc: CatfuncionplantillaService,
       private catesquemapagoSvc: CatesquemapagoService,
       private cattiposemestreSvc: CattiposemestreService,
       private catplantelesSvc: CatplantelesService,
@@ -148,6 +151,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
         this.catfuncionsecundariaSvc.getCatalogo().subscribe(resp => {
           this.catfuncionsecundariaCat = resp;
         });
+        
         this.cattiposemestreSvc.getCatalogo().subscribe(resp => {
           this.cattiposemestreCat = resp;
         });
@@ -168,7 +172,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0,
       id_catquincena_ini:0,id_catquincena_fin:0,id_catbajamotivo:0,id_catplanteles:0,
       id_catcentrostrabajo:0,id_catesquemapago:0,id_catfuncionprimaria:0,id_catfuncionsecundaria:0,
-      id_cattipoocupacion:0,id_cattiposemestre:0,esplazabase:0,id_catplanteles_aplicacion:0
+      id_cattipoocupacion:0,id_cattiposemestre:0,esplazabase:0,id_catplanteles_aplicacion:0,id_catfuncionplantilla:0
     };
   }
   ngOnInit(): void {
@@ -268,7 +272,10 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
 
     if(idItem=="0"){
         this.record =this.newRecord(idParent);
-
+        
+        this.catfuncionplantillaSvc.getCatalogo(this.record.id_plantillaspersonal).subscribe(resp => {
+          this.catfuncionplantillaCat = resp;
+        });
         //this.listUpload.showFiles(0);
         this.plantillasSvc.getRecord(this.record.id_plantillaspersonal).pipe(
             mergeMap((plantilla) => {
@@ -332,6 +339,11 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       )
       .subscribe((data) => {
         this.record = data.registro;
+
+        this.catfuncionplantillaSvc.getCatalogo(this.record.id_plantillaspersonal).subscribe(resp => {
+          this.catfuncionplantillaCat = resp;
+        });
+        
         this.record_plantillaspersonal=data.plantilla;
         this.record.id_catplanteles=data.plantilla.id_catplanteles; // se asigna aquí, porque es de solo lectura y viene desde la plantilla
 

@@ -60,6 +60,8 @@ export default interface Plantillasdocsnombramiento {
 
   id_catplanteles_aplicacion: number | null;
 
+  id_catfuncionplantilla: number | null;
+
 }
 
 export interface PlantillasdocsnombramientoInitializer {

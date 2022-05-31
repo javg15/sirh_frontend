@@ -43,6 +43,8 @@ export default interface Plazas {
   updated_at: Date | null;
 
   id_usuarios_r: number | null;
+
+  id_catplanteles_comision: number | null;
 }
 
 export interface PlazasInitializer {
@@ -91,4 +93,6 @@ export interface PlazasInitializer {
   updated_at?: Date;
 
   id_usuarios_r?: number;
+
+  id_catplanteles_comision?: number;
 }

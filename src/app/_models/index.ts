@@ -16,6 +16,7 @@ import Catestatusplaza, { CatestatusplazaInitializer, CatestatusplazaId } from '
 import Catfuentef, { CatfuentefInitializer, CatfuentefId } from './catfuentef';
 import Catfuncionprimaria, { CatfuncionprimariaInitializer } from './catfuncionprimaria';
 import Catfuncionsecundaria, { CatfuncionsecundariaInitializer } from './catfuncionsecundaria';
+import Catfuncionplantilla, { CatfuncionplantillaInitializer } from './catfuncionplantilla';
 import Cattiposemestre, { CattiposemestreInitializer } from './cattiposemestre';
 import Catesquemapago, { CatesquemapagoInitializer } from './catesquemapago';
 import Catestatushora, { CatestatushoraInitializer } from './catestatushora';
@@ -87,6 +88,7 @@ type Model =
   | Catfuentef
   | Catfuncionprimaria
   | Catfuncionsecundaria
+  | Catfuncionplantilla
   | Catesquemapago
   | Catestatushora
   | Catestatusquincena
@@ -158,6 +160,7 @@ interface ModelTypeMap {
   'catfuentef': Catfuentef;
   'catfuncionprimaria': Catfuncionprimaria;
   'catfuncionsecundaria': Catfuncionsecundaria;
+  'catfuncionplantilla': Catfuncionplantilla;
   'catesquemapago': Catesquemapago;
   'catestatushora': Catestatushora;
   'catestatusquincena': Catestatusquincena;
@@ -315,6 +318,7 @@ type Initializer =
   | CatfuentefInitializer
   | CatfuncionprimariaInitializer
   | CatfuncionsecundariaInitializer
+  | CatfuncionplantillaInitializer
   | CatesquemapagoInitializer
   | CatestatushoraInitializer
   | CatestatusquincenaInitializer
@@ -385,6 +389,7 @@ interface InitializerTypeMap {
   'catfuentef': CatfuentefInitializer;
   'catfuncionprimaria': CatfuncionprimariaInitializer;
   'catfuncionsecundaria': CatfuncionsecundariaInitializer;
+  'catfuncionplantilla': CatfuncionplantillaInitializer;
   'catesquemapago': CatesquemapagoInitializer;
   'catestatushora': CatestatushoraInitializer;
   'catestatusquincena': CatestatusquincenaInitializer;
@@ -457,6 +462,7 @@ export {
   Catfuentef, CatfuentefInitializer, CatfuentefId,
   Catfuncionprimaria, CatfuncionprimariaInitializer,
   Catfuncionsecundaria, CatfuncionsecundariaInitializer,
+  Catfuncionplantilla, CatfuncionplantillaInitializer,
   Catesquemapago, CatesquemapagoInitializer,
   Catestatushora, CatestatushoraInitializer,
   Cattipohorasmateria, CattipohorasmateriaInitializer,

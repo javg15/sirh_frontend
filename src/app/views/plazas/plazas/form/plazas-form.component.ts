@@ -57,6 +57,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
   varHorasAB: boolean;
   editaconsecutivo: boolean;
   permiteeditar: boolean;
+  permiteeditar_comision: boolean;
   record_id_plantillasdocsnombramiento_actual: number;
   record_id_estatus: number;
 
@@ -92,7 +93,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
       state: '', id_catplantelescobro: 0, id_catzonageografica: 0, id_catquincena_ini: 0,
       id_catquincena_fin: 0, id_catestatusplaza: 1, statussicodes: 0, id_puesto: 0, estatus: '', id_categoriasdetalle: 0,
       id_catsindicato: 0, created_at: new Date(), updated_at: new Date(), id_usuarios_r: 0,
-      horas: 0, horasb: 0
+      horas: 0, horasb: 0,id_catplanteles_comision:0
     };
   }
   ngOnInit(): void {
@@ -244,14 +245,14 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
     this.actionForm = accion;
     this.botonAccion = actionsButtonSave[accion];
     this.editaconsecutivo = false;
-    this.permiteeditar = false;
+    this.permiteeditar_comision=this.permiteeditar = false;
     this.record_id_plantillasdocsnombramiento_actual = id_plantillasdocsnombramiento_actual;
     this.record_id_estatus = id_estatus;
 
     if (idItem == "0") {
       this.record = this.newRecord();
       this.tituloForm = "Plazas - " + titulosModal[accion] + " registro";
-      this.permiteeditar = true;
+      this.permiteeditar_comision=this.permiteeditar = true;
     } else {
       this.editaconsecutivo = true;
       this.tituloForm = "Plazas - " + titulosModal[accion] + " registro";
@@ -259,16 +260,21 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
         this.record = resp;
         //si aun no tiene una asignación 
         if (id_plantillasdocsnombramiento_actual == 0)
-          this.permiteeditar = true;
+          this.permiteeditar_comision=this.permiteeditar = true;
         else if (id_estatus == 1 || id_estatus == 7 || id_estatus == 8) //vacante,cancelada,nuevacreacion
-          this.permiteeditar = true;
+          this.permiteeditar_comision=this.permiteeditar = true;
         else
-          this.permiteeditar = false;
+          this.permiteeditar_comision=this.permiteeditar = false;
 
         if (this.actionForm.toUpperCase() == "COPIAR") {
           this.actionForm = "NUEVO";
           this.record.id = 0;
-          this.permiteeditar = true;
+          this.permiteeditar_comision=this.permiteeditar = true;
+        }
+
+        if (this.actionForm.toUpperCase() == "COMISIONAR") {
+          this.actionForm = "EDITAR";
+          this.permiteeditar_comision = true;
         }
 
         this.catcentrostrabajoSvc.getCatalogoSegunPlantel(this.record.id_catplanteles).subscribe(resp => {

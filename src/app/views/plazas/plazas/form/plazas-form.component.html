@@ -127,6 +127,18 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="id_catplanteles_comision">Plantel en comisión</label>
+                                <ng-select2 [(ngModel)]="record.id_catplanteles_comision" [data]="catplantelesCat" [allowClear]="true" width="100%" name="Plantel en comisión" [disabled]="!permiteeditar_comision">
+                                </ng-select2>
+                                <!--<select id="selectPlantel" class="form-control" [(ngModel)]="record.id_catplanteles" name="Plantel" (change)="onSelectPlantel($event.target)">
+                            <option *ngFor="let col of catplantelesCat" [value]="col.id">{{ col.clave + " - " + (col.descripcion!=null?col.descripcion:".") + " - " + col.ubicacion }}</option>
+                          </select>-->
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="row">
                         &nbsp;

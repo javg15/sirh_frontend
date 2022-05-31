@@ -90,6 +90,7 @@ export class SearchAdminComponent implements OnInit {
   }
 
   onSelectCampos(idx, id_campo) {
+    
     this.itemsOperadores[idx] = [{id: 0, idesc: '', orden: 0}];
     this.tipoEdicion[idx]=this.itemsCampos.find(a=>a.id==id_campo).edicion;
     this.valorBuscar[idx]="";
