@@ -67,7 +67,8 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
     id: 0,tipo: '',anio: 0,quincena: 0,qnainiciosemestre:'',qnafinsemestre: '',actual: 0,id_catquincena_ini: 0,
     id_catquincena_fin: 0, id_catquincena_fininterinas: 0,permitemodificacion: 0,permitecargadeplantillas: 0,
     created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0,state:''
-};
+  };
+  
 
   catplantelesCat: Catplanteles[];
   catplantelesAplicacionCat: Catplanteles[];
@@ -85,6 +86,8 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
   record_quincena_activa:Catquincena;
   record_id_plaza:number;
   record_text_plaza:string;
+  record_text_categoria:string;
+  
   edicion_en_activo:boolean=true;
   edicion_en_copiar:boolean=false;
   edicion_habilitarTipoHoras:boolean=true;
@@ -234,6 +237,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
       this.record = this.newRecord(idPersonal, idSemestre);
       this.record.id_catplanteles=idPlantel;
       this.record.id_plazas=idPlaza;
+
       if(idPlantelAplicacion==0)
         this.record.id_catplanteles_aplicacion=idPlantel;
       else
@@ -244,6 +248,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
       this.plazasSvc.getRecordParaCombo(idPlaza).subscribe(resp => {
         this.record_id_plaza = resp[0].id;
         this.record_text_plaza = resp[0].text;
+        this.record_text_categoria = resp[0].categoria;
         this.record.horassueltas=(resp[0].eshomologada=="true"?1:0);
 
         if(resp[0].eshomologada=="true"){
@@ -258,7 +263,9 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
           this.record.id_catnombramientos=0;
           this.edicion_habilitarTipoHoras=false;
         }
+
       });
+
       this.plazasSvc.getHorasDisponibleSegunPlaza(idPersonal,idPlantel,idSemestre,idPlaza).subscribe(resp => {
         this.horasDisponiblesEnPlaza=resp[0].horasdisponibles;
         this.horasRestantesEnPlaza=(this.horasDisponiblesEnPlaza>0?this.record.cantidad - this.horasDisponiblesEnPlaza:parseInt((this.record.cantidad*-1).toString()) + parseInt(this.horasDisponiblesEnPlaza.toString()));
@@ -281,7 +288,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
                >resp.anio.toString()+resp.quincena.toString().padStart(2,"0"))
             this.edicion_en_activo=false;//solo editar la quincena final
           });
-
+          
 
           if(this.actionForm.toUpperCase()=="COPIAR"){
             this.actionForm="NUEVO";
@@ -299,6 +306,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
           this.plazasSvc.getRecordParaCombo(this.record.id_plazas).subscribe(resp => {
             this.record_id_plaza = resp[0].id;
             this.record_text_plaza = resp[0].text;
+            this.record_text_categoria = resp[0].categoria;
             this.record.horassueltas=(resp[0].eshomologada=="true"?1:0);
             if(resp[0].eshomologada=="true"){
               this.record.id_catnombramientos=1;
@@ -311,6 +319,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
             else{
               this.edicion_habilitarTipoHoras=false;
             }
+
           });
           this.plazasSvc.getHorasDisponibleSegunPlaza(idPersonal,idPlantel,idSemestre,idPlaza).subscribe(resp => {
             if(!this.edicion_en_copiar)

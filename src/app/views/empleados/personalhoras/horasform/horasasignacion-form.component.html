@@ -17,7 +17,7 @@
                         <input type="hidden" [(ngModel)]="record.id_semestre" class="form-control" name="id_semestre">
                     </div>
                     <div class="row">
-                        <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="nombre">Nombre</label>
                                 <input type="text" name="Nombre" disabled="disabled" [value]="recordpersonal.nombre + ' ' + recordpersonal.apellidopaterno + ' ' + recordpersonal.apellidomaterno" class="form-control" />
@@ -31,10 +31,19 @@
                         </div>
                         <div class="form-group col-sm-4">
                             <div class="form-group">
+                                <label for="record_text_categoria">Categoría</label>
+                                <input type="text" name="Categoría" [value]="record_text_categoria" class="form-control" disabled="disabled" />
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
                                 <label for="plaza">Plaza</label>
                                 <input type="text" name="Plaza" [value]="record_text_plaza" class="form-control" disabled="disabled" />
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
+                        
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-8">
