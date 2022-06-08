@@ -112,6 +112,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   tipo:string;
   varAsignarHorasPlazasPorJornada:boolean;
   varAsignarHorasPlazasPorHora:boolean;
+  horasProgramadas:number;
   seRevisoCargaHoraria:boolean=true; //se activa cuando se pica en el boton de editar carga horaria, por default tiene valor de true
   //recordJsonTipodoc1:any={UltimoGradodeEstudios:0,AreadeCarrera:0,Carrera:0,Estatus:0};
 
@@ -254,7 +255,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
     //inicializar el objeto
     this.record_categorias= {
       id: 0,  clave: '', codigo:'', denominacion: '', nivelsalarial:'',id_cattipocategoria:0, id_tiponomina:0,
-      horasasignadas:0, state: '', aplicaa:0, created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
+      state: '', aplicaa:0, created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
 
     this.tipo=(tipo==1?"nombramiento":"licencia");
@@ -563,11 +564,14 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
     if(valor>0){
       this.categoriasSvc.getRecord(valor).subscribe(resp => {
         this.record_categorias=resp;
-        //marca si se debe revisar la carga horaria
-        if(this.record_categorias.id_cattipocategoria==2 && this.tipo=='licencia')
-          this.seRevisoCargaHoraria=false; //se pone a false, y cuando se pica el boton de editar carga horaria, se pone a true
-        else
-          this.seRevisoCargaHoraria=true;
+        this.categoriasSvc.getHorasprogramadas(resp.id).subscribe(resp => {
+          this.horasProgramadas=resp;
+          //marca si se debe revisar la carga horaria
+          if(this.record_categorias.id_cattipocategoria==2 && this.tipo=='licencia')
+            this.seRevisoCargaHoraria=false; //se pone a false, y cuando se pica el boton de editar carga horaria, se pone a true
+          else
+            this.seRevisoCargaHoraria=true;
+        });
       });
     }
 
@@ -576,7 +580,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
     this.varAsignarHorasPlazasPorJornada=false;
 
     if(this.record_categorias.id_cattipocategoria==2){
-      if(this.categoriasCat.find(a=>a.id==valor).horasasignadas>0)
+      if(this.horasProgramadas>0)
         this.varAsignarHorasPlazasPorJornada=true;
       else
         this.varAsignarHorasPlazasPorHora=true;
@@ -594,8 +598,8 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
 
     if(this.varAsignarHorasPlazasPorJornada){//plazas por jornada
       //se especifican la cantidad de horas asignadas como las disponibles
-        this.record.horas=this.categoriasCat.find(a=>a.id==valor).horasasignadas;
-        this.record.horasb=this.categoriasCat.find(a=>a.id==valor).horasasignadas;
+        this.record.horas=this.horasProgramadas;
+        this.record.horasb=this.horasProgramadas;
 
     }
 

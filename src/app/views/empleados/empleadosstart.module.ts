@@ -20,6 +20,11 @@ import { PlantillasDocsFamiliaresFormComponent } from './plantillas/docssub/plan
 import { PlantillasDocsSindicatoFormComponent } from './plantillas/docssub/plantillasdocssindicato-form.component';
 import { PlantillasDocsLicenciasFormComponent } from './plantillas/docssub/plantillasdocslicencias-form.component';
 import { PlantillasHistorialNominaComponent } from './plantillas/historialnomina/plantillas-historialnomina.component';
+
+import { PersonalEstudiosAdminComponent } from './personalestudios/admin/personalestudios-admin.component';
+import { PersonalEstudiosAdminSubComponent } from './personalestudios/estudiosadmin/personalestudios-adminsub.component';
+import { PersonalEstudiosFormComponent } from './personalestudios/estudiosform/personalestudios-form.component';
+
 import { DataTablesModule } from 'angular-datatables';
 import { NgSelect2Module } from 'ng-select2';
 
@@ -69,6 +74,9 @@ import { DatePipe } from '@angular/common'
     PlantillasDocsSindicatoFormComponent,
     PlantillasDocsLicenciasFormComponent,
     PlantillasHistorialNominaComponent,
+    PersonalEstudiosAdminComponent,
+    PersonalEstudiosAdminSubComponent,
+    PersonalEstudiosFormComponent,
     ReplacePipe
   ],
   providers: [
@@ -89,6 +97,9 @@ import { DatePipe } from '@angular/common'
     PlantillasDocsFamiliaresFormComponent,
     PlantillasDocsSindicatoFormComponent,
     PlantillasDocsLicenciasFormComponent,
+    PersonalEstudiosAdminComponent,
+    PersonalEstudiosAdminSubComponent,
+    PersonalEstudiosFormComponent,
   ]
 })
 export class EmpleadosStartModule { }

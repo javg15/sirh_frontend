@@ -92,11 +92,12 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
   edicion_en_copiar:boolean=false;
   edicion_habilitarTipoHoras:boolean=true;
   edicion_horasDIES:boolean=false;
+  horasProgramadasEnPlaza:number;
   horasDisponiblesEnPlaza:number;
   horasRestantesEnPlaza:number=0;
   verAsignarHorasRestantes:boolean=false;
   asignarHorasRestantes:number;
-
+  tipoForm:number;//tipoForm=0->Carga horaria, tipoForm=1->DIES, tipoForm=2->Apoyo a la docencia
 
   esPlantelDesdeParametro:boolean=false;
   keywordSearch = 'full_name';
@@ -189,7 +190,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
         }
 
         await this.isLoadingService.add(
-          this.horasasignacionformService.setRecord(this.record, this.actionForm, this.asignarHorasRestantes, this.horasRestantesEnPlaza).subscribe(async resp => {
+          this.horasasignacionformService.setRecord(this.record, this.actionForm, this.asignarHorasRestantes, (this.horasRestantesEnPlaza*-1)).subscribe(async resp => {
             if (resp.hasOwnProperty('error')) {
               this.validSummary.generateErrorMessagesFromServer(resp.message);
             }
@@ -206,14 +207,21 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
   }
 
   // open modal
-  open(idItem: string, accion: string, idPersonal: number, idSemestre: number, idPlantel:number, idPlaza:number,esInterina:number,idPlantelAplicacion:number): void {
+  open(idItem: string, accion: string, idPersonal: number, idSemestre: number, idPlantel:number, idPlaza:number,esInterina:number,idPlantelAplicacion:number,tipoForm:number): void {
+    let titulo="";
+    if(tipoForm==0) titulo="Carga horaria";
+    if(tipoForm==1) titulo="Horas DIES";
+    if(tipoForm==2) titulo="Horas de apoyo a la docencia";
+
     this.actionForm = accion;
     this.botonAccion = actionsButtonSave[accion];
-    this.tituloForm = "Carga horaria - " + titulosModal[accion] + " registro";
+    this.tituloForm =  titulo + " - " 
+        + titulosModal[accion] 
+        + " registro";
     this.record_id_personal=idPersonal;
     this.record_id_semestre=idSemestre;
     this.record_id_plantel=idPlantel;
-
+    this.tipoForm=tipoForm;
 
     this.esPlantelDesdeParametro=(idPlantel>0);
 
@@ -244,11 +252,13 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
         this.record.id_catplanteles_aplicacion=idPlantelAplicacion;
 
       this.onSelectPlantel(this.record.id_catplanteles_aplicacion);
+
       this.edicion_en_activo=true;
       this.plazasSvc.getRecordParaCombo(idPlaza).subscribe(resp => {
         this.record_id_plaza = resp[0].id;
         this.record_text_plaza = resp[0].text;
         this.record_text_categoria = resp[0].categoria;
+        this.horasProgramadasEnPlaza = resp[0].horas_programadas;
         this.record.horassueltas=(resp[0].eshomologada=="true"?1:0);
 
         if(resp[0].eshomologada=="true"){
@@ -268,8 +278,8 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
       this.plazasSvc.getHorasDisponibleSegunPlaza(idPersonal,idPlantel,idSemestre,idPlaza).subscribe(resp => {
         this.horasDisponiblesEnPlaza=resp[0].horasdisponibles;
-        this.horasRestantesEnPlaza=(this.horasDisponiblesEnPlaza>0?this.record.cantidad - this.horasDisponiblesEnPlaza:parseInt((this.record.cantidad*-1).toString()) + parseInt(this.horasDisponiblesEnPlaza.toString()));
-        this.verAsignarHorasRestantes=(this.horasRestantesEnPlaza>0);
+        this.horasRestantesEnPlaza=(this.horasDisponiblesEnPlaza>0?this.horasDisponiblesEnPlaza - this.record.cantidad:parseInt(this.horasDisponiblesEnPlaza.toString())+parseInt((this.record.cantidad*-1).toString()));
+        this.verAsignarHorasRestantes=(this.horasRestantesEnPlaza<0);
       });
 
 
@@ -307,6 +317,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
             this.record_id_plaza = resp[0].id;
             this.record_text_plaza = resp[0].text;
             this.record_text_categoria = resp[0].categoria;
+            this.horasProgramadasEnPlaza = resp[0].horas_programadas;
             this.record.horassueltas=(resp[0].eshomologada=="true"?1:0);
             if(resp[0].eshomologada=="true"){
               this.record.id_catnombramientos=1;
@@ -327,8 +338,8 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
             else
               this.horasDisponiblesEnPlaza=resp[0].horasdisponibles
 
-            this.horasRestantesEnPlaza=(this.horasDisponiblesEnPlaza>0?this.record.cantidad - this.horasDisponiblesEnPlaza:parseInt((this.record.cantidad*-1).toString()) + parseInt(this.horasDisponiblesEnPlaza.toString()));
-            this.verAsignarHorasRestantes=(this.horasRestantesEnPlaza>0);
+            this.horasRestantesEnPlaza=(this.horasDisponiblesEnPlaza>0?this.horasDisponiblesEnPlaza - this.record.cantidad:parseInt(this.horasDisponiblesEnPlaza.toString())+parseInt((this.record.cantidad*-1).toString()));
+            this.verAsignarHorasRestantes=(this.horasRestantesEnPlaza<0);
           });
         });
       });
@@ -357,12 +368,25 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
     if(!this.edicion_en_copiar)//si no es copia
       this.gruposclaseSvc.getCatalogoConHorasDisponiblesSegunPlantel(valor,this.record.id,this.recordsemestre.tipo,this.record_id_semestre,id_cattiposemestre).subscribe(resp => {
-        this.gruposclaseCat = resp;
+        if(this.tipoForm==0)
+          this.gruposclaseCat = resp.filter(a=>a["text"]!="0-");
+        else{
+          this.gruposclaseCat = resp.filter(a=>a["text"]=="0-");
+          this.record.id_gruposclase=this.gruposclaseCat.find(a=>a["text"]=="0-").id;
+          this.onSelectGruposclase(this.record.id_gruposclase);
+        }
       });
     else
       this.gruposclaseSvc.getCatalogoConHorasDisponiblesSegunCopia(valor,this.record.id,this.recordsemestre.tipo,this.record_id_semestre,id_cattiposemestre
           ,this.record.id_materiasclase,this.record.id_catestatushora,this.record.id_cattipohorasdocente,this.record.id_personal).subscribe(resp => {
-        this.gruposclaseCat = resp;
+        if(this.tipoForm==0)
+          this.gruposclaseCat = resp.filter(a=>a["text"]!="0-");
+        else{
+          this.gruposclaseCat = resp.filter(a=>a["text"]=="0-");
+          this.record.id_gruposclase=this.gruposclaseCat.find(a=>a["text"]=="0-").id;
+          this.onSelectGruposclase(this.record.id_gruposclase);
+        }
+        
       });
 
   }
@@ -373,7 +397,16 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
     if(this.recordsemestre.tipo=="B") id_cattiposemestre=2
     if(this.recordsemestre.tipo=="A,B") id_cattiposemestre=3
     this.materiasclaseSvc.getCatalogoConHorasDisponiblesSegunGrupo(this.record.id_catplanteles_aplicacion, valor,this.record.id,this.record_id_semestre,id_cattiposemestre).subscribe(resp => {
-      this.materiasclaseCat = resp;
+      
+      if(this.tipoForm==0){
+        this.materiasclaseCat = resp.filter(a=>a["text"].indexOf("DIES")<0 && a["text"].indexOf("APOYO A LA DOCENCIA")<0);
+      }
+      else if(this.tipoForm==1){
+        this.materiasclaseCat = resp.filter(a=>a["text"].indexOf("DIES")>=0);
+      }
+      else if(this.tipoForm==2){
+        this.materiasclaseCat = resp.filter(a=>a["text"].indexOf("APOYO A LA DOCENCIA")>=0);
+      }
     });
   }
 
@@ -382,8 +415,8 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
     this.record.cantidad=materia.horasdisponibles;
 
     //si son horas de jornada, entonces, si ya excede las horas, entonces, mostrar la opción de asignar en horas sueltas
-    this.horasRestantesEnPlaza=(this.horasDisponiblesEnPlaza>0?this.record.cantidad - this.horasDisponiblesEnPlaza:parseInt((this.record.cantidad*-1).toString()) + parseInt(this.horasDisponiblesEnPlaza.toString()));
-    this.verAsignarHorasRestantes=(this.horasRestantesEnPlaza>0);
+    this.horasRestantesEnPlaza=(this.horasDisponiblesEnPlaza>0?this.horasDisponiblesEnPlaza - this.record.cantidad:parseInt(this.horasDisponiblesEnPlaza.toString()) + parseInt((this.record.cantidad*-1).toString()));
+    this.verAsignarHorasRestantes=(this.horasRestantesEnPlaza<0);
 
     this.edicion_horasDIES=(materia["nogrupo"]==1 && materia["claveasignatura"].substring(0,2)=="PD");
     if(this.edicion_horasDIES){
@@ -424,8 +457,8 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
   onChangeCantidadHoras(valor: any){
     //si son horas de jornada, entonces, si ya excede las horas, entonces, mostrar la opción de asignar en horas sueltas
-    this.horasRestantesEnPlaza=(this.horasDisponiblesEnPlaza>0?this.record.cantidad - this.horasDisponiblesEnPlaza:parseInt((this.record.cantidad*-1).toString()) + parseInt(this.horasDisponiblesEnPlaza.toString()));
-    this.verAsignarHorasRestantes=(this.horasRestantesEnPlaza>0);
+    this.horasRestantesEnPlaza=(this.horasDisponiblesEnPlaza>0?this.horasDisponiblesEnPlaza - this.record.cantidad: parseInt(this.horasDisponiblesEnPlaza.toString()) + parseInt((this.record.cantidad*-1).toString()));
+    this.verAsignarHorasRestantes=(this.horasRestantesEnPlaza<0);
   }
 
 }

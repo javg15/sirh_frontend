@@ -24,6 +24,14 @@ import { PlantillasdocsSindicatoIniService } from './plantillas/services/plantil
 import { PlantillasdocsLicenciasIniService } from './plantillas/services/plantillasdocslicencias.ini.service';
 import { PlantillasHistorialNominaIniService } from './plantillas/services/plantillashistorialnomina.ini.service';
 
+import { PersonalEstudiosAdminComponent } from './personalestudios/admin/personalestudios-admin.component';
+import { PersonalEstudiosAdminSubComponent } from './personalestudios/estudiosadmin/personalestudios-adminsub.component';
+import { PersonalEstudiosFormComponent } from './personalestudios/estudiosform/personalestudios-form.component';
+import { PersonalEstudiosIniService } from './personalestudios/services/personalestudios.ini.service';
+import { PersonalEstudiosAdminIniService } from './personalestudios/services/personalestudiosadmin.ini.service';
+
+
+
 const routes: Routes = [
   {
     path: '',
@@ -133,7 +141,38 @@ const routes: Routes = [
           title: 'Familiares'
         },
       },
-
+      {
+        path: 'empleados/personalestudios',
+        redirectTo: 'adminpersonalestudios'
+      },
+      {
+        path: 'adminpersonalestudios',
+        component: PersonalEstudiosAdminComponent,
+        data: {
+          title: 'Personal estudios'
+        },
+        resolve: {
+          userdata: PersonalEstudiosIniService,
+          userdataSub: PersonalEstudiosAdminIniService,
+        }
+      },
+      {
+        path: 'adminsubpersonalestudios',
+        component: PersonalEstudiosAdminSubComponent,
+        data: {
+          title: 'admin'
+        },
+        resolve:{
+          userdataSub: PersonalEstudiosAdminIniService,
+        }
+      },
+      {
+        path: 'formpersonalestudios',
+        component: PersonalEstudiosFormComponent,
+        data: {
+          title: 'form'
+        },
+      },
     ]
   }
 ];

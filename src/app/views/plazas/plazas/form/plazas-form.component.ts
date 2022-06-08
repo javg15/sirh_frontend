@@ -147,12 +147,16 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
 
     let categoria = null;
     if (select_categoria > 0) {
-      categoria = this.categoriasCat.find(e => e.id == select_categoria);
+      this.categoriasSvc.getEstaEnTablaHomologadas(select_categoria).subscribe(resp => {
+        let EstaentablaHomologada = resp;
 
-      if (categoria.id_cattipocategoria == 2 && categoria.horasasignadas == 0)
-        this.varHorasAB = true;
-      else
-        this.varHorasAB = false;
+        categoria = this.categoriasCat.find(e => e.id == select_categoria);
+
+        if (categoria.id_cattipocategoria == 2 && EstaentablaHomologada >= 1)
+          this.varHorasAB = true;
+        else
+          this.varHorasAB = false;
+      });
     }
     else
       this.varHorasAB = false;

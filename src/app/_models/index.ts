@@ -21,6 +21,10 @@ import Cattiposemestre, { CattiposemestreInitializer } from './cattiposemestre';
 import Catesquemapago, { CatesquemapagoInitializer } from './catesquemapago';
 import Catestatushora, { CatestatushoraInitializer } from './catestatushora';
 import Catestatusquincena, { CatestatusquincenaInitializer } from './catestatusquincena';
+import Catestudioscarreras, { CatestudioscarrerasInitializer } from './catestudioscarreras';
+import Catestudiosniveles, { CatestudiosnivelesInitializer } from './catestudiosniveles';
+import Catestudiosramas, { CatestudiosramasInitializer } from './catestudiosramas';
+import Catestudiostipos, { CatestudiostiposInitializer } from './catestudiostipos';
 import Cattipohorasmateria, { CattipohorasmateriaInitializer } from './cattipohorasmateria';
 import Catnombramientos, { CatnombramientosInitializer } from './catnombramientos';
 import Catlocalidades, { CatlocalidadesInitializer, CatlocalidadesId } from './catlocalidades';
@@ -55,6 +59,7 @@ import Permgruposmodulos, { PermgruposmodulosInitializer, PermgruposmodulosId } 
 import Permusuariosmodulos, { PermusuariosmodulosInitializer, PermusuariosmodulosId } from './permusuariosmodulos';
 import Personal, { PersonalInitializer, } from './personal';
 import Personalexpediente, { PersonalexpedienteInitializer, } from './personalexpediente';
+import Personalestudios, { PersonalestudiosInitializer, } from './personalestudios';
 import Personalhoras, { PersonalhorasInitializer, } from './personalhoras';
 import Personalfamiliares, { PersonalfamiliaresInitializer, PersonalfamiliaresId } from './personalfamiliares';
 import Plantillasdocslicencias, { PlantillasdocslicenciasInitializer, PlantillasdocslicenciasId } from './plantillasdocslicencias';
@@ -92,6 +97,10 @@ type Model =
   | Catesquemapago
   | Catestatushora
   | Catestatusquincena
+  | Catestudioscarreras
+  | Catestudiosniveles
+  | Catestudiosramas
+  | Catestudiostipos
   | Cattipohorasmateria
   | Catnombramientos
   | Cattiposemestre
@@ -127,6 +136,7 @@ type Model =
   | Permusuariosmodulos
   | Personal
   | Personalexpediente
+  | Personalestudios
   | Personalhoras
   | Personalfamiliares
   | Plantillasdocslicencias
@@ -164,6 +174,10 @@ interface ModelTypeMap {
   'catesquemapago': Catesquemapago;
   'catestatushora': Catestatushora;
   'catestatusquincena': Catestatusquincena;
+  'catestudioscarreras': Catestudioscarreras;
+  'catestudiosniveles': Catestudiosniveles;
+  'catestudiosramas': Catestudiosramas;
+  'catestudiostipos': Catestudiostipos;
   'cattipohorasmateria': Cattipohorasmateria;
   'catnombramientos': Catnombramientos;
   'cattiposemestre': Cattiposemestre;
@@ -199,6 +213,7 @@ interface ModelTypeMap {
   'permusuariosmodulos': Permusuariosmodulos;
   'personal': Personal;
   'personalexpediente': Personalexpediente;
+  'personalestudios': Personalestudios;
   'personalhoras': Personalhoras;
   'personalfamiliares': Personalfamiliares;
   'plantillasdocslicencias': Plantillasdocslicencias;
@@ -322,6 +337,10 @@ type Initializer =
   | CatesquemapagoInitializer
   | CatestatushoraInitializer
   | CatestatusquincenaInitializer
+  | CatestudioscarrerasInitializer
+  | CatestudiosnivelesInitializer
+  | CatestudiosramasInitializer
+  | CatestudiostiposInitializer
   | CattipohorasmateriaInitializer
   | CatnombramientosInitializer
   | CattiposemestreInitializer
@@ -393,6 +412,7 @@ interface InitializerTypeMap {
   'catesquemapago': CatesquemapagoInitializer;
   'catestatushora': CatestatushoraInitializer;
   'catestatusquincena': CatestatusquincenaInitializer;
+  'catestudioscarreras': CatestudioscarrerasInitializer;
   'cattipohorasmateria': CattipohorasmateriaInitializer;
   'catnombramientos': CatnombramientosInitializer;
   'cattiposemestre': CattiposemestreInitializer;
@@ -428,6 +448,7 @@ interface InitializerTypeMap {
   'permusuariosmodulos': PermusuariosmodulosInitializer;
   'personal': PersonalInitializer;
   'personalexpediente': PersonalexpedienteInitializer;
+  'personalestudios': PersonalestudiosInitializer;
   'personalhoras': PersonalhorasInitializer;
   'personalfamiliares': PersonalfamiliaresInitializer;
   'plantillasdocslicencias': PlantillasdocslicenciasInitializer;
@@ -500,6 +521,7 @@ export {
   Permusuariosmodulos, PermusuariosmodulosInitializer, PermusuariosmodulosId,
   Personal, PersonalInitializer,
   Personalexpediente, PersonalexpedienteInitializer,
+  Personalestudios, PersonalestudiosInitializer,
   Personalhoras, PersonalhorasInitializer,
   Personalfamiliares, PersonalfamiliaresInitializer, PersonalfamiliaresId,
   Plantillasdocslicencias, PlantillasdocslicenciasInitializer, PlantillasdocslicenciasId,

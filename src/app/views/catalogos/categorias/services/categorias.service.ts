@@ -52,6 +52,19 @@ export class CategoriasService {
       , httpOptions);
   }
 
+  public getHorasprogramadas(id_categorias): Observable<any> {
+    return this.http.post(this.API_URL + '/categorias/getHorasprogramadas',
+      { id_categorias }
+      , httpOptions);
+  }
+
+  public getEstaEnTablaHomologadas(id_categorias): Observable<any> {
+    return this.http.post(this.API_URL + '/categorias/getEstaEnTablaHomologadas',
+      { id_categorias }
+      , httpOptions);
+  }
+
+  
 
   /* Devuelve el ID y Descripcion de la tabla, segun plantel */
   public getCatalogoSegunPlantel(tipoplantel): Observable<any> {

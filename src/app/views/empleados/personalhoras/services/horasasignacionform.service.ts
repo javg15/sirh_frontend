@@ -65,9 +65,9 @@ export class HorasasignacionFormService {
     this.modals = this.modals.filter(x => x.id !== id);
   }
 
-  public open(id: string, accion: string, idItem: number, idPersonal: number, idSemestre: number, idPlantel:number, idPlaza:number,esInterina:number,idPlantelAplicacion:number) {
+  public open(id: string, accion: string, idItem: number, idPersonal: number, idSemestre: number, idPlantel:number, idPlaza:number,esInterina:number,idPlantelAplicacion:number, tipoForm:number) {
     let modal: any = this.modals.filter(x => x.id === id)[0];
-    modal.open(idItem, accion, idPersonal, idSemestre, idPlantel,idPlaza,esInterina,idPlantelAplicacion);
+    modal.open(idItem, accion, idPersonal, idSemestre, idPlantel,idPlaza,esInterina,idPlantelAplicacion,tipoForm);
   }
 
   public close(id: string) {

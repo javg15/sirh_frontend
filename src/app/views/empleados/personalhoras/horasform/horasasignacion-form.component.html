@@ -17,7 +17,7 @@
                         <input type="hidden" [(ngModel)]="record.id_semestre" class="form-control" name="id_semestre">
                     </div>
                     <div class="row">
-                        <div class="form-group col-sm-3">
+                        <div class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="nombre">Nombre</label>
                                 <input type="text" name="Nombre" disabled="disabled" [value]="recordpersonal.nombre + ' ' + recordpersonal.apellidopaterno + ' ' + recordpersonal.apellidomaterno" class="form-control" />
@@ -29,12 +29,6 @@
                                 <input type="text" name="Semestre" disabled="disabled" [value]="recordsemestre.anio + ' ' + recordsemestre.tipo" class="form-control" />
                             </div>
                         </div>
-                        <div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="record_text_categoria">Categoría</label>
-                                <input type="text" name="Categoría" [value]="record_text_categoria" class="form-control" disabled="disabled" />
-                            </div>
-                        </div>
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="plaza">Plaza</label>
@@ -43,7 +37,27 @@
                         </div>
                     </div>
                     <div class="row">
-                        
+                        <div class="form-group col-sm-6">
+                            <div class="form-group">
+                                <label for="record_text_categoria">Categoría</label>
+                                <input type="text" name="Categoría" [value]="record_text_categoria" class="form-control" disabled="disabled" />
+                            </div>
+                        </div>
+
+                        <!--en No-->
+                        <div *ngIf="record.horassueltas==0" class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="horasProgramadasEnPlaza">Horas programadas</label>
+                                <input type="text" name="Horas programadas" [value]="horasProgramadasEnPlaza" class="form-control" disabled="disabled" />
+                            </div>
+                        </div>
+                        <div *ngIf="record.horassueltas==0" class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="horasDisponiblesEnPlaza">Horas disponibles</label>
+                                <input type="text" [(ngModel)]="horasDisponiblesEnPlaza" class="form-control" name="Disponibles" disabled="disabled">
+                            </div>
+                        </div>
+
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-8">
@@ -66,7 +80,7 @@
                         <div class="form-group col-sm-2">
                             <div class="form-group">
                                 <label for="id_gruposclase">Grupo</label>
-                                <select class="form-control" [(ngModel)]="record.id_gruposclase" name="Grupo" [disabled]="(!edicion_en_activo && !edicion_en_copiar)" (change)="onSelectGruposclase($event.target.value)">
+                                <select class="form-control" [(ngModel)]="record.id_gruposclase" name="Grupo" [disabled]="(!edicion_en_activo && !edicion_en_copiar) || (tipoForm!=0)" (change)="onSelectGruposclase($event.target.value)">
                                   <option value="">---</option>
                                   <option *ngFor="let col of gruposclaseCat" [value]="col.id">{{ col.text }}</option>
                                 </select>
@@ -93,13 +107,6 @@
                         </div>
                     </div>
                     <div class="row" *ngIf="record.horassueltas==0">
-                        <!--en No-->
-                        <div class="form-group col-sm-3">
-                            <div class="form-group">
-                                <label for="horasDisponiblesEnPlaza">Horas disponibles</label>
-                                <input type="text" [(ngModel)]="horasDisponiblesEnPlaza" class="form-control" name="Disponibles" disabled="disabled">
-                            </div>
-                        </div>
                         <div *ngIf="verAsignarHorasRestantes" class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="asignarHorasRestantes">¿Asignar <span style="color: green;"> {{horasRestantesEnPlaza}} </span> horas restantes a plaza con horas sueltas?</label>

@@ -20,8 +20,6 @@ export default interface Categorias {
 
   aplicaa: number | null;
 
-  horasasignadas: number | null;
-
   created_at: Date | null;
 
   updated_at: Date | null;

@@ -70,28 +70,32 @@
                     <div class="row">
                         &nbsp;
                     </div>
-                    <div>
-                        <nav class="header-admin navbar navbar-expand-lg navbar-light bg-light">
-                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                <ul class="navbar-nav mr-auto">
+                    <div class="row">
+                        <div class="form-group col-sm-11">
+                            <nav class="header-admin navbar navbar-expand-lg navbar-light bg-light">
+                                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                    <ul class="navbar-nav mr-auto">
 
-                                </ul>
-                                <!-- <button class="btn btn-primary my-2 my-sm-0" (click)="openModal('01','custom-01','nuevo',0,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza,record_esInterina,record_id_catplanteles_aplicacion)">
+                                    </ul>
+                                    <!-- <button class="btn btn-primary my-2 my-sm-0" (click)="openModal('01','custom-01','nuevo',0,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza,record_esInterina,record_id_catplanteles_aplicacion)">
                             Agregar carga horaria
                           </button>-->
-                                <form class="form-inline my-2 my-lg-0">
-                                    <div class="btn-group" dropdown>
-                                        <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+                                    <form class="form-inline my-2 my-lg-0">
+                                        <div class="btn-group" dropdown>
+                                            <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
                                           Agregar<span class="caret"></span>
                                         </button>
-                                        <ul *dropdownMenu class="dropdown-menu" role="menu">
-                                            <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openModal('01','custom-01','nuevo',0,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza,record_esInterina,record_id_catplanteles_aplicacion)">Carga horaria</a></li>
-                                            <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openModal('01','custom-02','nuevo',0,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza,record_esInterina,record_id_catplanteles_aplicacion)">Reemplazos de horas de descarga</a></li>
-                                        </ul>
-                                    </div>
-                                </form>
-                            </div>
-                        </nav>
+                                            <ul *dropdownMenu class="dropdown-menu" role="menu">
+                                                <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openModal('01','custom-01','nuevo',0,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza,record_esInterina,record_id_catplanteles_aplicacion,0)">Carga horaria</a></li>
+                                                <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openModal('01','custom-01','nuevo',0,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza,record_esInterina,record_id_catplanteles_aplicacion,1)">Horas DIES</a></li>
+                                                <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openModal('01','custom-01','nuevo',0,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza,record_esInterina,record_id_catplanteles_aplicacion,2)">Horas de apoyo a la docencia</a></li>
+                                                <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openModal('01','custom-02','nuevo',0,record_id_personal,record_id_semestre,record_id_catplanteles,record_id_plaza,record_esInterina,record_id_catplanteles_aplicacion)">Reemplazos de horas de descarga</a></li>
+                                            </ul>
+                                        </div>
+                                    </form>
+                                </div>
+                            </nav>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12 mx-auto">
