@@ -46,8 +46,7 @@ export class PersonalEstudiosAdminComponent implements OnInit {
   y estará disponible en toda la clase de este componente.
   El objeto es private, porque no se usará fuera de este componente. */
   constructor(
-    private personalestudiosService: PersonalEstudiosService, 
-    private route: ActivatedRoute,
+    private personalestudiosService: PersonalEstudiosService, private route: ActivatedRoute,
     private _sanitizer: DomSanitizer
   ) {
 
@@ -90,7 +89,7 @@ export class PersonalEstudiosAdminComponent implements OnInit {
         this.personalestudiosService.http
           .post<DataTablesResponse>(
             // this.API_URL + '/a6b_apis/read_records_dt.php',
-            this.API_URL + '/personal/getAdmin',
+            this.API_URL + '/personalestudios/getAdmin',
             dataTablesParameters, {}
           ).subscribe(resp => {
 

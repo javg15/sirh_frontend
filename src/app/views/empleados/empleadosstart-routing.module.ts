@@ -141,6 +141,7 @@ const routes: Routes = [
           title: 'Familiares'
         },
       },
+      
       {
         path: 'empleados/personalestudios',
         redirectTo: 'adminpersonalestudios'
@@ -162,9 +163,6 @@ const routes: Routes = [
         data: {
           title: 'admin'
         },
-        resolve:{
-          userdataSub: PersonalEstudiosAdminIniService,
-        }
       },
       {
         path: 'formpersonalestudios',
