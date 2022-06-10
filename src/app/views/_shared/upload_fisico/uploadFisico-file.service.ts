@@ -12,12 +12,14 @@ import { environment } from '../../../../../src/environments/environment';
 export class UploadFisicoFileService {
 
   public API_URL = environment.APIS_URL;
+  tipoGlobal:string;
+  nombreGlobal:string;
 
   constructor(private http: HttpClient,private token: TokenStorageService) { }
 
   pushFileToStorage(file: File,ruta:string): Observable<HttpEvent<{}>> {
     const formdata: FormData = new FormData();
-    console.log("file.size=>",file.size);
+    
     formdata.append('file', file);
     formdata.append('ruta',ruta);
 
@@ -35,18 +37,26 @@ export class UploadFisicoFileService {
   }
 
   //getFile(id): Observable<any> {
-  getFile(ruta){
+  getFile(ruta, tipo, nombre){
     const token = this.token.getToken();
     let re = /\//g;//reemplazar diagonal
     ruta=ruta.replace(re, "!");
 
+    this.tipoGlobal=tipo
+    this.nombreGlobal=nombre
+
     this.http.get(this.API_URL + '/archivos/df/' + ruta, {responseType: 'blob'})
     .subscribe( data => {
+console.log(this.nombreGlobal,this.tipoGlobal)
+      const blob = new Blob([data], { type: this.tipoGlobal });
+      const file = new File([blob], this.nombreGlobal, { type: this.tipoGlobal });
+      const fileURL = URL.createObjectURL(file);
+      window.open(fileURL, '_blank');
 
       //var file = new Blob([data], {type: tipo});
-      var fileURL = window.URL.createObjectURL(data);
+      /*var fileURL = window.URL.createObjectURL(data);
       console.log("fileURL=>",fileURL)
-      window.open(fileURL);
+      window.open(fileURL);*/
   });
 
     //return this.http.get(this.API_URL + '/archivos/' + id);

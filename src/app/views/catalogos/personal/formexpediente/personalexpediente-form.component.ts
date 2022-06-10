@@ -214,8 +214,8 @@ export class PersonalexpedienteFormComponent implements OnInit, OnDestroy {
   }
 
   //muestra el archivo
-  getFile(ruta){
-    this.uploadFileSvc.getFile(ruta);
+  getFile(ruta,tipo,nombre){
+    this.uploadFileSvc.getFile(ruta,tipo,nombre);
   }
 
   // log contenido de objeto en adminulario

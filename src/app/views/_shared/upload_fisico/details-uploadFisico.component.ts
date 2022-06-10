@@ -19,8 +19,8 @@ export class DetailsUploadFisicoComponent implements OnInit {
   ngOnInit() {
   }
 
-  getFile(ruta){
-    this.uploadFisicoFileSvc.getFile(ruta);
+  getFile(ruta,tipo,nombre){
+    this.uploadFisicoFileSvc.getFile(ruta,tipo,nombre);
   }
 
 }
