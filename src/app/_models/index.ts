@@ -413,6 +413,9 @@ interface InitializerTypeMap {
   'catestatushora': CatestatushoraInitializer;
   'catestatusquincena': CatestatusquincenaInitializer;
   'catestudioscarreras': CatestudioscarrerasInitializer;
+  'catestudiosniveles': CatestudiosnivelesInitializer;
+  'catestudiosramas': CatestudiosramasInitializer;
+  'catestudiostipos': CatestudiostiposInitializer;
   'cattipohorasmateria': CattipohorasmateriaInitializer;
   'catnombramientos': CatnombramientosInitializer;
   'cattiposemestre': CattiposemestreInitializer;
@@ -484,6 +487,10 @@ export {
   Catfuncionprimaria, CatfuncionprimariaInitializer,
   Catfuncionsecundaria, CatfuncionsecundariaInitializer,
   Catfuncionplantilla, CatfuncionplantillaInitializer,
+  Catestudioscarreras,CatestudioscarrerasInitializer,
+  Catestudiostipos,CatestudiostiposInitializer,
+  Catestudiosniveles,CatestudiosnivelesInitializer,
+  Catestudiosramas,CatestudiosramasInitializer,
   Catesquemapago, CatesquemapagoInitializer,
   Catestatushora, CatestatushoraInitializer,
   Cattipohorasmateria, CattipohorasmateriaInitializer,

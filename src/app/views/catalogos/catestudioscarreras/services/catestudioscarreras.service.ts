@@ -43,6 +43,12 @@ export class CatestudioscarrerasService {
       {}
       , httpOptions);
   }
+  public getCatalogoSegunNivel(id_catestudiosniveles): Observable<any> {
+    return this.http.post(this.API_URL + '/catestudioscarreras/getCatalogoSegunNivel',
+      {id_catestudiosniveles}
+      , httpOptions);
+  }
+  
 
   /* El siguiente método lee los datos de un registro seleccionado para edición. */
   public getRecord(id: any): Observable<any> {

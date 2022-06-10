@@ -7,11 +7,11 @@ export default interface Catestudioscarreras {
 
   descripcion: string | null;
 
-  id_catestudiostipo: number;
+  id_catestudiostipos: number;
 
-  id_catestudiosrama: number;
+  id_catestudiosramas: number;
 
-  id_catestudiosnivel: number;
+  id_catestudiosniveles: number;
 
   siglas: string;
 }
@@ -23,11 +23,11 @@ export interface CatestudioscarrerasInitializer {
 
   clave?: string;
 
-  id_catestudiostipo?: number;
+  id_catestudiostipos?: number;
 
-  id_catestudiosrama?: number;
+  id_catestudiosramas?: number;
 
-  id_catestudiosnivel?: number;
+  id_catestudiosniveles?: number;
 
   siglas?: string;
 }

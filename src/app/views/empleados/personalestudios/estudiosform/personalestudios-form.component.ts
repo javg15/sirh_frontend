@@ -2,20 +2,23 @@ import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, Eve
 import { ActivatedRoute } from '@angular/router';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Personalestudios,Catdocumentos } from '../../../../_models';
+import { Personalestudios,Catestudiosniveles,Catestudioscarreras } from '../../../../_models';
 import { Archivos } from '../../../../_models';
 import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 import { actionsButtonSave, titulosModal } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 
-import { CatdocumentosService } from '../../../catalogos/catdocumentos/services/catdocumentos.service';
+import { CatestudiosnivelesService } from '../../../catalogos/catestudiosniveles/services/catestudiosniveles.service';
+import { CatestudioscarrerasService } from '../../../catalogos/catestudioscarreras/services/catestudioscarreras.service';
+import { PersonalEstudiosAdminService } from '../services/personalestudiosadmin.service';
 import { PersonalEstudiosFormService } from '../services/personalestudiosform.service';
 import { ArchivosService } from '../../../catalogos/archivos/services/archivos.service';
 
 import { ListUploadFisicoComponent } from '../../../_shared/upload_fisico/list-uploadFisico.component';
 import { FormUploadFisicoComponent } from '../../../_shared/upload_fisico/form-uploadFisico.component';
 import { UploadFisicoFileService } from '../../../_shared/upload_fisico/uploadFisico-file.service';
+import { Console } from 'console';
 
 declare var $: any;
 declare var jQuery: any;
@@ -47,22 +50,25 @@ export class PersonalEstudiosFormComponent implements OnInit, OnDestroy {
 
   record: Personalestudios;
   recordFile:Archivos;
-  catdocumentosCat: Catdocumentos[];
+  catestudiosnivelesCat: Catestudiosniveles[];
+  catestudioscarrerasCat: Catestudioscarreras[];
   keywordSearch = 'full_name';
   isLoadingSearch:boolean;
   //recordJsonTipodoc1:any={UltimoGradodeEstudios:0,AreadeCarrera:0,Carrera:0,Estatus:0};
 
   constructor(private isLoadingService: IsLoadingService,
-      private personalestudiosformService: PersonalEstudiosFormService,
-      private catdocumentosSvc: CatdocumentosService,
+    private personalestudiosadminService: PersonalEstudiosAdminService,
+    private personalestudiosformService: PersonalEstudiosFormService,
+    private catestudiosnivelesSvc: CatestudiosnivelesService,
+    private catestudioscarrerasSvc: CatestudioscarrerasService,
     private el: ElementRef,
     private archivosSvc:ArchivosService,
     private uploadFileSvc:UploadFisicoFileService,
       ) {
         this.elementModal = el.nativeElement;
 
-        this.catdocumentosSvc.getCatalogoProfesional().subscribe(resp => {
-          this.catdocumentosCat = resp;
+        this.catestudiosnivelesSvc.getCatalogo().subscribe(resp => {
+          this.catestudiosnivelesCat = resp;
         });
   }
 
@@ -86,7 +92,7 @@ export class PersonalEstudiosFormComponent implements OnInit, OnDestroy {
         return;
     }
     // add self (this modal instance) to the modal service so it's accessible from controllers
-    modal.personalestudiosformService.add(modal);
+    modal.personalestudiosadminService.add(modal);
 
       //loading
       this.userFormIsPending =this.isLoadingService.isLoading$({ key: 'loading' });
@@ -94,7 +100,7 @@ export class PersonalEstudiosFormComponent implements OnInit, OnDestroy {
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-      this.personalestudiosformService.remove(this.id); //idModal
+      this.personalestudiosadminService.remove(this.id); //idModal
       this.elementModal.remove();
   }
 
@@ -105,11 +111,27 @@ export class PersonalEstudiosFormComponent implements OnInit, OnDestroy {
 
       this.validSummary.resetErrorMessages(admin);
         if(this.actionForm.toUpperCase()==="NUEVO"){
-          //primero cargar el archivo
-          this.formUpload.ruta="personal/estudios/" +
-            this.record.id_personal.toString().padStart(5 , "0")+ "/" +
-          //el metodo .upload, emitirá el evento que cachará el metodo  onLoadedFile de este archivo
-          this.formUpload.upload()
+          
+          if(this.formUpload.selectedFiles){//si se seleccionó algun archivo
+            //primero cargar el archivo
+            this.formUpload.ruta="personal/estudios/" +
+              this.record.id_personal.toString().padStart(5 , "0")
+            //el metodo .upload, emitirá el evento que cachará el metodo  onLoadedFile de este archivo
+            this.formUpload.upload()
+          }
+          else{
+            this.personalestudiosformService.setRecord(this.record, this.actionForm).subscribe(async resp => {
+              if (resp.hasOwnProperty('error')) {
+                this.validSummary.generateErrorMessagesFromServer(resp.message);
+              }
+              else if (resp.message == "success") {
+                this.record.id=resp.id;
+                if (this.actionForm.toUpperCase() == "NUEVO") this.actionForm = "editar";
+                this.successModal.show();
+                setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
+              }
+            })
+          }
         }
         else if(this.actionForm.toUpperCase()==="EDITAR" || this.actionForm.toUpperCase()==="ELIMINAR"){
           //Solo se edita información, el archivo no se puede reemplazar, solo eliminar
@@ -129,24 +151,33 @@ export class PersonalEstudiosFormComponent implements OnInit, OnDestroy {
     }
   }
 
-
-
+  onSelectNivel(valor:any){
+    this.catestudioscarrerasSvc.getCatalogoSegunNivel(valor).subscribe(resp => {
+      this.catestudioscarrerasCat = resp;
+    });
+  }
 
   // open modal
   open(idItem: string, accion: string,idParent:number):  void {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
-    this.tituloForm="Preparación profesional - " + titulosModal[accion] + " registro";
+    this.tituloForm="Estudios - " + titulosModal[accion] + " registro";
     this.formUpload.resetFile();
+
     if (idItem == "0") {
       this.record = this.newRecord(idParent);
+      
       this.formUpload.showFile();
       this.listUpload.showFiles(0);
     } else {
       //obtener el registro
         this.personalestudiosformService.getRecord(idItem).subscribe(async resp => {
           this.record = resp;
-          this.formUpload.hideFile();
+          this.onSelectNivel(this.record.id_catestudiosniveles)
+          //if(this.record.id_archivos>0)
+            this.formUpload.hideFile();
+          //else
+          //  this.formUpload.showFile();
           this.listUpload.showFiles(this.record.id_archivos);
       });
     }

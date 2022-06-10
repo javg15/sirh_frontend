@@ -45,6 +45,7 @@ export class UploadFisicoFileService {
 
       //var file = new Blob([data], {type: tipo});
       var fileURL = window.URL.createObjectURL(data);
+      console.log("fileURL=>",fileURL)
       window.open(fileURL);
   });
 

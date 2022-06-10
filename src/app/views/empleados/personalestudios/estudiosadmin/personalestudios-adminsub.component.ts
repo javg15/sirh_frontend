@@ -13,6 +13,8 @@ import { IsLoadingService } from '../../../../_services/is-loading/is-loading.se
 import { PersonalService } from '../../../catalogos/personal/services/personal.service';
 import { PersonalEstudiosService } from '../services/personalestudios.service';
 import { PersonalEstudiosAdminService } from '../services/personalestudiosadmin.service';
+import { PlantillasService } from '../../plantillas/services/plantillas.service';
+
 import { environment } from '../../../../../environments/environment';
 
 declare var $: any;
@@ -54,9 +56,9 @@ export class PersonalEstudiosAdminSubComponent implements OnInit, OnDestroy {
   private dtOptionsAdicional = {
     datosBusqueda: { campo: 0, operador: 0, valor: '' }
     , raw: 0
-    , fkey: 'id'
+    , fkey: 'id_personal'
     , fkeyvalue: [0]
-    , modo: 0
+    , modo: 22
   };
   headersAdmin: any;
   Members: any[];
@@ -66,7 +68,6 @@ export class PersonalEstudiosAdminSubComponent implements OnInit, OnDestroy {
   actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
 
-  record_id_personalpersonal: number;
   record_id_personal: number;
   record_numeemp: string;
 
@@ -81,6 +82,7 @@ export class PersonalEstudiosAdminSubComponent implements OnInit, OnDestroy {
     private personalestudiosService: PersonalEstudiosService,
     private personalestudiosadminService: PersonalEstudiosAdminService,
     private personalSvc: PersonalService,
+    private plantillapersonalSvc: PlantillasService,
     private el: ElementRef,
     private route: ActivatedRoute
   ) {
@@ -101,7 +103,7 @@ export class PersonalEstudiosAdminSubComponent implements OnInit, OnDestroy {
     modal.personalestudiosService.add(modal);
 
     //subtabla datatable
-    this.headersAdmin = JSON.parse(this.route.snapshot.data.userdataDocs.cabeceras); // get data from resolver
+    this.headersAdmin = JSON.parse(this.route.snapshot.data.userdataSub.cabeceras); // get data from resolver
     this.dtOptions = {
       pagingType: 'full_numbers',
       paging: false,
@@ -144,20 +146,16 @@ export class PersonalEstudiosAdminSubComponent implements OnInit, OnDestroy {
     this.actionForm = accion;
     this.botonAccion = actionsButtonSave[accion];
 
-    this.personalSvc.getRecord(idItem).subscribe(resp => {
-      this.record_id_personal = resp.id_personal;
+      this.record_id_personal = parseInt(idItem);
 
-      this.personalSvc.getRecord(resp.id_personal).subscribe(resp => {
+      this.personalSvc.getRecord(idItem).subscribe(resp => {
         this.record_numeemp = resp.numeemp;
         this.tituloForm = "Estudios - " + resp.numeemp + " - " + (resp.apellidopaterno + " " + resp.apellidomaterno + " " + resp.nombre);
-        this.record_id_personalpersonal = parseInt(idItem);
 
         this.reDraw(null);
 
         this.basicModalDocs.show();
-      });
-    })
-
+      })
 
   }
 
@@ -170,9 +168,9 @@ export class PersonalEstudiosAdminSubComponent implements OnInit, OnDestroy {
   }
 
   //Sub formulario
-  openModal(accion: string, idItem: number, idPersonal: number) {
+  openModal(id:string, accion: string, idItem: number, idPersonal: number) {
     
-        this.personalestudiosadminService.open('custom-personalestudios', accion, idItem, idPersonal);
+        this.personalestudiosadminService.open(id, accion, idItem, idPersonal);
     
   }
 
@@ -183,8 +181,8 @@ export class PersonalEstudiosAdminSubComponent implements OnInit, OnDestroy {
   reDraw(parametro: any): void {
     
       this.dtOptionsAdicional.raw++;
-      this.dtOptionsAdicional.fkeyvalue = [this.record_id_personalpersonal];
-      //this.dtOptionsAdicional.fkeyvalue=this.record_id_personalpersonal;
+      this.dtOptionsAdicional.fkeyvalue = [this.record_id_personal];
+      //this.dtOptionsAdicional.fkeyvalue=this.record_id_personal;
       this.dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
 
       this.personalestudiosadminService.getAdmin(this.dataTablesParameters).subscribe(resp => {

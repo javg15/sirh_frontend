@@ -104,6 +104,8 @@
                                                 <button *ngIf="boton=='editar'" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','editar',member.id,0,0,0)">
                                               <i class="fa fa-edit"></i>
                                           </button>
+                                          <button *ngIf="boton=='eliminar'" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','eliminar',member.id)">
+                                        </button>
                                                 <button *ngIf="boton=='documentacion'" title="Documentación" class="btn btn-brand btn-sm mr-1 btn-xing" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-2','editar',member.id,0,0,tipoDocumento)">
                                             <i class="fa fa-file"></i>
                                           </button>

@@ -73,6 +73,7 @@ export class PersonalEstudiosFormService {
     }
 
   public open(id: string, accion: string, idItem: number,idParent:number) {
+    
         let modal: any = this.modals.filter(x => x.id === id)[0];
         modal.open(idItem, accion,idParent);
     }
