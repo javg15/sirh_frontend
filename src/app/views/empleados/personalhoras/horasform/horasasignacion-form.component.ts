@@ -181,8 +181,8 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
       if(this.record.id_catnombramientos==2 && this.record_personaltitular.length==0){
         this.validSummary.generateErrorMessagesFromServer({Titular: "No existe un profesor con esta materia en Licencia"});
       }
-      else if(this.edicion_horasDIES && (this.record.cantidad>40 || this.record.cantidad<1)){
-        this.validSummary.generateErrorMessagesFromServer({Horas: "La materia seleccionada es del Programa DIES, por lo tanto, la cantidad de horas debe ser entre 1 y 40"});
+      else if(this.edicion_horasDIES && (this.record.cantidad>this.horasDisponiblesEnPlaza || this.record.cantidad<1)){
+        this.validSummary.generateErrorMessagesFromServer({Horas: "La materia seleccionada es del Programa DIES, por lo tanto, la cantidad de horas debe ser entre 1 y " + this.horasProgramadasEnPlaza});
       }
       else{
         if (this.actionForm.toUpperCase() == "DESACTIVAR") {
@@ -397,8 +397,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
     if(this.recordsemestre.tipo=="B") id_cattiposemestre=2
     if(this.recordsemestre.tipo=="A,B") id_cattiposemestre=3
     this.materiasclaseSvc.getCatalogoConHorasDisponiblesSegunGrupo(this.record.id_catplanteles_aplicacion, valor,this.record.id,this.record_id_semestre,id_cattiposemestre).subscribe(resp => {
-console.log("resp=>",resp)      
-console.log("this.tipoForm=>",this.tipoForm)
+
       if(this.tipoForm==0){
         this.materiasclaseCat = resp.filter(a=>a["text"].indexOf("DIES")<0 && a["text"].indexOf("APOYO A LA DOCENCIA")<0);
       }
@@ -413,7 +412,12 @@ console.log("this.tipoForm=>",this.tipoForm)
 
   onSelectMateriasclase(valor: any) {
     let materia=this.materiasclaseCat.find(a=>a.id==valor);
-    this.record.cantidad=materia.horasdisponibles;
+    if(this.tipoForm==1){//DIES
+      this.record.cantidad=this.horasDisponiblesEnPlaza;
+    }else{
+      this.record.cantidad=materia.horasdisponibles;
+    }
+    
 
     //si son horas de jornada, entonces, si ya excede las horas, entonces, mostrar la opción de asignar en horas sueltas
     this.horasRestantesEnPlaza=(this.horasDisponiblesEnPlaza>0?this.horasDisponiblesEnPlaza - this.record.cantidad:parseInt(this.horasDisponiblesEnPlaza.toString()) + parseInt((this.record.cantidad*-1).toString()));
@@ -457,6 +461,12 @@ console.log("this.tipoForm=>",this.tipoForm)
   }
 
   onChangeCantidadHoras(valor: any){
+    if(this.tipoForm==1){//DIES
+      if(valor>this.horasDisponiblesEnPlaza){
+        this.record.cantidad=this.horasDisponiblesEnPlaza
+        alert("La cantidad de horas DIES no debe ser mayor a las horas disponibles en la plaza");
+      }
+    }
     //si son horas de jornada, entonces, si ya excede las horas, entonces, mostrar la opción de asignar en horas sueltas
     this.horasRestantesEnPlaza=(this.horasDisponiblesEnPlaza>0?this.horasDisponiblesEnPlaza - this.record.cantidad: parseInt(this.horasDisponiblesEnPlaza.toString()) + parseInt((this.record.cantidad*-1).toString()));
     this.verAsignarHorasRestantes=(this.horasRestantesEnPlaza<0);

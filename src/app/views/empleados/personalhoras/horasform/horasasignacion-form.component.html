@@ -109,7 +109,7 @@
                     <div class="row" *ngIf="record.horassueltas==0">
                         <div *ngIf="verAsignarHorasRestantes" class="form-group col-sm-4">
                             <div class="form-group">
-                                <label for="asignarHorasRestantes">¿Asignar <span style="color: green;"> {{horasRestantesEnPlaza}} </span> horas restantes a plaza con horas sueltas?</label>
+                                <label for="asignarHorasRestantes">¿Asignar <span style="color: green;"> {{horasRestantesEnPlaza * -1}} </span> horas restantes a plaza con horas sueltas?</label>
                                 <select class="form-control" [(ngModel)]="asignarHorasRestantes" name="¿Horas sueltas?" [disabled]="true"><!--"!edicion_en_activo"-->
                               <option value="0">No, asignar manualmente</option>
                               <option value="1">Sí, asignar automáticamente</option>
