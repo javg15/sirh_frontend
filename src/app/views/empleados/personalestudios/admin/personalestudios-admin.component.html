@@ -1,8 +1,46 @@
 <div class="app-body">
     <main class="d-flex align-items-center">
         <div class="container">
-            <app-search-admin id="search-admin-1" [nombreModulo]="nombreModulo" (buscarEvent)="reDraw($event)">
-            </app-search-admin>
+            <div class="row">
+                <div class="form-group col-sm-3">
+                    <div class="form-group">
+                        <label for="id_catplanteles">Plantel</label>
+                        <ng-select2 [(ngModel)]="record_id_catplanteles" [data]="catplantelesCat" [allowClear]="true" width="100%" (valueChanged)="onSelectPlantel($event)">
+                        </ng-select2>
+                    </div>
+                </div>
+                <div class="form-group col-sm-3">
+                    <div class="form-group">
+                        <label for="id_catplantillas">Plantilla</label>
+                        <ng-select2 [(ngModel)]="record_id_catplantillas" [data]="catplantillasCat" [allowClear]="true" width="100%" (valueChanged)="onSelectPlantilla($event)">
+                        </ng-select2>
+                    </div>
+                </div>
+                <div class="form-group col-sm-3">
+                    <div class="form-group">
+                        <label for="">Personal</label>
+                        <div class="ng-autocomplete" style="width: auto !important">
+                            <ng-autocomplete #id_personal [data]="catpersonalCat" (selected)='onSelectIdPersonal($event)' (inputChanged)='onChangeSearchIdPersonal($event)' [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate" [searchKeyword]="keywordSearch" [minQueryLength]="3"
+                                [debounceTime]="100" [isLoading]="isLoadingSearch" (inputCleared)='onCleared()'>
+                            </ng-autocomplete>
+
+                            <ng-template #itemTemplate let-item>
+                                <a href="javascript:void(0)">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <span [innerHTML]="item.full_name"></span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </ng-template>
+
+                            <ng-template #notFoundTemplate let-notFound>
+                                <div [innerHTML]="notFound"></div>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <app-header-admin id="header-admin-1" [nombreModulo]="nombreModulo" (agregarEvent)="openModal('custom-modal-1','nuevo',0)">
             </app-header-admin>

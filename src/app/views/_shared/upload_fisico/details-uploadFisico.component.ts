@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input,Output,EventEmitter } from '@angular/core';
 import { UploadFisicoFileService } from './uploadFisico-file.service';
 /* Importamos los environments, para determinar la URL base de las API's */
 import { environment } from '../../../../../src/environments/environment';
@@ -13,6 +13,7 @@ export class DetailsUploadFisicoComponent implements OnInit {
   public API_URL = environment.APIS_URL;
 
   @Input() fileUpload: any;
+  @Output() onRemove: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private uploadFisicoFileSvc:UploadFisicoFileService) { }
 
@@ -21,6 +22,11 @@ export class DetailsUploadFisicoComponent implements OnInit {
 
   getFile(ruta,tipo,nombre){
     this.uploadFisicoFileSvc.getFile(ruta,tipo,nombre);
+  }
+
+  removeFile(id,ruta){
+    this.fileUpload=null;
+    this.onRemove.emit({id:id,ruta:ruta})
   }
 
 }

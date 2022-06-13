@@ -47,11 +47,23 @@ export class UploadFisicoFileService {
 
     this.http.get(this.API_URL + '/archivos/df/' + ruta, {responseType: 'blob'})
     .subscribe( data => {
-console.log(this.nombreGlobal,this.tipoGlobal)
+
       const blob = new Blob([data], { type: this.tipoGlobal });
       const file = new File([blob], this.nombreGlobal, { type: this.tipoGlobal });
       const fileURL = URL.createObjectURL(file);
-      window.open(fileURL, '_blank');
+
+      const a = document.createElement('a');
+      document.body.appendChild(a);
+      a.href = fileURL;
+      a.download = this.nombreGlobal;
+      a.click();
+
+      setTimeout(() => {
+        window.URL.revokeObjectURL(fileURL);
+        document.body.removeChild(a);
+      }, 0)
+
+      //window.open(fileURL, '_blank');
 
       //var file = new Blob([data], {type: tipo});
       /*var fileURL = window.URL.createObjectURL(data);

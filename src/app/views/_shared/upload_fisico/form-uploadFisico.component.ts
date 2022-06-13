@@ -16,7 +16,9 @@ export class FormUploadFisicoComponent implements OnInit {
   @Input() ruta:any;
 
   @Output() onLoaded: EventEmitter<number> = new EventEmitter<number>();
+
   @ViewChild('fileInput') fileInput: ElementRef;
+
   constructor(private uploadFisicoService: UploadFisicoFileService) { }
 
   ngOnInit() {
@@ -49,14 +51,17 @@ export class FormUploadFisicoComponent implements OnInit {
   }
 
   resetFile() {
+    this.progress.percentage = 0;
     this.fileInput.nativeElement.value="";
+    this.showFile();
+    //this.fileInput.nativeElement.value="";
   }
 
   hideFile() {
-    this.fileInput.nativeElement.style.display="none";
+    //this.fileInput.nativeElement.style.display="none";
   }
 
   showFile() {
-    this.fileInput.nativeElement.style.display="";
+    //this.fileInput.nativeElement.style.display="";
   }
 }

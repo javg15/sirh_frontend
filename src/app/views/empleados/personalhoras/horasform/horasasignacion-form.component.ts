@@ -397,7 +397,8 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
     if(this.recordsemestre.tipo=="B") id_cattiposemestre=2
     if(this.recordsemestre.tipo=="A,B") id_cattiposemestre=3
     this.materiasclaseSvc.getCatalogoConHorasDisponiblesSegunGrupo(this.record.id_catplanteles_aplicacion, valor,this.record.id,this.record_id_semestre,id_cattiposemestre).subscribe(resp => {
-      
+console.log("resp=>",resp)      
+console.log("this.tipoForm=>",this.tipoForm)
       if(this.tipoForm==0){
         this.materiasclaseCat = resp.filter(a=>a["text"].indexOf("DIES")<0 && a["text"].indexOf("APOYO A LA DOCENCIA")<0);
       }

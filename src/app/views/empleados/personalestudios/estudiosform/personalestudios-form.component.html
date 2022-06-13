@@ -35,7 +35,7 @@
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="titulado">¿Titulado?</label>
-                                <select class="form-control" [(ngModel)]="record.titulado" name="¿Titulado?" >
+                                <select class="form-control" [(ngModel)]="record.titulado" name="¿Titulado?">
                                     <option value=""></option>
                                     <option value="1">Sí</option>
                                     <option value="0">No</option>
@@ -45,7 +45,7 @@
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="incompleta">¿Incompleta?</label>
-                                <select class="form-control" [(ngModel)]="record.incompleta" name="¿Incompleta?" >
+                                <select class="form-control" [(ngModel)]="record.incompleta" name="¿Incompleta?">
                                     <option value=""></option>
                                     <option value="0">No</option>
                                     <option value="1">Sí</option>
@@ -55,7 +55,7 @@
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="cursando">¿Cursando?</label>
-                                <select class="form-control" [(ngModel)]="record.cursando" name="¿Cursando?" >
+                                <select class="form-control" [(ngModel)]="record.cursando" name="¿Cursando?">
                                     <option value=""></option>
                                     <option value="1">Sí</option>
                                     <option value="0">No</option>
@@ -67,7 +67,7 @@
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="id_catestudiosniveles_ultimo">Último nivel de estudios</label>
-                                <select class="form-control" [(ngModel)]="record.id_catestudiosniveles_ultimo" name="Último nivel de estudios" >
+                                <select class="form-control" [(ngModel)]="record.id_catestudiosniveles_ultimo" name="Último nivel de estudios">
                                     <option *ngFor="let col of catestudiosnivelesCat" [value]="col.id">{{ col.descripcion }}</option>
                                   </select>
                             </div>
@@ -86,7 +86,7 @@
                             <br/>
                             <br/>
 
-                            <list-uploadFisico></list-uploadFisico>
+                            <list-uploadFisico (onRemove)="onRemoveFile($event)"></list-uploadFisico>
                         </div>
                     </div>
                     <div class="row">

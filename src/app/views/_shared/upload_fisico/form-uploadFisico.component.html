@@ -4,8 +4,11 @@
 </div>
 
 <label class="btn btn-default">
-  <input type="hidden" [(ngModel)]="id" class="form-control" name="ID">
-  <input type="file" (change)="selectFile($event)" #fileInput>
+<input type="hidden" [(ngModel)]="id" class="form-control" name="ID">
+<div>
+  <label class="fileContainer btn btn-light" type="button">
+    Cargar archivo ...
+    <input id="files" type="file" (change)="selectFile($event)" #fileInput   />
+  </label>
+</div>
 </label>
-
-<!--<button *ngIf="actionForm!=='ver'" class="btn btn-success" [disabled]="!selectedFiles" (click)="upload()">Subir archivo</button>-->

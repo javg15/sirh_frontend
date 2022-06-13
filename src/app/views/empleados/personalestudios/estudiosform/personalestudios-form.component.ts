@@ -107,7 +107,28 @@ export class PersonalEstudiosFormComponent implements OnInit, OnDestroy {
 
   async submitAction(admin) {
 
+
     if(this.actionForm.toUpperCase()!=="VER"){
+
+      this.validSummary.resetErrorMessages(admin);
+      let archivoModificado=false;//para saber si ya se realizo algun upload, y con él, la llamada a la funcion setRecord()
+
+      if(this.actionForm.toUpperCase()==="NUEVO" || this.actionForm.toUpperCase()==="EDITAR"){
+        //el metodo .upload, emitirá el evento que cachará el metodo  onLoadedFile de este archivo
+        if(this.formUpload.selectedFiles){
+          archivoModificado=true;
+          this.formUpload.ruta="personal/estudios/" +
+            this.record.id_personal.toString().padStart(5 , "0")
+          await this.formUpload.upload();
+        }
+      }
+      
+      if(archivoModificado==false || this.actionForm.toUpperCase()==="ELIMINAR"){
+        this.setRecord();
+      }
+    }
+
+    /*if(this.actionForm.toUpperCase()!=="VER"){
 
       this.validSummary.resetErrorMessages(admin);
         if(this.actionForm.toUpperCase()==="NUEVO"){
@@ -148,7 +169,23 @@ export class PersonalEstudiosFormComponent implements OnInit, OnDestroy {
               }
           }), { key: 'loading' });
         }
-    }
+    }*/
+  }
+
+  setRecord(){
+      this.isLoadingService.add(
+        this.personalestudiosformService.setRecord(this.record, this.actionForm).subscribe(async resp => {
+          if (resp.hasOwnProperty('error')) {
+            this.validSummary.generateErrorMessagesFromServer(resp.message);
+          }
+          else if (resp.message == "success") {
+            if(this.actionForm.toUpperCase()=="NUEVO") this.actionForm="editar";
+            this.record.id=resp.id;
+            this.successModal.show();
+            setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
+          }
+        }), { key: 'loading' }
+      );
   }
 
   onSelectNivel(valor:any){
@@ -174,10 +211,10 @@ export class PersonalEstudiosFormComponent implements OnInit, OnDestroy {
         this.personalestudiosformService.getRecord(idItem).subscribe(async resp => {
           this.record = resp;
           this.onSelectNivel(this.record.id_catestudiosniveles)
-          //if(this.record.id_archivos>0)
+          if(this.record.id_archivos>0)
             this.formUpload.hideFile();
-          //else
-          //  this.formUpload.showFile();
+          else
+            this.formUpload.showFile();
           this.listUpload.showFiles(this.record.id_archivos);
       });
     }
@@ -197,30 +234,41 @@ export class PersonalEstudiosFormComponent implements OnInit, OnDestroy {
         tipo: datos.tipo,  nombre:  datos.nombrearchivo,  datos: null,  id_usuarios_r: 0,
         state: '',  created_at: null,   updated_at: null
       };
-          //ingresar el registro de estudios
-    await this.isLoadingService.add(
-      this.archivosSvc.setRecord(this.recordFile,this.actionForm).subscribe(resp => {
-        this.record.id_archivos=resp.id;
-        this.recordFile.id=resp.id;
-        //registrar el estudios
-        this.personalestudiosformService.setRecord(this.record, this.actionForm).subscribe(async resp => {
-          if (resp.hasOwnProperty('error')) {
-            this.validSummary.generateErrorMessagesFromServer(resp.message);
-          }
-          else if (resp.message == "success") {
-            this.record.id=resp.id;
-            if (this.actionForm.toUpperCase() == "NUEVO") this.actionForm = "editar";
 
-            //actualizar la referencia en el archivo
-            this.recordFile.id_tabla=this.record.id;
-            this.archivosSvc.setRecordReferencia(this.recordFile,this.actionForm).subscribe(resp => {
-              this.successModal.show();
-              setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
-            });
-          }
-        })
-      })
-    , { key: 'loading' });
+      this.setRecordFile();
+    }
+
+  async setRecordFile()
+  {
+        //ingresar el registro de estudios
+        await this.isLoadingService.add(
+          this.archivosSvc.setRecord(this.recordFile,this.actionForm).subscribe(resp => {
+            this.record.id_archivos=resp.id;
+            this.recordFile.id=resp.id;
+            //registrar el estudios
+            this.personalestudiosformService.setRecord(this.record, this.actionForm).subscribe(async resp => {
+              if (resp.hasOwnProperty('error')) {
+                this.validSummary.generateErrorMessagesFromServer(resp.message);
+              }
+              else if (resp.message == "success") {
+                this.record.id=resp.id;
+                if (this.actionForm.toUpperCase() == "NUEVO") this.actionForm = "editar";
+    
+                //actualizar la referencia en el archivo
+                this.recordFile.id_tabla=this.record.id;
+                this.archivosSvc.setRecordReferencia(this.recordFile,this.actionForm).subscribe(resp => {
+                  this.successModal.show();
+                  setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
+                });
+              }
+            })
+          })
+        , { key: 'loading' });  
+  }
+
+    
+  async onRemoveFile(datos:any){
+    if(this.record.id_archivos==datos.id){this.record.id_archivos=0;}
   }
 
 

@@ -1,0 +1,4 @@
+.fileContainer [type=file]::-webkit-file-upload-button {
+    visibility: hidden;
+    width: 0px;
+}
