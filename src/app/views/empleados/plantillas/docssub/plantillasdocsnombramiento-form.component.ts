@@ -262,6 +262,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
     this.tituloForm="Preparación " + this.tipo +" - " + titulosModal[accion] + " registro";
     //this.formUpload.resetFile();
     this.record_titular="";
+    this.plazaOcupadaTitularCat=[];
     //limpiar autocomplete
     if(this.id_personal_titular){ this.id_personal_titular.clear();this.id_personal_titular.close();}
 

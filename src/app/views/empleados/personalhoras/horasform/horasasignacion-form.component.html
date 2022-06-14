@@ -102,7 +102,7 @@
                         <div class="form-group col-sm-2">
                             <div class="form-group">
                                 <label for="cantidad">Horas</label>
-                                <input type="text" [(ngModel)]="record.cantidad" class="form-control" name="Horas" [disabled]="!edicion_horasDIES" (change)="onChangeCantidadHoras($event.target.value)">
+                                <input type="text" [(ngModel)]="record.cantidad" class="form-control" name="Horas" [disabled]="!edicion_horasDIESyApoyo" (change)="onChangeCantidadHoras($event.target.value)">
                             </div>
                         </div>
                     </div>
@@ -157,7 +157,7 @@
                                 </ng-select2>
                             </div>
                         </div>
-                        <div *ngIf="!edicion_horasDIES" class="form-group col-sm-3">
+                        <div *ngIf="!edicion_horasDIESyApoyo" class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="horassueltas">¿Horas sueltas?</label>
                                 <select class="form-control" [(ngModel)]="record.horassueltas" name="¿Horas sueltas?" [disabled]="true"><!--"!edicion_en_activo"-->
@@ -177,7 +177,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div *ngIf="!edicion_horasDIES" class="form-group col-sm-3">
+                        <div *ngIf="!edicion_horasDIESyApoyo" class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="frenteagrupo">¿Frente a grupo?</label>
                                 <select class="form-control" [(ngModel)]="record.frenteagrupo" name="¿Frente a grupo?" [disabled]="!edicion_en_activo">

@@ -91,7 +91,9 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
   edicion_en_activo:boolean=true;
   edicion_en_copiar:boolean=false;
   edicion_habilitarTipoHoras:boolean=true;
-  edicion_horasDIES:boolean=false;
+  edicion_horasDIESyApoyo:boolean=false;
+  edicion_horasApoyo:boolean=false;
+  horasApoyoDocenciaMax:number;
   horasProgramadasEnPlaza:number;
   horasDisponiblesEnPlaza:number;
   horasRestantesEnPlaza:number=0;
@@ -173,6 +175,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
 
   async submitAction(admin) {
+    let pasaValidaciones:boolean=true;
 
     if (this.actionForm.toUpperCase() !== "VER") {
 
@@ -180,11 +183,32 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
       if(this.record.id_catnombramientos==2 && this.record_personaltitular.length==0){
         this.validSummary.generateErrorMessagesFromServer({Titular: "No existe un profesor con esta materia en Licencia"});
+        pasaValidaciones=false;
       }
-      else if(this.edicion_horasDIES && (this.record.cantidad>this.horasDisponiblesEnPlaza || this.record.cantidad<1)){
+      /*else if(this.edicion_horasDIESyApoyo && (this.record.cantidad>this.horasDisponiblesEnPlaza || this.record.cantidad<1)){
         this.validSummary.generateErrorMessagesFromServer({Horas: "La materia seleccionada es del Programa DIES, por lo tanto, la cantidad de horas debe ser entre 1 y " + this.horasProgramadasEnPlaza});
+      }*/
+      if(this.tipoForm==1){//DIES
+        if(this.record.cantidad>this.horasDisponiblesEnPlaza){
+          this.record.cantidad=this.horasDisponiblesEnPlaza
+          this.validSummary.generateErrorMessagesFromServer({Horas:"La cantidad de horas DIES no debe ser mayor a las horas disponibles en la plaza"});
+          pasaValidaciones=false;
+        }
       }
-      else{
+      else if(this.tipoForm==2){//APOYO
+        if(this.record.cantidad>this.horasDisponiblesEnPlaza){
+          this.record.cantidad=this.horasDisponiblesEnPlaza
+          this.validSummary.generateErrorMessagesFromServer({Horas:"La cantidad de horas de Apoyo a la Docencia no debe ser mayor a las horas disponibles en la plaza"});
+          pasaValidaciones=false;
+        }
+        else if(this.record.cantidad>this.horasApoyoDocenciaMax){
+          this.record.cantidad=this.horasApoyoDocenciaMax
+          this.validSummary.generateErrorMessagesFromServer({Horas:"La cantidad de Horas de Apoyo a la Docencia no debe ser mayor a " + this.horasApoyoDocenciaMax});
+          pasaValidaciones=false;
+        }
+      }
+      
+      if(pasaValidaciones){
         if (this.actionForm.toUpperCase() == "DESACTIVAR") {
           this.record.descargada=1;
         }
@@ -278,6 +302,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
       this.plazasSvc.getHorasDisponibleSegunPlaza(idPersonal,idPlantel,idSemestre,idPlaza).subscribe(resp => {
         this.horasDisponiblesEnPlaza=resp[0].horasdisponibles;
+        this.horasApoyoDocenciaMax=resp[0].horasapoyo;
         this.horasRestantesEnPlaza=(this.horasDisponiblesEnPlaza>0?this.horasDisponiblesEnPlaza - this.record.cantidad:parseInt(this.horasDisponiblesEnPlaza.toString())+parseInt((this.record.cantidad*-1).toString()));
         this.verAsignarHorasRestantes=(this.horasRestantesEnPlaza<0);
       });
@@ -414,6 +439,9 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
     let materia=this.materiasclaseCat.find(a=>a.id==valor);
     if(this.tipoForm==1){//DIES
       this.record.cantidad=this.horasDisponiblesEnPlaza;
+    }
+    else if(this.tipoForm==2){
+      this.record.cantidad=this.horasApoyoDocenciaMax;
     }else{
       this.record.cantidad=materia.horasdisponibles;
     }
@@ -423,8 +451,10 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
     this.horasRestantesEnPlaza=(this.horasDisponiblesEnPlaza>0?this.horasDisponiblesEnPlaza - this.record.cantidad:parseInt(this.horasDisponiblesEnPlaza.toString()) + parseInt((this.record.cantidad*-1).toString()));
     this.verAsignarHorasRestantes=(this.horasRestantesEnPlaza<0);
 
-    this.edicion_horasDIES=(materia["nogrupo"]==1 && materia["claveasignatura"].substring(0,2)=="PD");
-    if(this.edicion_horasDIES){
+    this.edicion_horasDIESyApoyo=(materia["nogrupo"]==1 && 
+      (materia["claveasignatura"].substring(0,2)=="PD" || materia["claveasignatura"].substring(0,2)=="AD"));
+
+    if(this.edicion_horasDIESyApoyo){
       this.record.horassueltas=0;
       this.record.frenteagrupo=0;
     }
@@ -465,6 +495,16 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
       if(valor>this.horasDisponiblesEnPlaza){
         this.record.cantidad=this.horasDisponiblesEnPlaza
         alert("La cantidad de horas DIES no debe ser mayor a las horas disponibles en la plaza");
+      }
+    }
+    else if(this.tipoForm==2){//APOYO
+      if(valor>this.horasDisponiblesEnPlaza){
+        this.record.cantidad=this.horasDisponiblesEnPlaza
+        alert("La cantidad de horas de Apoyo a la Docencia no debe ser mayor a las horas disponibles en la plaza");
+      }
+      else if(valor>this.horasApoyoDocenciaMax){
+        this.record.cantidad=this.horasApoyoDocenciaMax
+        alert("La cantidad de Horas de Apoyo a la Docencia no debe ser mayor a " + this.horasApoyoDocenciaMax);
       }
     }
     //si son horas de jornada, entonces, si ya excede las horas, entonces, mostrar la opción de asignar en horas sueltas
