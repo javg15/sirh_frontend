@@ -99,7 +99,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
   horasRestantesEnPlaza:number=0;
   verAsignarHorasRestantes:boolean=false;
   asignarHorasRestantes:number;
-  tipoForm:number;//tipoForm=0->Carga horaria, tipoForm=1->DIES, tipoForm=2->Apoyo a la docencia
+  tipoForm:number;//tipoForm=1->Carga horaria, tipoForm=2->DIES, tipoForm=3->Apoyo a la docencia
 
   esPlantelDesdeParametro:boolean=false;
   keywordSearch = 'full_name';
@@ -188,14 +188,14 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
       /*else if(this.edicion_horasDIESyApoyo && (this.record.cantidad>this.horasDisponiblesEnPlaza || this.record.cantidad<1)){
         this.validSummary.generateErrorMessagesFromServer({Horas: "La materia seleccionada es del Programa DIES, por lo tanto, la cantidad de horas debe ser entre 1 y " + this.horasProgramadasEnPlaza});
       }*/
-      if(this.tipoForm==1){//DIES
+      if(this.tipoForm==2){//DIES
         if(this.record.cantidad>this.horasDisponiblesEnPlaza){
           this.record.cantidad=this.horasDisponiblesEnPlaza
           this.validSummary.generateErrorMessagesFromServer({Horas:"La cantidad de horas DIES no debe ser mayor a las horas disponibles en la plaza"});
           pasaValidaciones=false;
         }
       }
-      else if(this.tipoForm==2){//APOYO
+      else if(this.tipoForm==3){//APOYO
         if(this.record.cantidad>this.horasDisponiblesEnPlaza){
           this.record.cantidad=this.horasDisponiblesEnPlaza
           this.validSummary.generateErrorMessagesFromServer({Horas:"La cantidad de horas de Apoyo a la Docencia no debe ser mayor a las horas disponibles en la plaza"});
@@ -233,9 +233,9 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
   // open modal
   open(idItem: string, accion: string, idPersonal: number, idSemestre: number, idPlantel:number, idPlaza:number,esInterina:number,idPlantelAplicacion:number,tipoForm:number): void {
     let titulo="";
-    if(tipoForm==0) titulo="Carga horaria";
-    if(tipoForm==1) titulo="Horas DIES";
-    if(tipoForm==2) titulo="Horas de apoyo a la docencia";
+    if(tipoForm==1) titulo="Carga horaria";
+    if(tipoForm==2) titulo="Horas DIES";
+    if(tipoForm==3) titulo="Horas de apoyo a la docencia";
 
     this.actionForm = accion;
     this.botonAccion = actionsButtonSave[accion];
@@ -318,7 +318,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
           this.edicion_en_activo=true;
 
           //obtener registro segun quincena inicial
-          this.catquincenaSvc.getRecord(this.record.id_catquincena_ini).subscribe(async resp => {
+          this.catquincenaSvc.getRecord(this.record.id_catquincena_fin).subscribe(async resp => {
             if(this.record_quincena_activa.anio.toString()+this.record_quincena_activa.quincena.toString().padStart(2,"0")
                >resp.anio.toString()+resp.quincena.toString().padStart(2,"0"))
             this.edicion_en_activo=false;//solo editar la quincena final
@@ -393,22 +393,23 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
     if(!this.edicion_en_copiar)//si no es copia
       this.gruposclaseSvc.getCatalogoConHorasDisponiblesSegunPlantel(valor,this.record.id,this.recordsemestre.tipo,this.record_id_semestre,id_cattiposemestre).subscribe(resp => {
-        if(this.tipoForm==0)
+        if(this.tipoForm==1)
           this.gruposclaseCat = resp.filter(a=>a["text"]!="0-");
         else{
           this.gruposclaseCat = resp.filter(a=>a["text"]=="0-");
-          this.record.id_gruposclase=this.gruposclaseCat.find(a=>a["text"]=="0-").id;
+          this.record.id_gruposclase=this.gruposclaseCat.length>0?this.gruposclaseCat.find(a=>a["text"]=="0-").id:0;
           this.onSelectGruposclase(this.record.id_gruposclase);
         }
       });
     else
       this.gruposclaseSvc.getCatalogoConHorasDisponiblesSegunCopia(valor,this.record.id,this.recordsemestre.tipo,this.record_id_semestre,id_cattiposemestre
           ,this.record.id_materiasclase,this.record.id_catestatushora,this.record.id_cattipohorasdocente,this.record.id_personal).subscribe(resp => {
-        if(this.tipoForm==0)
+
+        if(this.tipoForm==1)
           this.gruposclaseCat = resp.filter(a=>a["text"]!="0-");
         else{
           this.gruposclaseCat = resp.filter(a=>a["text"]=="0-");
-          this.record.id_gruposclase=this.gruposclaseCat.find(a=>a["text"]=="0-").id;
+          this.record.id_gruposclase=this.gruposclaseCat.length>0?this.gruposclaseCat.find(a=>a["text"]=="0-").id:0;
           this.onSelectGruposclase(this.record.id_gruposclase);
         }
         
@@ -423,13 +424,13 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
     if(this.recordsemestre.tipo=="A,B") id_cattiposemestre=3
     this.materiasclaseSvc.getCatalogoConHorasDisponiblesSegunGrupo(this.record.id_catplanteles_aplicacion, valor,this.record.id,this.record_id_semestre,id_cattiposemestre).subscribe(resp => {
 
-      if(this.tipoForm==0){
+      if(this.tipoForm==1){
         this.materiasclaseCat = resp.filter(a=>a["text"].indexOf("DIES")<0 && a["text"].indexOf("APOYO A LA DOCENCIA")<0);
       }
-      else if(this.tipoForm==1){
+      else if(this.tipoForm==2){
         this.materiasclaseCat = resp.filter(a=>a["text"].indexOf("DIES")>=0);
       }
-      else if(this.tipoForm==2){
+      else if(this.tipoForm==3){
         this.materiasclaseCat = resp.filter(a=>a["text"].indexOf("APOYO A LA DOCENCIA")>=0);
       }
     });
@@ -437,10 +438,10 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
   onSelectMateriasclase(valor: any) {
     let materia=this.materiasclaseCat.find(a=>a.id==valor);
-    if(this.tipoForm==1){//DIES
+    if(this.tipoForm==2){//DIES
       this.record.cantidad=this.horasDisponiblesEnPlaza;
     }
-    else if(this.tipoForm==2){
+    else if(this.tipoForm==3){
       this.record.cantidad=this.horasApoyoDocenciaMax;
     }else{
       this.record.cantidad=materia.horasdisponibles;
@@ -491,13 +492,13 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
   }
 
   onChangeCantidadHoras(valor: any){
-    if(this.tipoForm==1){//DIES
+    if(this.tipoForm==2){//DIES
       if(valor>this.horasDisponiblesEnPlaza){
         this.record.cantidad=this.horasDisponiblesEnPlaza
         alert("La cantidad de horas DIES no debe ser mayor a las horas disponibles en la plaza");
       }
     }
-    else if(this.tipoForm==2){//APOYO
+    else if(this.tipoForm==3){//APOYO
       if(valor>this.horasDisponiblesEnPlaza){
         this.record.cantidad=this.horasDisponiblesEnPlaza
         alert("La cantidad de horas de Apoyo a la Docencia no debe ser mayor a las horas disponibles en la plaza");
