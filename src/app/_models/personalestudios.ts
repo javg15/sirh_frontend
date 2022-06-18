@@ -11,8 +11,6 @@ export default interface Personalestudios {
 
     titulado: number | null;
 
-    id_catestudiosniveles_ultimo: number | null;
-  
     siglasini: string | null;
 
     incompleta: number | null;
@@ -41,8 +39,6 @@ export default interface Personalestudios {
   
     id_catestudiosniveles?: number;
 
-    id_catestudiosniveles_ultimo?: number;
-  
     siglasini?: string;
 
     incompleta?: number;

@@ -75,7 +75,7 @@ export class PersonalEstudiosFormComponent implements OnInit, OnDestroy {
   newRecord(idParent:number): Personalestudios {
     return {
       id: 0, id_personal: idParent,  id_archivos: 0,
-      id_catestudioscarreras:0,id_catestudiosniveles:0,titulado:0,id_catestudiosniveles_ultimo:0,
+      id_catestudioscarreras:0,id_catestudiosniveles:0,titulado:0,
       siglasini:'',incompleta:0,cursando:0,numcedprof:'',
       state: '', created_at: new Date(), updated_at: new Date(), id_usuarios_r: 0
     };
