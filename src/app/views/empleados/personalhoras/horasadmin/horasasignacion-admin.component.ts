@@ -267,15 +267,15 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
 
 
   //Sub formulario
-  openModal(tipo: string, id: string, accion: string, idItem: number, idPersonal: number, idSemestre: number, idPlantel: number, idPlaza: number, esInterina: number, idPlantelAplicacion: number, tipoForm: number) {
+  openModal(tipo: string, id: string, accion: string, idItem: number, idPersonal: number, idSemestre: number, idPlantel: number, idPlaza: number, esInterina: number, idPlantelAplicacion: number) {
 
     if (this.record_id_semestre > 0) {
       switch (tipo.toLowerCase()) {
         case "01":
-          this.horasasignacionformSvc.open(id, accion, idItem, idPersonal, idSemestre, idPlantel, idPlaza, esInterina, idPlantelAplicacion, tipoForm);
+          this.horasasignacionformSvc.open(id, accion, idItem, idPersonal, idSemestre, idPlantel, idPlaza, esInterina, idPlantelAplicacion, parseInt(tipo));
           break;
         default:
-          this.horasasignacionformSvc.open(id, accion, idItem, idPersonal, idSemestre, idPlantel, idPlaza, esInterina, idPlantelAplicacion, tipoForm);
+          this.horasasignacionformSvc.open(id, accion, idItem, idPersonal, idSemestre, idPlantel, idPlaza, esInterina, idPlantelAplicacion, parseInt(tipo));
           break
       }
     }
