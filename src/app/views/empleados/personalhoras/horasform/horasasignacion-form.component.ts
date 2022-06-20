@@ -143,7 +143,8 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
       id: 0, id_personal: idParent, cantidad: 0, id_catplanteles: 0, id_catplanteles_aplicacion:0, id_gruposclase: 0,id_materiasclase: 0,
       id_cattipohorasmateria: 1, id_catnombramientos: 0, id_semestre: idSemestre,frenteagrupo:0,id_plazas:0,
       id_catestatushora: 0, id_catquincena_ini: 0, id_catquincena_fin: 0, horassueltas:0, id_cattipohorasdocente:0,
-      state: '', created_at: new Date(), updated_at: new Date(), id_usuarios_r: 0, descargada:0, id_personalhoras_descarga:0
+      state: '', created_at: new Date(), updated_at: new Date(), id_usuarios_r: 0, descargada:0, id_personalhoras_descarga:0,
+      id_personal_titular:0
     };
   }
   ngOnInit(): void {
@@ -476,9 +477,11 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
         this.horasasignacionformService.getRecordTitularEnLicencia(this.record.id_catplanteles_aplicacion,this.record.id_gruposclase,this.record.id_materiasclase,this.record.id_semestre).subscribe(resp => {
           this.record_personaltitular = resp;
           this.record_personaltitular_nombre="";
-
+          this.record.id_personal_titular=0;
+          
           if(resp.length>0){
             this.record_personaltitular_nombre=this.record_personaltitular["nombre"];
+            this.record.id_personal_titular= resp.id;
           }
         });
       }

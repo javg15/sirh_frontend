@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { DataTablesResponse } from '../../../../classes/data-tables-response';
@@ -57,7 +57,31 @@ export class PersonalhorasService {
       , httpOptions);
   }
 
+  public getReportePlantilla(url, id_catplanteles = 0, id_semestre = 0, plantel = "") {
+    let params = new HttpParams().set("id_catplanteles", (id_catplanteles == null ? 0 : id_catplanteles).toString())
+      .set("id_semestre", (id_semestre == null ? 0 : id_semestre).toString())
+      .set("plantel", (plantel == null ? "" : plantel).toString())
+      ;
 
+    this.http.get(this.API_URL + url, { responseType: 'arraybuffer', params: params }).subscribe(data => {
+      var file = new Blob([data], { type: 'application/pdf' });
+      var fileURL = window.URL.createObjectURL(file);
+      window.open(fileURL);
+    });
+  }
+
+  public getReportePlantillaMateria(url, id_catplanteles = 0, id_semestre = 0, plantel = "") {
+    let params = new HttpParams().set("id_catplanteles", (id_catplanteles == null ? 0 : id_catplanteles).toString())
+      .set("id_semestre", (id_semestre == null ? 0 : id_semestre).toString())
+      .set("plantel", (plantel == null ? "" : plantel).toString())
+      ;
+
+    this.http.get(this.API_URL + url, { responseType: 'arraybuffer', params: params }).subscribe(data => {
+      var file = new Blob([data], { type: 'application/pdf' });
+      var fileURL = window.URL.createObjectURL(file);
+      window.open(fileURL);
+    });
+  }
 
   // array de modales
   public add(modal: any) {

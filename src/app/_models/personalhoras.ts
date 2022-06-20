@@ -49,6 +49,8 @@ export default interface Personalhoras {
   descargada: number;
 
   id_personalhoras_descarga: number;
+  
+  id_personal_titular: number | null;
 
 }
 
@@ -104,5 +106,7 @@ export interface PersonalhorasInitializer {
   descargada?: number;
 
   id_personalhoras_descarga?: number;
+
+  id_personal_titular?: number;
 
 }

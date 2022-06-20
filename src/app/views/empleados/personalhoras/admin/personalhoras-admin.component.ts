@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TokenStorageService } from '../../../../_services/token-storage.service';
-
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import { DataTablesResponse } from '../../../../classes/data-tables-response';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
@@ -37,6 +37,8 @@ export class PersonalhorasAdminComponent implements OnInit {
   dtInstance: Promise<DataTables.Api>;
   dtTrigger: Subject<DataTableDirective> = new Subject();
 
+  @ViewChild('reporteModal') reporteModal: ModalDirective;
+
   Members: any[];
   ColumnNames: string[];
 
@@ -52,12 +54,18 @@ export class PersonalhorasAdminComponent implements OnInit {
   };
 
   nombreModulo = 'Personalhoras';
+  tituloBotonReporte='Plantilla';
+  tituloBotonReporte2='Plantilla con carga horaria';
+  param_id_catplanteles:number;
+  param_id_semestre:number;
+  param_plantel:string;
 
   record:Personalhoras={
     id: 0, id_personal: 0, cantidad: 0, id_catplanteles: 0, id_catplanteles_aplicacion:0, id_gruposclase: 0,id_materiasclase: 0,
       id_cattipohorasmateria: 1, id_catnombramientos: 0, id_semestre: 0,frenteagrupo:0,id_plazas:0,
       id_catestatushora: 0, id_catquincena_ini: 0, id_catquincena_fin: 0, horassueltas:0, id_cattipohorasdocente:0,
-      state: '', created_at: new Date(), updated_at: new Date(), id_usuarios_r: 0, descargada:0, id_personalhoras_descarga:0
+      state: '', created_at: new Date(), updated_at: new Date(), id_usuarios_r: 0, descargada:0, id_personalhoras_descarga:0,
+      id_personal_titular:0
   };
   semestreCat:Semestre[];
   catplantelesCat:Catplanteles[];
@@ -66,6 +74,8 @@ export class PersonalhorasAdminComponent implements OnInit {
   esInicio:boolean=true;
   isLoadingSearch:boolean;
   headersAdmin: any;
+
+  tipoReporte:number;
 
   /* En el constructor creamos el objeto personalhorasService,
   de la clase HttpConnectService, que contiene el servicio mencionado,
@@ -195,6 +205,27 @@ export class PersonalhorasAdminComponent implements OnInit {
   //Call this method in the image source, it will sanitize it.
   transform(image) {
     return this._sanitizer.bypassSecurityTrustResourceUrl('data:image/png;base64,' + image);
+  }
+
+  MostrarModal(tipo){
+    this.tipoReporte=tipo;
+    this.reporteModal.show()
+  }
+  MostrarReporte(){
+    if(this.param_id_catplanteles>0){
+      let dato=this.catplantelesCat.find((rec)=>{
+        if(rec.id==this.param_id_catplanteles)
+          return rec
+        });
+      
+      this.param_plantel=dato.clave + ' - ' + dato.ubicacion
+    }
+    
+    if(this.tipoReporte==1)
+      this.personalhorasService.getReportePlantilla('/reportes/personal_estudios',this.param_id_catplanteles,this.param_id_semestre,this.param_plantel);
+    else if(this.tipoReporte==2)
+      this.personalhorasService.getReportePlantillaMateria('/reportes/personal_estudios_materia',this.param_id_catplanteles,this.param_id_semestre,this.param_plantel);
+
   }
 
   onClickBuscar() {
