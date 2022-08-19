@@ -7,9 +7,11 @@ export const environment = {
   APIS_URL:"http://localhost:8080/api",
   URL:"http://localhost:8080/",
   /*APIS_URL: "http://44.234.213.105:8082/api",
-  URL: "http://44.234.213.105:8082/",*/
+  URL: "http://44.234.213.105:8082/",
   /*APIS_URL: "http://35.81.143.160:8082/api",
   URL: "http://35.81.143.160:8082/",*/
+  /*APIS_URL: "http://20.58.11.140:8080/api",
+  URL: "http://20.58.11.140:8080/",*/
   production: false
 };
 
