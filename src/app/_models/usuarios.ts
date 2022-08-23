@@ -24,7 +24,7 @@ export default interface Usuarios {
 
   updated_at: Date | null;
 
-  id_permgrupos: number | null;
+  
 
   id_usuarios_r: number | null;
 
@@ -60,7 +60,7 @@ export interface UsuariosInitializer {
 
   updated_at?: Date;
 
-  id_permgrupos?: number;
+  
 
   id_usuarios_r?: number;
 

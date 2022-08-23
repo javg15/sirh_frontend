@@ -385,12 +385,13 @@ export class PersonalFormComponent implements OnInit, OnDestroy {
         this.onSelectMunicipioResi(resp.id_catmunicipiosresi);
         this.record = resp;
         this.listUpload.showFiles(this.record.id_archivos_avatar);
+        this.reDraw(null);
       });
 
       this.getAntiguedad(idItem);
-  }
+    }
 
-  this.reDraw(null);
+    this.reDraw(null);
     // console.log($('#modalTest').html()); poner el id a algun elemento para testear
     this.basicModal.show();
   }

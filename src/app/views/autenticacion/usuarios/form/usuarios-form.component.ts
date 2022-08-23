@@ -93,7 +93,7 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
       id: 0,  username: '',   pass: '',
       uPassenc: '',  perfil: 0,  nombre: '',   numemp: '',   created_at: new Date(),  updated_at: new Date(),
       record_catzonasgeograficas:[],
-      id_permgrupos: 0, id_usuarios_r: 0, state: '',  email: '', id_archivos_avatar:0
+       id_usuarios_r: 0, state: '',  email: '', id_archivos_avatar:0
     };
   }
   ngOnInit(): void {

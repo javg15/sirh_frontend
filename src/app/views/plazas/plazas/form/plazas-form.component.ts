@@ -265,7 +265,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
         //si aun no tiene una asignación 
         if (id_plantillasdocsnombramiento_actual == 0)
           this.permiteeditar_comision=this.permiteeditar = true;
-        else if (id_estatus == 1 || id_estatus == 7 || id_estatus == 8) //vacante,cancelada,nuevacreacion
+        else if (id_estatus==0 || id_estatus == 1 || id_estatus == 7 || id_estatus == 8) //vacante,cancelada,nuevacreacion
           this.permiteeditar_comision=this.permiteeditar = true;
         else
           this.permiteeditar_comision=this.permiteeditar = false;
@@ -292,6 +292,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
         let id_categorias = this.record.id_categorias;
 
         this.onSelectPlantel(this.record.id_catplanteles);
+        
         //Obtener las categporias segun el tipo de plantel seleccionado
         let tipoplantel = this.catplantelesCat.find(e => e.id == this.record.id_catplanteles).tipoplantel;
         this.categoriasSvc.getCatalogoSegunPlantel(tipoplantel).subscribe(resp => {
