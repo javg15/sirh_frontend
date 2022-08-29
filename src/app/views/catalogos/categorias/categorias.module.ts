@@ -10,7 +10,7 @@ import { CategoriasService } from './services/categorias.service';
 import { CategoriasAdminComponent } from './admin/categorias-admin.component';
 import { CategoriasFormComponent } from './form/categorias-form.component';
 import { CategoriasdetalleFormComponent } from './formdetalle/categoriasdetalle-form.component';
-import { CategoriaspercepcionesFormComponent } from './formpercepciones/categoriaspercepciones-form.component';
+import { CatpercepcionescategoriasFormComponent } from './formpercepciones/catpercepcionescategorias-form.component';
 import { DataTablesModule } from 'angular-datatables';
 
 import { NgxMaskModule, IConfig } from 'ngx-mask'
@@ -35,7 +35,7 @@ const maskConfig: Partial<IConfig> = {
     CategoriasAdminComponent,
     CategoriasFormComponent,
     CategoriasdetalleFormComponent,
-    CategoriaspercepcionesFormComponent
+    CatpercepcionescategoriasFormComponent
   ],
   providers: [
     CategoriasService

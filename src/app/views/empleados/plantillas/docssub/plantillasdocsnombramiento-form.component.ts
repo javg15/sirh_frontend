@@ -254,7 +254,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
     this.record_tipoocupacion="";
     //inicializar el objeto
     this.record_categorias= {
-      id: 0,  clave: '', codigo:'', denominacion: '', nivelsalarial:'',id_cattipocategoria:0, id_tiponomina:0,
+      id: 0,  clave: '',  denominacion: '', nivelsalarial:'',id_cattipocategoria:0, id_tiponomina:0,
       state: '', aplicaa:0, created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
 

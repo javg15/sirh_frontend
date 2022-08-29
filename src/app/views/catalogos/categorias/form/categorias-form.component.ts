@@ -64,6 +64,7 @@ export class CategoriasFormComponent implements OnInit, OnDestroy {
 
   actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
+  successModalTimeOut: null | ReturnType<typeof setTimeout> = null;
 
   private elementModal: any;
   @ViewChild('basicModal') basicModal: ModalDirective;
@@ -175,7 +176,7 @@ export class CategoriasFormComponent implements OnInit, OnDestroy {
           if(this.actionForm.toUpperCase()=="NUEVO") this.actionForm="editar";
           this.record.id=resp.id;
           this.successModal.show();
-          setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
+          this.successModalTimeOut=setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
         }
       }),{ key: 'loading' });
     }
@@ -244,4 +245,10 @@ export class CategoriasFormComponent implements OnInit, OnDestroy {
     );
   }
 
+  continuarEditando(){
+    if(this.successModalTimeOut) {
+      clearTimeout(this.successModalTimeOut);
+      this.successModal.hide();
+    }
+  }
 }

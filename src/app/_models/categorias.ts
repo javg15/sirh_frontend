@@ -8,8 +8,6 @@ export default interface Categorias {
 
   clave: string | null;
 
-  codigo: string | null;
-
   denominacion: string | null;
 
   nivelsalarial: string | null;
@@ -37,8 +35,6 @@ export interface CategoriasInitializer {
   id?: CategoriasId;
 
   clave?: string;
-
-  codigo?: string;
 
   denominacion?: string;
 

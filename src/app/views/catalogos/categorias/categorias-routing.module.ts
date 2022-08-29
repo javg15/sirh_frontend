@@ -4,11 +4,11 @@ import { Routes, RouterModule } from '@angular/router';
 import { CategoriasAdminComponent } from './admin/categorias-admin.component';
 import { CategoriasFormComponent } from './form/categorias-form.component';
 import { CategoriasdetalleFormComponent } from './formdetalle/categoriasdetalle-form.component';
-import { CategoriaspercepcionesFormComponent } from './formpercepciones/categoriaspercepciones-form.component';
+import { CatpercepcionescategoriasFormComponent } from './formpercepciones/catpercepcionescategorias-form.component';
 
 import { CategoriasIniService } from './services/categorias.ini.service';
 import { CategoriasdetalleIniService } from './services/categoriasdetalle.ini.service';
-import { CategoriaspercepcionesIniService } from './services/categoriaspercepciones.ini.service';
+import { CatpercepcionescategoriasIniService } from './services/catpercepcionescategorias.ini.service';
 
 
 const routes: Routes = [
@@ -31,7 +31,7 @@ const routes: Routes = [
         resolve: {
           userdata: CategoriasIniService,
           userdataDetalle: CategoriasdetalleIniService,
-          userdataPercepciones: CategoriaspercepcionesIniService,
+          userdataPercepciones: CatpercepcionescategoriasIniService,
         }
       },
       {
@@ -50,7 +50,7 @@ const routes: Routes = [
       },
       {
         path: 'formpercepciones',
-        component: CategoriaspercepcionesFormComponent,
+        component: CatpercepcionescategoriasFormComponent,
         data: {
           title: 'Categorias percepciones'
         }

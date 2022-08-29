@@ -1,10 +1,10 @@
 // Automatically generated. Don't change this file manually.
 
-export type CategoriaspercepcionesId = number & { __flavor?: 'categoriaspercepciones' };
+export type CatpercepcionescategoriasId = number & { __flavor?: 'catpercepcionescategorias' };
 
-export default interface Categoriaspercepciones {
+export default interface Catpercepcionescategorias {
   /** Primary key. Index: categoriasautorizadas_pkey */
-  id: CategoriaspercepcionesId;
+  id: CatpercepcionescategoriasId;
 
   id_categoriasdetalle: number | null;
 
@@ -29,12 +29,12 @@ export default interface Categoriaspercepciones {
   updated_at: Date | null;
 }
 
-export interface CategoriaspercepcionesInitializer {
+export interface CatpercepcionescategoriasInitializer {
   /**
    * Default value: nextval('categoriasautorizadas_id_seq'::regclass)
    * Primary key. Index: categoriasautorizadas_pkey
    */
-  id?: CategoriaspercepcionesId;
+  id?: CatpercepcionescategoriasId;
 
   id_categoriasdetalle?: number;
 

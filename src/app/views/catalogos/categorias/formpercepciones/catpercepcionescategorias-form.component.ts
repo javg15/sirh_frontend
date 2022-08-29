@@ -4,7 +4,7 @@ import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Categoriaspercepciones, Catquincena, Catpercepciones } from '../../../../_models';
+import { Catpercepcionescategorias, Catquincena, Catpercepciones } from '../../../../_models';
 import { CatquincenaService } from '../../catquincena/services/catquincena.service';
 import { CatpercepcionesService } from '../../catpercepciones/services/catpercepciones.service';
 import { CatzonaeconomicaService } from '../../catzonaeconomica/services/catzonaeconomica.service';
@@ -14,19 +14,19 @@ import { actionsButtonSave, titulosModal } from '../../../../../environments/env
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 
-import { CategoriaspercepcionesService } from '../services/categoriaspercepciones.service';
+import { CatpercepcionescategoriasService } from '../services/catpercepcionescategorias.service';
 import * as moment from 'moment';
 
 declare var $: any;
 declare var jQuery: any;
 
 @Component({
-  selector: 'app-categoriaspercepciones-form',
-  templateUrl: './categoriaspercepciones-form.component.html',
-  styleUrls: ['./categoriaspercepciones-form.component.css']
+  selector: 'app-catpercepcionescategorias-form',
+  templateUrl: './catpercepcionescategorias-form.component.html',
+  styleUrls: ['./catpercepcionescategorias-form.component.css']
 })
 
-export class CategoriaspercepcionesFormComponent implements OnInit, OnDestroy {
+export class CatpercepcionescategoriasFormComponent implements OnInit, OnDestroy {
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
   @Input() id: string; //idModal
   @Input() botonAccion: string; //texto del boton según acción
@@ -42,13 +42,14 @@ export class CategoriaspercepcionesFormComponent implements OnInit, OnDestroy {
 
   actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
+  successModalTimeOut: null | ReturnType<typeof setTimeout> = null;
 
   private elementModal: any;
   @ViewChild('basicModal') basicModal: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
 
-  record: Categoriaspercepciones;
+  record: Catpercepcionescategorias;
   catquincenaCat:Catquincena[];
   catpercepcionesCat: Catpercepciones[];
 
@@ -58,7 +59,7 @@ export class CategoriaspercepcionesFormComponent implements OnInit, OnDestroy {
     private el: ElementRef,
     private catpercepcionesSvc: CatpercepcionesService,
     private catquincenaSvc: CatquincenaService,
-    private categoriaspercepcionesService: CategoriaspercepcionesService
+    private catpercepcionescategoriasService: CatpercepcionescategoriasService
       ) {
       this.elementModal = el.nativeElement;
       this.catquincenaSvc.getCatalogoSegunAnio(moment().format('YYYY')).subscribe(resp => {
@@ -69,7 +70,7 @@ export class CategoriaspercepcionesFormComponent implements OnInit, OnDestroy {
       });
   }
 
-  newRecord(idParent:number): Categoriaspercepciones {
+  newRecord(idParent:number): Catpercepcionescategorias {
     return {
       id: 0,  id_categoriasdetalle:idParent, fecha_inicio:null, fecha_fin:null,
       id_catquincena_ini: 0, id_catquincena_fin: 0, importe:0,id_catpercepciones:0,
@@ -88,7 +89,7 @@ export class CategoriaspercepcionesFormComponent implements OnInit, OnDestroy {
           return;
       }
       // add self (this modal instance) to the modal service so it's accessible from controllers
-      modal.categoriaspercepcionesService.add(modal);
+      modal.catpercepcionescategoriasService.add(modal);
 
       //loading
       this.userFormIsPending =this.isLoadingService.isLoading$({ key: 'loading' });
@@ -96,7 +97,7 @@ export class CategoriaspercepcionesFormComponent implements OnInit, OnDestroy {
 
   // remove self from modal service when directive is destroyed
   ngOnDestroy(): void {
-      this.categoriaspercepcionesService.remove(this.id); //idModal
+      this.catpercepcionescategoriasService.remove(this.id); //idModal
       this.elementModal.remove();
   }
 
@@ -107,7 +108,7 @@ export class CategoriaspercepcionesFormComponent implements OnInit, OnDestroy {
       this.validSummary.resetErrorMessages(form);
 
       await this.isLoadingService.add(
-      this.categoriaspercepcionesService.setRecord(this.record,this.actionForm).subscribe(resp => {
+      this.catpercepcionescategoriasService.setRecord(this.record,this.actionForm).subscribe(resp => {
         if (resp.hasOwnProperty('error')) {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
         }
@@ -115,7 +116,7 @@ export class CategoriaspercepcionesFormComponent implements OnInit, OnDestroy {
           if(this.actionForm.toUpperCase()=="NUEVO") this.actionForm="editar";
           this.record.id=resp.id;
           this.successModal.show();
-          setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
+          this.successModalTimeOut=setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
         }
       }),{ key: 'loading' });
     }
@@ -131,7 +132,7 @@ export class CategoriaspercepcionesFormComponent implements OnInit, OnDestroy {
     if(idItem=="0"){
       this.record =this.newRecord(idParent);
     } else {
-    this.categoriaspercepcionesService.getRecord(idItem).subscribe(resp => {
+    this.catpercepcionescategoriasService.getRecord(idItem).subscribe(resp => {
       this.record = resp;
     });
   }
@@ -148,9 +149,12 @@ export class CategoriaspercepcionesFormComponent implements OnInit, OnDestroy {
       }
   }
 
+  continuarEditando(){
+    if(this.successModalTimeOut) {
+      clearTimeout(this.successModalTimeOut);
+      this.successModal.hide();
+    }
+  }
   // log contenido de objeto en formulario
   get diagnosticValidate() { return JSON.stringify(this.record); }
-
-
-
 }

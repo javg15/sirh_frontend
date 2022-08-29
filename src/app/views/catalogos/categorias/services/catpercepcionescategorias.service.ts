@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { DataTablesResponse } from '../../../../classes/data-tables-response';
 
-import { environment } from '../../../../../../src/environments/environment';
+import { environment } from '../../../../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -14,7 +14,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class CategoriaspercepcionesService {
+export class CatpercepcionescategoriasService {
   public API_URL = environment.APIS_URL;
   private modals: any[] = [];
 
@@ -29,7 +29,7 @@ export class CategoriaspercepcionesService {
       setTimeout(()=>{
         this.http.post<DataTablesResponse>(
           // this.API_URL + '/a6b_apis/read_records_dt.php',
-          this.API_URL + '/categoriaspercepciones/getAdmin',
+          this.API_URL + '/catpercepcionescategorias/getAdmin',
           {solocabeceras:1,opcionesAdicionales:{raw:0}}, {}
         ).subscribe(resp => {
               o.next(resp.data[0]);
@@ -39,14 +39,14 @@ export class CategoriaspercepcionesService {
   }
 
   public getCatalogo(id_region): Observable<any> {
-    return this.http.post(this.API_URL + '/categoriaspercepciones/getCatalogo',
+    return this.http.post(this.API_URL + '/catpercepcionescategorias/getCatalogo',
       { id_region }
       , httpOptions);
   }
 
 
   public getAdmin(dataTablesParameters): Observable<any> {
-    return this.http.post(this.API_URL + '/categoriaspercepciones/getAdmin',
+    return this.http.post(this.API_URL + '/catpercepcionescategorias/getAdmin',
       { dataTablesParameters }
       , httpOptions);
   }
@@ -54,14 +54,14 @@ export class CategoriaspercepcionesService {
 
   /* El siguiente método lee los datos de un registro seleccionado para edición. */
   public getRecord(id: any): Observable<any> {
-    return this.http.post(this.API_URL + '/categoriaspercepciones/getRecord',
+    return this.http.post(this.API_URL + '/catpercepcionescategorias/getRecord',
       { id }
       , httpOptions);
   }
 
 
 public getRecordSegunCategoria(id_categorias: any): Observable<any> {
-  return this.http.post(this.API_URL + '/categoriaspercepciones/getRecordSegunCategoria',
+  return this.http.post(this.API_URL + '/catpercepcionescategorias/getRecordSegunCategoria',
     { id_categorias }
     , httpOptions);
 }
@@ -69,7 +69,7 @@ public getRecordSegunCategoria(id_categorias: any): Observable<any> {
   /* El siguiente método graba un registro nuevo, o uno editado. */
   public setRecord(dataPack,actionForm): Observable<any> {
 
-    return this.http.post(this.API_URL + '/categoriaspercepciones/setRecord',
+    return this.http.post(this.API_URL + '/catpercepcionescategorias/setRecord',
       { dataPack,actionForm }
       , httpOptions);
   }

@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { take, map } from 'rxjs/operators';
 
-import { CategoriaspercepcionesService } from './categoriaspercepciones.service';
+import { CatpercepcionescategoriasService } from './catpercepcionescategorias.service';
 import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class CategoriaspercepcionesIniService implements Resolve <Observable<any>>{
+export class CatpercepcionescategoriasIniService implements Resolve <Observable<any>>{
 
-  constructor(private ds: CategoriaspercepcionesService) { }
+  constructor(private ds: CatpercepcionescategoriasService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot){
     return this.ds.getHeaders().pipe(

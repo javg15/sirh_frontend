@@ -16,7 +16,7 @@ import { IsLoadingService } from '../../../../_services/is-loading/is-loading.se
 import { environment } from '../../../../../../src/environments/environment';
 
 import { CategoriasdetalleService } from '../services/categoriasdetalle.service';
-import { CategoriaspercepcionesService } from '../services/categoriaspercepciones.service';
+import { CatpercepcionescategoriasService } from '../services/catpercepcionescategorias.service';
 
 declare var $: any;
 declare var jQuery: any;
@@ -67,6 +67,7 @@ export class CategoriasdetalleFormComponent implements OnInit, OnDestroy {
 
   actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
+  successModalTimeOut: null | ReturnType<typeof setTimeout> = null;
 
   private elementModal: any;
   @ViewChild('basicModal') basicModal: ModalDirective;
@@ -85,7 +86,7 @@ export class CategoriasdetalleFormComponent implements OnInit, OnDestroy {
     private catzonaeconomicaSvc: CatzonaeconomicaService,
     private catquincenaSvc: CatquincenaService,
     private categoriasdetalleService: CategoriasdetalleService,
-    private categoriaspercepcionesService: CategoriaspercepcionesService,
+    private catpercepcionescategoriasService: CatpercepcionescategoriasService,
     private route: ActivatedRoute
       ) {
       this.elementModal = el.nativeElement;
@@ -176,7 +177,7 @@ export class CategoriasdetalleFormComponent implements OnInit, OnDestroy {
           if(this.actionForm.toUpperCase()=="NUEVO") this.actionForm="editar";
           this.record.id=resp.id;
           this.successModal.show();
-          setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
+          this.successModalTimeOut=setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
         }
       }),{ key: 'loading' });
     }
@@ -224,16 +225,23 @@ export class CategoriasdetalleFormComponent implements OnInit, OnDestroy {
       }
   }
 
+  continuarEditando(){
+    if(this.successModalTimeOut) {
+      clearTimeout(this.successModalTimeOut);
+      this.successModal.hide();
+    }
+  }
+  
   // log contenido de objeto en formulario
   get diagnosticValidate() { return JSON.stringify(this.record); }
 
   //Sub formulario
   openModal(id: string, accion: string, idItem: number,idParent:number) {
-    this.categoriaspercepcionesService.open(id, accion, idItem,idParent);
+    this.catpercepcionescategoriasService.open(id, accion, idItem,idParent);
   }
 
   closeModal(id: string) {
-    this.categoriaspercepcionesService.close(id);
+    this.catpercepcionescategoriasService.close(id);
   }
 
   reDraw(): void {
@@ -244,7 +252,7 @@ export class CategoriasdetalleFormComponent implements OnInit, OnDestroy {
     this.dtOptionsAdicional.fkeyvalue=this.record.id;
     this.dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
 
-    this.categoriaspercepcionesService.getAdmin(this.dataTablesParameters).subscribe(resp => {
+    this.catpercepcionescategoriasService.getAdmin(this.dataTablesParameters).subscribe(resp => {
 
         this.ColumnNames = resp.columnNames;
         this.Members = resp.data;
