@@ -47,9 +47,9 @@ export class PlantillasdocsBajaService {
         this.modals = this.modals.filter(x => x.id !== id);
     }
 
-  public open(id: string, accion: string, idItem: number,idParent:number) {
+  public open(id: string, accion: string, idItem: number,idParent:number,tipoBaja:string) {
         let modal: any = this.modals.filter(x => x.id === id)[0];
-        modal.open(idItem, accion,idParent);
+        modal.open(idItem, accion,idParent,tipoBaja);
     }
 
   public close(id: string) {

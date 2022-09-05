@@ -457,12 +457,12 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     this.reDraw(null);
   }
 
-  openPrevioModal(subTipoVentana: string, accion: string, idItem: number, idPlantillaPersonal: number, idPersonal: number) {
+  openPrevioModal(subTipoVentana: string, accion: string, idItem: number, idPlantillaPersonal: number, idPersonal: number, tipoBaja:string) {
     this.subTipoVentana = subTipoVentana;
-    this.openModal(accion, idItem, idPlantillaPersonal, idPersonal)
+    this.openModal(accion, idItem, idPlantillaPersonal, idPersonal,tipoBaja)
   }
   //Sub formulario
-  openModal(accion: string, idItem: number, idPlantillaPersonal: number, idPersonal: number) {
+  openModal(accion: string, idItem: number, idPlantillaPersonal: number, idPersonal: number,tipoBaja:string) {
     switch (this.tipoVentana.toLowerCase()) {
       case "plantillasdocsprofesional":
         this.plantillasdocsprofesionalSvc.open('custom-plantillasdocsprofesional', accion, idItem, idPersonal);
@@ -471,7 +471,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
         if (this.subTipoVentana == "plantillasdocsnombramiento")
           this.plantillasdocsnombramientoSvc.open('custom-plantillasdocsnombramiento', accion, idItem, idPlantillaPersonal, 1);
         else if (this.subTipoVentana == "plantillasdocsbaja")
-          this.plantillasdocsbajaSvc.open('custom-plantillasdocsbaja', accion, idItem, idPlantillaPersonal);
+          this.plantillasdocsbajaSvc.open('custom-plantillasdocsbaja', accion, idItem, idPlantillaPersonal,tipoBaja);
         else if (this.subTipoVentana == "plantillasdocslicenciasadmin") {
           this.plantillasdocsnombramientoSvc.open('custom-plantillasdocsnombramiento', accion, idItem, idPlantillaPersonal, 2);
         }

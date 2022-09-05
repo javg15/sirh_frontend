@@ -27,6 +27,8 @@ export default interface Catbajamotivo {
   checarinterinatopuro: number | null;
 
   textoetiquetabaja: string | null;
+
+  tipobaja: string | null;
 }
 
 export interface CatbajamotivoInitializer {
@@ -57,4 +59,6 @@ export interface CatbajamotivoInitializer {
   checarinterinatopuro?: number;
 
   textoetiquetabaja?: string;
+
+  tipobaja?: string;
 }

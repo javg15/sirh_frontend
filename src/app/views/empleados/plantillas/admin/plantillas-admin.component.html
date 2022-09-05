@@ -96,8 +96,8 @@
                                 <ng-container *ngFor="let col of ColumnNames;index as i">
                                     <div *ngIf="col=='acciones'; else elseBlock">
                                         <!--<td><img src="assets/{{ member[col] }}" width="50" /></td>-->
-                                        <td>
-                                            <div *ngFor="let boton of member[col].split(',')" style="display: contents;">
+                                        <td >
+                                            <div *ngFor="let boton of member[col].split(',')"  style="display: contents;">
                                                 <button *ngIf="boton=='ver'" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','ver',member.id,0,0,0)">
                                               <i class="fa fa-search"></i>
                                           </button>

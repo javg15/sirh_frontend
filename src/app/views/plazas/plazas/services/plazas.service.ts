@@ -92,11 +92,11 @@ export class PlazasService {
       , httpOptions);
   }
 
-  public getBaseClave(id_personal: any, id_semestre): Observable<any> {
+  /*public getBaseClave(id_personal: any, id_semestre): Observable<any> {
     return this.http.post(this.API_URL + '/plazas/getBaseClave',
       { id_personal, id_semestre }
       , httpOptions);
-  }
+  }*/
   public getNombramientosVigentes(id_personal: any, id_semestre): Observable<any> {
     return this.http.post(this.API_URL + '/plazas/getNombramientosVigentes',
       { id_personal, id_semestre }

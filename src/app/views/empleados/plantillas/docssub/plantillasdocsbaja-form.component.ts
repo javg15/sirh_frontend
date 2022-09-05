@@ -78,9 +78,7 @@ export class PlantillasDocsBajaFormComponent implements OnInit, OnDestroy {
         this.catquincenaSvc.getCatalogo().subscribe(resp => {
           this.catquincenaCat = resp;
         });
-        this.catbajamotivoSvc.getCatalogo().subscribe(resp => {
-          this.catbajamotivoCat = resp;
-        });
+        
 
   }
 
@@ -166,17 +164,32 @@ export class PlantillasDocsBajaFormComponent implements OnInit, OnDestroy {
   }
 
   // open modal
-  async open(idItem: string, accion: string,idParent:number):  Promise<void> {
+  async open(idItem: string, accion: string,idParent:number,tipoBaja:string):  Promise<void> {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
-    this.tituloForm="Baja administrativa - " + titulosModal[accion] + " registro";
+    
     //this.formUpload.resetFile();
     this.record_titular="";
 
 
+    this.catbajamotivoSvc.getCatalogo().subscribe(resp => {
+      if(tipoBaja=="BD"){ //bajas definitivas
+          this.catbajamotivoCat = resp.filter(a=>a.tipobaja=="DE");
+          this.tituloForm="Baja administrativa definitiva - " + titulosModal[accion] + " registro";
+      }
+        else if(tipoBaja=="BT"){ //bajas de nombramientos
+          this.catbajamotivoCat = resp.filter(a=>a.tipobaja=="NO");
+          this.tituloForm="Baja administrativa de nombramiento - " + titulosModal[accion] + " registro";
+        }
+    });
+
     if(idItem=="0"){
         this.record =this.newRecord(idParent);
         //this.listUpload.showFiles(0);
+        if(tipoBaja=="BD") //bajas definitivas
+          this.record.id_catestatusplaza=1;
+        else if(tipoBaja=="BT") //bajas de nombramientos
+          this.record.id_catestatusplaza=2;
 
         //obtener el plantel de la plantilla
         this.plantillasSvc.getRecord(this.record.id_plantillaspersonal).subscribe(resp => {

@@ -32,7 +32,7 @@ export class CategoriasdetalleFormComponent implements OnInit, OnDestroy {
   @Input() dtOptions: DataTables.Settings = {};
   @Input() id: string; //idModal
   @Input() botonAccion: string; //texto del boton según acción
-  @Input() varEditarHorPla: string = "1";
+  @Input() varEditarHorPla: string = "H";
   @Output() redrawEvent = new EventEmitter<any>();
 
   /* El decorador @ViewChild recibe la clase DataTableDirective, para luego poder
@@ -47,7 +47,6 @@ export class CategoriasdetalleFormComponent implements OnInit, OnDestroy {
 
   private dataTablesParameters={
     draw: 1,  length: 100 , opcionesAdicionales: {},
-    order: [{column: 0, dir: "asc"}],
     search: {value: "", regex: false},
     start: 0
   };
@@ -190,7 +189,7 @@ export class CategoriasdetalleFormComponent implements OnInit, OnDestroy {
   }
 
   HideShowEditarHorPla(){
-    if(this.varEditarHorPla=="1")
+    if(this.varEditarHorPla=="P")
       this.record.totalhorasaut=0;
     else
       this.record.totalplazaaut=0;
@@ -207,8 +206,7 @@ export class CategoriasdetalleFormComponent implements OnInit, OnDestroy {
     } else {
       this.categoriasdetalleService.getRecord(idItem).subscribe(resp => {
         this.record = resp;
-        this.varEditarHorPla=this.record.totalhorasaut==0 ? "1" : "2";
-        this.HideShowEditarHorPla();
+        this.changeCmdEditarHorPla(this.record.totalhorasaut>0 ? "H" : "P");
         this.reDraw();
       });
   }

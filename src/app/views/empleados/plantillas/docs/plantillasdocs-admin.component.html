@@ -41,9 +41,11 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-sm-12">
-                                    <label>Nombramientos vigentes; Quincena activa: {{ record_quincena_activa }}</label>
+                                    <label style="background-color:burlywood;">Nombramientos vigentes; Quincena activa: {{ record_quincena_activa }}</label>
                                     <select class="form-control" name="Nombramientos vigentes" multiple size="3">
-                                      <option  *ngFor="let row of tblNombramientos; index as i" value="{{row.id_plaza}}">{{ row.clave }}</option>
+                                        <ng-container *ngFor="let row of tblNombramientos; index as i">
+                                            <option  *ngIf="row.esvigente==1"  value="{{row.id_plaza}}">{{ row.clave }}</option>
+                                        </ng-container>
                                     </select>
                                 </div>
                             </div>
@@ -78,9 +80,10 @@
                                             Agregar<span class="caret"></span>
                                             </button>
                                             <ul *dropdownMenu class="dropdown-menu" role="menu">
-                                                <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openPrevioModal('plantillasdocsnombramiento','nuevo',0,record_id_plantillaspersonal,record_id_personal)">Nombramiento</a></li>
-                                                <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openPrevioModal('plantillasdocslicenciasadmin','nuevo',0,record_id_plantillaspersonal,record_id_personal)">Licencia</a></li>
-                                                <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openPrevioModal('plantillasdocsbaja','nuevo',0,record_id_plantillaspersonal,record_id_personal)">Baja</a></li>
+                                                <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openPrevioModal('plantillasdocsnombramiento','nuevo',0,record_id_plantillaspersonal,record_id_personal,'')">Nombramiento</a></li>
+                                                <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openPrevioModal('plantillasdocslicenciasadmin','nuevo',0,record_id_plantillaspersonal,record_id_personal,'')">Licencia</a></li>
+                                                <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openPrevioModal('plantillasdocsbaja','nuevo',0,record_id_plantillaspersonal,record_id_personal,'BT')">Baja de nombramiento</a></li>
+                                                <li role="menuitem"><a class="dropdown-item" [routerLink]="" (click)="openPrevioModal('plantillasdocsbaja','nuevo',0,record_id_plantillaspersonal,record_id_personal,'BD')">Baja definitiva</a></li>
                                             </ul>
                                         </div>
                                     </form>
