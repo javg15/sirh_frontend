@@ -103,6 +103,13 @@ export class PlazasService {
       , httpOptions);
   }
 
+  public getNombramientosBase(id_personal: any, id_semestre): Observable<any> {
+    return this.http.post(this.API_URL + '/plazas/getNombramientosBase',
+      { id_personal, id_semestre }
+      , httpOptions);
+  }
+  
+
   public getRecordParaCombo(id_plazas): Observable<any> {
     return this.http.post(this.API_URL + '/plazas/getRecordParaCombo',
       { id_plazas }

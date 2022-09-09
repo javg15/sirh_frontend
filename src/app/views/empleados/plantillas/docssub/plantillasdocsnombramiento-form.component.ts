@@ -108,7 +108,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   esinterina:boolean;
   esnombramiento:boolean;
   estipodocente:boolean;
-  plazaOcupadaTitularCat:Plazas[];
+  nombramientosVigentesTitularCat:Plazas[];
   tipo:string;
   varAsignarHorasPlazasPorJornada:boolean;
   varAsignarHorasPlazasPorHora:boolean;
@@ -262,7 +262,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
     this.tituloForm="Preparación " + this.tipo +" - " + titulosModal[accion] + " registro";
     //this.formUpload.resetFile();
     this.record_titular="";
-    this.plazaOcupadaTitularCat=[];
+    this.nombramientosVigentesTitularCat=[];
     //limpiar autocomplete
     if(this.id_personal_titular){ this.id_personal_titular.clear();this.id_personal_titular.close();}
 
@@ -363,7 +363,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
 
           //cuando es interinato
           if(plazasInfo.length>0){
-            this.plazaOcupadaTitularCat=plazasInfo;
+            this.nombramientosVigentesTitularCat=plazasInfo;
           }
           this.record_catplantillas=plantillasInfo;
           if(plantillasInfo.id_catplantillas==2){
@@ -383,9 +383,11 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
               +  personal_titularInfo.nombre + " " + personal_titularInfo.apellidopaterno
               + " " + personal_titularInfo.apellidomaterno + " - " + personal_titularInfo.curp;
 
-                this.id_personal_titular.initialValue = this.record_titular;
-                this.id_personal_titular.searchInput.nativeElement.value = this.record_titular;
-                this.record.id_personal_titular=personal_titularInfo.id;
+                if(this.id_personal_titular){
+                  this.id_personal_titular.initialValue = this.record_titular;
+                  this.id_personal_titular.searchInput.nativeElement.value = this.record_titular;
+                  this.record.id_personal_titular=personal_titularInfo.id;
+                }
           }
 
           this.onSelectCategorias(this.record.id_categorias);
@@ -393,6 +395,8 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
           this.onSelectPlantel(this.record.id_catplanteles);
           this.onSelectPlantelUbicacion(this.record.id_catplanteles_aplicacion);
           this.onSelectTipoNombramiento(this.record.id_catestatusplaza);
+          if(this.record.id_personal_titular>0)
+            this.onSelectIdPersonal(this.record.id_personal_titular)
 
         });
 
@@ -459,12 +463,20 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   }
 
   onSelectIdPersonal(val: any) {
-    let items=val["full_name"].split(" -- ");
-    this.record.id_personal_titular=parseInt(items[2]);
+    let items="";
+    if(val.toString().indexOf(" -- ")>0){
+      items=val["full_name"].split(" -- ");
+      this.record.id_personal_titular=parseInt(items[2]);
+    }
+    else
+      this.record.id_personal_titular=parseInt(val); //viene desde la funcion open()-> else de editar
+
     if(this.record.id_personal_titular>0)
-      this.plazasSvc.getPlazaSegunPersonal(this.record.id_personal_titular).subscribe(resp => {
+      this.plazasSvc.getNombramientosVigentes(this.record.id_personal_titular,0).subscribe(resp => {
         if(resp.length>0){
-          this.plazaOcupadaTitularCat=resp;
+          this.nombramientosVigentesTitularCat=resp.map(function(v,k){ 
+            return {"id":v.id_nombramiento,"text":v.clave} 
+          });
           /*if(resp.length==1)
             this.record.id_plazas_afectada=resp[0].id*/
         }
@@ -482,7 +494,6 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
 
     if(valor!=""){
       let tipoNombramiento=this.catestatusplazaFilterCat.find(x=>x.id==valor);
-
       this.convigencia=(tipoNombramiento.convigencia==1);
       this.conlicencia=(tipoNombramiento.conlicencia==1);
       this.esinterina=(tipoNombramiento.esinterina==1);

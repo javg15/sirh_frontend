@@ -15,6 +15,7 @@ import { PersonalhorasService } from '../services/personalhoras.service';
 import { PlazasService } from '../../../plazas/plazas/services/plazas.service';
 import { HorasasignacionAdminService } from '../services/horasasignacionadmin.service';
 import { HorasasignacionFormService } from '../services/horasasignacionform.service';
+import { CatquincenaService } from '../../../catalogos/catquincena/services/catquincena.service';
 import { environment } from '../../../../../environments/environment';
 import { SemestreService } from '../../../catalogos/semestre/services/semestre.service';
 
@@ -105,6 +106,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
   tblResumenRows: any = [];
   tblResumenRowsEstatus: any = [];
   tblNombramientos: [];
+  record_quincena_activa: string;
 
   private elementModal: any;
 
@@ -120,6 +122,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
     private semestreSvc: SemestreService,
     private plazasSvc: PlazasService,
     private personalSvc: PersonalService,
+    private catquincenaSvc: CatquincenaService,
     private el: ElementRef,
     private route: ActivatedRoute
   ) {
@@ -127,6 +130,10 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
 
     this.semestreSvc.getCatalogo().subscribe(resp => {
       this.semestreCat = resp;
+    });
+    this.catquincenaSvc.getQuincenaActiva().subscribe(async resp => {
+      //quincena activa
+      this.record_quincena_activa = resp.anio + resp.quincena.toString().padStart(2, '0');
     });
   }
 

@@ -169,6 +169,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   record_plazaSeleccionada: number;
   record_quincena_activa: string;
   tblNombramientos: [];
+  tblNombramientosBase:[];
   plantillapersonalCat: any = [];
   param_id_plantillapersonal: number;
   param_personalTitular: string;
@@ -417,6 +418,9 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
         this.plazasSvc.getNombramientosVigentes(resp.id, 0).subscribe(resp => {
           this.tblNombramientos = resp;
         });
+        this.plazasSvc.getNombramientosBase(resp.id, 0).subscribe(resp => {
+          this.tblNombramientosBase = resp;
+        });
 
         this.reDraw(null);
 
@@ -516,6 +520,9 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
       //nombramientos
       this.plazasSvc.getNombramientosVigentes(this.record_id_personal, 0).subscribe(resp => {
         this.tblNombramientos = resp;
+      });
+      this.plazasSvc.getNombramientosBase(this.record_id_personal, 0).subscribe(resp => {
+        this.tblNombramientosBase = resp;
       });
     }
     else if (this.tipoVentana == "plantillasdocsprofesional") {

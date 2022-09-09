@@ -125,7 +125,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div *ngIf="esinterina==true" class="form-group col-sm-8">
+                                <div *ngIf="esinterina==true" class="form-group col-sm-6">
                                     <div class="form-group">
                                         <label for="id_personal_titular">Titular</label>
                                         <div class="ng-autocomplete">
@@ -149,17 +149,17 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div *ngIf="esinterina==true" class="form-group col-sm-4">
+                                <div *ngIf="esinterina==true" class="form-group col-sm-6">
                                     <div class="form-group">
                                         <!--<label for="id_plazas_afectada">Plaza del titular</label>-->
                                         <label>Nombramientos vigentes</label>
                                         <select class="form-control" multiple="multiple" disabled="disabled">
-                                          <ng-container  *ngFor="let row of plazaOcupadaTitularCat; index as i">
+                                          <ng-container  *ngFor="let row of nombramientosVigentesTitularCat; index as i">
                                             <option  [value]="row.id" >{{ row.text }}</option>
                                           </ng-container>
                                         </select>
                                         <!--<input type="text" [(ngModel)]="plazaOcupadaTitular" class="form-control" name="Plaza del titular" disabled="disabled">-->
-                                        <!--<ng-select2 [(ngModel)]="record.id_plazas_afectada" [data]="plazaOcupadaTitularCat" [allowClear]="true" width="100%" name="Plazas" (valueChanged)="onSelectPlazas($event)">
+                                        <!--<ng-select2 [(ngModel)]="record.id_plazas_afectada" [data]="nombramientosVigentesTitularCat" [allowClear]="true" width="100%" name="Plazas" (valueChanged)="onSelectPlazas($event)">
                                         </ng-select2>-->
                                     </div>
                                 </div>
