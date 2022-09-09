@@ -32,26 +32,28 @@
                                     <div *ngIf="col=='acciones'; else elseBlock">
                                         <!--<td><img src="assets/{{ member[col] }}" width="50" /></td>-->
                                         <td>
-                                            <div *ngFor="let boton of member[col].split(',')" style="display: contents;">
-                                                <button *ngIf="boton=='ver'" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" title="Ver" (click)="openModal('custom-modal-1','ver',member.id,member.id_plantillasdocsnombramiento_actual,member.id_estatus)">
-                                                  <i class="fa fa-search"></i>
-                                              </button>
-                                                <button *ngIf="boton=='editar'" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" title="Editar" (click)="openModal('custom-modal-1','editar',member.id,member.id_plantillasdocsnombramiento_actual,member.id_estatus)">
-                                                  <i class="fa fa-edit"></i>
-                                              </button>
-                                                <button *ngIf="boton=='copiar'" title="Copiar" class="btn btn-brand btn-sm mr-1 btn-xing" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','copiar',member.id,member.id_plantillasdocsnombramiento_actual,member.id_estatus)">
-                                                <i class="fa fa-copy"></i>
-                                            </button>
-                                                <button *ngIf="boton=='historial'" class="btn btn-brand btn-sm mr-1 btn-stack-overflow" style="margin-bottom: 4px" type="button" title="Historial" (click)="openModal('custom-modal-2','historial',member.id,member.id_plantillasdocsnombramiento_actual,member.id_estatus)">
-                                                <i class="fa fa-stack-overflow"></i>
-                                            </button>
-                                                <button *ngIf="boton=='desactivar'" class="btn btn-brand btn-sm mr-1 btn-tumblr" style="margin-bottom: 4px" type="button" title="Desactivar" (click)="openModal('custom-modal-1','desactivar',member.id,member.id_plantillasdocsnombramiento_actual,member.id_estatus)">
-                                              <i class="fa fa-ban"></i>
-                                            </button>
-                                                <button *ngIf="boton=='comisionar'" class="btn btn-brand btn-sm mr-1 btn-info" style="margin-bottom: 4px" type="button" title="Comisionar" (click)="openModal('custom-modal-1','comisionar',member.id,member.id_plantillasdocsnombramiento_actual,member.id_estatus)">
-                                                <i class="fa fa-share"></i>
-                                              </button>
-                                            </div>
+                                            <span [ngClass]="member.activa==='NO' ? 'inactiva':''">
+                                                <div *ngFor="let boton of member[col].split(',')" style="display: contents;">
+                                                        <button *ngIf="boton=='ver'" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" title="Ver" (click)="openModal('custom-modal-1','ver',member.id,member.id_plantillasdocsnombramiento_actual,member.id_estatus)">
+                                                        <i class="fa fa-search"></i>
+                                                    </button>
+                                                        <button *ngIf="boton=='editar'" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" title="Editar" (click)="openModal('custom-modal-1','editar',member.id,member.id_plantillasdocsnombramiento_actual,member.id_estatus)">
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
+                                                        <button *ngIf="boton=='copiar'" title="Copiar" class="btn btn-brand btn-sm mr-1 btn-xing" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','copiar',member.id,member.id_plantillasdocsnombramiento_actual,member.id_estatus)">
+                                                        <i class="fa fa-copy"></i>
+                                                    </button>
+                                                        <button *ngIf="boton=='historial'" class="btn btn-brand btn-sm mr-1 btn-stack-overflow" style="margin-bottom: 4px" type="button" title="Historial" (click)="openModal('custom-modal-2','historial',member.id,member.id_plantillasdocsnombramiento_actual,member.id_estatus)">
+                                                        <i class="fa fa-stack-overflow"></i>
+                                                    </button>
+                                                        <button *ngIf="boton=='desactivar'" class="btn btn-brand btn-sm mr-1 btn-tumblr" style="margin-bottom: 4px" type="button" title="Desactivar" (click)="openModal('custom-modal-1','desactivar',member.id,member.id_plantillasdocsnombramiento_actual,member.id_estatus)">
+                                                    <i class="fa fa-ban"></i>
+                                                    </button>
+                                                        <button *ngIf="boton=='comisionar'" class="btn btn-brand btn-sm mr-1 btn-info" style="margin-bottom: 4px" type="button" title="Comisionar" (click)="openModal('custom-modal-1','comisionar',member.id,member.id_plantillasdocsnombramiento_actual,member.id_estatus)">
+                                                        <i class="fa fa-share"></i>
+                                                    </button>
+                                                </div>
+                                            </span>
                                         </td>
                                     </div>
                                     <ng-template #elseBlock>

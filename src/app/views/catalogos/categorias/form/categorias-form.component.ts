@@ -112,8 +112,7 @@ export class CategoriasFormComponent implements OnInit, OnDestroy {
     // add self (this modal instance) to the modal service so it's accessible from controllers
     modal.categoriasService.add(modal);
 
-      //subtabla datatable
-      
+    //subtabla datatable
     this.headersAdmin = JSON.parse(this.route.snapshot.data.userdataDetalle.cabeceras); // get data from resolver
     
 

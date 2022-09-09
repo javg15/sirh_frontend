@@ -26,7 +26,7 @@ declare var jQuery: any;
 @Component({
   selector: 'app-plazas-admin',
   templateUrl: './plazas-admin.component.html',
-
+  styleUrls: ['./plazas-admin.component.css']
 })
 
 
