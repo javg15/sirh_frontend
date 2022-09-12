@@ -493,6 +493,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   onSelectTipoNombramiento(valor:any){
 
     if(valor!=""){
+
       let tipoNombramiento=this.catestatusplazaFilterCat.find(x=>x.id==valor);
       this.convigencia=(tipoNombramiento.convigencia==1);
       this.conlicencia=(tipoNombramiento.conlicencia==1);
@@ -503,9 +504,10 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
         //si se esta editando o consultando se agrega el registro de la categoria almacenada, esto debido a que la funcion
         //getCatalogoDisponibleEnPlantilla ya no regresa la categoria registrada
         if(this.actionForm.toUpperCase()!=="NUEVO" && this.record.id_categorias>0){
+          
           this.categoriasSvc.getRecordParaCombo(this.record.id_categorias).pipe(
             mergeMap((registro) => {
-              return this.categoriasSvc.getCatalogoDisponibleEnPlantilla(this.record_plantillaspersonal.id_catplanteles,this.record.id_plazas,this.record_todaslasplantillas?0:this.record_plantillaspersonal.id_catplantillas).pipe(
+              return this.categoriasSvc.getCatalogoDisponibleEnPlantilla(this.record_plantillaspersonal.id_catplanteles,this.record.id_plazas,(this.record_todaslasplantillas==true?0:this.record_plantillaspersonal.id_catplantillas)).pipe(
                 // this pass all objects to the next observable in this chain
                 map(categorias => ({ categorias,registro }))
               )
@@ -520,7 +522,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
           })
         }
         else{
-          this.categoriasSvc.getCatalogoDisponibleEnPlantilla(this.record_plantillaspersonal.id_catplanteles,this.record.id_plazas,this.record_plantillaspersonal.id_catplantillas).subscribe(resp => {
+          this.categoriasSvc.getCatalogoDisponibleEnPlantilla(this.record_plantillaspersonal.id_catplanteles,this.record.id_plazas,(this.record_todaslasplantillas==true?0:this.record_plantillaspersonal.id_catplantillas)).subscribe(resp => {
             this.categoriasCat = resp;
           });
         }
@@ -559,6 +561,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   }
 
   onChangeTodasCategorias(valor:any){
+    
     this.onSelectTipoNombramiento(this.record.id_catestatusplaza);
   }
 

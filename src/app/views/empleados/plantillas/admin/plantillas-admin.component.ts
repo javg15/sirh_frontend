@@ -29,7 +29,7 @@ declare var jQuery: any;
 @Component({
   selector: 'app-plantillas-admin',
   templateUrl: './plantillas-admin.component.html',
-
+  styleUrls: ['./plantillas-admin.component.css']
 })
 
 
