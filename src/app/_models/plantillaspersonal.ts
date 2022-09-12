@@ -25,6 +25,8 @@ export default interface Plantillaspersonal {
   created_at: Date | null;
 
   updated_at: Date | null;
+  
+  permitemasdeuna: number;
 }
 
 export interface PlantillaspersonalInitializer {
@@ -59,4 +61,6 @@ export interface PlantillaspersonalInitializer {
   created_at?: Date;
 
   updated_at?: Date;
+
+  permitemasdeuna?: number;
 }

@@ -57,19 +57,29 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="consecutivo">Numero de empleado</label>
                                 <input type="text" name="Numero de empleado" [(ngModel)]="record.consecutivo" class="form-control" [disabled]="actionForm=='actualizar'?true:false" />
                             </div>
                         </div>
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="fechaingreso">Fecha de ingreso</label>
                                 <input type="date" [(ngModel)]="record.fechaingreso" class="form-control" name="Fecha de ingreso" [disabled]="actionForm=='actualizar'?true:false">
                             </div>
                         </div>
-                        <div *ngIf="actionForm=='actualizar'?true:false" class="form-group col-sm-4">
+                        <div *ngIf="actionForm=='actualizar'?true:false" class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="permitemasdeuna">¿Permitir nombramientos en otra plantilla?</label>
+                                <select class="form-control" [(ngModel)]="record.permitemasdeuna" name="Permitir nombramientos en otra plantilla" >
+                                    <option value=""></option>
+                                    <option value="0">No</option>
+                                    <option value="1">Sí</option>
+                                  </select>
+                            </div>
+                        </div>
+                        <div *ngIf="actionForm=='actualizar'?true:false" class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="record_id_catquincena">Desactivar en quincena</label>
                                 <ng-select2 [(ngModel)]="record_id_catquincena" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Desactivar en quincena">

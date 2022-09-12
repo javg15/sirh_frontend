@@ -100,6 +100,7 @@ export class PlantillasFormComponent implements OnInit, OnDestroy {
   newRecord(idCatplanteles:number,idCatplantillas:number): Plantillaspersonal {
     return {
       id: 0,  id_catplanteles: idCatplanteles, id_personal:0, id_catplantillas: idCatplantillas, consecutivo:'',id_usuarios_autoriza:0,
+      permitemasdeuna:0,
       fechaingreso: null,  state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };
   }
