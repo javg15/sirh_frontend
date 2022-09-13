@@ -671,12 +671,30 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   }
 
   onSelectPlazas(valor:any){
-    /*if(this.varAsignarHorasPlazasPorHora && this.plazasCat!=null){
-      if(this.plazasCat.find(a=>a.id==valor)){
-        this.record_disponibles_horas=this.plazasCat.find(a=>a.id==valor).horas;
-        this.record_disponibles_horasb=this.plazasCat.find(a=>a.id==valor).horasb;
-      }
-    }*/
+    let esInterinaConTitular = this.catestatusplazaFilterCat.filter((estatus) =>
+        (estatus.esinterina==1 && estatus.descripcion.indexOf(" con titular")>=0
+        && estatus.id==valor)?true:false
+      );
+
+    if(esInterinaConTitular){
+      this.plazasSvc.getTitularPlaza(valor).subscribe(resp => {
+        if(resp.length>0){
+          resp=resp[0];//tomar el primer registro
+          this.record_titular =resp.numeemp + " - "
+            +  resp.nombre + " " + resp.apellidopaterno
+            + " " + resp.apellidomaterno + " - " + resp.curp;
+
+          if(this.id_personal_titular){
+            this.id_personal_titular.initialValue = this.record_titular;
+            this.id_personal_titular.searchInput.nativeElement.value = this.record_titular;
+            this.record.id_personal_titular=resp.id;
+          }
+          this.onSelectIdPersonal(this.record.id_personal_titular)
+        }
+      });
+    }
+
+
   }
 
   onSelectPlantel(select_plantel) {

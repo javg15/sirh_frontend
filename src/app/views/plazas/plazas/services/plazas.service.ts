@@ -108,7 +108,12 @@ export class PlazasService {
       { id_personal, id_semestre }
       , httpOptions);
   }
-  
+
+  public getTitularPlaza(id_plazas: any): Observable<any> {
+    return this.http.post(this.API_URL + '/plazas/getTitularPlaza',
+      { id_plazas }
+      , httpOptions);
+  }  
 
   public getRecordParaCombo(id_plazas): Observable<any> {
     return this.http.post(this.API_URL + '/plazas/getRecordParaCombo',
