@@ -21,6 +21,7 @@ import { PlantillasdocsFamiliaresService } from '../services/plantillasdocsfamil
 import { PlantillasdocsLicenciasService } from '../services/plantillasdocslicencias.service';
 import { PlantillasdocsSindicatoService } from '../services/plantillasdocssindicato.service';
 import { CatquincenaService } from '../../../catalogos/catquincena/services/catquincena.service';
+import { CatbajamotivoService } from '../../../catalogos/catbajamotivo/services/catbajamotivo.service';
 import { environment } from '../../../../../environments/environment';
 
 declare var $: any;
@@ -193,6 +194,8 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     private catquincenaSvc: CatquincenaService,
     private personalSvc: PersonalService,
     private plazasSvc: PlazasService,
+    private catbajamotivoSvc: CatbajamotivoService,
+    
     private el: ElementRef,
     private route: ActivatedRoute
   ) {
@@ -415,10 +418,10 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
         this.record_id_plantillaspersonal = parseInt(idItem);
 
         this.record_tipodoc = parseInt(tipoDocumento);
-        this.plazasSvc.getNombramientosVigentes(resp.id, 0).subscribe(resp => {
+        this.plazasSvc.getNombramientosVigentes(this.record_id_personal, 0).subscribe(resp => {
           this.tblNombramientos = resp;
         });
-        this.plazasSvc.getNombramientosBase(resp.id, 0).subscribe(resp => {
+        this.plazasSvc.getNombramientosBase(this.record_id_personal, 0).subscribe(resp => {
           this.tblNombramientosBase = resp;
         });
 
@@ -474,8 +477,19 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
       case "plantillasdocsnombramiento":
         if (this.subTipoVentana == "plantillasdocsnombramiento")
           this.plantillasdocsnombramientoSvc.open('custom-plantillasdocsnombramiento', accion, idItem, idPlantillaPersonal, 1);
-        else if (this.subTipoVentana == "plantillasdocsbaja")
-          this.plantillasdocsbajaSvc.open('custom-plantillasdocsbaja', accion, idItem, idPlantillaPersonal,tipoBaja);
+        else if (this.subTipoVentana == "plantillasdocsbaja"){
+
+          if(!tipoBaja){//viene de la edición, si tipoBaja no tiene valor (undefined)
+            this.plantillasdocsnombramientoSvc.getRecord(idItem).subscribe(resp => {
+              this.catbajamotivoSvc.getRecord(resp.id_catbajamotivo).subscribe(resp => {
+                tipoBaja=resp.tipobaja;
+                this.plantillasdocsbajaSvc.open('custom-plantillasdocsbaja', accion, idItem, idPlantillaPersonal,tipoBaja);
+              });
+            });
+          }
+          else
+            this.plantillasdocsbajaSvc.open('custom-plantillasdocsbaja', accion, idItem, idPlantillaPersonal,tipoBaja);
+        }
         else if (this.subTipoVentana == "plantillasdocslicenciasadmin") {
           this.plantillasdocsnombramientoSvc.open('custom-plantillasdocsnombramiento', accion, idItem, idPlantillaPersonal, 2);
         }

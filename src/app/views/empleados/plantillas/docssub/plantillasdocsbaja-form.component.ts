@@ -173,11 +173,11 @@ export class PlantillasDocsBajaFormComponent implements OnInit, OnDestroy {
 
 
     this.catbajamotivoSvc.getCatalogo().subscribe(resp => {
-      if(tipoBaja=="BD"){ //bajas definitivas
+      if(tipoBaja=="DE"){ //bajas definitivas
           this.catbajamotivoCat = resp.filter(a=>a.tipobaja=="DE");
           this.tituloForm="Baja administrativa definitiva - " + titulosModal[accion] + " registro";
       }
-        else if(tipoBaja=="BT"){ //bajas de nombramientos
+        else if(tipoBaja=="NO"){ //bajas de nombramientos
           this.catbajamotivoCat = resp.filter(a=>a.tipobaja=="NO");
           this.tituloForm="Baja administrativa de nombramiento - " + titulosModal[accion] + " registro";
         }
@@ -186,9 +186,9 @@ export class PlantillasDocsBajaFormComponent implements OnInit, OnDestroy {
     if(idItem=="0"){
         this.record =this.newRecord(idParent);
         //this.listUpload.showFiles(0);
-        if(tipoBaja=="BD") //bajas definitivas
+        if(tipoBaja=="DE") //bajas definitivas
           this.record.id_catestatusplaza=1;
-        else if(tipoBaja=="BT") //bajas de nombramientos
+        else if(tipoBaja=="NO") //bajas de nombramientos
           this.record.id_catestatusplaza=2;
 
         //obtener el plantel de la plantilla

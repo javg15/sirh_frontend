@@ -26,6 +26,7 @@
                             <div class="form-group">
                                 <label for="id_catbajamotivo">Motivo de baja</label>
                                 <select class="form-control" [(ngModel)]="record.id_catbajamotivo" name="Motivo de baja">
+                                    <option value="0">---</option>
                               <option *ngFor="let col of catbajamotivoCat" [value]="col.id">{{ col.descripcion }}</option>
                             </select>
                             </div>
