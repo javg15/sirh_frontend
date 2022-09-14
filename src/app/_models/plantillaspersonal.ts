@@ -27,6 +27,8 @@ export default interface Plantillaspersonal {
   updated_at: Date | null;
   
   permitemasdeuna: number;
+
+  permitevariosnombramientos: number;
 }
 
 export interface PlantillaspersonalInitializer {
@@ -63,4 +65,6 @@ export interface PlantillaspersonalInitializer {
   updated_at?: Date;
 
   permitemasdeuna?: number;
+
+  permitevariosnombramientos?: number;
 }

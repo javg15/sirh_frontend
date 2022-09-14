@@ -68,7 +68,7 @@ export class PlantillasAdminComponent implements OnInit {
   id_catestatusplaza:number=0;
   record:Plantillaspersonal={
       id: 0,  id_catplanteles: 0, id_personal:0, id_catplantillas: 0, consecutivo:'',id_usuarios_autoriza:0,
-      permitemasdeuna:0,
+      permitemasdeuna:0,permitevariosnombramientos:0,
       fechaingreso:null, state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     }
   ;

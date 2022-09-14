@@ -351,7 +351,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
 
         const categorias$=this.categoriasSvc.getCatalogoVigenteEnPlantilla(data.registro.id_plantillaspersonal);
         const categoriasExtra$=this.categoriasSvc.getRecordParaCombo(data.registro.id_categorias)
-        const plazas$=this.plazasSvc.getPlazaSegunPersonal(data.registro.id_personal_titular)
+        const plazas$=this.plazasSvc.getNombramientosVigentes(data.registro.id_personal_titular,0)
         const plantillas$=this.catplantillasSvc.getRecord(data.plantilla.id_catplantillas)
         const planteles$=this.catplantelesSvc.getCatalogo();
         const personal_titular$=this.personalSvc.getRecord(data.registro.id_personal_titular)
@@ -363,7 +363,9 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
 
           //cuando es interinato
           if(plazasInfo.length>0){
-            this.nombramientosVigentesTitularCat=plazasInfo;
+            this.nombramientosVigentesTitularCat=plazasInfo.map(function(v,k){ 
+              return {"id":v.id_nombramiento,"text":v.clave} 
+            });
           }
           this.record_catplantillas=plantillasInfo;
           if(plantillasInfo.id_catplantillas==2){
@@ -395,6 +397,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
           this.onSelectPlantel(this.record.id_catplanteles);
           this.onSelectPlantelUbicacion(this.record.id_catplanteles_aplicacion);
           this.onSelectTipoNombramiento(this.record.id_catestatusplaza);
+          
           if(this.record.id_personal_titular>0)
             this.onSelectIdPersonal(this.record.id_personal_titular)
 
@@ -675,6 +678,10 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
         (estatus.esinterina==1 && estatus.descripcion.indexOf(" con titular")>=0
         && estatus.id==valor)?true:false
       );
+
+    this.record_titular = "";
+    //limpiar autocomplete
+    if(this.id_personal_titular){ this.id_personal_titular.clear();this.id_personal_titular.close();}
 
     if(esInterinaConTitular){
       this.plazasSvc.getTitularPlaza(valor).subscribe(resp => {
