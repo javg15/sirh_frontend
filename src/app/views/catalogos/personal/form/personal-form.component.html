@@ -61,7 +61,7 @@
                                     <div class="form-group">
                                         <label for="sexo">Sexo</label>
                                         <select class="form-control" [(ngModel)]="record.sexo" name="Sexo" (change)="onSelectSexo($event.target.value)" disabled="disabled">
-                                        <option value=""></option>
+                                        <option value="">--</option>
                                         <option value="1">Femenino</option>
                                         <option value="2">Masculino</option>
                                         <option value="3">Otro</option>
@@ -288,7 +288,7 @@
                                     <div class="form-group">
                                         <label for="formacobro">Forma de cobro</label>
                                         <select class="form-control" [(ngModel)]="record.formacobro" name="Forma de cobro">
-                                          <option value=""></option>
+                                          <option value="">--</option>
                                           <option value="1">Cheque</option>
                                           <option value="2">Transferencia bancaria</option>
                                         </select>

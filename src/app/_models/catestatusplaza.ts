@@ -24,6 +24,8 @@ export default interface Catestatusplaza {
 
   esnombramiento:number | null;
 
+  contitular:number | null;
+
   created_at: Date | null;
 
   updated_at: Date | null;
@@ -57,6 +59,8 @@ export interface CatestatusplazaInitializer {
   esinterina:number;
 
   esnombramiento:number;
+
+  contitular:number;
 
   created_at?: Date;
 
