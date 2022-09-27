@@ -132,10 +132,10 @@ export class CatpercepcionescategoriasFormComponent implements OnInit, OnDestroy
     if(idItem=="0"){
       this.record =this.newRecord(idParent);
     } else {
-    this.catpercepcionescategoriasService.getRecord(idItem).subscribe(resp => {
-      this.record = resp;
-    });
-  }
+      this.catpercepcionescategoriasService.getRecord(idItem).subscribe(resp => {
+        this.record = resp;
+      });
+    }
 
     // console.log($('#modalTest').html()); poner el id a algun elemento para testear
     this.basicModal.show();
