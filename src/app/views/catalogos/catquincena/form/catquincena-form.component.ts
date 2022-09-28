@@ -36,6 +36,8 @@ export class CatquincenaFormComponent implements OnInit, OnDestroy {
   anioCat:any[]=[];
   catestatusquincenaCat:any[]=[];
 
+  modo_copiar:boolean=false;
+
   constructor(private isLoadingService: IsLoadingService,
       private catquincenaService: CatquincenaService,
       private catestatusquincenaSvc: CatestatusquincenaService,
@@ -111,13 +113,28 @@ export class CatquincenaFormComponent implements OnInit, OnDestroy {
     this.actionForm=accion;
     this.botonAccion=actionsButtonSave[accion];
     this.tituloForm="Quincena - " +titulosModal[accion] + " registro";
+    this.modo_copiar=false;
 
     if(idItem=="0"){
       this.record =this.newRecord();
     } else {
-    this.catquincenaService.getRecord(idItem).subscribe(resp => {
-      this.record = resp;
-    });
+      this.catquincenaService.getRecord(idItem).subscribe(resp => {
+        this.record = resp;
+
+        if (this.actionForm.toUpperCase() == "COPIAR") {
+          this.actionForm = "NUEVO";
+          this.record.id = 0;
+          this.record.fechacierre=null;
+          this.record.fechadepago=null;
+          this.record.observaciones="";
+          this.record.id_catestatusquincena=5; //adicional
+
+          this.catquincenaService.getMaxAdicional(this.record.anio, this.record.quincena).subscribe(resp => {
+            this.record.adicional = resp.adicional+1;
+            this.modo_copiar=true;
+          });
+        }
+      });
   }
 
     // console.log($('#modalTest').html()); poner el id a algun elemento para testear

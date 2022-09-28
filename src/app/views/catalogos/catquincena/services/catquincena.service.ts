@@ -49,6 +49,11 @@ export class CatquincenaService {
       , httpOptions);
   }
 
+  public getMaxAdicional(anio,quincena): Observable<any> {
+    return this.http.post(this.API_URL + '/catquincena/getMaxAdicional',
+      { anio,quincena }
+      , httpOptions);
+  }
 
   /* El siguiente método graba un registro nuevo, o uno editado. */
   public setRecord(dataPack, actionForm): Observable<any> {

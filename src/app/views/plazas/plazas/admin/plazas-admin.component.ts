@@ -264,10 +264,3 @@ export class PlazasAdminComponent implements OnInit {
   }
 }
 
-export interface product {
-  id: number
-  name: string
-  brand: string
-  color: string
-  price: number
-}

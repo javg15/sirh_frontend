@@ -4,7 +4,7 @@
             <app-search-admin id="search-admin-1" [nombreModulo]="nombreModulo" (buscarEvent)="reDraw($event)">
             </app-search-admin>
 
-            <app-header-admin id="header-admin-1" [tituloBotonAgregar]="tituloBotonAgregar" [nombreModulo]="nombreModulo" (agregarEvent)="openModal('custom-modal-1','nuevo',0)" [tituloBotonAdicional]="tituloBotonAdicional" (adicionalEvent)="actualizarCatalogo()"
+            <app-header-admin id="header-admin-1" [nombreModulo]="nombreModulo" (agregarEvent)="openModal('custom-modal-1','nuevo',0)" [tituloBotonAdicional]="tituloBotonAdicional" (adicionalEvent)="actualizarCatalogo()"
                 [loadingActualizar]="loadingActualizar">
             </app-header-admin>
             <div class="row">
@@ -20,13 +20,12 @@
                                                 <button *ngIf="boton=='ver'" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','ver',member.id)">
                                                   <i class="fa fa-search"></i>
                                               </button>
-                                                <!--<button *ngIf="boton=='editar'" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','editar',member.id)">
+                                                <button *ngIf="boton=='editar'" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','editar',member.id)">
                                                   <i class="fa fa-edit"></i>
                                               </button>
                                                 <button *ngIf="boton=='eliminar'" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','eliminar',member.id)">
                                                   <i class="fa fa-trash"></i>
                                               </button>
-                                            -->
                                             </div>
                                         </td>
                                     </div>

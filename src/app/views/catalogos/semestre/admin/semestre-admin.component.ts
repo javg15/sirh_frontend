@@ -1,13 +1,17 @@
 import { Component, OnInit, Input, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ModalDirective } from 'ngx-bootstrap/modal';
+
 import { DataTablesResponse } from '../../../../classes/data-tables-response';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 
+import { ModalDirective } from 'ngx-bootstrap/modal';
+
 import { SemestreService } from '../services/semestre.service';
 
-import { environment } from '../../../../../../src/environments/environment';
+import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
+
+import { environment } from '../../../../../environments/environment';
 
 declare var $: any;
 declare var jQuery: any;
@@ -15,16 +19,17 @@ declare var jQuery: any;
 @Component({
   selector: 'app-semestre-admin',
   templateUrl: './semestre-admin.component.html',
-
+  styleUrls: ['./semestre-admin.component.css']
 })
 
 
 export class SemestreAdminComponent implements OnInit {
   @Input() dtOptions: DataTables.Settings = {};
+
   /* El decorador @ViewChild recibe la clase DataTableDirective, para luego poder
   crear el dtElement que represente la tabla que estamos creando. */
-  @ViewChild(DataTableDirective)
   @ViewChild('successModal') public successModal: ModalDirective;
+  @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
   dtInstance: Promise<DataTables.Api>;
   dtTrigger: Subject<DataTableDirective> = new Subject();
@@ -36,32 +41,36 @@ export class SemestreAdminComponent implements OnInit {
   API_URL = environment.APIS_URL;
 
   private dtOptionsAdicional = { datosBusqueda: {campo: 0, operador: 0, valor: ''},raw:0};
+
   nombreModulo = 'Semestre';
   tituloBotonAdicional='Actualizar catálogo'
   tituloBotonAgregar="";
   loadingActualizar:boolean;
 
   headersAdmin: any;
+  loadingService:boolean=false;
+
 
   /* En el constructor creamos el objeto semestreService,
   de la clase HttpConnectService, que contiene el servicio mencionado,
   y estará disponible en toda la clase de este componente.
   El objeto es private, porque no se usará fuera de este componente. */
-  constructor(
-    private semestreService: SemestreService,private route: ActivatedRoute
+  constructor(private isLoadingService: IsLoadingService,
+    private semestreService: SemestreService,private route: ActivatedRoute,
   ) {
+    
 
   }
 
   ngOnInit(): void {
-    this.headersAdmin = JSON.parse(this.route.snapshot.data.userdata.cabeceras);
+    this.headersAdmin = JSON.parse(this.route.snapshot.data.userdata.cabeceras); // get data from resolver
 
       this.dtOptions = {
         pagingType: 'full_numbers',
         pageLength: 50,
         serverSide: true,
         processing: true,
-        //destroy : true,
+        order : [[ 1, "desc" ]],
         searching : false,
         info: true,
         language: {
@@ -84,7 +93,7 @@ export class SemestreAdminComponent implements OnInit {
         ajax: (dataTablesParameters: any, callback) => {
           this.dtOptionsAdicional.raw++;
           dataTablesParameters.opcionesAdicionales = this.dtOptionsAdicional;
-
+          
           this.semestreService.http
             .post<DataTablesResponse>(
               // this.API_URL + '/a6b_apis/read_records_dt.php',
@@ -109,19 +118,18 @@ export class SemestreAdminComponent implements OnInit {
         },
 
         columns: this.headersAdmin,
-        columnDefs:[{"visible": false, "searchable": false, "targets": 0}
-                  ,{"width":"5%", "targets": 1}]
+        columnDefs:[{"visible": false, "searchable": false, "targets": [0]}
+                  ,{"width":"5%", "targets": 3}]
       };
 
   }
   openModal(id: string, accion: string, idItem: number) {
-    this.semestreService.open(id, accion, idItem);
+    this.semestreService.open(id, accion, idItem,);
   }
 
   closeModal(id: string) {
     this.semestreService.close(id);
   }
-
 
   ngAfterViewInit(): void {
     this.dtTrigger.next();
@@ -156,3 +164,4 @@ export class SemestreAdminComponent implements OnInit {
     });
   }
 }
+

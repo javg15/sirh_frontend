@@ -15,7 +15,7 @@ declare var jQuery: any;
 @Component({
   selector: 'app-catquincena-admin',
   templateUrl: './catquincena-admin.component.html',
-
+  styleUrls: ['./catquincena-admin.component.css']
 })
 
 
@@ -66,7 +66,7 @@ export class CatquincenaAdminComponent implements OnInit {
         pageLength: 25,
         serverSide: true,
         processing: true,
-        //destroy : true,
+        order : [[ 1, "desc" ],[ 2, "desc" ]],
         searching : false,
         info: true,
         language: {

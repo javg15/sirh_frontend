@@ -19,7 +19,7 @@
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="descripcion">Año</label>
-                                <select class="form-control" [(ngModel)]="record.anio" name="Año">
+                                <select class="form-control" [(ngModel)]="record.anio" name="Año" [disabled]="true">
                                   <option *ngFor="let col of anioCat" [value]="col.anio">{{ col.anio }}</option>
                             </select>
                             </div>
@@ -27,17 +27,46 @@
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="quincena">Quincena</label>
-                                <select class="form-control" [(ngModel)]="record.quincena" name="Quincena">
+                                <select class="form-control" [(ngModel)]="record.quincena" name="Quincena" [disabled]="true">
                                   <option *ngFor="let col of quincenaCat" [value]="col.quincena">{{ col.quincena }}</option>
                             </select>
                             </div>
                         </div>
                         <div class="form-group col-sm-3">
                             <div class="form-group">
-                                <label for="bimestre">Estatus</label>
-                                <select class="form-control" [(ngModel)]="record.id_catestatusquincena" name="Bimestre">
+                                <label for="id_catestatusquincena">Estatus</label>
+                                <select class="form-control" [(ngModel)]="record.id_catestatusquincena" name="Estatus" [disabled]="(modo_copiar)">
                                 <option *ngFor="let col of catestatusquincenaCat" [value]="col.id">{{ col.descripcion }}</option>
                               </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="fechacierre">Fecha de cierre</label>
+                                <input type="date" [(ngModel)]="record.fechacierre" class="form-control" name="Fecha de cierre">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="fechadepago">Fecha de pago</label>
+                                <input type="date" [(ngModel)]="record.fechadepago" class="form-control" name="Fecha de pago">
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <div class="form-group">
+                                <label for="observaciones">Observaciones</label>
+                                <textarea [(ngModel)]="record.observaciones" rows="2" cols="50" class="form-control" name="Observaciones">
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="modo_copiar" class="row">
+                        <div class="form-group col-sm-3">
+                            <div class="form-group">
+                                <label for="adicional">Adicional</label>
+                                <input type="text" [(ngModel)]="record.adicional" class="form-control" name="Adicional"  [disabled]="(modo_copiar)">
                             </div>
                         </div>
                     </div>

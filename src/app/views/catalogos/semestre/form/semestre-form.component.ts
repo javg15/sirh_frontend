@@ -122,10 +122,10 @@ export class SemestreFormComponent implements OnInit, OnDestroy {
 
   // close modal
   close(): void {
-      this.basicModal.hide();
-      if(this.actionForm.toUpperCase()!="VER"){
-        this.redrawEvent.emit(null);
-      }
+    this.basicModal.hide();
+    if (this.actionForm.toUpperCase() != "VER") {
+      this.redrawEvent.emit(null);
+    }
   }
 
   // log contenido de objeto en formulario

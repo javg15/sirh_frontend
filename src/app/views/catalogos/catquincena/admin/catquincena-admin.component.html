@@ -16,31 +16,46 @@
                                     <div *ngIf="col == 'acciones'; else elseBlock">
                                         <!--<td><img src="assets/{{ member[col] }}" width="50" /></td>-->
                                         <td>
-                                            <div *ngFor="let boton of member[col].split(',')" style="display: contents">
-                                                <button *ngIf="boton == 'ver'" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="
-                            openModal('custom-modal-1', 'ver', member.id)
-                          ">
-                          <i class="fa fa-search"></i>
-                        </button>
-                                                <button *ngIf="boton == 'editar'" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="
-                            openModal('custom-modal-1', 'editar', member.id)
-                          ">
-                          <i class="fa fa-edit"></i>
-                        </button>
-                                                <button *ngIf="boton == 'eliminar'" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="
-                            openModal('custom-modal-1', 'eliminar', member.id)
-                          ">
-                          <i class="fa fa-trash"></i>
-                        </button>
-                                            </div>
+                                            <span [ngClass]="member.estatus==='LISTA PARA CALCULO' ? 'inactiva' : (member.estatus==='ABIERTA PARA CAPTURA' ? 'activa' : '')">
+                                                <div *ngFor="let boton of member[col].split(',')" style="display: contents">
+                                                    <button *ngIf="boton == 'ver'" class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" (click)="
+                                                        openModal('custom-modal-1', 'ver', member.id)
+                                                    ">
+                                                    <i class="fa fa-search"></i>
+                                                    </button>
+                                                    <button *ngIf="boton == 'editar'" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="
+                                                            openModal('custom-modal-1', 'editar', member.id)
+                                                        ">
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
+                                                    <button *ngIf="boton == 'eliminar'" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="
+                                                            openModal('custom-modal-1', 'eliminar', member.id)
+                                                        ">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                    <button *ngIf="boton == 'copiar'" class="btn btn-brand btn-sm mr-1 btn-xing" title="Adicional" style="margin-bottom: 4px" type="button" (click)="
+                                                            openModal('custom-modal-1', 'copiar', member.id)" >
+                                                        <i class="fa fa-copy"></i>
+                                                    </button>
+                                                </div>
+                                            </span>
                                         </td>
                                     </div>
                                     <ng-template #elseBlock>
-                                        <ng-container *ngIf="col != 'id'; else elseBlock2">
+                                        <ng-container *ngIf="col == 'estatus'; else elseBlock2">
+                                            <td>
+                                                <span [ngClass]="member.estatus==='LISTA PARA CALCULO' ? 'inactiva' : (member.estatus==='ABIERTA PARA CAPTURA' ? 'activa' : '')">
+                                                    {{ member[col] }}
+                                                </span>
+                                            </td>
+                                        </ng-container>
+                                    </ng-template>
+                                    <ng-template #elseBlock2>
+                                        <ng-container *ngIf="col != 'id'; else elseBlock3">
                                             <td>{{ member[col] }}</td>
                                         </ng-container>
                                     </ng-template>
-                                    <ng-template #elseBlock2></ng-template>
+                                    <ng-template #elseBlock3></ng-template>
                                 </ng-container>
                             </tr>
                         </tbody>
