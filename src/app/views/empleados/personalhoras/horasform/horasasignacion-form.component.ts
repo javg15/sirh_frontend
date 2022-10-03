@@ -449,7 +449,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
     }
     
 
-    //si son horas de jornada, entonces, si ya excede las horas, entonces, mostrar la opción de asignar en horas sueltas
+    //si son horas de jornada y si ya excede las horas, entonces, mostrar la opción de asignar en horas sueltas
     this.horasRestantesEnPlaza=(this.horasDisponiblesEnPlaza>0?this.horasDisponiblesEnPlaza - this.record.cantidad:parseInt(this.horasDisponiblesEnPlaza.toString()) + parseInt((this.record.cantidad*-1).toString()));
     this.verAsignarHorasRestantes=(this.horasRestantesEnPlaza<0);
 

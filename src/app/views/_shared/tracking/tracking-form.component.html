@@ -1,0 +1,56 @@
+
+<form>
+  <button class="btn btn-secondary " (click)="showTrackingModal()">Historial</button>
+</form>
+<div bsModal #largeModalHistorial="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title">Historial de movimientos</h4>
+              <button type="button" class="close" (click)="largeModalHistorial.hide()" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <div *ngIf="trackingList.length==0" class="row" style="margin-left: 10px;">
+                <b>Sin historial</b>
+              </div>
+              <div *ngIf="trackingList.length>0" class="row">
+                <table style="margin: 5px 20px;" class="tracking">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Usuario</th>
+                            <th>Empleado</th>
+                            <th>Tracking</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of trackingList">
+                            <td>{{ item.fecha }}</td>
+                            <td>{{ item.usuario }}</td>
+                            <td>{{ item.empleado }}</td>
+                            <td>
+                              <table>
+                                <tbody>
+                                  <tr *ngFor="let trackitem of JSON_Parse(item.contenido)">
+                                    <td><b>campo:</b> {{ trackitem.campo }}</td>
+                                    <td><b>alias:</b> {{ trackitem.alias }}</td>
+                                    <td><b>anterior:</b> {{ trackitem.old }}</td>
+                                    <td><b>nuevo:</b> {{ trackitem.new }}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+              </div>
+              
+          </div>
+      </div>
+      <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

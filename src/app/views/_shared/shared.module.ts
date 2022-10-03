@@ -14,6 +14,7 @@ import { DetailsUploadFisicoComponent } from './upload_fisico/details-uploadFisi
 import { FormUploadFisicoComponent } from './upload_fisico/form-uploadFisico.component';
 import { ListUploadFisicoComponent } from './upload_fisico/list-uploadFisico.component';
 import { LoginModalComponent } from './login/login-modal.component';
+import { TrackingFormComponent } from './tracking/tracking-form.component';
 import { NgSelect2Module } from 'ng-select2';
 
 @NgModule({
@@ -35,7 +36,8 @@ import { NgSelect2Module } from 'ng-select2';
     FormUploadFisicoComponent,
     ListUploadFisicoComponent,
     DetailsUploadFisicoComponent,
-    LoginModalComponent
+    LoginModalComponent,
+    TrackingFormComponent
   ],
   providers: [
 
@@ -50,8 +52,10 @@ import { NgSelect2Module } from 'ng-select2';
     FormUploadFisicoComponent,
     ListUploadFisicoComponent,
     DetailsUploadFisicoComponent,
+    TrackingFormComponent,
+    
     LoginModalComponent,
-    CommonModule
+    CommonModule,
   ]
 })
 export class SharedModule { }

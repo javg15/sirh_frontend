@@ -3,7 +3,9 @@
         <div class="modal-content modal-form">
             <div class="modal-header">
                 <h4 class="modal-title w-100" id="myModalLabel">{{ tituloForm }}</h4>
-
+                <app-tracking-form id="tracking-form-1" [nombreTabla]="nombreTablaTracking" [idRecord]="record.id"  >
+                </app-tracking-form>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
                   <span aria-hidden="true">×</span>
                 </button>
@@ -15,6 +17,7 @@
 
                         <input type="hidden" [(ngModel)]="record.id" class="form-control" name="ID">
                     </div>
+                    
                     <div class="row">
                         <div class="form-group col-sm-4">
                             <div class="form-group">

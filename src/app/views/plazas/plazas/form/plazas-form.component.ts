@@ -16,6 +16,7 @@ import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 import { CatquincenaService } from '../../../catalogos/catquincena/services/catquincena.service';
 
+import { TrackingFormComponent } from '../../../_shared/tracking/tracking-form.component';
 
 declare var $: any;
 declare var jQuery: any;
@@ -33,6 +34,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
   @Output() redrawEvent = new EventEmitter<any>();
   actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
   tituloForm: string;
+  nombreTablaTracking:string="plazas_histo.plazas_tracking";
 
   private elementModal: any;
   @ViewChild('basicModal') basicModal: ModalDirective;
@@ -43,6 +45,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
   @ViewChild('txtplazasdisponibles') txtplazasdisponibles: ElementRef;
   @ViewChild('txtplazasautorizadas') txtplazasautorizadas: ElementRef;
   @ViewChild('txtplazasautorizadasplantel') txtplazasautorizadasplantel: ElementRef;
+  @ViewChild(TrackingFormComponent) trackingForm: TrackingFormComponent
   //@ViewChild('txtconsecutivo') txtconsecutivo: ElementRef;
 
   record: Plazas;
@@ -262,6 +265,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
       this.tituloForm = "Plazas - " + titulosModal[accion] + " registro";
       this.plazasService.getRecord(idItem).subscribe(resp => {
         this.record = resp;
+        
         //si aun no tiene una asignación 
         if (id_plantillasdocsnombramiento_actual == 0)
           this.permiteeditar_comision=this.permiteeditar = true;
