@@ -38,9 +38,9 @@ export class HorasasignacionFormService {
       , httpOptions);
   }
 
-  public getRecordTitularEnLicencia( id_catplanteles, id_gruposclase,id_materiasclase,id_semestre): Observable<any> {
+  public getRecordTitularEnLicencia( id_horasclase,id_semestre): Observable<any> {
     return this.http.post(this.API_URL + '/personalhoras/getRecordTitularEnLicencia',
-      { id_catplanteles, id_gruposclase,id_materiasclase,id_semestre }
+      { id_horasclase,id_semestre }
       , httpOptions);
   }
 
@@ -55,6 +55,8 @@ export class HorasasignacionFormService {
       { id_personal, id_planteles, id_semestre, id_plazas, modo }
       , httpOptions);
   }
+
+  
 
   // array de modales
   public add(modal: any) {

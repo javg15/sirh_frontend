@@ -23,6 +23,14 @@
                                 <input type="text" name="Nombre" disabled="disabled" [value]="recordpersonal.nombre + ' ' + recordpersonal.apellidopaterno + ' ' + recordpersonal.apellidomaterno" class="form-control" />
                             </div>
                         </div>
+                        <div class="form-group col-sm-1">
+                            <div class="form-group">
+                                <label for="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <button class="btn btn-brand btn-sm mr-1 btn-instagram" style="margin-bottom: 4px" type="button" title="Historial de docentes" (click)="openModal('custom-horas-historial','docentes',record.id_horasclase, record.id_personal,record.id_gruposclase,record.id_materiasclase,record.id_semestre)">
+                                    <i class="fa fa-stack-overflow"></i>
+                                </button>
+                            </div>
+                        </div>
                         <div class="form-group col-sm-2">
                             <div class="form-group">
                                 <label for="semestre">Semestre</label>
@@ -80,11 +88,19 @@
                         <div class="form-group col-sm-2">
                             <div class="form-group">
                                 <label for="id_gruposclase">Grupo</label>
-                                <select class="form-control" [(ngModel)]="record.id_gruposclase" name="Grupo" [disabled]="(!edicion_en_activo && !edicion_en_copiar) || (tipoForm!=0)" (change)="onSelectGruposclase($event.target.value)">
+                                <select class="form-control" [(ngModel)]="record.id_gruposclase" name="Grupo" [disabled]="(!edicion_en_activo && !edicion_en_copiar) || (tipoForm!=1)" (change)="onSelectGruposclase($event.target.value)">
                                   <option value="">---</option>
                                   <option *ngFor="let col of gruposclaseCat" [value]="col.id">{{ col.text }}</option>
                                 </select>
 
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-1">
+                            <div class="form-group">
+                                <label for="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <button class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" title="Historial de grupo" (click)="openModal('custom-horas-historial','grupos',record.id_horasclase, record.id_personal,record.id_gruposclase,record.id_materiasclase,record.id_semestre)">
+                                    <i class="fa fa-stack-overflow"></i>
+                                </button>
                             </div>
                         </div>
                         <div class="form-group col-sm-6">
@@ -97,6 +113,14 @@
                                 <!--<select id="selectPlantel" class="form-control" [(ngModel)]="record.id_categorias" name="Categorías">
                   <option *ngFor="let col of categoriasCat" [value]="col.id">{{ col.clave + " - " + (col.denominacion!=null?col.denominacion:".") }}</option>
                 </select>-->
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-1">
+                            <div class="form-group">
+                                <label for="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <button class="btn btn-brand btn-sm mr-1 btn-stack-overflow" style="margin-bottom: 4px" type="button" title="Historial de materia" (click)="openModal('custom-horas-historial','materias', record.id_horasclase, record.id_personal,record.id_gruposclase,record.id_materiasclase,record.id_semestre)">
+                                    <i class="fa fa-stack-overflow"></i>
+                                </button>
                             </div>
                         </div>
                         <div class="form-group col-sm-2">
@@ -222,3 +246,5 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
+<app-horas-historial id="custom-horas-historial" >
+</app-horas-historial>

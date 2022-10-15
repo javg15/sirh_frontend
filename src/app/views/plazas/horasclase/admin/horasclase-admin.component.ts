@@ -7,6 +7,11 @@ import { Subject } from 'rxjs';
 
 import { HorasclaseService } from '../services/horasclase.service';
 
+import { Workbook } from 'exceljs';
+import * as fs from 'file-saver';
+
+import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
+
 import { environment } from '../../../../../../src/environments/environment';
 
 declare var $: any;
@@ -39,12 +44,14 @@ export class HorasclaseAdminComponent implements OnInit {
   nombreModulo = 'Horasclase';
   tituloBotonReporte='Reporte';
   headersAdmin: any;
+  loadingService:boolean=false;
+  verBotonExcel:boolean=false;
 
   /* En el constructor creamos el objeto horasclaseService,
   de la clase HttpConnectService, que contiene el servicio mencionado,
   y estará disponible en toda la clase de este componente.
   El objeto es private, porque no se usará fuera de este componente. */
-  constructor(
+  constructor(private isLoadingService: IsLoadingService,
     private horasclaseService: HorasclaseService,private route: ActivatedRoute,
 
   ) {
@@ -53,6 +60,7 @@ export class HorasclaseAdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.headersAdmin = JSON.parse(this.route.snapshot.data.userdata.cabeceras);
+    this.verBotonExcel=this.route.snapshot.data.userdata.excel=="1";
 
       this.dtOptions = {
         pagingType: 'full_numbers',
@@ -149,5 +157,78 @@ export class HorasclaseAdminComponent implements OnInit {
         dtInstance.clear().draw(false); // viene de form, solo actualiza la vista actual (current page)
       }
     });
+  }
+
+  exportExcel() {
+    this.loadingService=true;
+
+      this.horasclaseService.http
+      .post<DataTablesResponse>(
+        // this.API_URL + '/a6b_apis/read_records_dt.php',
+        this.API_URL + '/horasclase/getAdmin',
+        {
+          columns:this.dtOptions.columns,
+          length: 100000,
+          opcionesAdicionales: this.dtOptionsAdicional,
+          order: [{column: 0, dir: "asc"}],
+          search: {value: "", regex: false},
+          start: 0
+        }, {}
+      ).subscribe(resp => {
+        let workbook = new Workbook();
+        let worksheet = workbook.addWorksheet('PlazasSheet');
+        worksheet.addTable({
+          name: "MyTable",
+          ref: "A1",
+          headerRow: true,
+          totalsRow: false,
+          style: {
+            theme: 'TableStyleLight1',
+            showRowStripes: true,
+            showColumnStripes: false,
+          },
+          columns: [
+            { name: "-" },//inicializar
+          ],
+          rows: [],
+        });
+
+
+        const table = worksheet.getTable("MyTable");
+        this.headersAdmin.forEach(e => {
+          if(e.title.toUpperCase()!="ACCIONES" 
+            && e.title.toLowerCase()!="id"
+            && e.title.toLowerCase()!="id plantillasdocsnombramiento actual"
+            && e.title.toLowerCase()!="id estatus"
+            )
+            table.addColumn({
+                name: e.title,
+              },[],e.index);
+
+        });
+
+        for(let e of resp.data) {
+          let row=[""];
+
+          for(let i=0,j=0;i<this.headersAdmin.length;i++){ //=1 para quitar ID, -1 para quitar acciones
+            if(this.headersAdmin[i].title.toUpperCase()!="ACCIONES" 
+              && this.headersAdmin[i].title.toLowerCase()!="id"
+              && this.headersAdmin[i].title.toLowerCase()!="id plantillasdocsnombramiento actual"
+              && this.headersAdmin[i].title.toLowerCase()!="id estatus"
+              )
+              row[++j]=e[this.headersAdmin[i].data] //agregar dato de campo
+          }
+          table.addRow(row)
+        }
+        table.commit();
+
+        this.loadingService=false;
+
+        workbook.xlsx.writeBuffer().then((data) => {
+          let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+          fs.saveAs(blob, 'Horas docente.xlsx');
+        })
+      })
+      
   }
 }

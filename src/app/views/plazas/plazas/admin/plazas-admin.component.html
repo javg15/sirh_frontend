@@ -57,11 +57,20 @@
                                         </td>
                                     </div>
                                     <ng-template #elseBlock>
-                                        <ng-container *ngIf="col!='id' && col!='id_plantillasdocsnombramiento_actual' && col!='id_estatus';else elseBlock2">
+                                        <ng-container *ngIf="col!='id' && col!='id_plantillasdocsnombramiento_actual' && col!='id_estatus' && col!='activa';else elseBlock2">
                                             <td>{{ member[col] }}</td>
                                         </ng-container>
                                     </ng-template>
-                                    <ng-template #elseBlock2></ng-template>
+                                    <ng-template #elseBlock2>
+                                        <ng-container *ngIf="col=='activa';else elseBlock3">
+                                            <td>
+                                                <span [ngClass]="member.activa==='NO' ? 'inactiva':''">
+                                                    {{ member[col] }}
+                                                </span>
+                                            </td>
+                                        </ng-container>
+                                    </ng-template>
+                                    <ng-template #elseBlock3></ng-template>
                                 </ng-container>
                         </tbody>
                     </table>

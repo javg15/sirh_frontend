@@ -5,9 +5,11 @@ import { PersonalhorasAdminComponent } from './personalhoras/admin/personalhoras
 import { HorasasignacionAdminComponent } from './personalhoras/horasadmin/horasasignacion-admin.component';
 import { HorasasignacionFormComponent } from './personalhoras/horasform/horasasignacion-form.component';
 import { HorasdescargaFormComponent } from './personalhoras/horasdescarga/horasdescarga-form.component';
+import { HorasHistorialComponent } from './personalhoras/horashistorial/horas-historial.component';
 import { PersonalhorasIniService } from './personalhoras/services/personalhoras.ini.service';
 import { HorasasignacionAdminIniService } from './personalhoras/services/horasasignacionadmin.ini.service';
 import { HorasasignacionFormIniService } from './personalhoras/services/horasasignacionform.ini.service';
+import { HorasHistorialIniService } from './personalhoras/services/horashistorial.ini.service';
 
 import { PlantillasAdminComponent } from './plantillas/admin/plantillas-admin.component';
 import { PlantillasFormComponent } from './plantillas/form/plantillas-form.component';
@@ -52,6 +54,7 @@ const routes: Routes = [
         resolve: {
           userdata: PersonalhorasIniService,
           userdataHoras: HorasasignacionAdminIniService,
+          userdataHorasHistoria:HorasHistorialIniService,
         }
       },
       {
@@ -76,6 +79,13 @@ const routes: Routes = [
         component: HorasasignacionAdminComponent,
         data: {
           title: 'Plantillas de personal'
+        },
+      },
+      {
+        path: 'materiashistoria',
+        component: HorasHistorialComponent,
+        data: {
+          title: 'Historial de materias'
         },
       },
       {

@@ -3,10 +3,10 @@
   <button class="btn btn-secondary " (click)="showTrackingModal()">Historial</button>
 </form>
 <div bsModal #largeModalHistorial="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
+  <div class="modal-dialog modal-lg modal-full-height modal-right" role="document" style="background: rgb(140, 255, 0); top: 20px;">
+      <div class="modal-content modal-form">
           <div class="modal-header">
-              <h4 class="modal-title">Historial de movimientos</h4>
+              <h4 class="modal-title w-100">Historial de movimientos</h4>
               <button type="button" class="close" (click)="largeModalHistorial.hide()" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>

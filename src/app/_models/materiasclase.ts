@@ -19,6 +19,8 @@ export default interface Materiasclase {
 
   horasdisponibles: number | null; //temporal
 
+  id_horasclase: number | null; //temporal
+
   /*tipo2: string | null;
 
   tiposemestre: string | null;

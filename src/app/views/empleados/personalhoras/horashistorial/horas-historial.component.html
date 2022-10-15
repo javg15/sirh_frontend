@@ -1,0 +1,57 @@
+<div bsModal #basicModalHistorialHoras="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-full-height modal-right" role="document">
+        <div class="modal-content modal-form">
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">{{ tituloForm }}</h4>
+
+                <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+                  <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #dataForm="ngForm">
+                    <div class="form-group">
+                        <input type="hidden" [(ngModel)]="record_id_materias" class="form-control" name="ID">
+                    </div>
+                    <div class="row">
+                        &nbsp;
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <label for="record_id_semestre">Semestre</label>
+                        <select class="form-control" [(ngModel)]="record_id_semestre" name="Semestre" (change)="onSemestreChange($event.target.value)" [disabled]="esSemestreDesdeParametro">
+                        <option *ngFor="let col of semestreCat" [value]="col.id">{{ col.text }}</option>
+                      </select>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mx-auto">
+                            <table #tblHorashistorial id="tblHorashistorial" datatable [dtOptions]="dtOptions" class="table table-striped table-bordered table-sm row-border hover" width="100%">
+                                <thead>
+                                    <tr>
+                                      <th  *ngFor="let group of headersAdmin">{{group.title}}</th>
+                                    </tr>
+                                  </thead>
+                                <tbody>
+                                    <tr *ngFor="let member of Members">
+                                        <ng-container *ngFor="let col of ColumnNames;index as i">
+
+                                            <td *ngIf="col!='id' ;else elseBlock">{{ member[col] }}</td>
+
+                                            <ng-template #elseBlock></ng-template>
+                                        </ng-container>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        &nbsp;
+                    </div>
+
+                </form>
+            </div>
+            <!-- <h2>Diagnostic Info</h2>
+            <div [innerHtml]="diagnosticValidate"></div>-->
+        </div>
+    </div>
+</div>

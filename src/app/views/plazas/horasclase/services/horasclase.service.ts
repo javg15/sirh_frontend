@@ -54,6 +54,13 @@ export class HorasclaseService {
       , httpOptions);
   }
 
+  /* Obtiene la clave de la plaza */
+  public getClave(id_horasclase: any): Observable<any> {
+    return this.http.post(this.API_URL + '/horasclase/getClave',
+      { id_horasclase }
+      , httpOptions);
+  }
+
 
   /* El siguiente método graba un registro nuevo, o uno editado. */
   public setRecord(dataPack, actionForm): Observable<any> {

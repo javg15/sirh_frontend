@@ -10,6 +10,7 @@ import { PersonalhorasAdminComponent } from './personalhoras/admin/personalhoras
 import { HorasasignacionAdminComponent } from './personalhoras/horasadmin/horasasignacion-admin.component';
 import { HorasasignacionFormComponent } from './personalhoras/horasform/horasasignacion-form.component';
 import { HorasdescargaFormComponent } from './personalhoras/horasdescarga/horasdescarga-form.component';
+import { HorasHistorialComponent } from './personalhoras/horashistorial/horas-historial.component';
 import { PlantillasAdminComponent } from './plantillas/admin/plantillas-admin.component';
 import { PlantillasFormComponent } from './plantillas/form/plantillas-form.component';
 import { PlantillasDocsAdminComponent } from './plantillas/docs/plantillasdocs-admin.component';
@@ -64,6 +65,7 @@ import { DatePipe } from '@angular/common'
     HorasasignacionAdminComponent,
     HorasasignacionFormComponent,
     HorasdescargaFormComponent,
+    HorasHistorialComponent,
     PlantillasAdminComponent,
     PlantillasFormComponent,
     PlantillasDocsAdminComponent,
@@ -88,6 +90,7 @@ import { DatePipe } from '@angular/common'
     HorasasignacionAdminComponent,
     HorasasignacionFormComponent,
     HorasdescargaFormComponent,
+    HorasHistorialComponent,
     PlantillasAdminComponent,
     PlantillasFormComponent,
     PlantillasDocsAdminComponent,

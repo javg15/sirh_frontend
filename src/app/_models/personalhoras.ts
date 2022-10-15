@@ -10,9 +10,11 @@ export default interface Personalhoras {
 
   id_catplanteles: number | null;
 
-  id_gruposclase: number | null;
+  id_horasclase: number | null;
 
   id_materiasclase: number | null;
+
+  id_gruposclase: number | null;
 
   cantidad: number | null;
 

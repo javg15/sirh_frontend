@@ -53,6 +53,11 @@ export class PersonalService {
       { id_usuario }
       , httpOptions);
   }
+  public getNombre(id_personal:number): Observable<any> {
+    return this.http.post(this.API_URL + '/personal/getNombre',
+      { id_personal }
+      , httpOptions);
+  }
 
 
   public getRecordSegunCURP(curp: any): Observable<any> {
