@@ -42,9 +42,10 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
   @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
   @ViewChild('txtzonaeconomica') txtzonaeconomica: ElementRef;
   @ViewChild('txtzonageografica') txtzonageografica: ElementRef;
-  @ViewChild('txtplazasdisponibles') txtplazasdisponibles: ElementRef;
-  @ViewChild('txtplazasautorizadas') txtplazasautorizadas: ElementRef;
+  @ViewChild('txtplazasautorizadaszona') txtplazasautorizadaszona: ElementRef;
+  @ViewChild('txtplazasdisponibleszona') txtplazasdisponibleszona: ElementRef;
   @ViewChild('txtplazasautorizadasplantel') txtplazasautorizadasplantel: ElementRef;
+  @ViewChild('txtplazasdisponiblesplantel') txtplazasdisponiblesplantel: ElementRef;
   @ViewChild(TrackingFormComponent) trackingForm: TrackingFormComponent
   //@ViewChild('txtconsecutivo') txtconsecutivo: ElementRef;
 
@@ -155,7 +156,7 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
 
         categoria = this.categoriasCat.find(e => e.id == select_categoria);
 
-        if (categoria.id_cattipocategoria == 2 && EstaentablaHomologada >= 1)
+        if (categoria.id_cattipocategoria == 2 && EstaentablaHomologada ==true)
           this.varHorasAB = true;
         else
           this.varHorasAB = false;
@@ -174,15 +175,16 @@ export class PlazasFormComponent implements OnInit, OnDestroy {
   showAdicionalesCategoria() {
     if (this.record.id_categorias > 0 && this.record.id_catplanteles > 0) {
       this.plazasService.getRecordPlazasInfo(this.record.id_categorias, this.record.id_catplanteles).subscribe(resp => {
-        this.txtplazasdisponibles.nativeElement.value = resp[0].fn_plazas_disponibles.totalplazasdisponibles;
-        this.txtplazasautorizadas.nativeElement.value = resp[0].fn_plazas_disponibles.totalplazasautorizadas;
-        this.txtplazasautorizadasplantel.nativeElement.value = resp[0].fn_plazas_disponibles.totalautorizadasalplantel;
+        this.txtplazasdisponibleszona.nativeElement.value = resp[0].fn_plazas_disponibles.totaldisponibleszona;
+        this.txtplazasautorizadaszona.nativeElement.value = resp[0].fn_plazas_disponibles.totalautorizadaszona;
+        this.txtplazasdisponiblesplantel.nativeElement.value = resp[0].fn_plazas_disponibles.totaldisponiblesplantel;
+        this.txtplazasautorizadasplantel.nativeElement.value = resp[0].fn_plazas_disponibles.totalautorizadasplantel;
 
         //cambio de color alertando de que ya no hay vacantes
         if (resp[0].fn_plazas_disponibles.totalplazasdisponibles == 0 && this.actionForm.toLowerCase() == "nuevo")
-          this.txtplazasdisponibles.nativeElement.style.backgroundColor = "yellow";
+          this.txtplazasdisponibleszona.nativeElement.style.backgroundColor = "yellow";
         else
-          this.txtplazasdisponibles.nativeElement.style.backgroundColor = "";
+          this.txtplazasdisponibleszona.nativeElement.style.backgroundColor = "";
       });
 
       if (this.actionForm.toUpperCase() == "NUEVO") {//no calcular el consecutivo en la edicion

@@ -204,7 +204,7 @@
                                 <div *ngIf="estipodocente" class="form-group col-sm-4">
                                     <div class="form-group">
                                         <label for="id_catplanteles_aplicacion">Plantel (ubicación física)</label>
-                                        <ng-select2 [(ngModel)]="record.id_catplanteles_aplicacion" [data]="catplantelesAplicacionCat" [allowClear]="true" width="100%" name="Plantel (ubicación física)" (valueChanged)="onSelectPlantelUbicacion($event)">
+                                        <ng-select2 [(ngModel)]="record.id_catplanteles_aplicacion" [data]="catplantelesAplicacionCat" [allowClear]="true" width="100%" name="Plantel (ubicación física)" (valueChanged)="onSelectPlantelUbicacion($event)" [disabled]="true">
                                         </ng-select2>
                                     </div>
                                 </div>

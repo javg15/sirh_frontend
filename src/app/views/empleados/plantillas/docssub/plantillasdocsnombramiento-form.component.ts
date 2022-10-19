@@ -284,11 +284,9 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
             //this.record.id_catplanteles=this.record_plantillaspersonal.id_catplanteles; // se asigna aquí, porque es de solo lectura y viene desde la plantilla
             if(plantilla.id_catplantillas==2){
               this.estipodocente=true;
-              //this.record.id_catplanteles_aplicacion=this.record.id_catplanteles;
             }
             else{
               this.estipodocente=false;
-              //this.record.id_catplanteles_aplicacion=0;
             }
           });
 
@@ -299,8 +297,6 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
             });
           }
 
-          /*this.onSelectPlantel(this.record.id_catplanteles);
-          this.onSelectPlantelUbicacion(this.record.id_catplanteles_aplicacion);*/
           //2=plantilla de docentes
           //this.varAsignarHorasPlazasPorHora=(this.record_plantillaspersonal.id_catplantillas==2?true:false);
 
@@ -644,7 +640,8 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       //planteles
       
       this.record.id_catplanteles=this.plazasCat.find(a=>a.id==valor).id_catplanteles;
-      this.record.id_catplanteles_aplicacion=this.record_plantillaspersonal.id_catplanteles;
+      //this.record.id_catplanteles_aplicacion=this.record_plantillaspersonal.id_catplanteles;
+      this.record.id_catplanteles_aplicacion=this.plazasCat.find(a=>a.id==valor).id_catplanteles_comision;
       this.record_plantel=this.catplantelesAplicacionCat.find(x=>x.id==this.record.id_catplanteles).ubicacion;
       this.onSelectPlantel(this.record.id_catplanteles)
       this.onSelectPlantelUbicacion(this.record.id_catplanteles_aplicacion);
