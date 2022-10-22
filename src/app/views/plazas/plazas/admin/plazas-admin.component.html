@@ -52,6 +52,9 @@
                                                         <button *ngIf="boton=='comisionar'" class="btn btn-brand btn-sm mr-1 btn-info" style="margin-bottom: 4px" type="button" title="Comisionar" (click)="openModal('custom-modal-1','comisionar',member.id,member.id_plantillasdocsnombramiento_actual,member.id_estatus)">
                                                         <i class="fa fa-share"></i>
                                                     </button>
+                                                    <button *ngIf="boton=='eliminar'" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openModal('custom-modal-1','eliminar',member.id,member.id_plantillasdocsnombramiento_actual,member.id_estatus)">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
                                                 </div>
                                             </span>
                                         </td>

@@ -20,7 +20,7 @@
                         <div class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="id_catplanteles">Plantel</label>
-                                <ng-select2 [(ngModel)]="record.id_catplanteles" [data]="catplantelesCat" (valueChanged)='onCatplantelesChange($event)' [allowClear]="true" width="100%" name="Plantel" [disabled]="actionForm=='nuevo'?false:true">
+                                <ng-select2 [(ngModel)]="record.id_catplanteles" [data]="catplantelesCat" (valueChanged)='onCatplantelesChange($event)' [allowClear]="true" width="100%" name="Plantel" >
                                 </ng-select2>
                             </div>
                         </div>

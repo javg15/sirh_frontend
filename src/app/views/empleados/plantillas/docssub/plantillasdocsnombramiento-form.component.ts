@@ -108,6 +108,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   esinterina:boolean;
   esnombramiento:boolean;
   estipodocente:boolean;
+  escontitular:boolean;
   nombramientosVigentesTitularCat:Plazas[];
   tipo:string;
   varAsignarHorasPlazasPorJornada:boolean;
@@ -452,8 +453,9 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       this.convigencia=(tipoNombramiento.convigencia==1);
       this.conlicencia=(tipoNombramiento.conlicencia==1);
       this.esinterina=(tipoNombramiento.esinterina==1);
+      this.escontitular=(tipoNombramiento.contitular==1);
       this.esnombramiento=(tipoNombramiento.esnombramiento==1);
-
+console.log("this.escontitular=>",this.escontitular)
       if(this.esnombramiento){
         //si se esta editando o consultando se agrega el registro de la categoria almacenada, esto debido a que la funcion
         //getCatalogoDisponibleEnPlantilla ya no regresa la categoria registrada
