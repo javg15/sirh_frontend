@@ -62,6 +62,8 @@ export default interface Plantillasdocsnombramiento {
 
   id_catfuncionplantilla: number | null;
 
+  id_plazas_sql: number | null;
+
 }
 
 export interface PlantillasdocsnombramientoInitializer {
@@ -129,4 +131,6 @@ export interface PlantillasdocsnombramientoInitializer {
   esplazabase?: number;
 
   id_catplanteles_aplicacion?: number;
+
+  id_plazas_sql?: number;
 }

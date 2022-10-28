@@ -15,6 +15,7 @@
                         <input type="hidden" [(ngModel)]="record.id" class="form-control" name="ID">
                         <input type="hidden" [(ngModel)]="record.id_personal" class="form-control" name="id_personal">
                         <input type="hidden" [(ngModel)]="record.id_semestre" class="form-control" name="id_semestre">
+                        <input type="hidden" [(ngModel)]="record_id_categorias" class="form-control" name="record_id_categorias">
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-4">
@@ -78,7 +79,7 @@
                         <div class="form-group col-sm-4">
                             <div class="form-group">
                                 <label for="id_catplanteles_aplicacion">Plantel (aplicación)</label>
-                                <ng-select2 [(ngModel)]="record.id_catplanteles_aplicacion" [data]="catplantelesAplicacionCat" [allowClear]="true" width="100%" name="Plantel (aplicación)" (valueChanged)="onSelectPlantel($event)">
+                                <ng-select2 [(ngModel)]="record.id_catplanteles_aplicacion" [data]="catplantelesAplicacionCat" [allowClear]="true" width="100%" name="Plantel (aplicación)" (valueChanged)="onSelectPlantel($event)" [disabled]="!edicion_en_activo">
                                     <!--[disabled]="!edicion_en_activo"-->
                                 </ng-select2>
                             </div>
@@ -89,7 +90,7 @@
                             <div class="form-group">
                                 <label for="id_gruposclase">Grupo</label>
                                 <select class="form-control" [(ngModel)]="record.id_gruposclase" name="Grupo" [disabled]="(!edicion_en_activo && !edicion_en_copiar) || (tipoForm!=1)" (change)="onSelectGruposclase($event.target.value)">
-                                  <option value="">---</option>
+                                  <option value="0">---</option>
                                   <option *ngFor="let col of gruposclaseCat" [value]="col.id">{{ col.text }}</option>
                                 </select>
 
@@ -107,7 +108,7 @@
                             <div class="form-group">
                                 <label for="id_materiasclase">Materia</label>
                                 <select class="form-control" [(ngModel)]="record.id_materiasclase" name="Materia" [disabled]="!edicion_en_activo" (change)="onSelectMateriasclase($event.target.value)">
-                                  <option value="">---</option>
+                                  <option value="0">---</option>
                                   <option *ngFor="let col of materiasclaseCat" [value]="col.id">{{ col.text }}</option>
                                 </select>
                                 <!--<select id="selectPlantel" class="form-control" [(ngModel)]="record.id_categorias" name="Categorías">
@@ -196,7 +197,7 @@
                             <div class="form-group">
                                 <label for="id_cattipohorasdocente">Tipo de horas</label>
                                 <select class="form-control" [(ngModel)]="record.id_cattipohorasdocente" name="Tipo de horas" [disabled]="!edicion_habilitarTipoHoras">
-                                  <option value="">---</option>
+                                  <option value="0">---</option>
                                     <option *ngFor="let col of cattipohorasdocenteCat" [value]="col.id">{{ col.text }}</option>
                                 </select>
                             </div>

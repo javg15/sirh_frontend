@@ -38,6 +38,12 @@ export class PlantillasdocsBajaService {
       , httpOptions);
   }
 
+  public setRecordSQLServer(dataPack,actionForm,id_pdn): Observable<any> {
+    return this.http.post(this.API_URL + '/plantillasdocsbaja/setRecordSQLServer',
+      { dataPack,actionForm,id_pdn }
+      , httpOptions);
+  }
+
 // array de modales
   public add(modal: any) {
         this.modals.push(modal);

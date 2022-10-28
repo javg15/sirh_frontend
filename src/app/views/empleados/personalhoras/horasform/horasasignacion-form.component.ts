@@ -106,7 +106,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
   isLoadingSearch: boolean;
   esinterina: boolean=false;
   record_titular:any;
-
+  record_id_categorias:number=0;
   //recordJsonTipodoc1:any={UltimoGradodeEstudios:0,AreadeCarrera:0,Carrera:0,Estatus:0};
 
   constructor(
@@ -131,7 +131,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
 
     this.catestatushoraSvc.getCatalogo().subscribe(resp => {
-      this.catestatushoraCat = resp;
+      this.catestatushoraCat = resp.filter(a=>(a.id==1 || a.id==2 || a.id==5));
     });
     this.catnombramientosSvc.getCatalogo().subscribe(resp => {
       this.catnombramientosCat = resp;
@@ -221,11 +221,20 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
               this.validSummary.generateErrorMessagesFromServer(resp.message);
             }
             else if (resp.message == "success") {
+              let actionFormSQL=this.actionForm;
               if (this.actionForm.toUpperCase() == "NUEVO") this.actionForm = "editar";
               this.record.id = resp.id;
 
-              this.successModal.show();
-              setTimeout(() => { this.successModal.hide(); this.close();}, 2000)
+              //Ejecutar sql server
+              await this.isLoadingService.add(
+                this.horasasignacionformService.setRecordSQLServer(this.record,actionFormSQL).subscribe(async resp => {
+                  //Actualizar el registro con el id devuelto por sql server
+                  this.horasasignacionformService.setUpdateIdServer(this.record,resp.result,actionFormSQL).subscribe(async resp => {
+                    //actualizar el registro de la tabla archivos
+                      this.successModal.show();
+                      setTimeout(()=>{ this.successModal.hide(); this.close(); }, 2000)
+                  });
+              }),{ key: 'loading' });    
             }
           }), { key: 'loading' });
         }
@@ -280,6 +289,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
       this.record = this.newRecord(idPersonal, idSemestre);
       this.record.id_catplanteles=idPlantel;
       this.record.id_plazas=idPlaza;
+      this.record.id_catestatushora=1;
 
       if(idPlantelAplicacion==0)
         this.record.id_catplanteles_aplicacion=idPlantel;
@@ -293,6 +303,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
         this.record_id_plaza = resp[0].id;
         this.record_text_plaza = resp[0].text;
         this.record_text_categoria = resp[0].categoria;
+        this.record_id_categorias = resp[0].id_categorias;
         this.horasProgramadasEnPlaza = resp[0].horas_programadas;
         this.record.horassueltas=(resp[0].eshomologada=="true"?1:0);
 
@@ -308,7 +319,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
           this.record.id_catnombramientos=0;
           this.edicion_habilitarTipoHoras=false;
         }
-
+        this.onSelectNombramiento(this.record.id_catnombramientos)
       });
 
       this.plazasSvc.getHorasDisponibleSegunPlaza(idPersonal,idPlantel,idSemestre,idPlaza).subscribe(resp => {
@@ -329,7 +340,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
           this.edicion_en_activo=true;
 
           //obtener registro segun quincena inicial
-          this.catquincenaSvc.getRecord(this.record.id_catquincena_fin).subscribe(async resp => {
+          this.catquincenaSvc.getRecord(this.record.id_catquincena_ini).subscribe(async resp => {
             if(this.record_quincena_activa.anio.toString()+this.record_quincena_activa.quincena.toString().padStart(2,"0")
                >resp.anio.toString()+resp.quincena.toString().padStart(2,"0"))
             this.edicion_en_activo=false;//solo editar la quincena final
@@ -345,9 +356,11 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
           this.onSelectPlantel(resp.id_catplanteles_aplicacion);
           this.onSelectGruposclase(resp.id_gruposclase);
-          this.onSelectNombramiento(resp.id_catnombramientos);
-          this.cattipohorasdocenteSvc.getCatalogoSegunMateria(resp.id_materiasclase).subscribe(resp => {
+          //this.onSelectNombramiento(resp.id_catnombramientos);
+          this.cattipohorasdocenteSvc.getCatalogoSegunMateria(resp.id_materiasclase,this.record_id_categorias).subscribe(resp => {
             this.cattipohorasdocenteCat = resp;
+            if(resp.length==1)
+              this.record.id_cattipohorasdocente=resp[0].id
           });
           this.plazasSvc.getRecordParaCombo(this.record.id_plazas).subscribe(resp => {
             this.record_id_plaza = resp[0].id;
@@ -366,6 +379,8 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
             else{
               this.edicion_habilitarTipoHoras=false;
             }
+
+            this.onSelectNombramiento(this.record.id_catnombramientos);
 
           });
           this.plazasSvc.getHorasDisponibleSegunPlaza(idPersonal,idPlantel,idSemestre,idPlaza).subscribe(resp => {
@@ -471,8 +486,10 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
       this.record.horassueltas=0;
       this.record.frenteagrupo=0;
     }
-    this.cattipohorasdocenteSvc.getCatalogoSegunMateria(valor).subscribe(resp => {
+    this.cattipohorasdocenteSvc.getCatalogoSegunMateria(valor,this.record_id_categorias).subscribe(resp => {
      this.cattipohorasdocenteCat = resp;
+     if(resp.length==1)
+      this.record.id_cattipohorasdocente=resp[0].id
    });
   }
 

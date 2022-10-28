@@ -44,7 +44,7 @@
                         <div class="form-group col-sm-6">
                             <div class="form-group">
                                 <label for="id_plazas">Plazas</label>
-                                <ng-select2 [(ngModel)]="record.id_plazas" [data]="plazasCat" [allowClear]="true" width="100%" name="Plazas">
+                                <ng-select2 [(ngModel)]="record.id_plazas" [data]="plazasCat" [allowClear]="true" width="100%" name="Plazas" (valueChanged)="onSelectPlazas($event)">
                                 </ng-select2>
                             </div>
                         </div>

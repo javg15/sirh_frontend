@@ -107,6 +107,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
   tblResumenRowsEstatus: any = [];
   tblNombramientos: [];
   record_quincena_activa: string;
+  record_estatusregistro: string="1";
 
   private elementModal: any;
 
@@ -230,6 +231,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
   // open modal
   open(id_personal: number, accion: string, id_catplanteles: number, id_semestre: number, id_catplanteles_aplicacion: number): void {
     this.actionForm = accion;
+    this.record_estatusregistro="1";
     this.botonAccion = actionsButtonSave[accion];
     this.record_id_personal = id_personal;
     this.record_id_semestre = id_semestre;

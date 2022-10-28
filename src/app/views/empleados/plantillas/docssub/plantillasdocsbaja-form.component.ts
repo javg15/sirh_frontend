@@ -55,6 +55,7 @@ export class PlantillasDocsBajaFormComponent implements OnInit, OnDestroy {
   record: Plantillasdocsnombramiento;
   record_plantillaspersonal:Plantillaspersonal;
   record_titular:String;
+  record_id_pdn:number=0;//nombramiento relacionado con la palza seleccionada, para las plazas
   //recordFile:Archivos;
   keywordSearch = 'full_name';
   isLoadingSearch:boolean;
@@ -90,7 +91,8 @@ export class PlantillasDocsBajaFormComponent implements OnInit, OnDestroy {
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0,
       id_catquincena_ini:0,id_catquincena_fin:32767,id_catbajamotivo:0,id_catplanteles:0,
       id_catcentrostrabajo:0,id_catesquemapago:0,id_catfuncionprimaria:0,id_catfuncionsecundaria:0,
-      id_cattipoocupacion:0,id_cattiposemestre:0,esplazabase:0,id_catplanteles_aplicacion:0,id_catfuncionplantilla:0
+      id_cattipoocupacion:0,id_cattiposemestre:0,esplazabase:0,id_catplanteles_aplicacion:0,id_catfuncionplantilla:0,
+      id_plazas_sql:0
     };
   }
   ngOnInit(): void {
@@ -130,28 +132,36 @@ export class PlantillasDocsBajaFormComponent implements OnInit, OnDestroy {
           this.validSummary.generateErrorMessagesFromServer(resp.message);
         }
         else if(resp.message=="success"){
+          let actionFormSQL=this.actionForm;
+
           if(this.actionForm.toUpperCase()=="NUEVO") this.actionForm="editar";
           this.record.id=resp.id;
 
-          //actualizar el registro de la tabla archivos
-          if(this.record.id_archivos>0){
-              /*this.recordFile={id:this.record.id_archivos,
-                  tabla:"plantillasdocsbaja",
-                  id_tabla:this.record.id,
-                  tipo: null,  nombre:  null,  datos: null,  id_usuarios_r: 0,
-                  state: '',  created_at: null,   updated_at: null
-                };
+          //Ejecutar sql server
+          await this.isLoadingService.add(
+            this.plantillasdocsbajaService.setRecordSQLServer(this.record,actionFormSQL,this.record_id_pdn).subscribe(async resp => {
 
-              await this.isLoadingService.add(
-              this.archivosSvc.setRecordReferencia(this.recordFile,this.actionForm).subscribe(resp => {
-                this.successModal.show();
-                setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
-              }),{ key: 'loading' });*/
-          }
-          else{
-            this.successModal.show();
-            setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
-          }
+                //actualizar el registro de la tabla archivos
+                if(this.record.id_archivos>0){
+                    /*this.recordFile={id:this.record.id_archivos,
+                        tabla:"plantillasdocsbaja",
+                        id_tabla:this.record.id,
+                        tipo: null,  nombre:  null,  datos: null,  id_usuarios_r: 0,
+                        state: '',  created_at: null,   updated_at: null
+                      };
+
+                    await this.isLoadingService.add(
+                    this.archivosSvc.setRecordReferencia(this.recordFile,this.actionForm).subscribe(resp => {
+                      this.successModal.show();
+                      setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
+                    }),{ key: 'loading' });*/
+                }
+                else{
+                  this.successModal.show();
+                  setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
+                }
+            })
+          ,{ key: 'loading' });   
         }
       }),{ key: 'loading' });
     }
@@ -161,6 +171,11 @@ export class PlantillasDocsBajaFormComponent implements OnInit, OnDestroy {
       this.plazasSvc.getCatalogoVigenteSegunCategoria(valor,this.record.id_plantillaspersonal).subscribe(resp => {
         this.plazasCat = resp;
       });
+  }
+
+  onSelectPlazas(valor:any){
+    //nombramiento relacionado, para licencias
+    this.record_id_pdn=this.plazasCat.find(a=>a.id==valor)["id_pdn"];
   }
 
   // open modal

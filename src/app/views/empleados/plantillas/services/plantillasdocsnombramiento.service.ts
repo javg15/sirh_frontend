@@ -31,12 +31,25 @@ export class PlantillasdocsNombramientoService {
   }
 
   /* El siguiente método graba un registro nuevo, o uno editado. */
-  public setRecord(dataPack,actionForm): Observable<any> {
+  public setRecord(dataPack,actionForm,estipodocente): Observable<any> {
 
     return this.http.post(this.API_URL + '/plantillasdocsnombramiento/setRecord',
-      { dataPack,actionForm }
+      { dataPack,actionForm,estipodocente }
       , httpOptions);
   }
+
+  public setUpdateIdServer(dataPack,datosSQL,actionForm): Observable<any> {
+    return this.http.post(this.API_URL + '/plantillasdocsnombramiento/setUpdateIdServer',
+      { dataPack,datosSQL,actionForm}
+      , httpOptions);
+  }
+  
+  public setRecordSQLServer(dataPack,actionForm,tipo,id_pdn): Observable<any> {
+    return this.http.post(this.API_URL + '/plantillasdocsnombramiento/setRecordSQLServer',
+      { dataPack,actionForm,tipo,id_pdn }
+      , httpOptions);
+  }
+  
 
 // array de modales
   public add(modal: any) {

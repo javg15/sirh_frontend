@@ -61,8 +61,8 @@
                         </div>
                         <div class="form-group col-sm-4">
                             <label for="record_state">Estatus de registro</label>
-                            <select class="form-control" name="Estatus de registro" (change)="onCatestatusChange($event.target.value)">
-                            <option value="1" selected="selected">Vigentes</option> <!--solo sin fecha fin-->
+                            <select class="form-control" name="Estatus de registro" [(ngModel)]="record_estatusregistro" (change)="onCatestatusChange($event.target.value)">
+                            <option value="1">Vigentes</option> <!--solo sin fecha fin-->
                             <option value="1|2|3|4|5|6">Historial</option> <!--todas-->
                           </select>
                         </div>

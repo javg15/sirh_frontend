@@ -57,7 +57,7 @@
                             <div class="form-group">
                                 <label for="id_personalhoras_descarga">Materia descargada</label>
                                 <select class="form-control" [(ngModel)]="record.id_personalhoras_descarga" name="Materia descargada">
-                                <option value="">---</option>
+                                <option value="0">---</option>
                                 <option *ngFor="let col of materiasdescargadasCat" [value]="col.id">{{ col.text }}</option>
                               </select>
                             </div>
@@ -68,7 +68,7 @@
                             <div class="form-group">
                                 <label for="id_gruposclase">Grupo</label>
                                 <select class="form-control" [(ngModel)]="record.id_gruposclase" name="Grupo" (change)="onSelectGruposclase($event.target.value)">
-                                <option value="">---</option>
+                                <option value="0">---</option>
                                 <option *ngFor="let col of gruposclaseCat" [value]="col.id">{{ col.text }}</option>
                               </select>
 
@@ -78,7 +78,7 @@
                             <div class="form-group">
                                 <label for="id_materiasclase">Materia</label>
                                 <select class="form-control" [(ngModel)]="record.id_materiasclase" name="Materia" (change)="onSelectMateriasclase($event.target.value)">
-                                  <option value="">---</option>
+                                  <option value="0">---</option>
                                   <option *ngFor="let col of materiasclaseCat" [value]="col.id">{{ col.text }}</option>
                                 </select>
                                 <!--<select id="selectPlantel" class="form-control" [(ngModel)]="record.id_categorias" name="Categorías">

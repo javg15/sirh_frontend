@@ -55,7 +55,18 @@ export class HorasasignacionFormService {
       { id_personal, id_planteles, id_semestre, id_plazas, modo }
       , httpOptions);
   }
-
+  
+  public setUpdateIdServer(dataPack,datosSQL,actionForm): Observable<any> {
+    return this.http.post(this.API_URL + '/personalhoras/setUpdateIdServer',
+      { dataPack,datosSQL,actionForm}
+      , httpOptions);
+  }
+  
+  public setRecordSQLServer(dataPack,actionForm): Observable<any> {
+    return this.http.post(this.API_URL + '/personalhoras/setRecordSQLServer',
+      { dataPack,actionForm }
+      , httpOptions);
+  }
   
 
   // array de modales

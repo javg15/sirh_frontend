@@ -59,9 +59,9 @@ export class CattipohorasdocenteService {
   }
 
 
-  public   getCatalogoSegunMateria(id_materiasclase): Observable<any> {
+  public   getCatalogoSegunMateria(id_materiasclase,id_categorias): Observable<any> {
     return this.http.post(this.API_URL + '/cattipohorasdocente/getCatalogoSegunMateria',
-      {id_materiasclase}
+      {id_materiasclase,id_categorias}
       , httpOptions);
   }
 

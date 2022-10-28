@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="form-group col-sm-3">
                                     <div class="form-group">
-                                        <label for="id_catestatusplaza">Estatus de la plaza</label>
+                                        <label for="id_catestatusplaza">Estatus de ocupación de la plaza</label>
                                         <select class="form-control" [(ngModel)]="record.id_catestatusplaza" name="Estatus de la plaza" (change)="onSelectTipoNombramiento($event.target.value)">
                                           <option value="0">---</option>
                                 <option *ngFor="let col of catestatusplazaFilterCat" [value]="col.id">{{ col.descripcion }}</option>
@@ -208,7 +208,7 @@
                                         </ng-select2>
                                     </div>
                                 </div>
-                                <div *ngIf="estipodocente" class="form-group col-sm-4">
+                                <div *ngIf="tipo=='nombramiento'" class="form-group col-sm-4">
                                     <div class="form-group">
                                         <label for="id_catcentrostrabajo">Centro de trabajo (ubicación física)</label>
                                         <select class="form-control" [(ngModel)]="record.id_catcentrostrabajo" name="Centro de trabajo (ubicación física)">

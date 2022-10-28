@@ -115,6 +115,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
   varAsignarHorasPlazasPorHora:boolean;
   horasProgramadas:number;
   seRevisoCargaHoraria:boolean=true; //se activa cuando se pica en el boton de editar carga horaria, por default tiene valor de true
+  record_id_pdn:number=0;//nombramiento relacionado con la palza seleccionada, para las plazas
   //recordJsonTipodoc1:any={UltimoGradodeEstudios:0,AreadeCarrera:0,Carrera:0,Estatus:0};
 
   constructor(private isLoadingService: IsLoadingService,
@@ -174,7 +175,8 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0,
       id_catquincena_ini:0,id_catquincena_fin:0,id_catbajamotivo:0,id_catplanteles:0,
       id_catcentrostrabajo:0,id_catesquemapago:0,id_catfuncionprimaria:0,id_catfuncionsecundaria:0,
-      id_cattipoocupacion:0,id_cattiposemestre:0,esplazabase:0,id_catplanteles_aplicacion:0,id_catfuncionplantilla:0
+      id_cattipoocupacion:0,id_cattiposemestre:0,esplazabase:0,id_catplanteles_aplicacion:0,id_catfuncionplantilla:0,
+      id_plazas_sql:0
     };
   }
   ngOnInit(): void {
@@ -214,35 +216,50 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
         this.validSummary.generateErrorMessagesFromServer({carga_horaria: "Debe revisar la carga horaria para verificar que materias se registrarán como licencia (clic en el botón 'Editar horas')"});
       else{
         await this.isLoadingService.add(
-        this.plantillasdocsnombramientoService.setRecord(this.record,this.actionForm).subscribe(async resp => {
-          if (resp.hasOwnProperty('error')) {
-            this.validSummary.generateErrorMessagesFromServer(resp.message);
-          }
-          else if(resp.message=="success"){
-            if(this.actionForm.toUpperCase()=="NUEVO") this.actionForm="editar";
-            this.record.id=resp.id;
-
-            //actualizar el registro de la tabla archivos
-            if(this.record.id_archivos>0){
-                /*this.recordFile={id:this.record.id_archivos,
-                    tabla:"plantillasdocsnombramiento",
-                    id_tabla:this.record.id,
-                    tipo: null,  nombre:  null,  datos: null,  id_usuarios_r: 0,
-                    state: '',  created_at: null,   updated_at: null
-                  };
-
-                await this.isLoadingService.add(
-                this.archivosSvc.setRecordReferencia(this.recordFile,this.actionForm).subscribe(resp => {
-                  this.successModal.show();
-                  setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
-                }),{ key: 'loading' });*/
+          this.plantillasdocsnombramientoService.setRecord(this.record,this.actionForm,this.estipodocente).subscribe(async resp => {
+            if (resp.hasOwnProperty('error')) {
+              this.validSummary.generateErrorMessagesFromServer(resp.message);
             }
-            else{
-              this.successModal.show();
-              setTimeout(()=>{ this.successModal.hide(); this.close(); }, 2000)
+            else if(resp.message=="success"){
+              let actionFormSQL=this.actionForm;
+              if(this.actionForm.toUpperCase()=="NUEVO") this.actionForm="editar";
+              this.record.id=resp.id;
+
+              //Ejecutar sql server
+              await this.isLoadingService.add(
+                this.plantillasdocsnombramientoService.setRecordSQLServer(this.record,actionFormSQL,this.tipo,this.record_id_pdn).subscribe(async resp => {
+                  if(this.tipo.toUpperCase()=="NOMBRAMIENTO"){
+                    //Actualizar el registro con el id devuelto por sql server
+                    this.plantillasdocsnombramientoService.setUpdateIdServer(this.record,resp.result,actionFormSQL).subscribe(async resp => {
+                      //actualizar el registro de la tabla archivos
+                        if(this.record.id_archivos>0){
+                          /*this.recordFile={id:this.record.id_archivos,
+                              tabla:"plantillasdocsnombramiento",
+                              id_tabla:this.record.id,
+                              tipo: null,  nombre:  null,  datos: null,  id_usuarios_r: 0,
+                              state: '',  created_at: null,   updated_at: null
+                            };
+
+                          await this.isLoadingService.add(
+                          this.archivosSvc.setRecordReferencia(this.recordFile,this.actionForm).subscribe(resp => {
+                            this.successModal.show();
+                            setTimeout(()=>{ this.successModal.hide(); this.close();}, 2000)
+                          }),{ key: 'loading' });*/
+                        }
+                        else{
+                          this.successModal.show();
+                          setTimeout(()=>{ this.successModal.hide(); this.close(); }, 2000)
+                        }
+                    });
+                  }
+                  else{
+                    this.successModal.show();
+                    setTimeout(()=>{ this.successModal.hide(); this.close(); }, 2000)
+                  }
+              }),{ key: 'loading' });    
+
             }
-          }
-        }),{ key: 'loading' });
+          }),{ key: 'loading' });
       }
     }
   }
@@ -349,8 +366,8 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
             this.estipodocente=true;
           }
 
-          
-
+console.log("data.registro.id_catplanteles=>",data.registro.id_catplanteles)          
+console.log("plantelesInfo.find(x=>x.id==data.registro.id_catplanteles)=>",plantelesInfo.find(x=>x.id==data.registro.id_catplanteles))
           if(plantelesInfo.length>0)
             this.record_plantel=plantelesInfo.find(x=>x.id==data.registro.id_catplanteles).ubicacion;
 
@@ -419,9 +436,9 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
 
   onSelectIdPersonal(val: any) {
     let items="";
-    if(val.toString().indexOf(" -- ")>0){
+    if(val["full_name"].toString().indexOf(" -- ")>0){
       items=val["full_name"].split(" -- ");
-      this.record.id_personal_titular=parseInt(items[2]);
+      this.record.id_personal_titular=parseInt(val.id);
     }
     else
       this.record.id_personal_titular=parseInt(val); //viene desde la funcion open()-> else de editar
@@ -453,9 +470,9 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       this.convigencia=(tipoNombramiento.convigencia==1);
       this.conlicencia=(tipoNombramiento.conlicencia==1);
       this.esinterina=(tipoNombramiento.esinterina==1);
-      this.escontitular=(tipoNombramiento.contitular==1);
+      this.escontitular=(tipoNombramiento.contitular==1 || tipoNombramiento.contitular==2);
       this.esnombramiento=(tipoNombramiento.esnombramiento==1);
-console.log("this.escontitular=>",this.escontitular)
+
       if(this.esnombramiento){
         //si se esta editando o consultando se agrega el registro de la categoria almacenada, esto debido a que la funcion
         //getCatalogoDisponibleEnPlantilla ya no regresa la categoria registrada
@@ -640,10 +657,13 @@ console.log("this.escontitular=>",this.escontitular)
     //si la plaza está comisionada
     if(this.esnombramiento && this.actionForm.toUpperCase()=="NUEVO"){
       //planteles
-      
       this.record.id_catplanteles=this.plazasCat.find(a=>a.id==valor).id_catplanteles;
       //this.record.id_catplanteles_aplicacion=this.record_plantillaspersonal.id_catplanteles;
-      this.record.id_catplanteles_aplicacion=this.plazasCat.find(a=>a.id==valor).id_catplanteles_comision;
+      this.record.id_catplanteles_aplicacion=
+        (this.plazasCat.find(a=>a.id==valor).id_catplanteles_comision==null ? 
+        this.plazasCat.find(a=>a.id==valor).id_catplanteles :
+        this.plazasCat.find(a=>a.id==valor).id_catplanteles_comision
+        );
       this.record_plantel=this.catplantelesAplicacionCat.find(x=>x.id==this.record.id_catplanteles).ubicacion;
       this.onSelectPlantel(this.record.id_catplanteles)
       this.onSelectPlantelUbicacion(this.record.id_catplanteles_aplicacion);
@@ -667,7 +687,11 @@ console.log("this.escontitular=>",this.escontitular)
       });
     }
 
-
+    //nombramiento relacionado, para licencias
+    if(this.tipo.toUpperCase()=="LICENCIA")
+      this.record_id_pdn=this.plazasCat.find(a=>a.id==valor)["id_pdn"];
+    else
+      this.record_id_pdn=0;
   }
 
   onSelectPlantel(select_plantel) {
