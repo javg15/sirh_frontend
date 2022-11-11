@@ -269,7 +269,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
   close(): void {
     this.basicModalDocs.hide();
     if (this.actionForm.toUpperCase() != "VER") {
-      this.redrawEvent.emit(null);
+      this.redrawEvent.emit({datosBusqueda:null,drawSingleRow:true});
     }
   }
 

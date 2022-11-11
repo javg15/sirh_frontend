@@ -195,8 +195,8 @@ export class UsuariosFormComponent implements OnInit, OnDestroy {
                 +  resp.nombre + " " + resp.apellidopaterno
                 + " " + resp.apellidomaterno + " - " + resp.curp;
 
-            this.id_personal.initialValue = this.record_personal;
-            this.id_personal.searchInput.nativeElement.value = this.record_personal;
+            //this.id_personal.initialValue = this.record_personal;
+            //this.id_personal.searchInput.nativeElement.value = this.record_personal;
             this.record_id_personal=resp.id;
           }
         });

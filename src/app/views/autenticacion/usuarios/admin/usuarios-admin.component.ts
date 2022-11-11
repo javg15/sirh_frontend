@@ -105,7 +105,7 @@ export class UsuariosAdminComponent implements OnInit {
           );
         },
         columns: this.headersAdmin,
-        columnDefs:[{"visible": false, "searchable": false, "targets": 0}
+        columnDefs:[{"visible": false, "searchable": false, "targets": [0]}
                   //,{"width":"5%", "targets": 1}
                 ]
       };

@@ -129,8 +129,9 @@
                                     <div class="form-group">
                                         <label for="id_personal_titular">Titular</label>
                                         <div class="ng-autocomplete">
-                                            <ng-autocomplete #id_personal_titular [(ngModel)]="record_titular" [data]="catpersonalCat" (selected)='onSelectIdPersonal($event)' (inputChanged)='onChangeSearchIdPersonal($event)' [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate" [searchKeyword]="keywordSearch"
-                                                [minQueryLength]="3" [debounceTime]="100" [isLoading]="isLoadingSearch" name="Titular">
+                                            <ng-autocomplete #id_personal_titular [(ngModel)]="record_titular" [data]="catpersonalCat" (selected)='onSelectIdPersonal($event)' (inputChanged)='onChangeSearchIdPersonal($event)' (inputCleared)="onClearedIdPersonal($event)"
+                                                [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate" [searchKeyword]="keywordSearch"
+                                                [initialValue]="record_titular" [minQueryLength]="3" [debounceTime]="100" [isLoading]="isLoadingSearch" name="Titular">
                                             </ng-autocomplete>
 
                                             <ng-template #itemTemplate let-item>

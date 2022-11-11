@@ -51,7 +51,9 @@ export class PersonalhorasAdminComponent implements OnInit {
     ,fkey:'id_catplanteles,id_semestre,id_personal'
     ,fkeyvalue:[0,0,0]
     ,modo:22
+    ,id:0
   };
+  rowSelected:any={idx:0,id:0};
 
   nombreModulo = 'Personalhoras';
   tituloBotonReporte='Plantilla';
@@ -168,7 +170,9 @@ export class PersonalhorasAdminComponent implements OnInit {
     };
 
   }
-  openModal(id: string, accion: string, id_personal: number,id_catplanteles:number,id_semestre:number) {
+  openModal(idx:number,id: string, accion: string, id_personal: number,id_catplanteles:number,id_semestre:number) {
+    this.rowSelected.idx=idx;
+    this.rowSelected.id=id_personal;
     this.personalhorasService.open(id, accion, id_personal, id_catplanteles,id_semestre);
   }
 
@@ -186,18 +190,38 @@ export class PersonalhorasAdminComponent implements OnInit {
     this.dtTrigger.unsubscribe();
   }
 
-  reDraw(datosBusqueda: any = null): void {
-
+  reDraw(params: any = null,drawSingleRow:boolean=false): void {
+    const that=this;
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      if (datosBusqueda != null) {
-        this.dtOptionsAdicional.datosBusqueda = datosBusqueda;
+      if(params && params.datosBusqueda!=null){
+        this.dtOptionsAdicional.datosBusqueda = params.datosBusqueda;
         // Destruimos la tabla
         dtInstance.destroy();
         // dtTrigger la reconstruye
         this.dtTrigger.next();
       }
-      else {
+      else if(params && params.drawSingleRow){
+        that.dtOptionsAdicional.modo=1;
+        that.dtOptionsAdicional.id=this.rowSelected.id;
+        this.personalhorasService.getAdmin(that.dtOptionsAdicional).subscribe(resp => {
+          if(that.dtOptions.columnDefs[0].visible==false){
+            for(let i=0,j=0;i < that.dtOptions.columns.length; i++){
+              if(that.ColumnNames[i]!='id' 
+                  && that.ColumnNames[i]!='id_personal' 
+                  && that.ColumnNames[i]!='id_catplanteles'
+                  && that.ColumnNames[i]!='foto' 
+                  && that.ColumnNames[i]!='acciones' )
+                that.dtElement["el"].nativeElement.rows[this.rowSelected.idx+1]
+                  .cells[j++].innerText=resp.data[0][that.ColumnNames[i]];
+            }
+          }
+          this.dtOptionsAdicional.modo=22;//reset el modo, para que no afecte en la paginación
+        });
+      }
+      else{
+        this.dtOptionsAdicional.modo=22
         dtInstance.clear().draw(false); // viene de form, solo actualiza la vista actual (current page)
+        
       }
     });
   }

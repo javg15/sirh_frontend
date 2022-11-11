@@ -366,8 +366,6 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
             this.estipodocente=true;
           }
 
-console.log("data.registro.id_catplanteles=>",data.registro.id_catplanteles)          
-console.log("plantelesInfo.find(x=>x.id==data.registro.id_catplanteles)=>",plantelesInfo.find(x=>x.id==data.registro.id_catplanteles))
           if(plantelesInfo.length>0)
             this.record_plantel=plantelesInfo.find(x=>x.id==data.registro.id_catplanteles).ubicacion;
 
@@ -376,11 +374,11 @@ console.log("plantelesInfo.find(x=>x.id==data.registro.id_catplanteles)=>",plant
               +  personal_titularInfo.nombre + " " + personal_titularInfo.apellidopaterno
               + " " + personal_titularInfo.apellidomaterno + " - " + personal_titularInfo.curp;
 
-                if(this.id_personal_titular){
-                  this.id_personal_titular.initialValue = this.record_titular;
-                  this.id_personal_titular.searchInput.nativeElement.value = this.record_titular;
-                  this.record.id_personal_titular=personal_titularInfo.id;
-                }
+            if(this.id_personal_titular){
+              //this.id_personal_titular.initialValue = this.record_titular;
+              //this.id_personal_titular.searchInput.nativeElement.value = this.record_titular;
+              this.record.id_personal_titular=personal_titularInfo.id;
+            }
           }
 
           this.onSelectCategorias(this.record.id_categorias);
@@ -389,8 +387,9 @@ console.log("plantelesInfo.find(x=>x.id==data.registro.id_catplanteles)=>",plant
           this.onSelectPlantelUbicacion(this.record.id_catplanteles_aplicacion);
           this.onSelectTipoNombramiento(this.record.id_catestatusplaza);
           
-          if(this.record.id_personal_titular>0)
+          if(this.record.id_personal_titular>0){
             this.onSelectIdPersonal(this.record.id_personal_titular)
+          }
 
         });
 
@@ -434,9 +433,16 @@ console.log("plantelesInfo.find(x=>x.id==data.registro.id_catplanteles)=>",plant
     // And reassign the 'data' which is binded to 'data' property.
   }
 
+  onClearedIdPersonal($event){
+    this.record_titular = "";
+    this.nombramientosVigentesTitularCat=[];
+    this.record.id_personal_titular=0;
+  }
+
   onSelectIdPersonal(val: any) {
     let items="";
-    if(val["full_name"].toString().indexOf(" -- ")>0){
+    
+    if(val["full_name"] && val["full_name"].toString().indexOf(" -- ")>0){
       items=val["full_name"].split(" -- ");
       this.record.id_personal_titular=parseInt(val.id);
     }
@@ -650,6 +656,7 @@ console.log("plantelesInfo.find(x=>x.id==data.registro.id_catplanteles)=>",plant
       );
 
     this.record_titular = "";
+    this.nombramientosVigentesTitularCat=[];
     //limpiar autocomplete
     if(this.id_personal_titular){ this.id_personal_titular.clear();this.id_personal_titular.close();}
     
@@ -678,8 +685,8 @@ console.log("plantelesInfo.find(x=>x.id==data.registro.id_catplanteles)=>",plant
             + " " + resp.apellidomaterno + " - " + resp.curp;
 
           if(this.id_personal_titular){
-            this.id_personal_titular.initialValue = this.record_titular;
-            this.id_personal_titular.searchInput.nativeElement.value = this.record_titular;
+            //this.id_personal_titular.initialValue = this.record_titular;
+            //this.id_personal_titular.searchInput.nativeElement.value = this.record_titular;
             this.record.id_personal_titular=resp.id;
           }
           this.onSelectIdPersonal(this.record.id_personal_titular)

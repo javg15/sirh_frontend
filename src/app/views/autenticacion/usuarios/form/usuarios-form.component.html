@@ -23,6 +23,7 @@
                                         <label for="">Personal</label>
                                         <div class="ng-autocomplete" style="width: auto !important">
                                             <ng-autocomplete #id_personal [data]="personalCat" (selected)='onSelectIdPersonal($event)' (inputChanged)='onChangeSearchIdPersonal($event)' [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate" [searchKeyword]="keywordSearch" [minQueryLength]="3"
+                                                [initialValue]="record_personal"
                                                 [debounceTime]="100" [isLoading]="isLoadingSearch" (inputCleared)='onCleared()'>
                                             </ng-autocomplete>
 

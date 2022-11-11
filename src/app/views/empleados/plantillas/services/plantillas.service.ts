@@ -40,6 +40,12 @@ export class PlantillasService {
     })
   }
 
+  public getAdmin(opcionesAdicionales): Observable<any> {
+    return this.http.post(this.API_URL + '/plantillaspersonal/getAdmin',
+      { solocabeceras:0,opcionesAdicionales }
+      , httpOptions);
+  }
+
   public getCatalogo(): Observable<any> {
     return this.http.post(this.API_URL + '/plantillaspersonal/getCatalogo',
       {  }

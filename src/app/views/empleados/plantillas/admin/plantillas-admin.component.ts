@@ -56,7 +56,9 @@ export class PlantillasAdminComponent implements OnInit {
     ,fkey:'id_catplanteles,id_catplantillas,id_personal,tipoDocumento,id_categoria,id_catestatusplaza'
     ,fkeyvalue:[0,0,0,0,0,0]
     ,modo:22
+    ,id:0
   };
+  rowSelected:any={idx:0,id:0};
 
   nombreModulo = 'Plantillas';
 
@@ -183,16 +185,30 @@ export class PlantillasAdminComponent implements OnInit {
             }
           );
         },
+        /*rowCallback: (row: Node, data: any[] | Object, index: number) => {
+          const self = this;
+          // Unbind first in order to avoid any duplicate handler
+          // (see https://github.com/l-lin/angular-datatables/issues/87)
+          // Note: In newer jQuery v3 versions, `unbind` and `bind` are 
+          // deprecated in favor of `off` and `on`
+          $('td', row).off('click');
+          $('td', row).on('click', () => {
+            console.log("data=>",data);
+          });
+          return row;
+        }*/
 
         columns: this.headersAdmin,
-        columnDefs:[{"visible": false, "targets": 0}, //state
+        columnDefs:[{"visible": false, "targets": [0]}, //state
                 {"width": "5%", "targets": [1,2,3,4]},
                 {"width": "10%", "targets": [this.headersAdmin-1]}
               ]
       };
 
   }
-  openModal(id: string, accion: string, idItem: number,idCatplanteles:number,idCatplantillas:number,tipoDocumento:number) {
+  openModal(idx:number,id: string, accion: string, idItem: number,idCatplanteles:number,idCatplantillas:number,tipoDocumento:number) {
+    this.rowSelected.idx=idx;
+    this.rowSelected.id=idItem;
     this.plantillasService.open(id, accion, idItem,idCatplanteles,idCatplantillas,tipoDocumento);
   }
 
@@ -210,17 +226,34 @@ export class PlantillasAdminComponent implements OnInit {
     this.dtTrigger.unsubscribe();
   }
 
-  reDraw(datosBusqueda: any = null): void {
+  reDraw(params: any = null,drawSingleRow:boolean=false): void {
+    const that=this;
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      if(datosBusqueda!=null){
-        this.dtOptionsAdicional.datosBusqueda = datosBusqueda;
+      if(params && params.datosBusqueda!=null){
+        this.dtOptionsAdicional.datosBusqueda = params.datosBusqueda;
         // Destruimos la tabla
         dtInstance.destroy();
         // dtTrigger la reconstruye
         this.dtTrigger.next();
       }
+      else if(params && params.drawSingleRow){
+        that.dtOptionsAdicional.modo=1;
+        that.dtOptionsAdicional.id=this.rowSelected.id;
+        this.plantillasService.getAdmin(that.dtOptionsAdicional).subscribe(resp => {
+          if(that.dtOptions.columnDefs[0].visible==false){
+            for(let i=0,j=0;i < that.dtOptions.columns.length; i++){
+              if(that.ColumnNames[i]!='id' && that.ColumnNames[i]!='foto' && that.ColumnNames[i]!='acciones' )
+                that.dtElement["el"].nativeElement.rows[this.rowSelected.idx+1]
+                  .cells[j++].innerText=resp.data[0][that.ColumnNames[i]];
+            }
+          }
+          this.dtOptionsAdicional.modo=22;//reset el modo, para que no afecte en la paginación
+        });
+      }
       else{
+        this.dtOptionsAdicional.modo=22
         dtInstance.clear().draw(false); // viene de form, solo actualiza la vista actual (current page)
+        
       }
     });
   }

@@ -105,7 +105,7 @@ export class MateriasclaseAdminComponent implements OnInit {
           );
         },
         columns: this.headersAdmin,
-        columnDefs:[{"visible": false, "searchable": false, "targets": 0}
+        columnDefs:[{"visible": false, "searchable": false, "targets": [0]}
                   ]
       };
 

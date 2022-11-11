@@ -120,9 +120,9 @@
                                                             <button *ngIf="boton=='editar' && irecord==0 && Tipo_Documento!='plantillasdocsbaja'" class="btn btn-brand btn-sm mr-1 btn-spotify" style="margin-bottom: 4px" type="button" (click)="openPrevioModal(member.tipo_documento,'editar',member.id,member.id_plantillaspersonal,record_id_personal)">
                                                               <i class="fa fa-edit"></i>
                                                           </button>
-                                                            <!--<button *ngIf="boton=='eliminar' && irecord==0 && Tipo_Documento!='plantillasdocsbaja'" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openPrevioModal(member.tipo_documento,'eliminar',member.id,member.id_plantillaspersonal,record_id_personal)">
+                                                            <button *ngIf="boton=='eliminar' && irecord==0 && Tipo_Documento!='plantillasdocsbaja'" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="openPrevioModal(member.tipo_documento,'eliminar',member.id,member.id_plantillaspersonal,record_id_personal)">
                                                               <i class="fa fa-trash"></i>
-                                                          </button>-->
+                                                          </button>
                                                             <button *ngIf="boton=='actualizar'" title="Actualizar" class="btn btn-brand btn-sm mr-1 btn-reddit" style="margin-bottom: 4px" type="button" (click)="actualizarfin(member.id)">
                                                             <i class="fa fa-exchange"></i>
                                                         </button>

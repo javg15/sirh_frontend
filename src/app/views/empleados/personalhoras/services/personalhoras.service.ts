@@ -41,6 +41,13 @@ export class PersonalhorasService {
       }, 200)
     })
   }
+
+  public getAdmin(opcionesAdicionales): Observable<any> {
+    return this.http.post(this.API_URL + '/personalhoras/getAdmin',
+      { solocabeceras:0,opcionesAdicionales }
+      , httpOptions);
+  }
+
   /* El siguiente método lee los datos de un registro seleccionado para edición. */
   public getRecord(id: any): Observable<any> {
     return this.http.post(this.API_URL + '/personalhoras/getRecord',
