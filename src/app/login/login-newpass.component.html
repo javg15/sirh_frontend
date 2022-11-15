@@ -11,7 +11,7 @@
                         <div class="card-body p-4" style="background: burlywood;">
                             <img id="profile-img" src="assets/img/brand/logo.png" class="profile-img-card" style="margin: 10px 0px 10px 60px;  width: 70%;" />
                             <h3 style="text-align: center;color:#656565;">Control de plazas</h3>
-                            <h5 style="text-align: center;color:#656565;">Acceso al sistema</h5>
+                            <h5 style="text-align: center;color:#656565;">Generar nueva contraseña</h5>
                             <form *ngIf="!isLoggedIn" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
                                 <!--<div class="form-group">
                                     <label for="periodo">Período</label>
@@ -37,7 +37,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="password">Contraseña</label>
+                                    <label for="password">Ingrese la nueva contraseña</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fa fa-key"></i></span>
@@ -50,17 +50,30 @@
                                             La contraseña debe ser de al menos 6 caracteres
                                         </div>
                                     </div>
-                                    <div class="input-group" >
-                                        <a href="/#/login/recuperar" class="nav-link">Recuperar contraseña</a>
+                                </div>
+                                <div class="form-group">
+                                    <label for="passwordconfirm">Confirmar la nueva contraseña</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-key"></i></span>
+                                        </div>
+                                        <input type="password" class="form-control" name="passwordconfirm" [(ngModel)]="form.passwordconfirm" required minlength="6" pattern="{{ password.value }}" #passwordconfirm="ngModel" />
+                                    </div>
+                                    <div class="alert alert-danger" role="alert" *ngIf="f.submitted && passwordconfirm.invalid">
+                                        <div *ngIf="passwordconfirm.errors.required">Contraseña es requerida</div>
+                                        <div *ngIf="passwordconfirm.errors.minlength">
+                                            La contraseña debe ser de al menos 6 caracteres
+                                        </div>
+                                        <div *ngIf="passwordconfirm.errors.pattern">La confirmación de contraseña no coincide con la contraseña</div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <button class="btn btn-primary btn-block">
-                                        Entrar
+                                        Generar contraseña
                                     </button>
                                 </div>
                                 <div class="form-group">
-                                    <div class="alert alert-danger" role="alert" *ngIf="f.submitted && isLoginFailed">
+                                    <div class="alert alert-danger" role="alert" *ngIf="f.submitted && isLoginNewPassFailed">
                                         Error: {{ errorMessage }}
                                     </div>
                                 </div>
@@ -78,4 +91,21 @@
             </div>
         </div>
     </main>
+</div>
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-success" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">&nbsp;</h5>
+            </div>
+            <div class="modal-body">
+                <p>Acción realizada satisfactoriamente</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="successModal.hide()">Cerrar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
 </div>

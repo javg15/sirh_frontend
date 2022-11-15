@@ -45,7 +45,6 @@ const routes: Routes = [
   { path: 'maps', 
     component: PublicLayoutComponent,
     loadChildren: () => import('./maps/maps.module').then(m => m.MapsModule) },
-
   {
     path: '',
     canActivate: [AuthGuard],

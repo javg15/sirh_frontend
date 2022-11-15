@@ -11,7 +11,7 @@
                         <div class="card-body p-4" style="background: burlywood;">
                             <img id="profile-img" src="assets/img/brand/logo.png" class="profile-img-card" style="margin: 10px 0px 10px 60px;  width: 70%;" />
                             <h3 style="text-align: center;color:#656565;">Control de plazas</h3>
-                            <h5 style="text-align: center;color:#656565;">Acceso al sistema</h5>
+                            <h5 style="text-align: center;color:#656565;">Recuperar contraseña</h5>
                             <form *ngIf="!isLoggedIn" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
                                 <!--<div class="form-group">
                                     <label for="periodo">Período</label>
@@ -37,26 +37,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="password">Contraseña</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fa fa-key"></i></span>
-                                        </div>
-                                        <input type="password" class="form-control" name="password" [(ngModel)]="form.password" required minlength="6" #password="ngModel" />
-                                    </div>
-                                    <div class="alert alert-danger" role="alert" *ngIf="f.submitted && password.invalid">
-                                        <div *ngIf="password.errors.required">Contraseña es requerida</div>
-                                        <div *ngIf="password.errors.minlength">
-                                            La contraseña debe ser de al menos 6 caracteres
-                                        </div>
-                                    </div>
-                                    <div class="input-group" >
-                                        <a href="/#/login/recuperar" class="nav-link">Recuperar contraseña</a>
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <button class="btn btn-primary btn-block">
-                                        Entrar
+                                        Enviar
                                     </button>
                                 </div>
                                 <div class="form-group">
@@ -66,10 +48,8 @@
                                 </div>
                             </form>
 
-                            <div class="alert alert-success" *ngIf="isLoggedIn">
-
-                                <a href="/#/home" class="nav-link">Inicio</a>
-
+                            <div class="input-group" >
+                                <a href="/#/" class="nav-link"><< Regresar</a>
                             </div>
 
                         </div>
@@ -78,4 +58,21 @@
             </div>
         </div>
     </main>
+</div>
+<div bsModal #successModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-success" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">&nbsp;</h5>
+            </div>
+            <div class="modal-body">
+                <p>Se envió un mensaje a su cuenta de correo electrónico personal, con información para recuperar su contraseña</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="successModal.hide()">Cerrar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
 </div>

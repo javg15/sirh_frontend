@@ -32,6 +32,10 @@ export class LoginComponent implements OnInit {
       this.periodoCat.push({id:i,descripcion:i});*/
   }
 
+  recoverPass():void{
+    this.router.navigate(['recoverPass']);
+  }
+
   onSubmit(): void {
     this.authService.login(this.form).subscribe(
       data => {
