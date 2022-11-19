@@ -15,6 +15,7 @@ import { AutocompleteComponent } from 'angular-ng-autocomplete';
 
 import { environment } from '../../../../../environments/environment';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 
 declare var $: any;
 declare var jQuery: any;
@@ -38,7 +39,8 @@ export class PersonalhorasAdminComponent implements OnInit {
   dtTrigger: Subject<DataTableDirective> = new Subject();
 
   @ViewChild('reporteModal') reporteModal: ModalDirective;
-
+  @ViewChild('vsRepPlantilla') vsRepPlantilla: ValidationSummaryComponent;
+  
   Members: any[];
   ColumnNames: string[];
 
@@ -92,9 +94,9 @@ export class PersonalhorasAdminComponent implements OnInit {
     private _sanitizer: DomSanitizer
   ) {
     this.semestreSvc.getCatalogo().subscribe(resp => {
-      this.semestreCat = resp;
+      this.semestreCat = resp.sort((a,b) => b.text.localeCompare(a.text));
       if(this.semestreCat.length>0){
-        this.record.id_semestre=this.semestreCat[this.semestreCat.length-1].id;
+        this.param_id_semestre=this.record.id_semestre=this.semestreCat[0].id;
       }
       this.esInicio=false; //si ya se cargó el catalogo, entonces, ya paso la carga inicial
       this.onClickBuscar();
@@ -235,7 +237,10 @@ export class PersonalhorasAdminComponent implements OnInit {
     this.tipoReporte=tipo;
     this.reporteModal.show()
   }
-  MostrarReporte(){
+
+  MostrarReporte(form){
+    this.vsRepPlantilla.resetErrorMessages(form);
+
     if(this.param_id_catplanteles>0){
       let dato=this.catplantelesCat.find((rec)=>{
         if(rec.id==this.param_id_catplanteles)
@@ -243,12 +248,15 @@ export class PersonalhorasAdminComponent implements OnInit {
         });
       
       this.param_plantel=dato.clave + ' - ' + dato.ubicacion
+      
+      if(this.tipoReporte==1)
+        this.personalhorasService.getReportePlantilla('/reportes/personal_estudios',this.param_id_catplanteles,this.param_id_semestre,this.param_plantel);
+      else if(this.tipoReporte==2)
+        this.personalhorasService.getReportePlantillaMateria('/reportes/personal_estudios_materia',this.param_id_catplanteles,this.param_id_semestre,this.param_plantel);
     }
-    
-    if(this.tipoReporte==1)
-      this.personalhorasService.getReportePlantilla('/reportes/personal_estudios',this.param_id_catplanteles,this.param_id_semestre,this.param_plantel);
-    else if(this.tipoReporte==2)
-      this.personalhorasService.getReportePlantillaMateria('/reportes/personal_estudios_materia',this.param_id_catplanteles,this.param_id_semestre,this.param_plantel);
+    else{
+      this.vsRepPlantilla.generateErrorMessagesFromServer({id_catplanteles: "Seleccione el plantel a consultar"});
+    }
 
   }
 

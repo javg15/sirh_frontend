@@ -19,6 +19,7 @@ import * as fs from 'file-saver';
 import { IsLoadingService } from '../../../../_services/is-loading/is-loading.service';
 
 import { environment } from '../../../../../environments/environment';
+import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
 
 declare var $: any;
 declare var jQuery: any;
@@ -40,6 +41,8 @@ export class PlazasAdminComponent implements OnInit {
   dtInstance: Promise<DataTables.Api>;
   dtTrigger: Subject<DataTableDirective> = new Subject();
 
+  @ViewChild('vsRepPlazasListado') vsRepPlazasListado: ValidationSummaryComponent;
+  
   Members: any[];
   ColumnNames: string[];
 
@@ -161,8 +164,15 @@ export class PlazasAdminComponent implements OnInit {
     this.plazasService.close(id);
   }
 
-  MostrarReporte(){
-    this.plazasService.getListado('/reportes/plazas_listado',this.param_id_catplanteles,this.param_id_cattiponomina,this.param_id_categorias,this.param_id_catestatusplaza);
+  MostrarReportePlazasListado(form){
+    this.vsRepPlazasListado.resetErrorMessages(form);
+    if(this.param_id_catplanteles>0){
+      this.plazasService.getListado('/reportes/plazas_listado',this.param_id_catplanteles,this.param_id_cattiponomina,this.param_id_categorias,this.param_id_catestatusplaza);
+    }
+    else{
+      this.vsRepPlazasListado.generateErrorMessagesFromServer({param_id_catplanteles: "Seleccione el Plantel a consultar"});
+    }
+    
   }
 
   exportExcel() {

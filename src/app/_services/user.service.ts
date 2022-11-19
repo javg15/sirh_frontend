@@ -25,6 +25,12 @@ export class UserService {
       , httpOptions);
   }
 
+  public isValid(): Observable<any> {
+    return this.http.post(this.API_URL + '/user/getRecord',
+      { id:0 }
+      , httpOptions);
+  }
+
 /*
   getPublicContent(): Observable<any> {
     return this.http.get(this.API_URL + 'all', { responseType: 'text' });

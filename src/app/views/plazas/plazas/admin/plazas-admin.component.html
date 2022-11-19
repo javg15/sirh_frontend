@@ -104,50 +104,53 @@
             <div class="modal-header">
                 <h4 class="modal-title">Parametros para el reporte</h4>
                 <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="form-group col-sm-4">
-                        <div class="form-group">
-                            <label for="id_catplanteles">Plantel</label>
-                            <ng-select2 [(ngModel)]="param_id_catplanteles" [data]="catplantelesCat" [allowClear]="true" width="100%">
-                            </ng-select2>
+            <form #dataFormRepPlazasListado="ngForm" (ngSubmit)="MostrarReportePlazasListado(dataFormRepPlazasListado)">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="param_id_catplanteles">Plantel</label>
+                                <ng-select2 [(ngModel)]="param_id_catplanteles" [data]="catplantelesCat" [allowClear]="true" width="100%" name="Plantel">
+                                </ng-select2>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="param_id_cattiponomina">Tipo de Nómina</label>
+                                <select [(ngModel)]="param_id_cattiponomina" class="form-control" name="Tipo de Nómina">
+                                <option value="0"></option>
+                                <option *ngFor="let col of cattiponominaCat" [value]="col.id">{{ col.descripcion }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="param_id_categorias">Categoría</label>
+                                <ng-select2 [(ngModel)]="param_id_categorias" [data]="categoriasCat" [allowClear]="true" width="100%" name="Categoría">
+                                </ng-select2>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group col-sm-4">
-                        <div class="form-group">
-                            <label for="id_cattiponomina">Tipo de Nómina</label>
-                            <select [(ngModel)]="param_id_cattiponomina" class="form-control" name="Tipo de Nómina">
-                              <option value="0"></option>
-                              <option *ngFor="let col of cattiponominaCat" [value]="col.id">{{ col.descripcion }}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group col-sm-4">
-                        <div class="form-group">
-                            <label for="id_categorias">Categoría</label>
-                            <ng-select2 [(ngModel)]="param_id_categorias" [data]="categoriasCat" [allowClear]="true" width="100%">
-                            </ng-select2>
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="param_id_catestatusplaza">Estatus de plaza</label>
+                                <select [(ngModel)]="param_id_catestatusplaza" class="form-control" name="Estatus de plaza">
+                                <option value="0"></option>
+                                <option *ngFor="let col of catestatusplazaCat" [value]="col.id">{{ col.descripcion }}</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="form-group col-sm-4">
-                        <div class="form-group">
-                            <label for="id_catestatusplaza">Estatus de plaza</label>
-                            <select [(ngModel)]="param_id_catestatusplaza" class="form-control" name="Estatus de plaza">
-                              <option value="0"></option>
-                              <option *ngFor="let col of catestatusplazaCat" [value]="col.id">{{ col.descripcion }}</option>
-                            </select>
-                        </div>
-                    </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Mostrar</button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" (click)="MostrarReporte()">Mostrar</button>
-            </div>
+                <app-validation-summary #vsRepPlazasListado [form]="dataFormRepPlazasListado"></app-validation-summary>
+            </form>
         </div>
         <!-- /.modal-content -->
     </div>
