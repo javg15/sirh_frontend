@@ -133,19 +133,7 @@ export class PlazasService {
       , httpOptions);
   }
 
-  public getListado(url, id_catplanteles = 0, id_cattiponomina = 0, id_categorias = 0, id_catestatusplaza = 0) {
-    let params = new HttpParams().set("id_catplanteles", (id_catplanteles == null ? 0 : id_catplanteles).toString())
-      .set("id_cattiponomina", (id_cattiponomina == null ? 0 : id_cattiponomina).toString())
-      .set("id_categorias", (id_categorias == null ? 0 : id_categorias).toString())
-      .set("id_catestatusplaza", (id_catestatusplaza == null ? 0 : id_catestatusplaza).toString())
-      ;
-
-    this.http.get(this.API_URL + url, { responseType: 'arraybuffer', params: params }).subscribe(data => {
-      var file = new Blob([data], { type: 'application/pdf' });
-      var fileURL = window.URL.createObjectURL(file);
-      window.open(fileURL);
-    });
-  }
+  
 
   // array de modales
   public add(modal: any) {

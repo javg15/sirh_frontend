@@ -384,7 +384,10 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
           this.onSelectCategorias(this.record.id_categorias);
           this.onSelectPlazas(this.record.id_plazas);
           this.onSelectPlantel(this.record.id_catplanteles);
-          this.onSelectPlantelUbicacion(this.record.id_catplanteles_aplicacion);
+          if(this.estipodocente)
+            this.onSelectPlantelUbicacion(this.record.id_catplanteles_aplicacion);
+          else
+            this.onSelectPlantelUbicacion(this.record.id_catplanteles);
           this.onSelectTipoNombramiento(this.record.id_catestatusplaza);
           
           if(this.record.id_personal_titular>0){
@@ -673,7 +676,10 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
         );
       this.record_plantel=this.catplantelesAplicacionCat.find(x=>x.id==this.record.id_catplanteles).ubicacion;
       this.onSelectPlantel(this.record.id_catplanteles)
-      this.onSelectPlantelUbicacion(this.record.id_catplanteles_aplicacion);
+      if(this.estipodocente)
+        this.onSelectPlantelUbicacion(this.record.id_catplanteles_aplicacion);
+      else
+        this.onSelectPlantelUbicacion(this.record.id_catplanteles);
     }
 
     if(esInterinaConTitular){

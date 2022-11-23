@@ -43,7 +43,7 @@
                 </div>
             </div>
 
-            <app-header-admin id="header-admin-1" [nombreModulo]="nombreModulo" [tituloBotonReporte]="tituloBotonReporte" [tituloBotonReporte2]="tituloBotonReporte2" (agregarEvent)="Empty()" (reporteEvent)="MostrarModal(1)" (reporteEvent2)="MostrarModal(2)">
+            <app-header-admin id="header-admin-1" [nombreModulo]="nombreModulo" (agregarEvent)="Empty()" >
             </app-header-admin>
 
             <div class="row">
@@ -102,46 +102,3 @@
 <app-horasasignacion-admin id="custompersonalhorasadmin" (redrawEvent)="reDraw($event)">
 </app-horasasignacion-admin>
 
-<div bsModal #reporteModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Parametros para el reporte</h4>
-                <button type="button" class="close" (click)="reporteModal.hide()" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-            </div>
-            <form #dataFormRepPlantilla="ngForm" (ngSubmit)="MostrarReporte(dataFormRepPlantilla)">
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="param_id_catplanteles">Plantel</label>
-                                <ng-select2 [(ngModel)]="param_id_catplanteles" [data]="catplantelesCat" [allowClear]="true" width="100%" name="Plantel">
-                                </ng-select2>
-                            </div>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <div class="form-group">
-                                <label for="param_id_semestre">Semestre</label>
-                                <select [(ngModel)]="param_id_semestre" class="form-control" name="Semestre">
-                                <option *ngFor="let col of semestreCat" [value]="col.id">{{ col.text }}</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Mostrar</button>
-                </div>
-                <div class="row">
-                    &nbsp;
-                </div>
-                <app-validation-summary #vsRepPlantilla [form]="dataFormRepPlantilla"></app-validation-summary>
-            </form>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->

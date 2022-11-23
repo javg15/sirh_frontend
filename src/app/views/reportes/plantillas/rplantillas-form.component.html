@@ -1,4 +1,4 @@
-<div bsModal #basicModal="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+<div bsModal #RPlantillasModal="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-full-height modal-right" role="document">
         <div class="modal-content modal-form">
             <div class="modal-header">
@@ -8,9 +8,34 @@
                   <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="modal-body">
-                
-            </div>
+            <form #dataFormRepPlantilla="ngForm" (ngSubmit)="MostrarReporte(dataFormRepPlantilla)">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="param_id_catplanteles">Plantel</label>
+                                <ng-select2 [(ngModel)]="param_id_catplanteles" [data]="catplantelesCat" [allowClear]="true" width="100%" name="Plantel">
+                                </ng-select2>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="param_id_semestre">Semestre</label>
+                                <select [(ngModel)]="param_id_semestre" class="form-control" name="Semestre">
+                                <option *ngFor="let col of semestreCat" [value]="col.id">{{ col.text }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Mostrar</button>
+                </div>
+                <div class="row">
+                    &nbsp;
+                </div>
+                <app-validation-summary #vsRepPlantilla [form]="dataFormRepPlantilla"></app-validation-summary>
+            </form>
             <!-- <h2>Diagnostic Info</h2>
             <div [innerHtml]="diagnosticValidate"></div>-->
         </div>

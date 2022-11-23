@@ -127,11 +127,6 @@ export class CategoriasAdminComponent implements OnInit {
   }
 
 
-  MostrarReporte(param_id_catzonaeconomica){
-    this.categoriasService.getReporte('/reportes/categorias',$(param_id_catzonaeconomica).val());
-  }
-
-
   ngAfterViewInit(): void {
     this.dtTrigger.next();
   }

@@ -112,15 +112,7 @@ export class CategoriasService {
       , httpOptions);
   }
 
-  public getReporte(url,id_ze){
-    let params = new HttpParams().set("id_ze", id_ze);
-
-    this.http.get(this.API_URL + url, {responseType: 'arraybuffer',params: params}).subscribe( data => {
-      var file = new Blob([data], {type: 'application/pdf'});
-      var fileURL = window.URL.createObjectURL(file);
-      window.open(fileURL);
-  });
-  }
+  
 
 
 // array de modales

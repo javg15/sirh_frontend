@@ -4,11 +4,11 @@ import { CategoriasService } from '../../catalogos/categorias/services/categoria
 import { CatplantelesService } from '../../catalogos/catplanteles/services/catplanteles.service';
 import { CatzonaeconomicaService } from '../../catalogos/catzonaeconomica/services/catzonaeconomica.service';
 import { CatestatusplazaService } from '../../catalogos/catestatusplaza/services/catestatusplaza.service';
+import { SemestreService } from '../../catalogos/semestre/services/semestre.service';
 
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { Categorias, Catplanteles, Catzonaeconomica, Catestatusplaza, Catquincena } from '../../../_models';
+import { Categorias, Catplanteles, Catzonaeconomica, Catestatusplaza, Catquincena, Semestre } from '../../../_models';
 import { ValidationSummaryComponent } from '../../_shared/validation/validation-summary.component';
-import { actionsButtonSave, titulosModal } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { IsLoadingService } from '../../../_services/is-loading/is-loading.service';
 import { CatquincenaService } from '../../catalogos/catquincena/services/catquincena.service';
@@ -24,24 +24,27 @@ declare var jQuery: any;
 export class RPlantillasFormComponent implements OnInit, OnDestroy {
   userFormIsPending: Observable<boolean>; //Procesando información en el servidor
   @Input() id: string; //idModal
-  @Input() botonAccion: string; //texto del boton según acción
-  @Output() redrawEvent = new EventEmitter<any>();
-  actionForm: string; //acción que se ejecuta (nuevo, edición,etc)
+  
   tituloForm: string;
-  nombreTablaTracking:string="reportes_histo.reportes_tracking";
 
   private elementModal: any;
-  @ViewChild('basicModal') basicModal: ModalDirective;
+  @ViewChild('RPlantillasModal') RPlantillasModal: ModalDirective;
   @ViewChild('successModal') public successModal: ModalDirective;
-  @ViewChild(ValidationSummaryComponent) validSummary: ValidationSummaryComponent;
+  @ViewChild('vsRepPlantilla') vsRepPlantilla: ValidationSummaryComponent;
   
   //@ViewChild('txtconsecutivo') txtconsecutivo: ElementRef;
-
+  semestreCat:Semestre[];
   categoriasCat: Categorias[];
   catplantelesCat: Catplanteles[];
   catzonaeconomicaCat: Catzonaeconomica[];
   catestatusplazaCat: Catestatusplaza[];
   catquincenaCat: Catquincena[];
+
+  param_id_catplanteles:number;
+  param_id_semestre:number;
+  param_plantel:string;
+
+  tipoReporte:number;
 
   constructor(private isLoadingService: IsLoadingService,
     private reportesService: ReportesService, private el: ElementRef,
@@ -50,8 +53,15 @@ export class RPlantillasFormComponent implements OnInit, OnDestroy {
     private categoriasSvc: CategoriasService,
     private catestatusplazaSvc: CatestatusplazaService,
     private catquincenaSvc: CatquincenaService,
+    private semestreSvc: SemestreService,
   ) {
     this.elementModal = el.nativeElement;
+    this.semestreSvc.getCatalogo().subscribe(resp => {
+      this.semestreCat = resp.sort((a,b) => b.text.localeCompare(a.text));
+      if(this.semestreCat.length>0){
+        this.param_id_semestre=this.semestreCat[0].id;
+      }
+    });
     this.catplantelesSvc.getCatalogo().subscribe(resp => {
       this.catplantelesCat = resp;
     });
@@ -85,22 +95,48 @@ export class RPlantillasFormComponent implements OnInit, OnDestroy {
     this.elementModal.remove();
   }
 
+  MostrarReporte(form){
+    this.vsRepPlantilla.resetErrorMessages(form);
 
+    if(this.param_id_catplanteles>0){
+      let dato=this.catplantelesCat.find((rec)=>{
+        if(rec.id==this.param_id_catplanteles)
+          return rec
+        });
+      
+      this.param_plantel=dato.clave + ' - ' + dato.ubicacion
+      
+      if(this.tipoReporte==1)
+        this.reportesService.getReportePlantilla('/reportes/personal_estudios',this.param_id_catplanteles,this.param_id_semestre,this.param_plantel);
+      else if(this.tipoReporte==2)
+        this.reportesService.getReportePlantillaMateria('/reportes/personal_estudios_materia',this.param_id_catplanteles,this.param_id_semestre,this.param_plantel);
+    }
+    else{
+      this.vsRepPlantilla.generateErrorMessagesFromServer({id_catplanteles: "Seleccione el plantel a consultar"});
+    }
+
+  }
 
   // open modal
-  open(idItem: string, accion: string, id_rplantillasdocsnombramiento_actual: number, id_estatus: number): void {
-    this.actionForm = accion;
-    this.botonAccion = actionsButtonSave[accion];
-    // console.log($('#modalTest').html()); poner el id a algun elemento para testear
-    this.basicModal.show();
+  open(idItem: string): void {
+    let titulo="";
+    if(idItem.toLowerCase()=="/reportes/plantillas/plantillasdiradm"){
+      this.tipoReporte=1;
+      titulo="Plantillas Directivos y Administrativos";
+    }
+    else if(idItem.toLowerCase()=="/reportes/plantillas/plantillasdoc"){
+      this.tipoReporte=2;
+      titulo="Plantillas Docentes";
+    }
+    
+    this.tituloForm =  "Reporte - " + titulo;
+    this.RPlantillasModal.show();
   }
 
   // close modal
   close(): void {
-    this.basicModal.hide();
-    if (this.actionForm.toUpperCase() != "VER") {
-      this.redrawEvent.emit(null);
-    }
+    this.RPlantillasModal.hide();
+    
   }
 
 }

@@ -64,10 +64,7 @@ export class PlazasAdminComponent implements OnInit {
   categoriasCat:Categorias[];
   catestatusplazaCat:Catestatusplaza[];
 
-  param_id_catplanteles:number;
-  param_id_cattiponomina:number;
-  param_id_categorias:number;
-  param_id_catestatusplaza:number;
+  
   verBotonExcel:boolean=false;
 
   /* En el constructor creamos el objeto plazasService,
@@ -79,18 +76,7 @@ export class PlazasAdminComponent implements OnInit {
     private catplantelesSvc: CatplantelesService,private cattiponominaSvc: CattiponominaService,
     private categoriasSvc: CategoriasService,private CatestatusplazaSvc: CatestatusplazaService,
   ) {
-    this.catplantelesSvc.getCatalogo().subscribe(resp => {
-      this.catplantelesCat = resp;
-    });
-    this.cattiponominaSvc.getCatalogo().subscribe(resp => {
-      this.cattiponominaCat = resp;
-    });
-    this.categoriasSvc.getCatalogo().subscribe(resp => {
-      this.categoriasCat = resp;
-    });
-    this.CatestatusplazaSvc.getCatalogo().subscribe(resp => {
-      this.catestatusplazaCat = resp;
-    });
+    
 
   }
 
@@ -164,16 +150,7 @@ export class PlazasAdminComponent implements OnInit {
     this.plazasService.close(id);
   }
 
-  MostrarReportePlazasListado(form){
-    this.vsRepPlazasListado.resetErrorMessages(form);
-    if(this.param_id_catplanteles>0){
-      this.plazasService.getListado('/reportes/plazas_listado',this.param_id_catplanteles,this.param_id_cattiponomina,this.param_id_categorias,this.param_id_catestatusplaza);
-    }
-    else{
-      this.vsRepPlazasListado.generateErrorMessagesFromServer({param_id_catplanteles: "Seleccione el Plantel a consultar"});
-    }
-    
-  }
+  
 
   exportExcel() {
     this.loadingService=true;

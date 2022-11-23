@@ -1,17 +1,29 @@
-<div class="app-body">
-    <main class="d-flex align-items-center">
-        <div class="container">
-            <br>
+<div class="animated fadeIn">
+
+    <!--/.row-->
+    <div class="card">
+        <div class="card-body">
             <div class="row">
                 <div class="col-md-12 mx-auto">
-                    
+                    <tree-root #tree [options]="options" [nodes]="nodes" (activate)="clickNode($event)">
+                        <ng-template #treeNodeTemplate let-node let-index="index">
+
+                            <input *ngIf="node.data.checkbox" type="checkbox" [disabled]="!node.data.checkbox" [checked]="node.data.checked" (change)="selectNode(node)" id="check-{{node.id}}">
+                            <span>{{ node.data.name }}</span>
+
+                        </ng-template>
+                    </tree-root>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
 </div>
 
 <app-rplantillas-form id="rplantillas">
-    <!--<input type="hidden" [(ngModel)]="idItem" />-->
 </app-rplantillas-form>
+<app-rplazas-form id="rplazas">
+</app-rplazas-form>
+<app-rcatcategorias-form id="rcatcategorias">
+</app-rcatcategorias-form>
+
 

@@ -1,0 +1,34 @@
+<div bsModal #RCategoriasModal="bs-modal" [config]="{ backdrop: 'static', keyboard: false}" class="modal fade right" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-full-height modal-right" role="document">
+        <div class="modal-content modal-form">
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">{{ tituloForm }}</h4>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+                  <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form #dataFormRepCategorias="ngForm" (ngSubmit)="MostrarReporte(dataFormRepCategorias)">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <div class="form-group">
+                                <label for="param_id_catzonaeconomica">Zona Económica</label>
+                                <select [(ngModel)]="param_id_catzonaeconomica" class="form-control" name="Zona Económica">
+                              <option *ngFor="let col of catzonaeconomicaCat" [value]="col.id">{{ col.descripcion }}</option>
+                            </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Mostrar</button>
+                </div>
+                <app-validation-summary #vsRepCategorias [form]="dataFormRepCategorias"></app-validation-summary>
+            </form>
+            <!-- <h2>Diagnostic Info</h2>
+            <div [innerHtml]="diagnosticValidate"></div>-->
+        </div>
+    </div>
+</div>
+

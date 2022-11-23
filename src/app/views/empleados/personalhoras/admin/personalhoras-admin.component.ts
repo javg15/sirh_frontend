@@ -15,7 +15,7 @@ import { AutocompleteComponent } from 'angular-ng-autocomplete';
 
 import { environment } from '../../../../../environments/environment';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ValidationSummaryComponent } from '../../../_shared/validation/validation-summary.component';
+
 
 declare var $: any;
 declare var jQuery: any;
@@ -39,7 +39,6 @@ export class PersonalhorasAdminComponent implements OnInit {
   dtTrigger: Subject<DataTableDirective> = new Subject();
 
   @ViewChild('reporteModal') reporteModal: ModalDirective;
-  @ViewChild('vsRepPlantilla') vsRepPlantilla: ValidationSummaryComponent;
   
   Members: any[];
   ColumnNames: string[];
@@ -236,28 +235,6 @@ export class PersonalhorasAdminComponent implements OnInit {
   MostrarModal(tipo){
     this.tipoReporte=tipo;
     this.reporteModal.show()
-  }
-
-  MostrarReporte(form){
-    this.vsRepPlantilla.resetErrorMessages(form);
-
-    if(this.param_id_catplanteles>0){
-      let dato=this.catplantelesCat.find((rec)=>{
-        if(rec.id==this.param_id_catplanteles)
-          return rec
-        });
-      
-      this.param_plantel=dato.clave + ' - ' + dato.ubicacion
-      
-      if(this.tipoReporte==1)
-        this.personalhorasService.getReportePlantilla('/reportes/personal_estudios',this.param_id_catplanteles,this.param_id_semestre,this.param_plantel);
-      else if(this.tipoReporte==2)
-        this.personalhorasService.getReportePlantillaMateria('/reportes/personal_estudios_materia',this.param_id_catplanteles,this.param_id_semestre,this.param_plantel);
-    }
-    else{
-      this.vsRepPlantilla.generateErrorMessagesFromServer({id_catplanteles: "Seleccione el plantel a consultar"});
-    }
-
   }
 
   onClickBuscar() {
