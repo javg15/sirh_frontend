@@ -47,7 +47,7 @@ export class MateriasclaseFormComponent implements OnInit, OnDestroy {
   newRecord(): Materiasclase {
     return {
       id: 0,  clave: '', nombre: '', horas: 0, tipo: '' , estatus: '',
-      horasdisponibles: 0, id_semestre_ini: 0, id_semestre_fin: 0,
+      horasdisponibles: 0, horasinterinas:0, id_semestre_ini: 0, id_semestre_fin: 0,
       id_catquincena_ini: 0, id_catquincena_fin: 0,id_horasclase:0,
       state: '', created_at: new Date(),  updated_at: new Date(), id_usuarios_r: 0
     };

@@ -81,7 +81,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
   record_id_personal:number;
   record_id_semestre:number;
   record_id_plantel:number;
-  record_personaltitular:Personal[];
+  record_personaltitular:any[];
   record_personaltitular_nombre:string;
   record_quincena_activa:Catquincena;
   record_id_plaza:number;
@@ -90,6 +90,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
   
   edicion_en_activo:boolean=true;
   edicion_en_copiar:boolean=false;
+  edicion_en_licencia:boolean=false;
   edicion_habilitarTipoHoras:boolean=true;
   edicion_horasDIESyApoyo:boolean=false;
   edicion_horasApoyo:boolean=false;
@@ -309,7 +310,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
         if(resp[0].eshomologada=="true"){
           this.record.id_catnombramientos=1;
-          this.edicion_habilitarTipoHoras=true;
+          this.edicion_habilitarTipoHoras=false;
         }
         else if(esInterina==1){
           this.record.id_catnombramientos=2;//2=interino
@@ -356,6 +357,18 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
           this.onSelectPlantel(resp.id_catplanteles_aplicacion);
           this.onSelectGruposclase(resp.id_gruposclase);
+
+          //Se asigna aquí para que tome en cuenta el id de registro y muestre la materia registrada
+          if(this.actionForm.toUpperCase()=="LICENCIA"){
+            this.actionForm="NUEVO";
+            this.record.id=0;
+            this.record.descargada=0;
+            this.record.id_catestatushora=5;//Licencia
+          }
+
+          if(this.record.id_catestatushora==5)//en licencia
+            this.edicion_en_licencia=true;
+
           //this.onSelectNombramiento(resp.id_catnombramientos);
           this.cattipohorasdocenteSvc.getCatalogoSegunMateria(resp.id_materiasclase,this.record_id_categorias).subscribe(resp => {
             this.cattipohorasdocenteCat = resp;
@@ -370,7 +383,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
             this.record.horassueltas=(resp[0].eshomologada=="true"?1:0);
             if(resp[0].eshomologada=="true"){
               this.record.id_catnombramientos=1;
-              this.edicion_habilitarTipoHoras=true;
+              this.edicion_habilitarTipoHoras=false;
             }
             else if(esInterina==1){
               this.record.id_catnombramientos=2;//2=interino
@@ -486,32 +499,52 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
       this.record.horassueltas=0;
       this.record.frenteagrupo=0;
     }
+    else{
+      this.record.frenteagrupo=1;
+    }
     this.cattipohorasdocenteSvc.getCatalogoSegunMateria(valor,this.record_id_categorias).subscribe(resp => {
-     this.cattipohorasdocenteCat = resp;
-     if(resp.length==1)
-      this.record.id_cattipohorasdocente=resp[0].id
-   });
+      this.cattipohorasdocenteCat = resp;
+      if(resp.length==1)
+        this.record.id_cattipohorasdocente=resp[0].id
+    });
+
+    //si la materia está en licencia
+    if(materia.horasinterinas>0){
+      this.edicion_en_copiar=true;
+      this.record.id_catestatushora=1;
+      this.record.id_catnombramientos=2;
+      this.record.id_catquincena_ini=materia.id_catquincena_ini;
+      this.record.id_catquincena_fin=materia.id_catquincena_fin;
+      this.onSelectNombramiento(this.record.id_catnombramientos)
+    }
+
   }
 
   onSelectNombramiento(id_catnombramientos){
     this.record_personaltitular=[];
     this.esinterina=false;
     if(id_catnombramientos==2 || id_catnombramientos==3){//interino o provisional
-      this.catquincenaSvc.getCatalogoSegunSemestre(this.record_id_semestre).subscribe(resp => {
+      /*this.catquincenaSvc.getCatalogoSegunSemestre(this.record_id_semestre).subscribe(resp => {
+        this.catquincenaCat = resp;
+      });*/
+      this.catquincenaSvc.getCatalogo().subscribe(resp => {
         this.catquincenaCat = resp;
       });
       //interinato
       if(id_catnombramientos==2){
         this.esinterina=true;
         this.horasasignacionformService.getRecordTitularEnLicencia(this.record.id_horasclase,this.record.id_semestre).subscribe(resp => {
-          this.record_personaltitular = resp;
-          this.record_personaltitular_nombre="";
-          this.record.id_personal_titular=0;
-          
-          if(resp.length>0){
-            this.record_personaltitular_nombre=this.record_personaltitular["nombre"];
-            this.record.id_personal_titular= resp.id;
-          }
+            this.record_personaltitular=resp;
+            this.record_personaltitular_nombre =resp[0].numeemp + " - "
+              +  resp[0].nombre + " " + resp[0].apellidopaterno
+              + " " + resp[0].apellidomaterno + " - " + resp[0].curp;
+
+            if(this.record.id_personal_titular){
+              //this.id_personal_titular.initialValue = this.record_titular;
+              //this.id_personal_titular.searchInput.nativeElement.value = this.record_titular;
+              this.record.id_personal_titular=resp[0].id;
+            }
+
         });
       }
     }

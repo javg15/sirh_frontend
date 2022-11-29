@@ -24,6 +24,7 @@ export const actionsButtonSave = {
   desactivar: "Desactivar",
   copiar: "Copiar",
   comisionar: "Guardar",
+  licencia: "Guardar",
 };
 
 export const titulosModal = {

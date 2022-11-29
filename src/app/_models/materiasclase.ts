@@ -21,6 +21,8 @@ export default interface Materiasclase {
 
   id_horasclase: number | null; //temporal
 
+  horasinterinas: number | null; //temporal, usada para para mostrar las horas interinas en el combo de asignacion de horas
+
   /*tipo2: string | null;
 
   tiposemestre: string | null;

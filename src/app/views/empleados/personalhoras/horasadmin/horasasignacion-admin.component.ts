@@ -181,8 +181,8 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
         },
       },
       columns: this.headersAdmin,
-      columnDefs: [{ "visible": false, "targets": [1, 2, 3, 4, 5, 6, 17] },//17=id_descarga
-      { "width": "20%", "targets": [7, 9], } // no ejecuta la alineación, entonces, se fuerza en el css
+      columnDefs: [{ "visible": false, "targets": [1, 2, 3, 4, 5, 6, 7, 18] },//17=id_descarga
+      { "width": "20%", "targets": [8, 10], } // no ejecuta la alineación, entonces, se fuerza en el css
       ]//ID, tipo
     };
 
@@ -213,8 +213,8 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
         },
       },
       columns: this.headersAdminDescarga,
-      columnDefs: [{ "visible": false, "targets": [1, 2, 3, 4, 5, 6] },
-      { "width": "20%", "targets": [7, 9], } // no ejecuta la alineación, entonces, se fuerza en el css
+      columnDefs: [{ "visible": false, "targets": [1, 2, 3, 4, 5, 6,7] },
+      { "width": "20%", "targets": [8, 10], } // no ejecuta la alineación, entonces, se fuerza en el css
       ]//ID, tipo
     };
 

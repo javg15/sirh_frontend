@@ -171,11 +171,11 @@
                         <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="id_catquincena_ini">Quincena inicial</label>
-                                <ng-select2 [(ngModel)]="record.id_catquincena_ini" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena inicial" [disabled]="!edicion_en_activo">
+                                <ng-select2 [(ngModel)]="record.id_catquincena_ini" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena inicial" [disabled]="!(edicion_en_activo || edicion_en_licencia)">
                                 </ng-select2>
                             </div>
                         </div>
-                        <div *ngIf="record.id_catnombramientos!=1" class="form-group col-sm-3">
+                        <div class="form-group col-sm-3">
                             <div class="form-group">
                                 <label for="id_catquincena_fin">Quincena final</label>
                                 <ng-select2 [(ngModel)]="record.id_catquincena_fin" [data]="catquincenaCat" [allowClear]="true" width="100%" name="Quincena final">
