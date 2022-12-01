@@ -252,7 +252,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
 
   // open modal
-  open(idItem: string, accion: string, idPersonal: number, idSemestre: number, idPlantel:number, idPlaza:number,esInterina:number,idPlantelAplicacion:number,tipoForm:number): void {
+  open(idItem: string, accion: string, idPersonal: number, idSemestre: number, idPlantel:number, idPlaza:number,parEsInterina:number,idPlantelAplicacion:number,tipoForm:number): void {
     let titulo="";
     if(tipoForm==1) titulo="Carga horaria";
     if(tipoForm==2) titulo="Horas DIES";
@@ -312,7 +312,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
           this.record.id_catnombramientos=1;
           this.edicion_habilitarTipoHoras=false;
         }
-        else if(esInterina==1){
+        else if(parEsInterina==1){
           this.record.id_catnombramientos=2;//2=interino
           this.edicion_habilitarTipoHoras=true;
         }
@@ -368,8 +368,9 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
 
           if(this.record.id_catestatushora==5)//en licencia
             this.edicion_en_licencia=true;
-
-          //this.onSelectNombramiento(resp.id_catnombramientos);
+          
+          this.onSelectNombramiento(this.record.id_catnombramientos);
+          
           this.cattipohorasdocenteSvc.getCatalogoSegunMateria(resp.id_materiasclase,this.record_id_categorias).subscribe(resp => {
             this.cattipohorasdocenteCat = resp;
             if(resp.length==1)
@@ -381,11 +382,12 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
             this.record_text_categoria = resp[0].categoria;
             this.horasProgramadasEnPlaza = resp[0].horas_programadas;
             this.record.horassueltas=(resp[0].eshomologada=="true"?1:0);
-            if(resp[0].eshomologada=="true"){
+            
+            if(resp[0].eshomologada=="true" && this.actionForm=="NUEVO"){
               this.record.id_catnombramientos=1;
               this.edicion_habilitarTipoHoras=false;
             }
-            else if(esInterina==1){
+            else if(parEsInterina==1 && this.actionForm=="NUEVO"){
               this.record.id_catnombramientos=2;//2=interino
               this.edicion_habilitarTipoHoras=true;
             }
@@ -393,7 +395,7 @@ export class HorasasignacionFormComponent implements OnInit, OnDestroy {
               this.edicion_habilitarTipoHoras=false;
             }
 
-            this.onSelectNombramiento(this.record.id_catnombramientos);
+            
 
           });
           this.plazasSvc.getHorasDisponibleSegunPlaza(idPersonal,idPlantel,idSemestre,idPlaza).subscribe(resp => {

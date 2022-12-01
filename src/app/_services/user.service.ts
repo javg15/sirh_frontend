@@ -26,6 +26,7 @@ export class UserService {
   }
 
   public isValid(): Observable<any> {
+    //se hace una consulta con id=0 solo para saber si aun es valida la sesión
     return this.http.post(this.API_URL + '/user/getRecord',
       { id:0 }
       , httpOptions);
@@ -35,11 +36,11 @@ export class UserService {
   getPublicContent(): Observable<any> {
     return this.http.get(this.API_URL + 'all', { responseType: 'text' });
   }
-
+*/
   getUserBoard(): Observable<any> {
-    return this.http.get(this.API_URL + 'user', { responseType: 'text' });
+    return this.http.get(this.API_URL + '/user', { responseType: 'text' });
   }
-
+/*
   getModeratorBoard(): Observable<any> {
     return this.http.get(this.API_URL + 'mod', { responseType: 'text' });
   }

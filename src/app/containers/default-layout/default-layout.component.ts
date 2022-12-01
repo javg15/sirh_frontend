@@ -6,12 +6,17 @@ import { Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { UserService } from '../../_services/user.service';
 import { INavData } from '@coreui/angular';
+import { EventBusService } from '../../views/_shared/event-bus.service';
+import { EventData } from '../../views/_shared/event.class';
+
 
 @Component({
   selector: 'app-default',
   templateUrl: './default-layout.component.html'
 })
 export class DefaultLayoutComponent {
+  content?: string;
+
   public sidebarMinimized = false;
   public navItems : INavData[]=[];// navItems;
 
@@ -23,11 +28,19 @@ export class DefaultLayoutComponent {
   imageAvatar4:any;imageAvatar5:any;imageAvatar6:any;
 
   constructor(private tokenStorage: TokenStorageService,
-      private archivoSvc: ArchivosService,
       private userSvc: UserService,
-      private router: Router,
-      private _sanitizer: DomSanitizer,
+      private eventBusService: EventBusService
     ) {
+      this.userSvc.getUserBoard().subscribe(
+        //data => { ... },
+        err => {
+          this.content = err.error.message || err.error || err.message;
+  
+          if (err.status === 403)
+            this.eventBusService.emit(new EventData('logout', null));
+        }
+      );
+      
       this.userSvc.getMenu(this.usuario.id).subscribe(resp => {
         this.navItems = resp;
       });

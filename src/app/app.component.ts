@@ -1,21 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TokenStorageService } from './_services/token-storage.service';
-import { Router, NavigationEnd } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { EventBusService } from './views/_shared/event-bus.service';
 
 @Component({
   // tslint:disable-next-line
   selector: 'body',
   template: '<router-outlet></router-outlet>'
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   private roles: string[];
   isLoggedIn = false;
   showAdminBoard = false;
   showModeratorBoard = false;
-  username: string;
+  username?: string;
 
+  eventBusSub?: Subscription;
   // constructor(private router: Router) { }
-  constructor(private tokenStorageService: TokenStorageService) { }
+  constructor(private tokenStorageService: TokenStorageService, private eventBusService: EventBusService) { }
 
   ngOnInit(): void {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
@@ -30,6 +32,10 @@ export class AppComponent implements OnInit {
       this.username = user.username;
     }
 
+    this.eventBusSub = this.eventBusService.on('logout', () => {
+      this.logout();
+    });
+
     /*this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
         return;
@@ -38,9 +44,20 @@ export class AppComponent implements OnInit {
     });*/
   }
 
+  ngOnDestroy(): void {
+    if (this.eventBusSub)
+      this.eventBusSub.unsubscribe();
+  }
+
   logout(): void {
     this.tokenStorageService.signOut();
-    window.location.reload();
+
+    this.isLoggedIn = false;
+    this.roles = [];
+    this.showAdminBoard = false;
+    this.showModeratorBoard = false;
+
+    //window.location.reload();
   }
 
 

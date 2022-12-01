@@ -93,7 +93,7 @@ export class PersonalhorasAdminComponent implements OnInit {
     private _sanitizer: DomSanitizer
   ) {
     this.semestreSvc.getCatalogo().subscribe(resp => {
-      this.semestreCat = resp.sort((a,b) => b.text.localeCompare(a.text));
+      this.semestreCat = resp.sort((a,b) => b.text.localeCompare(a.text));//orden descendente
       if(this.semestreCat.length>0){
         this.param_id_semestre=this.record.id_semestre=this.semestreCat[0].id;
       }

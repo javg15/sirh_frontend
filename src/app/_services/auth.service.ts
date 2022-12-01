@@ -32,6 +32,12 @@ export class AuthService {
     }, httpOptions);
   }
 
+  refreshToken(token: string) {
+    return this.http.post(AUTH_URL + 'refreshtoken', {
+      refreshToken: token
+    }, httpOptions);
+  }
+
   recoverPass(credentials,url): Observable<any> {
     return this.http.post(AUTH_URL + 'recoverpass', {
       username: credentials.username,

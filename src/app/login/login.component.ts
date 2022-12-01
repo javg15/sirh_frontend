@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.form).subscribe(
       data => {
         this.tokenStorage.saveToken(data.accessToken);
+        this.tokenStorage.saveRefreshToken(data.refreshToken);
         this.tokenStorage.saveUser(data);
         //this.tokenStorage.savePeriodo(this.form.periodo)
 
