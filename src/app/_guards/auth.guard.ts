@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       //solo para comprobar si hay respuesta
-      this.userService.isValid().subscribe(
+      /*this.userService.isValid().subscribe(
         resp => {
           //console.log("isvalid=>",resp)
         },
@@ -28,7 +28,7 @@ export class AuthGuard implements CanActivate {
           }
         }
         ,
-      );
+      );*/
       
       if (this.tokenStorage.getToken()) {
         return true;

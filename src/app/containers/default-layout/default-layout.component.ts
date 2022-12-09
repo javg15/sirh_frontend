@@ -1,9 +1,6 @@
 import {Component} from '@angular/core';
 //import { navItems } from '../../_nav';
 import { TokenStorageService } from '../../_services/token-storage.service';
-import { ArchivosService } from '../../views/catalogos/archivos/services/archivos.service';
-import { Router } from '@angular/router';
-import { DomSanitizer } from '@angular/platform-browser';
 import { UserService } from '../../_services/user.service';
 import { INavData } from '@coreui/angular';
 import { EventBusService } from '../../views/_shared/event-bus.service';
@@ -31,15 +28,7 @@ export class DefaultLayoutComponent {
       private userSvc: UserService,
       private eventBusService: EventBusService
     ) {
-      this.userSvc.getUserBoard().subscribe(
-        //data => { ... },
-        err => {
-          this.content = err.error.message || err.error || err.message;
-  
-          if (err.status === 403)
-            this.eventBusService.emit(new EventData('logout', null));
-        }
-      );
+      
       
       this.userSvc.getMenu(this.usuario.id).subscribe(resp => {
         this.navItems = resp;
@@ -71,6 +60,17 @@ export class DefaultLayoutComponent {
       });*/
   }
 
+  ngOnInit(): void {
+    this.userSvc.getUserBoard().subscribe(
+      //data => { ... },
+      err => {
+        this.content = err.error.message || err.error || err.message;
+
+        if (err.status === 403)
+          this.eventBusService.emit(new EventData('logout', null));
+      }
+    );
+  }
 
   toggleMinimize(e) {
     this.sidebarMinimized = e;

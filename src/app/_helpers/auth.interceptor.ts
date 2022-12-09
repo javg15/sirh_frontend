@@ -8,28 +8,23 @@ import { AuthService } from '../_services/auth.service';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, filter, switchMap, take } from 'rxjs/operators';
 
-//const TOKEN_HEADER_KEY = 'Authorization';       // for Spring Boot back-end
- const TOKEN_HEADER_KEY = 'x-access-token';   // for Node.js Express back-end
+// const TOKEN_HEADER_KEY = 'Authorization';  // for Spring Boot back-end
+const TOKEN_HEADER_KEY = 'x-access-token';    // for Node.js Express back-end
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private isRefreshing = false;
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  
+
   constructor(private tokenService: TokenStorageService, private authService: AuthService) { }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<Object>> {
     let authReq = req;
     const token = this.tokenService.getToken();
     if (token != null) {
-      // for Spring Boot back-end
-      //authReq = req.clone({ headers: req.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + token) });
-
-      // for Node.js Express back-end
-       //authReq = req.clone({ headers: req.headers.set(TOKEN_HEADER_KEY, token) });
-       authReq = this.addTokenHeader(req, token);
+      authReq = this.addTokenHeader(req, token);
     }
-    //return next.handle(authReq);
+
     return next.handle(authReq).pipe(catchError(error => {
       if (error instanceof HttpErrorResponse && !authReq.url.includes('auth/signin') && error.status === 401) {
         return this.handle401Error(authReq, next);

@@ -270,6 +270,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
     this.botonAccion=actionsButtonSave[accion];
     this.tabSet.tabs[0].active = true;
     this.record_tipoocupacion="";
+    this.varAsignarHorasPlazasPorJornada=this.varAsignarHorasPlazasPorHora=this.escontitular=false;
     //inicializar el objeto
     this.record_categorias= {
       id: 0,  clave: '',  denominacion: '', nivelsalarial:'',id_cattipocategoria:0, id_tiponomina:0,
@@ -293,7 +294,8 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
     if(idItem=="0"){
         this.record =this.newRecord(idParent);
         
-        this.catfuncionplantillaSvc.getCatalogo(this.record.id_plantillaspersonal).subscribe(resp => {
+        //this.catfuncionplantillaSvc.getCatalogo(this.record.id_plantillaspersonal).subscribe(resp => {
+        this.catfuncionplantillaSvc.getCatalogo(0).subscribe(resp => {
           this.catfuncionplantillaCat = resp;
         });
         //this.listUpload.showFiles(0);
@@ -333,7 +335,8 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       .subscribe((data) => {
         this.record = data.registro;
 
-        this.catfuncionplantillaSvc.getCatalogo(this.record.id_plantillaspersonal).subscribe(resp => {
+        //this.catfuncionplantillaSvc.getCatalogo(this.record.id_plantillaspersonal).subscribe(resp => {
+        this.catfuncionplantillaSvc.getCatalogo(0).subscribe(resp => {
           this.catfuncionplantillaCat = resp;
         });
         
@@ -348,7 +351,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
         const personal_titular$=this.personalSvc.getRecord(data.registro.id_personal_titular)
 
         let source$ = zip( categorias$, categoriasExtra$, plazas$, plantillas$, planteles$,personal_titular$);
-        source$.subscribe(([categoriasInfo,categoriasExtraInfo,plazasInfo,plantillasInfo, plantelesInfo,personal_titularInfo]) =>{
+        source$.subscribe(async ([categoriasInfo,categoriasExtraInfo,plazasInfo,plantillasInfo, plantelesInfo,personal_titularInfo]) =>{
           this.categoriasCat = categoriasInfo
           this.categoriasCat.push(categoriasExtraInfo)
 
@@ -369,17 +372,7 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
           if(plantelesInfo.length>0)
             this.record_plantel=plantelesInfo.find(x=>x.id==data.registro.id_catplanteles).ubicacion;
 
-          if(personal_titularInfo!=null){
-            this.record_titular =personal_titularInfo.numeemp + " - "
-              +  personal_titularInfo.nombre + " " + personal_titularInfo.apellidopaterno
-              + " " + personal_titularInfo.apellidomaterno + " - " + personal_titularInfo.curp;
-
-            if(this.id_personal_titular){
-              //this.id_personal_titular.initialValue = this.record_titular;
-              //this.id_personal_titular.searchInput.nativeElement.value = this.record_titular;
-              this.record.id_personal_titular=personal_titularInfo.id;
-            }
-          }
+          
 
           this.onSelectCategorias(this.record.id_categorias);
           this.onSelectPlazas(this.record.id_plazas);
@@ -390,10 +383,20 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
             this.onSelectPlantelUbicacion(this.record.id_catplanteles);
           this.onSelectTipoNombramiento(this.record.id_catestatusplaza);
           
+          if(personal_titularInfo!=null){
+            this.record_titular =personal_titularInfo.numeemp + " - "
+              +  personal_titularInfo.nombre + " " + personal_titularInfo.apellidopaterno
+              + " " + personal_titularInfo.apellidomaterno + " - " + personal_titularInfo.curp;
+
+            //if(this.id_personal_titular){
+              //this.id_personal_titular.initialValue = this.record_titular;
+              //this.id_personal_titular.searchInput.nativeElement.value = this.record_titular;
+              this.record.id_personal_titular=personal_titularInfo.id;
+            //}
+          }
           if(this.record.id_personal_titular>0){
             this.onSelectIdPersonal(this.record.id_personal_titular)
           }
-
         });
 
       })
@@ -449,9 +452,10 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
       items=val["full_name"].split(" -- ");
       this.record.id_personal_titular=parseInt(val.id);
     }
-    else
-      this.record.id_personal_titular=parseInt(val); //viene desde la funcion open()-> else de editar
-
+    else{
+      if(val.length<=5) //en alguna parte dispara un evento que toma la descripcion del cuadro de control, y toma el numero de empleado, y eso es incorrecto
+        this.record.id_personal_titular=parseInt(val); //viene desde la funcion open()-> else de editar
+    }
     if(this.record.id_personal_titular>0)
       this.plazasSvc.getNombramientosVigentes(this.record.id_personal_titular,0).subscribe(resp => {
         if(resp.length>0){
@@ -690,11 +694,11 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
             +  resp.nombre + " " + resp.apellidopaterno
             + " " + resp.apellidomaterno + " - " + resp.curp;
 
-          if(this.id_personal_titular){
+          //if(this.id_personal_titular){
             //this.id_personal_titular.initialValue = this.record_titular;
             //this.id_personal_titular.searchInput.nativeElement.value = this.record_titular;
             this.record.id_personal_titular=resp.id;
-          }
+          //}
           this.onSelectIdPersonal(this.record.id_personal_titular)
         }
       });

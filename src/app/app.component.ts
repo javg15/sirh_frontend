@@ -57,7 +57,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.showAdminBoard = false;
     this.showModeratorBoard = false;
 
-    //window.location.reload();
+    window.location.reload();
   }
 
 

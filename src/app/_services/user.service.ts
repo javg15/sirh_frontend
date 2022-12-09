@@ -25,12 +25,12 @@ export class UserService {
       , httpOptions);
   }
 
-  public isValid(): Observable<any> {
+ /* public isValid(): Observable<any> {
     //se hace una consulta con id=0 solo para saber si aun es valida la sesión
     return this.http.post(this.API_URL + '/user/getRecord',
       { id:0 }
       , httpOptions);
-  }
+  }*/
 
 /*
   getPublicContent(): Observable<any> {
