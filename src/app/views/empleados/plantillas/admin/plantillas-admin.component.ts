@@ -333,6 +333,7 @@ export class PlantillasAdminComponent implements OnInit {
  * Abre el modal de la plantilla cadena
  */
   openCadena(id_plantillaCadena){
+      this.reDraw();//se hace redraw para que vuelva a mostrar la barra de desplazamiento
       this.plantillasService.open("custom-modal-2", "ver", id_plantillaCadena,0,0,0);
   }
 

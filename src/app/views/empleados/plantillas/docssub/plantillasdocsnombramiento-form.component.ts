@@ -403,9 +403,6 @@ export class PlantillasDocsNombramientoFormComponent implements OnInit, OnDestro
 
     }
 
-
-
-
     this.basicModalDocsNombramiento.show();
   }
 

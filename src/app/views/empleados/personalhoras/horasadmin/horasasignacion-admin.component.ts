@@ -108,6 +108,7 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
   tblNombramientos: [];
   record_quincena_activa: string;
   record_estatusregistro: string="1";
+  permiteAgregar:boolean=false;
 
   private elementModal: any;
 
@@ -252,6 +253,10 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
 
     this.plazasSvc.getNombramientosVigentes(id_personal, id_semestre).subscribe(resp => {
       this.tblNombramientos = resp;
+
+      if(resp.length>0)
+        this.visualizarAgregar(resp[0]["id_plaza"])
+
       this.record_id_plaza = resp[0].id_plaza;
       this.record_esInterina = resp[0].esinterina;
       this.record_id_catplanteles_aplicacion = resp[0].id_catplanteles_aplicacion;
@@ -357,6 +362,25 @@ export class HorasasignacionAdminComponent implements OnInit, OnDestroy {
 
   onPlazaChange(valor: any) {
     this.record_id_plaza = parseInt(valor);//0 es el indice
+    
+    //si la quincena activa esta en el rango de quincena inicial y final de la plaza seleccionada
+    this.visualizarAgregar(valor)
+
     this.reDraw(null);
+  }
+
+  visualizarAgregar(id_plaza){
+    //si la quincena activa esta en el rango de quincena inicial y final de la plaza seleccionada
+    let quinini=this.tblNombramientos.find(a=>a["id_plaza"]==id_plaza)["quinini"]
+    let quinfin=this.tblNombramientos.find(a=>a["id_plaza"]==id_plaza)["quinfin"]
+    
+    console.log("quincena=>",parseInt(this.record_quincena_activa)>=parseInt(quinini) 
+      && parseInt(this.record_quincena_activa)<=parseInt(quinfin))
+
+    if(parseInt(this.record_quincena_activa)>=parseInt(quinini) 
+        && parseInt(this.record_quincena_activa)<=parseInt(quinfin))
+      this.permiteAgregar = true
+    else
+      this.permiteAgregar = false
   }
 }

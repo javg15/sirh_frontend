@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, Output, EventEmitter, Pipe, PipeTransform } from '@angular/core';
 import { PlantillasService } from '../services/plantillas.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -197,7 +197,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
     private catbajamotivoSvc: CatbajamotivoService,
     
     private el: ElementRef,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {
     this.elementModal = el.nativeElement;
     this.catquincenaSvc.getQuincenaActiva().subscribe(async resp => {
@@ -205,7 +205,6 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
       this.record_quincena_activa = resp.anio + resp.quincena.toString().padStart(2, '0');
     });
   }
-
 
   ngOnInit(): void {
 
@@ -422,7 +421,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
           this.tblNombramientos = resp;
         });
         this.plazasSvc.getNombramientosBase(this.record_id_personal, 0).subscribe(resp => {
-          this.tblNombramientosBase = resp;
+          this.tblNombramientosBase=resp
         });
 
         this.reDraw(null);
@@ -444,7 +443,13 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   }
 
   mostrarModalCadena(tablaJson: string) {
-    this.plantillapersonalCat = JSON.parse(tablaJson);
+    try{
+      this.plantillapersonalCat = JSON.parse(tablaJson);
+    }
+    catch(e){
+      this.plantillapersonalCat = tablaJson;
+    }
+      
     this.param_id_plantillapersonal = this.plantillapersonalCat[0].id_pp;
     this.param_personalTitular = this.plantillapersonalCat[0].personal;
     if (this.plantillapersonalCat.length > 1)//si tiene mas de una plantilla el titular de la cadena
@@ -454,9 +459,10 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
   }
 
   mostrarCadena(): void {
-    this.cadenaModal.hide();
-    this.basicModalDocs.hide();
-    this.openCadenaEvent.emit(this.param_id_plantillapersonal);
+    /*this.cadenaModal.hide(); 
+    this.basicModalDocs.hide();*/
+    setTimeout(()=>{ this.openCadenaEvent.emit(this.param_id_plantillapersonal); }, 100)
+    
   }
 
   onSelectTipoVentana(valor) {
@@ -536,7 +542,7 @@ export class PlantillasDocsAdminComponent implements OnInit, OnDestroy {
         this.tblNombramientos = resp;
       });
       this.plazasSvc.getNombramientosBase(this.record_id_personal, 0).subscribe(resp => {
-        this.tblNombramientosBase = resp;
+        this.tblNombramientosBase=resp
       });
     }
     else if (this.tipoVentana == "plantillasdocsprofesional") {
